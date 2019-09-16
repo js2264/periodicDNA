@@ -88,7 +88,7 @@ withSeq <- function(granges, genome) {
 getCovMatrix <- function(granges, bw_file, norm = 'none', verbose = TRUE) {
     scores <- bw_file
     # Subset scores over GRanges
-    granges <- GenomicRanges::subsetByOverlaps(
+    granges <- IRanges::subsetByOverlaps(
         granges, 
         GenomicRanges::GRanges(
             GenomicRanges::seqlevels(bw_file), 
@@ -154,8 +154,8 @@ plotAggregateCoverage <- function(x, ...) {
 #' @return A plot
 
 plotAggregateCoverage.CompressedRleList <- function(bw, granges, ...) {
-    bw_file <- as(bw_file, 'SimpleRleList')
-    plotAggregateCoverage(bw_file, granges, ...)
+    bw <- as(bw, 'SimpleRleList')
+    plotAggregateCoverage(bw, granges, ...)
 }
 
 #' Core function

@@ -214,6 +214,7 @@ chunkWrapper <- function(chunk, genome, MOTIF, GENOME.WINDOW.SLIDING, BIN.WINDOW
 #' @importFrom stats dist
 #' @import Biostrings
 #' @import GenomicRanges
+#' @import IRanges
 #' @importFrom stats spectrum
 #' @return Float The estimated periodicity score of the input GRanges
 
@@ -222,7 +223,7 @@ binWrapper <- function(grange, genome, MOTIF, BIN.WINDOW.SIZE, BIN.WINDOW.SLIDIN
     seqs <- bins$seq
     dists <- unlist(sapply(1:length(seqs), function(k) {
         Biostrings::vmatchPattern(MOTIF, seqs[k], max.mismatch = 0, fixed = FALSE) %>% 
-        GenomicRanges::start() %>% 
+        IRanges::start() %>% 
         '[['(1) %>% 
         dist() %>% 
         c()

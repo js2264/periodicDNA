@@ -4,6 +4,7 @@
 #'
 #' @param x a DNAStringSet, a DNAString of a GRanges
 #' 
+#' @import Biostrings
 #' @import magrittr
 #' @importFrom parallel mclapply
 #' @importFrom stats spectrum dist
@@ -52,6 +53,7 @@ getPeriodicity.default <- function(seqs, ...) {
 #' @param cores Integer How many processors should be used to split to work? 
 #' @param verbose Boolean
 #' 
+#' @import IRanges
 #' @export
 #' @return List a list containing the results of getPeriodicity function. The 
 #' dists vector is the raw vector of all distances between any possible dinucleotide. 
@@ -83,7 +85,7 @@ getPeriodicity.DNAStringSet <- function(
             max.mismatch = 0, 
             fixed = FALSE
         )[[1]] %>% 
-            GenomicRanges::start() %>% 
+            IRanges::start() %>% 
             dist() %>% 
             c()
     }, mc.cores = cores) %>% 

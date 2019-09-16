@@ -48,16 +48,16 @@ histogram of the pairwise distances;
 the average PSD to identify enriched periods in the input. 
 
 ```r
+#getPeriodicity(ce_REs[1:100], Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11))
 ubiq_TT <- getPeriodicity(
     ce_TSSs[ce_TSSs$which.tissues == 'Ubiq.'], 
     genome = ce_seq, 
     motif = 'TT', 
-    freq = 0.10, 
     cores = 4
 )
 ``` 
 
-![](../ubiquitous-promoters_TT-periodicity.png)
+![](../examples/png/ubiquitous-promoters_TT-periodicity.png)
 
 ## Advanced use of getPeriodicity
 
@@ -71,7 +71,6 @@ list_periodicities <- lapply(list_TSSs, function(proms) {
         proms, 
         genome = ce_seq,
         motif = MOTIF, 
-        freq = 0.10, 
         cores = 40, 
         verbose = FALSE
     )
@@ -114,7 +113,7 @@ plots_PSDs <- ggplot(PSDs, aes(x = Period, y = PSD, color = name)) +
 p <- ggpubr::ggarrange(plotlist = list(plots_dists, plots_PSDs), nrow = 2, ncol = 1)
 ```
 
-![](../TT_tissue-specific-classes.png)
+![](../examples/png/TT_tissue-specific-classes.png)
 
 One can even perform dinucleotides periodicity analysis for multiple 
 dinucleotides around several groups of promoters at once, as follows: 
@@ -128,7 +127,6 @@ list_periodicities <- lapply(list_motifs, function(MOTIF) {
             granges, 
             genome = ce_seq,
             motif = MOTIF,
-            freq = 0.10, 
             cores = 120, 
             verbose = FALSE
         )
