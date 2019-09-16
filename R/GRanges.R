@@ -150,6 +150,7 @@ plotAggregateCoverage <- function(x, ...) {
 #'
 #' @param bw a single signal track CompressedRleList class
 #' 
+#' @import ggplot2
 #' @return A plot
 
 plotAggregateCoverage.CompressedRleList <- function(bw, granges, ...) {
@@ -262,7 +263,6 @@ plotAggregateCoverage.SimpleRleList <- function(
         ylim <- c(min, max)
     }
     # Start plotting
-    require(ggplot2)
     p <- ggplot2::ggplot(data = EEs, ggplot2::aes(
         x = x, 
         y = means, 
@@ -456,9 +456,9 @@ plotAggregateCoverage.list <- function(
 
 #' Core function - NOT WORKING YET
 #'
+#' @import ggplot2
 #' @import magrittr
 #' @importFrom zoo rollmean
-#' @importFrom seriation get_order seriate
 #' @importFrom reshape2 melt
 #' @export
 
@@ -484,7 +484,6 @@ plotHeatmaps <- function(
     ...
 ) 
 {
-    require(ggplot2)
     if (class(MAT) == 'matrix') MAT <- list(MAT)
     if (length(colorspace)) {
         gcol <- colorRampPalette(colorspace)
@@ -518,9 +517,9 @@ plotHeatmaps <- function(
         data[data < zmin] <- zmin
         data[data > zmax] <- zmax
         # Seriate data
-        if (seriate & clusters == 0) {
-            data <- data[seriation::get_order(seriation::seriate(data)),]
-        }
+        # if (seriate & clusters == 0) {
+        #     data <- data[seriation::get_order(seriation::seriate(data)),]
+        # }
         # Cluster data
         if (clusters > 0 & !seriate) {
             set.seed(222)
