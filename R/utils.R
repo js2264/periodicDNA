@@ -6,6 +6,8 @@
 #' @param x A named list vector.
 #' 
 #' @export
+#' @import magrittr
+#' 
 #' @return A long data frame
 
 namedListToLongFormat <- function(x) {

@@ -4,6 +4,8 @@
 #'
 #' @param bw.as.rle a RleList
 #' 
+#' @importFrom IRanges RleList
+#' @importFrom S4Vectors Rle
 #' @export
 #' @return a list of scaled Rle (z-score)
 
