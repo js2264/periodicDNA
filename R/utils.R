@@ -4,6 +4,8 @@
 #' an added 'name' column, containing the names of the input list.  
 #'
 #' @param x A named list vector.
+#' 
+#' @export
 #' @return A long data frame
 
 namedListToLongFormat <- function(x) {

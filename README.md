@@ -53,11 +53,6 @@ ubiq_TT <- getPeriodicity(
     cores = 4
 )
 list_plots <- plotPeriodicityResults(ubiq_TT)
-ggsave(
-    plot = cowplot::plot_grid(plotlist = list_plots, nrow = 1),
-    filename = paste0('examples/ubiquitous-promoters_', MOTIF, '-periodicity.pdf'), 
-    width = 9, height = 3
-)
 ``` 
 
 ![TT-periodicity](examples/png/ubiquitous-promoters_TT-periodicity.png)

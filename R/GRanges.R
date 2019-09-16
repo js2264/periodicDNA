@@ -6,6 +6,7 @@
 #' @param upstream How many bases upstream of the TSS?
 #' @param downstream How many bases downstream of the TSS?
 #' 
+#' @export
 #' @return GRanges aligned to the TSS column or to TSS.rev and TSS.fwd columns
 
 alignToTSS <- function(granges, upstream, downstream) {
@@ -36,6 +37,7 @@ alignToTSS <- function(granges, upstream, downstream) {
 #'
 #' @param granges A GRanges object 
 #' 
+#' @export
 #' @return GRanges with only '+' and '-' strands. GRanges with '*' strand 
 #' have been duplicated and split into forward and reverse strands.
 
@@ -57,6 +59,7 @@ deconvolveBidirectionalPromoters <- function(granges) {
 #' obtained for instance by running 
 #' \code{Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11)}.
 #' 
+#' @export
 #' @return GRanges with a seq column containing the sequence of the GRanges.
 
 withSeq <- function(granges, genome) {
@@ -73,6 +76,7 @@ withSeq <- function(granges, genome) {
 #' @param norm Should the signal be normalized ('none', 'zscore' or 'log2')?
 #' @param verbose Boolean
 #' 
+#' @export
 #' @return A square numerical matrix of signal values over the GRanges
 
 getCovMatrix <- function(granges, bw_file, norm = 'none', verbose = TRUE) {
@@ -101,6 +105,7 @@ getCovMatrix <- function(granges, bw_file, norm = 'none', verbose = TRUE) {
 #' @param x a single signal track (in SimpleRleList or CompressedRleList class) 
 #' or a set of signal tracks (in list class)
 #' 
+#' @export
 #' @return A plot
 
 plotAggregateCoverage <- function(x, ...) {
@@ -389,6 +394,7 @@ plotAggregateCoverage.list <- function(
 
 #' Core function - NOT WORKING YET
 #'
+#' @export
 
 plotHeatmaps <- function(
     MAT, 
@@ -527,7 +533,8 @@ plotHeatmaps <- function(
 #### ---- Motif mapping ---- ####
 
 #' Core function - NOT WORKING YET
-#'
+#' 
+#' @export
 
 getMotifMatrix <- function(granges, motif, seqs = Biostrings::readDNAStringSet("~/shared/sequences/Caenorhabditis_elegans.WBcel235.dna.toplevel.fa"), center = FALSE, flank = NULL, stranded = TRUE, split.bid.proms = TRUE, verbose = FALSE) {
     # Deconvolute and resize GRanges 

@@ -4,7 +4,16 @@
 #'
 #' @param x a DNAStringSet, a DNAString of a GRanges
 #' 
-#' @return direct to the appropriate method
+#' @export
+#' @return List a list containing the results of getPeriodicity function. The 
+#' dists vector is the raw vector of all distances between any possible dinucleotide. 
+#' The hist data.frame is the distribution of distances over RANGE_FOR_SPECTRUM. 
+#' The normalized_hist is the raw hist, normalized for decay over increasing distances.
+#' The spectra object is the output of the FFT applied over normalized_hist. 
+#' The PSD data frame is the power spectrum density scores over given frequencies.
+#' The signal_to_noise_ratio is a data.frame containing enrichment scores of TT
+#' periodicity, for the periods in the period vector. The motif object is the 
+#' dinucleotide being analysed.
 
 getPeriodicity <- function(x, ...) {
     UseMethod("getPeriodicity")
@@ -39,7 +48,15 @@ getPeriodicity.default <- function(seqs, ...) {
 #' @param cores Integer How many processors should be used to split to work? 
 #' @param verbose Boolean
 #' 
-#' @return The output of getPeriodicity
+#' @return List a list containing the results of getPeriodicity function. The 
+#' dists vector is the raw vector of all distances between any possible dinucleotide. 
+#' The hist data.frame is the distribution of distances over RANGE_FOR_SPECTRUM. 
+#' The normalized_hist is the raw hist, normalized for decay over increasing distances.
+#' The spectra object is the output of the FFT applied over normalized_hist. 
+#' The PSD data frame is the power spectrum density scores over given frequencies.
+#' The signal_to_noise_ratio is a data.frame containing enrichment scores of TT
+#' periodicity, for the periods in the period vector. The motif object is the 
+#' dinucleotide being analysed.
 
 getPeriodicity.DNAStringSet <- function(
     seqs, 
@@ -148,7 +165,15 @@ getPeriodicity.DNAString <- function(seq, motif = 'TT', subseq_len = NULL, n_occ
 #' \code{Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11)}.
 #' @param ... other parameters required in getPeriodicity
 #'
-#' @return The output of getPeriodicity
+#' @return List a list containing the results of getPeriodicity function. The 
+#' dists vector is the raw vector of all distances between any possible dinucleotide. 
+#' The hist data.frame is the distribution of distances over RANGE_FOR_SPECTRUM. 
+#' The normalized_hist is the raw hist, normalized for decay over increasing distances.
+#' The spectra object is the output of the FFT applied over normalized_hist. 
+#' The PSD data frame is the power spectrum density scores over given frequencies.
+#' The signal_to_noise_ratio is a data.frame containing enrichment scores of TT
+#' periodicity, for the periods in the period vector. The motif object is the 
+#' dinucleotide being analysed.
 
 getPeriodicity.GRanges <- function(
     granges, 
@@ -165,8 +190,8 @@ getPeriodicity.GRanges <- function(
 #'
 #' @param hist Vector a numeric vector
 #' 
+#' @export
 #' @return a normalized vector
-
 
 normalizeHistogram <- function(hist) {
     h <- hist
