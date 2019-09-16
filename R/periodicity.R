@@ -6,9 +6,7 @@
 #' 
 #' @import magrittr
 #' @importFrom parallel mclapply
-#' @importFrom Biostrings getSeq matchPattern vmatchPattern 
-#' @importFrom GenomicRanges start
-#' @importFrom stats spectrum
+#' @importFrom stats spectrum dist
 #' @export
 #' @return List a list containing the results of getPeriodicity function. The 
 #' dists vector is the raw vector of all distances between any possible dinucleotide. 
@@ -28,6 +26,7 @@ getPeriodicity <- function(x, ...) {
 #'
 #' @param x a DNAStringSet
 #' 
+#' @export
 #' @return List a list containing the results of getPeriodicity function. The 
 #' dists vector is the raw vector of all distances between any possible dinucleotide. 
 #' The hist data.frame is the distribution of distances over RANGE_FOR_SPECTRUM. 
@@ -53,6 +52,7 @@ getPeriodicity.default <- function(seqs, ...) {
 #' @param cores Integer How many processors should be used to split to work? 
 #' @param verbose Boolean
 #' 
+#' @export
 #' @return List a list containing the results of getPeriodicity function. The 
 #' dists vector is the raw vector of all distances between any possible dinucleotide. 
 #' The hist data.frame is the distribution of distances over RANGE_FOR_SPECTRUM. 
@@ -145,6 +145,7 @@ getPeriodicity.DNAStringSet <- function(
 #' @param subseq_len The length of sub-sequences
 #' @param n_occurences The targeted number of pairs of dinucleotides to obtain. 
 #' 
+#' @export
 #' @return List NULL
 
 getPeriodicity.DNAString <- function(seq, motif = 'TT', subseq_len = NULL, n_occurences = 200, ...) {
@@ -170,6 +171,7 @@ getPeriodicity.DNAString <- function(seq, motif = 'TT', subseq_len = NULL, n_occ
 #' \code{Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11)}.
 #' @param ... other parameters required in getPeriodicity
 #'
+#' @export
 #' @return List a list containing the results of getPeriodicity function. The 
 #' dists vector is the raw vector of all distances between any possible dinucleotide. 
 #' The hist data.frame is the distribution of distances over RANGE_FOR_SPECTRUM. 
