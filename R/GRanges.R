@@ -7,7 +7,6 @@
 #' @param downstream How many bases downstream of the TSS?
 #' 
 #' @import GenomicRanges
-#' @importFrom IRanges IRanges
 #' @export
 #' @return GRanges aligned to the TSS column or to TSS.rev and TSS.fwd columns
 
@@ -30,7 +29,7 @@ alignToTSS <- function(granges, upstream, downstream) {
         )
     }
     else {
-        error("No TSS column found. Aborting.")
+        stop("No TSS column found. Aborting.")
     }
     return(granges)
 }
@@ -150,6 +149,7 @@ plotAggregateCoverage <- function(x, ...) {
 #'
 #' @param bw a single signal track CompressedRleList class
 #' 
+#' @export
 #' @import ggplot2
 #' @return A plot
 
@@ -172,6 +172,7 @@ plotAggregateCoverage.CompressedRleList <- function(bw, granges, ...) {
 #' @param bin Integer Width of the window to use to smooth values
 #' @param plot_central Boolean Draw a vertical line at 0
 #' 
+#' @export
 #' @return A plot
 
 plotAggregateCoverage.SimpleRleList <- function(
@@ -194,7 +195,7 @@ plotAggregateCoverage.SimpleRleList <- function(
     lists <- lapply(seq_along(granges), function(K) {
         g <- granges[[K]]
         if (length(unique(GenomicRanges::width(g))) > 1) {
-            error('Please provide GRanges that are all the same width. Aborting.')
+            stop('Please provide GRanges that are all the same width. Aborting.')
         }
         mat <- getCovMatrix(g, bw, verbose = FALSE)
         colnames(mat) <- c(
@@ -313,6 +314,7 @@ plotAggregateCoverage.SimpleRleList <- function(
 #' @param split_by_granges Boolean Split plots over the sets of GRanges
 #' @param split_by_track Boolean Split plots over the sets of signal tracks
 #' 
+#' @export
 #' @return A plot
 
 plotAggregateCoverage.list <- function(
@@ -333,14 +335,14 @@ plotAggregateCoverage.list <- function(
 ) 
 {
     if (!all(unlist(lapply(bw_list, function(L) class(L) %in% c('SimpleRleList', 'CompressedRleList'))))) 
-        error('Some objects in the bw_list are not bigwig tracks (in SimpleRleList or CompressedRleList format). Aborting.')
+        stop('Some objects in the bw_list are not bigwig tracks (in SimpleRleList or CompressedRleList format). Aborting.')
     llists <- lapply(seq_along(bw_list), function(B) {
         bw <- bw_list[[B]]
         # Compute scores
         lists <- lapply(seq_along(granges), function(K) {
             g <- granges[[K]]
             if (length(unique(GenomicRanges::width(g))) > 1) {
-                error('Please provide GRanges that are all the same width. Aborting.')
+                stop('Please provide GRanges that are all the same width. Aborting.')
             }
             mat <- getCovMatrix(g, bw, verbose = FALSE)
             colnames(mat) <- c(

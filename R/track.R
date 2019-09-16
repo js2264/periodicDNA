@@ -211,6 +211,7 @@ chunkWrapper <- function(chunk, genome, MOTIF, GENOME.WINDOW.SLIDING, BIN.WINDOW
 #' @param FREQ Float The frequence of the dinucleotide to study (default 1/10).
 #' 
 #' @import magrittr
+#' @importFrom stats dist
 #' @import Biostrings
 #' @import GenomicRanges
 #' @importFrom stats spectrum

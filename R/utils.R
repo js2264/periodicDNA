@@ -21,3 +21,21 @@ namedListToLongFormat <- function(x) {
         }
     }) %>% do.call(rbind, .)
 }
+
+#' A function to replace NA by something else in a vector
+#'
+#' \code{namedListToLongFormat(x)} returns a data.frame in long format, with 
+#' an added 'name' column, containing the names of the input list.  
+#'
+#' @param x vector
+#' @param value Replace NA by this variable
+#' 
+#' @export
+#' 
+#' @return A vector with NA replaced by value
+#' 
+na.replace <- function(x, value) {
+    which.na <- is.na(x)
+    x[which.na] <- value
+    return(x)
+}
