@@ -1,3 +1,11 @@
+#' Plotting function
+#'
+#' @param results The output of getPeriodicity function.
+#' @param HIST_YLIM Vector a numerical vector of length 2, to specify the y-axis 
+#' limits of the first generated plot.
+#' 
+#' @return list A list containing three ggplots
+
 plotPeriodicityResults <- function(results, HIST_YLIM = c(-1.5, 1.5)) {
     require(ggplot2)
     p1 <- ggplot(results$normalized_hist, aes(x = distance, y = norm_counts)) + 

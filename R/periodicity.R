@@ -1,22 +1,56 @@
 #### ---- getPeriodicity methods ---- ####
+
+#' Core function
+#'
+#' @param x a DNAStringSet, a DNAString of a GRanges
+#' 
+#' @return direct to the appropriate method
+
 getPeriodicity <- function(x, ...) {
     UseMethod("getPeriodicity")
 }
+
+#' Core function
+#'
+#' @param x a DNAStringSet
+#' 
+#' @return List a list containing the results of getPeriodicity function. The 
+#' dists vector is the raw vector of all distances between any possible dinucleotide. 
+#' The hist data.frame is the distribution of distances over RANGE_FOR_SPECTRUM. 
+#' The normalized_hist is the raw hist, normalized for decay over increasing distances.
+#' The spectra object is the output of the FFT applied over normalized_hist. 
+#' The PSD data frame is the power spectrum density scores over given frequencies.
+#' The signal_to_noise_ratio is a data.frame containing enrichment scores of TT
+#' periodicity, for the periods in the period vector. The motif object is the 
+#' dinucleotide being analysed.
 
 getPeriodicity.default <- function(seqs, ...) {
     getPeriodicity.DNAStringSet(seqs, ...)
 }
 
+#' Core function
+#'
+#' @param seqs a DNAStringSet
+#' @param motif a dinucleotide of interest
+#' @param RANGE_FOR_SPECTRUM Numeric vector The distances between nucleotides
+#' to take into consideration when performing Fast Fourier Transform (default 1:50).
+#' @param period Vector a numerical vector of periods to extract.
+#' @param plot Boolean Should the FFT results be plotted? 
+#' @param cores Integer How many processors should be used to split to work? 
+#' @param verbose Boolean
+#' 
+#' @return The output of getPeriodicity
+
 getPeriodicity.DNAStringSet <- function(
     seqs, 
     motif = 'WW', 
     RANGE_FOR_SPECTRUM = 1:100,
-    freq = 0.10, 
     period = seq(2, 20, 1),
     plot = FALSE,
     cores = 2, 
     verbose = TRUE
-    ) {
+)
+{
     # Get pairwise distances ---------------------------------------------------
     if (verbose) message("- Getting pairwise distances.")
     dists <- parallel::mclapply(1:length(seqs), function(k) {
@@ -78,10 +112,18 @@ getPeriodicity.DNAStringSet <- function(
             PSD = spectra$spec
         ),
         signal_to_noise_ratio = ratios, 
-        motif = motif,
-        freq = freq
+        motif = motif
     ))
 }
+
+#' Core function - NOT WORKING. DO NOT USE
+#'
+#' @param seq a DNAString
+#' @param motif a dinucleotide of interest
+#' @param subseq_len The length of sub-sequences
+#' @param n_occurences The targeted number of pairs of dinucleotides to obtain. 
+#' 
+#' @return List NULL
 
 getPeriodicity.DNAString <- function(seq, motif = 'TT', subseq_len = NULL, n_occurences = 200, ...) {
     if(is.null(subseq_len)) subseq_len <- nchar(seq) * 0.25
@@ -98,6 +140,16 @@ getPeriodicity.DNAString <- function(seq, motif = 'TT', subseq_len = NULL, n_occ
     return(m)
 }
 
+#' Core function
+#'
+#' @param granges a GRanges
+#' @param genome DNAStringSet object. Ideally, the sequence of an entire genome, 
+#' obtained for instance by running 
+#' \code{Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11)}.
+#' @param ... other parameters required in getPeriodicity
+#'
+#' @return The output of getPeriodicity
+
 getPeriodicity.GRanges <- function(
     granges, 
     genome = Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11), 
@@ -108,6 +160,13 @@ getPeriodicity.GRanges <- function(
     seqs <- granges$seq
     getPeriodicity(seqs, ...)
 }
+
+#' Internal function
+#'
+#' @param hist Vector a numeric vector
+#' 
+#' @return a normalized vector
+
 
 normalizeHistogram <- function(hist) {
     h <- hist
