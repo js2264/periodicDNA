@@ -1,3 +1,14 @@
+---
+title: "Introduction"
+author: "Jacques Serizay"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
 ## Preliminary steps
 To begin, a genome sequence and a set of genomic loci must be defined. Let's 
 focus on the C. elegans genome for now, and more specifically around its TSSs. 
@@ -43,11 +54,6 @@ ubiq_TT <- getPeriodicity(
     motif = 'TT', 
     freq = 0.10, 
     cores = 4
-)
-ggsave(
-    plot = ggpubr::ggarrange(plotlist = plotPeriodicityResults(ubiq_TT), nrow = 1, ncol = 3),
-    filename = paste0('examples/ubiquitous-promoters_TT-periodicity.pdf'), 
-    width = 9, height = 3
 )
 ``` 
 
@@ -106,7 +112,6 @@ plots_PSDs <- ggplot(PSDs, aes(x = Period, y = PSD, color = name)) +
         values = c('#991919', '#1232D9', '#3B9B46', '#D99B12', '#9e9e9e', '#D912D4')
     )
 p <- ggpubr::ggarrange(plotlist = list(plots_dists, plots_PSDs), nrow = 2, ncol = 1)
-ggsave(paste0('examples/', MOTIF , '_tissue-specific-classes.pdf'), width = 15, height= 7)
 ```
 
 ![](../TT_tissue-specific-classes.png)
@@ -168,11 +173,6 @@ plots_PSDs <- ggplot(PSDs, aes(x = Period, y = PSD, color = name)) +
         values = c('#991919', '#1232D9', '#3B9B46', '#D99B12', '#9e9e9e', '#D912D4')
     )
 p <- ggpubr::ggarrange(plotlist = list(plots_dists, plots_PSDs), nrow = 2, ncol = 1)
-ggsave(
-    paste0('examples/dinucleotides-PSDs_', paste0(list_motifs, collapse = '-'), '.pdf'), 
-    width = 15, 
-    height = 25
-)
 ```
 
 ![PSDs_WW-AA-TT](../examples/png/dinucleotides-PSDs_WW-AA-TT-TA-AT.png)
@@ -208,11 +208,6 @@ p <- plotAggregateCoverage(
     ylab = '10-bp periodicity strength', 
     xlab = 'Distance from TSS'
 )
-ggsave(
-    filename = 'examples/TT-10bp-periodicity_tissue-spe-TSSs.pdf', 
-    height = 5, 
-    width = 7
-)
 ```
 
 ![TT](../examples/png/TT-10bp-periodicity_tissue-spe-TSSs.png)
@@ -240,11 +235,6 @@ p <- plotAggregateCoverage(
     ylab = '10-bp periodicity strength', 
     xlab = 'Distance from TSS', 
     split_by_granges = TRUE
-)
-ggsave(
-    filename = 'examples/dinucleotides-10bp-periodicity_nuc-occ_tissue-spe-TSSs.pdf', 
-    height = 3, 
-    width = 3 * length(list_granges)
 )
 ```
 

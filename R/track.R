@@ -22,6 +22,7 @@
 #' @param PROCS Integer Split the workload over several processors (default 12).
 #' @param bw.file String. The name of the output bigWig track
 #' 
+#' @export
 #' @return NULL A bigWig track in the working directory. 
 
 generatePeriodicityTrack <- function(

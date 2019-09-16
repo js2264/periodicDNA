@@ -4,6 +4,7 @@
 #' @param HIST_YLIM Vector a numerical vector of length 2, to specify the y-axis 
 #' limits of the first generated plot.
 #' 
+#' @export
 #' @return list A list containing three ggplots
 
 plotPeriodicityResults <- function(results, HIST_YLIM = c(-1.5, 1.5)) {

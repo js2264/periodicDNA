@@ -4,6 +4,7 @@
 #'
 #' @param bw.as.rle a RleList
 #' 
+#' @export
 #' @return a list of scaled Rle (z-score)
 
 scaleBigWigs <- function(bw.as.rle) {

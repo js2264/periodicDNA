@@ -4,7 +4,10 @@ Title: Probing DNA sequences for periodic oligonucleotides
 Version: 0.1.0
 Author: Jacques Serizay
 Maintainer: Jacques Serizay <js2264@cam.ac.uk>
-Description: Periodic Elements Represented In Oligosequences. CAUTION: This package is still in pre-alpha phase. The functions in this package provide a straightforward approach to identify local over-represented periodic elements in short sequences such as regulatory elements.  
+Description: Periodic Elements Represented In Oligosequences. The functions in 
+    this package provide a straightforward approach to identify local over-
+    represented periodic elements in short sequences such as regulatory 
+    elements. CAUTION: This package is still in pre-alpha phase. 
 License: GNU v3
 Encoding: UTF-8
 LazyData: true
@@ -12,3 +15,7 @@ RoxygenNote: 6.1.1.9000
 Imports: 
     ggplot2,
     magrittr
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
