@@ -22,6 +22,11 @@
 #' @param PROCS Integer Split the workload over several processors (default 12).
 #' @param bw.file String. The name of the output bigWig track
 #' 
+#' @import Biostrings
+#' @import GenomicRanges
+#' @import IRanges
+#' @importFrom parallel mclapply
+#' @importFrom rtracklayer export.bw
 #' @export
 #' @return NULL A bigWig track in the working directory. 
 
@@ -95,6 +100,9 @@ generatePeriodicityTrack <- function(
 #' @param GENOME.WINDOW.SLIDING An integer. The increment between bins over GRanges
 #' (default 2).
 #' 
+#' @import GenomeInfoDb
+#' @import GenomicRanges
+#' @import IRanges
 #' @return granges.partionned A Granges object corresponding to the binned genome. 
 
 partitionGenome <- function(genome, GENOME.WINDOW.SIZE, GENOME.WINDOW.SLIDING) {
@@ -166,6 +174,8 @@ getChunks <- function(genome.partionned.filtered, PROCS) {
 #' to take into consideration when performing Fast Fourier Transform (default 1:50).
 #' @param FREQ Float The frequence of the dinucleotide to study (default 1/10).
 #' 
+#' @import GenomicRanges
+#' @importFrom rtracklayer export.bw
 #' @return GRanges a GRanges object with a score column containing estimated
 #' periodicity
 
@@ -200,6 +210,10 @@ chunkWrapper <- function(chunk, genome, MOTIF, GENOME.WINDOW.SLIDING, BIN.WINDOW
 #' to take into consideration when performing Fast Fourier Transform (default 1:50).
 #' @param FREQ Float The frequence of the dinucleotide to study (default 1/10).
 #' 
+#' @import magrittr
+#' @import Biostrings
+#' @import GenomicRanges
+#' @importFrom stats spectrum
 #' @return Float The estimated periodicity score of the input GRanges
 
 binWrapper <- function(grange, genome, MOTIF, BIN.WINDOW.SIZE, BIN.WINDOW.SLIDING, RANGE.FOR.SPECTRUM, FREQ) {
@@ -229,6 +243,9 @@ binWrapper <- function(grange, genome, MOTIF, BIN.WINDOW.SIZE, BIN.WINDOW.SLIDIN
 #' @param BIN.WINDOW.SLIDING Integer The increment between secondary bins
 #' (default 5).
 #' 
+#' @import GenomeInfoDb
+#' @import GenomicRanges
+#' @import IRanges
 #' @return list A GRanges object
 
 partitionBin <- function(grange, genome, BIN.WINDOW.SIZE, BIN.WINDOW.SLIDING) {
@@ -256,6 +273,7 @@ unlistResults <- function(list.results) {
 
 #' Internal function
 #' 
+#' @import magrittr
 #' @return NULL Clean-up temporary files generated when running generatePeriodicityTrack.
 
 cleanUpDirectory <- function() {

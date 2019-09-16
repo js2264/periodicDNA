@@ -6,6 +6,8 @@
 #' @param upstream How many bases upstream of the TSS?
 #' @param downstream How many bases downstream of the TSS?
 #' 
+#' @import GenomicRanges
+#' @importFrom IRanges IRanges
 #' @export
 #' @return GRanges aligned to the TSS column or to TSS.rev and TSS.fwd columns
 
@@ -37,6 +39,7 @@ alignToTSS <- function(granges, upstream, downstream) {
 #'
 #' @param granges A GRanges object 
 #' 
+#' @import GenomicRanges
 #' @export
 #' @return GRanges with only '+' and '-' strands. GRanges with '*' strand 
 #' have been duplicated and split into forward and reverse strands.
@@ -59,6 +62,7 @@ deconvolveBidirectionalPromoters <- function(granges) {
 #' obtained for instance by running 
 #' \code{Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11)}.
 #' 
+#' @import GenomicRanges
 #' @export
 #' @return GRanges with a seq column containing the sequence of the GRanges.
 
@@ -76,19 +80,46 @@ withSeq <- function(granges, genome) {
 #' @param norm Should the signal be normalized ('none', 'zscore' or 'log2')?
 #' @param verbose Boolean
 #' 
+#' @import magrittr
+#' @import IRanges
+#' @import GenomicRanges
 #' @export
 #' @return A square numerical matrix of signal values over the GRanges
 
 getCovMatrix <- function(granges, bw_file, norm = 'none', verbose = TRUE) {
     scores <- bw_file
     # Subset scores over GRanges
-    granges <- subsetByOverlaps(granges, GRanges(seqlevels(bw_file), IRanges(1, width = lengths(bw_file))))
+    granges <- GenomicRanges::subsetByOverlaps(
+        granges, 
+        GenomicRanges::GRanges(
+            GenomicRanges::seqlevels(bw_file), 
+            IRanges::IRanges(1, width = lengths(bw_file))
+        )
+    )
     scores.subset <- scores[granges]
     # Turn it into a rectangular matrix and flip reverse strand scores
     if (verbose) message('.. Converting scores into matrix...')
-    scores.subset <- suppressWarnings(suppressMessages(matrix(as.vector(unlist(scores.subset)), nrow = length(granges), byrow = T)))
+    scores.subset <- suppressWarnings(suppressMessages(
+        matrix(
+            as.vector(unlist(scores.subset)), nrow = length(granges),
+            byrow = T
+        )
+    ))
     scores.subset.flipped <- t(apply(scores.subset, 1, rev))
-    scores.subset <- matrix(sapply(1:nrow(scores.subset), function(K) {if((as.vector(GenomicRanges::strand(granges)) == '-')[K]) {scores.subset.flipped[K,]} else {scores.subset[K,]}}), nrow = length(granges), byrow = T)
+    scores.subset <- matrix(
+        sapply(
+            1:nrow(scores.subset), 
+            function(K) {
+                if((as.vector(GenomicRanges::strand(granges)) == '-')[K]) {
+                    scores.subset.flipped[K,]
+                } else {
+                    scores.subset[K,]
+                }
+            }
+        ), 
+        nrow = length(granges), 
+        byrow = T
+    )
     # Normalize matrix
     if (norm == 'zscore') {
         scores.subset <- apply(scores.subset, 1, scale) %>% t() %>% na.replace(0)
@@ -105,6 +136,9 @@ getCovMatrix <- function(granges, bw_file, norm = 'none', verbose = TRUE) {
 #' @param x a single signal track (in SimpleRleList or CompressedRleList class) 
 #' or a set of signal tracks (in list class)
 #' 
+#' @import GenomicRanges
+#' @import ggplot2
+#' @importFrom zoo rollmean
 #' @export
 #' @return A plot
 
@@ -158,29 +192,58 @@ plotAggregateCoverage.SimpleRleList <- function(
     # Compute scores
     lists <- lapply(seq_along(granges), function(K) {
         g <- granges[[K]]
-        if (length(unique(width(g))) > 1) {
+        if (length(unique(GenomicRanges::width(g))) > 1) {
             error('Please provide GRanges that are all the same width. Aborting.')
         }
         mat <- getCovMatrix(g, bw, verbose = FALSE)
         colnames(mat) <- c(
-            -unique(width(g))/2, 
+            -unique(GenomicRanges::width(g))/2, 
             rep('', (ncol(mat) - 3)/2), 
             '1', 
             rep('', (ncol(mat) - 2)/2), 
-            paste0('+', unique(width(g))/2)
+            paste0('+', unique(GenomicRanges::width(g))/2)
         )
         row.names(mat) <- paste0('locus_', as.character(1:nrow(mat)))
-        means <- c(rep(NA, bin/2), zoo::rollmean(apply(mat, 2, mean), bin), rep(NA, bin/2))[1:ncol(mat)]
-        conint <- c(rep(NA, bin/2), zoo::rollmean(apply(mat, 2, function (n) { qt(0.975,sum(!is.na(n)))*sd(n,na.rm=TRUE)/sqrt(sum(!is.na(n))) }), bin), rep(NA, bin/2))[1:ncol(mat)]
+        means <- c(
+            rep(NA, bin/2), 
+            zoo::rollmean(apply(mat, 2, mean), bin), 
+            rep(NA, bin/2)
+        )[1:ncol(mat)]
+        conint <- c(
+            rep(NA, bin/2), 
+            zoo::rollmean(
+                apply(mat, 2, function (n) {
+                    Q <- qt(0.975,sum(!is.na(n)))
+                    S <- sd(n,na.rm=TRUE)
+                    sq <- sqrt(sum(!is.na(n)))
+                    Q * S / sq
+                }), 
+                bin
+            ), 
+            rep(NA, bin/2)
+        )[1:ncol(mat)]
         topEE <- means + conint
         bottomEE <- means - conint
-        coords <- round(seq(-unique(width(g))/2, unique(width(g))/2, length.out = 1000))
+        coords <- round(
+            seq(
+                -unique(GenomicRanges::width(g))/2, 
+                unique(GenomicRanges::width(g))/2, 
+                length.out = 1000
+            )
+        )
         EE <- data.frame(
             means = means, 
             meansUp = topEE, 
             meansDown = bottomEE, 
             x = coords,
-            grange = rep(ifelse(!is.null(names(granges)), names(granges)[K], as.character(K)), length(means)), 
+            grange = rep(
+                ifelse(
+                    !is.null(names(granges)), 
+                    names(granges)[K], 
+                    as.character(K)
+                ), 
+                length(means)
+            ), 
             stringsAsFactors = FALSE
         )
         return(EE)
@@ -200,7 +263,7 @@ plotAggregateCoverage.SimpleRleList <- function(
     }
     # Start plotting
     require(ggplot2)
-    p <- ggplot(data = EEs, aes(
+    p <- ggplot2::ggplot(data = EEs, ggplot2::aes(
         x = x, 
         y = means, 
         ymin = meansDown, 
@@ -209,25 +272,25 @@ plotAggregateCoverage.SimpleRleList <- function(
         col = grange, 
         fill = grange
     ))
-    p <- p + geom_line()
-    p <- p + geom_ribbon(alpha = 0.2, col = NA)
-    p <- p + theme_bw()
-    p <- p + scale_x_continuous(
+    p <- p + ggplot2::geom_line()
+    p <- p + ggplot2::geom_ribbon(alpha = 0.2, col = NA)
+    p <- p + ggplot2::theme_bw()
+    p <- p + ggplot2::scale_x_continuous(
         limits = xlim, 
         expand = c(0, 0)
     )
-    p <- p + scale_y_continuous(
+    p <- p + ggplot2::scale_y_continuous(
         limits = ylim, 
         expand = c(0, 0)
     )
-    p <- p + labs(x = xlab, y = ylab, col = 'Sets:')
-    p <- p + guides(fill = FALSE)
-    if (length(granges) == 1) p <- p + guides(color = FALSE)
+    p <- p + ggplot2::labs(x = xlab, y = ylab, col = 'Sets:')
+    p <- p + ggplot2::guides(fill = FALSE)
+    if (length(granges) == 1) p <- p + ggplot2::guides(color = FALSE)
     if (length(granges) <= length(colors)) {
-        p <- p + scale_fill_manual(values = colors)
-        p <- p + scale_color_manual(values = colors)
+        p <- p + ggplot2::scale_fill_manual(values = colors)
+        p <- p + ggplot2::scale_color_manual(values = colors)
     }
-    if (plot_central) p <- p + geom_vline(xintercept = 0, colour="black", linetype = "longdash", size = 0.1)
+    if (plot_central) p <- p + ggplot2::geom_vline(xintercept = 0, colour="black", linetype = "longdash", size = 0.1)
     # Return plot
     return(p)
 }
@@ -276,23 +339,23 @@ plotAggregateCoverage.list <- function(
         # Compute scores
         lists <- lapply(seq_along(granges), function(K) {
             g <- granges[[K]]
-            if (length(unique(width(g))) > 1) {
+            if (length(unique(GenomicRanges::width(g))) > 1) {
                 error('Please provide GRanges that are all the same width. Aborting.')
             }
             mat <- getCovMatrix(g, bw, verbose = FALSE)
             colnames(mat) <- c(
-                -unique(width(g))/2, 
+                -unique(GenomicRanges::width(g))/2, 
                 rep('', (ncol(mat) - 3)/2), 
                 '1', 
                 rep('', (ncol(mat) - 2)/2), 
-                paste0('+', unique(width(g))/2)
+                paste0('+', unique(GenomicRanges::width(g))/2)
             )
             row.names(mat) <- paste0('locus_', as.character(1:nrow(mat)))
             means <- c(rep(NA, bin/2), zoo::rollmean(apply(mat, 2, mean), bin), rep(NA, bin/2))[1:ncol(mat)]
             conint <- c(rep(NA, bin/2), zoo::rollmean(apply(mat, 2, function (n) { qt(0.975,sum(!is.na(n)))*sd(n,na.rm=TRUE)/sqrt(sum(!is.na(n))) }), bin), rep(NA, bin/2))[1:ncol(mat)]
             topEE <- means + conint
             bottomEE <- means - conint
-            coords <- round(seq(-unique(width(g))/2, unique(width(g))/2, length.out = 1000))
+            coords <- round(seq(-unique(GenomicRanges::width(g))/2, unique(GenomicRanges::width(g))/2, length.out = 1000))
             EE <- data.frame(
                 means = means, 
                 meansUp = topEE, 
@@ -325,11 +388,10 @@ plotAggregateCoverage.list <- function(
         ylim <- c(min, max)
     }
     # Start plotting
-    require(ggplot2)
     if (split_by_track) split_by_granges <- FALSE
     if (split_by_granges) split_by_track <- FALSE
     if (split_by_granges & split_by_track) {
-        p <- ggplot(data = EEs, aes(
+        p <- ggplot2::ggplot(data = EEs, ggplot2::aes(
             x = x, 
             y = means, 
             ymin = meansDown, 
@@ -338,11 +400,11 @@ plotAggregateCoverage.list <- function(
             col = grange, 
             fill = grange
         ))
-        p <- p + labs(x = xlab, y = ylab, col = 'Sets:')
-        p <- p + facet_grid(bw~grange)
+        p <- p + ggplot2::labs(x = xlab, y = ylab, col = 'Sets:')
+        p <- p + ggplot2::facet_grid(bw~grange)
     } 
     else if (!split_by_granges & split_by_track) {
-        p <- ggplot(data = EEs, aes(
+        p <- ggplot2::ggplot(data = EEs, ggplot2::aes(
             x = x, 
             y = means, 
             ymin = meansDown, 
@@ -351,11 +413,11 @@ plotAggregateCoverage.list <- function(
             col = grange, 
             fill = grange
         ))
-        p <- p + labs(x = xlab, y = ylab, col = 'Sets:')
-        p <- p + facet_grid(~bw)
+        p <- p + ggplot2::labs(x = xlab, y = ylab, col = 'Sets:')
+        p <- p + ggplot2::facet_grid(~bw)
     } 
     else if (split_by_granges & !split_by_track) {
-        p <- ggplot(data = EEs, aes(
+        p <- ggplot2::ggplot(data = EEs, ggplot2::aes(
             x = x, 
             y = means, 
             ymin = meansDown, 
@@ -364,28 +426,28 @@ plotAggregateCoverage.list <- function(
             col = bw, 
             fill = bw
         ))
-        p <- p + labs(x = xlab, y = ylab, col = 'Signal:')
-        p <- p + facet_grid(~grange)
+        p <- p + ggplot2::labs(x = xlab, y = ylab, col = 'Signal:')
+        p <- p + ggplot2::facet_grid(~grange)
     }
-    p <- p + geom_line()
-    p <- p + geom_ribbon(alpha = 0.2, col = NA)
-    p <- p + theme_bw()
-    p <- p + scale_x_continuous(
+    p <- p + ggplot2::geom_line()
+    p <- p + ggplot2::geom_ribbon(alpha = 0.2, col = NA)
+    p <- p + ggplot2::theme_bw()
+    p <- p + ggplot2::scale_x_continuous(
         limits = xlim, 
         expand = c(0, 0)
     )
-    p <- p + scale_y_continuous(
+    p <- p + ggplot2::scale_y_continuous(
         limits = ylim, 
         expand = c(0, 0)
     )
-    p <- p + guides(fill = FALSE)
-    if (length(granges) == 1) p <- p + guides(color = FALSE)
+    p <- p + ggplot2::guides(fill = FALSE)
+    if (length(granges) == 1) p <- p + ggplot2::guides(color = FALSE)
     if (length(granges) <= length(colors)) {
-        p <- p + scale_fill_manual(values = colors)
-        p <- p + scale_color_manual(values = colors)
+        p <- p + ggplot2::scale_fill_manual(values = colors)
+        p <- p + ggplot2::scale_color_manual(values = colors)
     }
-    if (plot_central) p <- p + geom_vline(xintercept = 0, colour="black", linetype = "longdash", size = 0.1)
-    p <- p + theme(panel.spacing = unit(2, "lines"))
+    if (plot_central) p <- p + ggplot2::geom_vline(xintercept = 0, colour="black", linetype = "longdash", size = 0.1)
+    p <- p + ggplot2::theme(panel.spacing = unit(2, "lines"))
     # Return plot
     return(p)
 }
@@ -394,6 +456,10 @@ plotAggregateCoverage.list <- function(
 
 #' Core function - NOT WORKING YET
 #'
+#' @import magrittr
+#' @importFrom zoo rollmean
+#' @importFrom seriation get_order seriate
+#' @importFrom reshape2 melt
 #' @export
 
 plotHeatmaps <- function(
@@ -472,48 +538,48 @@ plotHeatmaps <- function(
             ymin = min(df$Var1), 
             ymax = max(df$Var1)
         )
-        p <- ggplot(df, aes(Var2, Var1, fill = value))
-        p <- p + geom_raster()
-        p <- p + scale_fill_gradientn(
+        p <- ggplot2::ggplot(df, ggplot2::aes(Var2, Var1, fill = value))
+        p <- p + ggplot2::geom_raster()
+        p <- p + ggplot2::scale_fill_gradientn(
             colours = gcol(50), limits = keycolor_lim, 
             breaks = keycolor_lim, labels = format(keycolor_lim, digits = 2)
         )
-        p <- p + scale_x_continuous(
+        p <- p + ggplot2::scale_x_continuous(
             breaks = c(min(bins), max(bins)),
             labels = paste0(c('-', ''), (length(bins) / 2)),
             expand = c(0.05, 0.05)
         ) 
-        p <- p + geom_vline(
+        p <- p + ggplot2::geom_vline(
             xintercept = length(bins)/2, size = .5, colour = 'black', linetype = 'dashed'
         ) 
-        p <- p + scale_y_reverse(
+        p <- p + ggplot2::scale_y_reverse(
             breaks=c(1, nrow(data)),
             labels=c(1, nrow(data)),
             expand = c(0, 0)
         ) 
-        p <- p + ggtitle(titles[i]) 
-        p <- p + xlab(xlab) 
-        p <- p + ylab(ylab) 
-        p <- p + theme(
+        p <- p + ggplot2::ggtitle(titles[i]) 
+        p <- p + ggplot2::xlab(xlab) 
+        p <- p + ggplot2::ylab(ylab) 
+        p <- p + ggplot2::theme(
             legend.position = "bottom", 
-            axis.text=element_text(size=cex.axis), 
-            axis.title=element_text(size=cex.lab),
-            title=element_text(size=cex.lab),
-            legend.text=element_text(size=cex.legend) 
+            axis.text=ggplot2::element_text(size=cex.axis), 
+            axis.title=ggplot2::element_text(size=cex.lab),
+            title=ggplot2::element_text(size=cex.lab),
+            legend.text=ggplot2::element_text(size=cex.legend) 
         ) 
-        p <- p + guides(
-            fill = guide_colorbar(frame.colour = 'black', frame.size = 0.25, title = "", raster = TRUE)
+        p <- p + ggplot2::guides(
+            fill = ggplot2::guide_colorbar(frame.colour = 'black', frame.size = 0.25, title = "", raster = TRUE)
         )
-        p <- p + theme(
-            panel.background = element_blank(), 
-            panel.border = element_blank(), 
-            panel.grid.major = element_blank(),
-            panel.grid.minor = element_blank(), 
-            axis.line = element_blank(),
+        p <- p + ggplot2::theme(
+            panel.background = ggplot2::element_blank(), 
+            panel.border = ggplot2::element_blank(), 
+            panel.grid.major = ggplot2::element_blank(),
+            panel.grid.minor = ggplot2::element_blank(), 
+            axis.line = ggplot2::element_blank(),
         ) 
-        p <- p + geom_rect(
+        p <- p + ggplot2::geom_rect(
             data = rect_df,
-            mapping = aes(
+            mapping = ggplot2::aes(
                 xmin = xmin,
                 xmax = xmax,
                 ymin = ymin,
@@ -534,6 +600,9 @@ plotHeatmaps <- function(
 
 #' Core function - NOT WORKING YET
 #' 
+#' @import magrittr
+#' @import Biostrings
+#' @import GenomicRanges
 #' @export
 
 getMotifMatrix <- function(granges, motif, seqs = Biostrings::readDNAStringSet("~/shared/sequences/Caenorhabditis_elegans.WBcel235.dna.toplevel.fa"), center = FALSE, flank = NULL, stranded = TRUE, split.bid.proms = TRUE, verbose = FALSE) {

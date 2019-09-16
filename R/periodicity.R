@@ -4,6 +4,11 @@
 #'
 #' @param x a DNAStringSet, a DNAString of a GRanges
 #' 
+#' @import magrittr
+#' @importFrom parallel mclapply
+#' @importFrom Biostrings getSeq matchPattern vmatchPattern 
+#' @importFrom GenomicRanges start
+#' @importFrom stats spectrum
 #' @export
 #' @return List a list containing the results of getPeriodicity function. The 
 #' dists vector is the raw vector of all distances between any possible dinucleotide. 
@@ -75,8 +80,8 @@ getPeriodicity.DNAStringSet <- function(
         Biostrings::vmatchPattern(
             motif, 
             seq, 
-            max.mismatch = 0
-            , fixed = FALSE
+            max.mismatch = 0, 
+            fixed = FALSE
         )[[1]] %>% 
             GenomicRanges::start() %>% 
             dist() %>% 
@@ -190,6 +195,7 @@ getPeriodicity.GRanges <- function(
 #'
 #' @param hist Vector a numeric vector
 #' 
+#' @importFrom zoo rollmean
 #' @export
 #' @return a normalized vector
 
