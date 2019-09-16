@@ -49,7 +49,6 @@ ubiq_TT <- getPeriodicity(
     ce_proms[ce_proms$which.tissues == 'Ubiq.'], 
     genome = ce_seq, 
     motif = MOTIF, 
-    freq = 0.10, 
     cores = 4
 )
 list_plots <- plotPeriodicityResults(ubiq_TT)
