@@ -3,7 +3,7 @@
 **perioDNA is still in pre-Alpha and has not been thorouhly tested yet.  
 Documentation will come soon.**
 
-![perioDNA](examples/png/TT-10bp-periodicity_tissue-spe-TSS.png)
+![perioDNA](examples/png/ubiquitous-promoters_TT-periodicity.png)
 
 ## Introduction
 
