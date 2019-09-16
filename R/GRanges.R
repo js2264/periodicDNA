@@ -1,5 +1,13 @@
 #### ---- GRanges utils ---- ####
 
+#' Core function
+#'
+#' @param granges A GRanges object with a TSS column or TSS.rev and TSS.fwd columns
+#' @param upstream How many bases upstream of the TSS?
+#' @param downstream How many bases downstream of the TSS?
+#' 
+#' @return GRanges aligned to the TSS column or to TSS.rev and TSS.fwd columns
+
 alignToTSS <- function(granges, upstream, downstream) {
     if (any(GenomicRanges::strand(granges) == '*')) {
         granges <- deconvolveBidirectionalPromoters(granges)
@@ -24,6 +32,13 @@ alignToTSS <- function(granges, upstream, downstream) {
     return(granges)
 }
 
+#' Core function
+#'
+#' @param granges A GRanges object 
+#' 
+#' @return GRanges with only '+' and '-' strands. GRanges with '*' strand 
+#' have been duplicated and split into forward and reverse strands.
+
 deconvolveBidirectionalPromoters <- function(granges) {
     unid <- granges[GenomicRanges::strand(granges) == '+' | GenomicRanges::strand(granges) == '-']
     bid <- granges[GenomicRanges::strand(granges) == '*']
@@ -35,12 +50,30 @@ deconvolveBidirectionalPromoters <- function(granges) {
     return(granges_shifted)
 }
 
+#' Core function
+#'
+#' @param granges A GRanges object 
+#' @param genome DNAStringSet object. Ideally, the sequence of an entire genome, 
+#' obtained for instance by running 
+#' \code{Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11)}.
+#' 
+#' @return GRanges with a seq column containing the sequence of the GRanges.
+
 withSeq <- function(granges, genome) {
     granges$seq <- genome[granges]
     return(granges)
 }
 
 #### ---- Line coverage plot ---- ####
+
+#' Internal function
+#'
+#' @param granges A GRanges to map a track onto
+#' @param bw_file a track in RleList format
+#' @param norm Should the signal be normalized ('none', 'zscore' or 'log2')?
+#' @param verbose Boolean
+#' 
+#' @return A square numerical matrix of signal values over the GRanges
 
 getCovMatrix <- function(granges, bw_file, norm = 'none', verbose = TRUE) {
     scores <- bw_file
@@ -55,17 +88,52 @@ getCovMatrix <- function(granges, bw_file, norm = 'none', verbose = TRUE) {
     # Normalize matrix
     if (norm == 'zscore') {
         scores.subset <- apply(scores.subset, 1, scale) %>% t() %>% na.replace(0)
-    } else if (norm == 'log2') {
+    } 
+    else if (norm == 'log2') {
         scores.subset <- log2(scores.subset)
     }
     # Return matrix
     return(scores.subset)
 }
 
+#' Core function
+#'
+#' @param x a single signal track (in SimpleRleList or CompressedRleList class) 
+#' or a set of signal tracks (in list class)
+#' 
+#' @return A plot
+
+plotAggregateCoverage <- function(x, ...) {
+    UseMethod("plotAggregateCoverage")
+}
+
+#' Core function
+#'
+#' @param bw a single signal track CompressedRleList class
+#' 
+#' @return A plot
+
 plotAggregateCoverage.CompressedRleList <- function(bw, granges, ...) {
     bw_file <- as(bw_file, 'SimpleRleList')
     plotAggregateCoverage(bw_file, granges, ...)
 }
+
+#' Core function
+#'
+#' @param bw a single signal track SimpleRleList class
+#' @param granges a GRanges object or a list of GRanges
+#' @param colors a vector of colors
+#' @param xlab x axis label
+#' @param ylab y axis label
+#' @param xlim y axis limits
+#' @param ylim y axis limits
+#' @param quartiles Which quantiles to use to determine y scale automatically?
+#' @param verbose Boolean
+#' @param bin Integer Width of the window to use to smooth values
+#' @param plot_central Boolean Draw a vertical line at 0
+#' 
+#' @return A plot
+
 plotAggregateCoverage.SimpleRleList <- function(
     bw, 
     granges, 
@@ -158,6 +226,27 @@ plotAggregateCoverage.SimpleRleList <- function(
     # Return plot
     return(p)
 }
+
+#' Core function
+#'
+#' @param bw several signal tracks (SimpleRleList or CompressedRleList class) into
+#' a class object
+#' @param granges a GRanges object or a list of GRanges
+#' @param colors a vector of colors
+#' @param xlab x axis label
+#' @param ylab y axis label
+#' @param xlim y axis limits
+#' @param ylim y axis limits
+#' @param quartiles Which quantiles to use to determine y scale automatically?
+#' @param verbose Boolean
+#' @param bin Integer Width of the window to use to smooth values
+#' @param plot_central Boolean Draw a vertical line at 0
+#' @param split_by_granges Boolean Split plots over the sets of GRanges
+#' @param split_by_granges Boolean Split plots over the sets of GRanges
+#' @param split_by_track Boolean Split plots over the sets of signal tracks
+#' 
+#' @return A plot
+
 plotAggregateCoverage.list <- function(
     bw_list, 
     granges, 
@@ -298,6 +387,9 @@ plotAggregateCoverage.list <- function(
 
 #### ---- Heatmap coverage plot ---- ####
 
+#' Core function - NOT WORKING YET
+#'
+
 plotHeatmaps <- function(
     MAT, 
     colorspace = NULL, 
@@ -433,6 +525,9 @@ plotHeatmaps <- function(
 }
 
 #### ---- Motif mapping ---- ####
+
+#' Core function - NOT WORKING YET
+#'
 
 getMotifMatrix <- function(granges, motif, seqs = Biostrings::readDNAStringSet("~/shared/sequences/Caenorhabditis_elegans.WBcel235.dna.toplevel.fa"), center = FALSE, flank = NULL, stranded = TRUE, split.bid.proms = TRUE, verbose = FALSE) {
     # Deconvolute and resize GRanges 

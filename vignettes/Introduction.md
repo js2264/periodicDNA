@@ -51,7 +51,7 @@ ggsave(
 )
 ``` 
 
-![](ubiquitous-promoters_TT-periodicity.png)
+![](../ubiquitous-promoters_TT-periodicity.png)
 
 ## Advanced use of getPeriodicity
 
@@ -109,7 +109,7 @@ p <- ggpubr::ggarrange(plotlist = list(plots_dists, plots_PSDs), nrow = 2, ncol 
 ggsave(paste0('examples/', MOTIF , '_tissue-specific-classes.pdf'), width = 15, height= 7)
 ```
 
-![](TT_tissue-specific-classes.png)
+![](../TT_tissue-specific-classes.png)
 
 One can even perform dinucleotides periodicity analysis for multiple 
 dinucleotides around several groups of promoters at once, as follows: 
@@ -175,7 +175,7 @@ ggsave(
 )
 ```
 
-![PSDs_WW-AA-TT](examples/png/dinucleotides-PSDs_WW-AA-TT-TA-AT.png)
+![PSDs_WW-AA-TT](../examples/png/dinucleotides-PSDs_WW-AA-TT-TA-AT.png)
 
 ## Plotting dinucleotide periodicity over GRanges
 
@@ -215,7 +215,7 @@ ggsave(
 )
 ```
 
-![TT](examples/png/TT-10bp-periodicity_tissue-spe-TSSs.png)
+![TT](../examples/png/TT-10bp-periodicity_tissue-spe-TSSs.png)
 
 Or using multiple periodicity tracks: 
 
@@ -248,7 +248,7 @@ ggsave(
 )
 ```
 
-![multiDiNuc](examples/png/dinucleotides-10bp-periodicity_nuc-occ_tissue-spe-TSSs.png)
+![multiDiNuc](../examples/png/dinucleotides-10bp-periodicity_nuc-occ_tissue-spe-TSSs.png)
 
 This clearly highlights the increase of WW 10-bp periodicity immediately 
 downstream of ubiquitous and germline promoters, while it is 

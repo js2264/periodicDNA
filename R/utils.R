@@ -1,3 +1,11 @@
+#' A function to easily coerce a named list into a long data.frame
+#'
+#' \code{namedListToLongFormat(x)} returns a data.frame in long format, with 
+#' an added 'name' column, containing the names of the input list.  
+#'
+#' @param x A named list vector.
+#' @return A long data frame
+
 namedListToLongFormat <- function(x) {
     lapply(names(x), function(NAME) {
         L <- x[[NAME]]
