@@ -82,6 +82,7 @@ withSeq <- function(granges, genome) {
 #' @import magrittr
 #' @import IRanges
 #' @import GenomicRanges
+#' @importFrom GenomeInfoDb seqlevels
 #' @export
 #' @return A square numerical matrix of signal values over the GRanges
 
@@ -91,7 +92,7 @@ getCovMatrix <- function(granges, bw_file, norm = 'none', verbose = TRUE) {
     granges <- IRanges::subsetByOverlaps(
         granges, 
         GenomicRanges::GRanges(
-            GenomicRanges::seqlevels(bw_file), 
+            GenomeInfoDb::seqlevels(bw_file), 
             IRanges::IRanges(1, width = lengths(bw_file))
         )
     )
@@ -230,7 +231,7 @@ plotAggregateCoverage.SimpleRleList <- function(
             seq(
                 -unique(GenomicRanges::width(g))/2, 
                 unique(GenomicRanges::width(g))/2, 
-                length.out = 1000
+                length.out = unique(width(g))
             )
         )
         EE <- data.frame(
@@ -269,9 +270,9 @@ plotAggregateCoverage.SimpleRleList <- function(
         y = means, 
         ymin = meansDown, 
         ymax = meansUp, 
-        group = grange, 
-        col = grange, 
-        fill = grange
+        # group = grange, 
+        #col = grange, 
+        #fill = grange
     ))
     p <- p + ggplot2::geom_line()
     p <- p + ggplot2::geom_ribbon(alpha = 0.2, col = NA)
