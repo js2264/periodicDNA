@@ -1,5 +1,5 @@
 ---
-title: "Introduction"
+title: "Introduction to perioDNA"
 author: "Jacques Serizay"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -48,7 +48,6 @@ histogram of the pairwise distances;
 the average PSD to identify enriched periods in the input. 
 
 ```r
-#getPeriodicity(ce_REs[1:100], Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11))
 ubiq_TT <- getPeriodicity(
     ce_TSSs[ce_TSSs$which.tissues == 'Ubiq.'], 
     genome = ce_seq, 
@@ -201,7 +200,7 @@ list_granges <- list(
         alignToTSS(500, 500)
 )
 p <- plotAggregateCoverage(
-    periodicity_track, 
+    list(periodicity_track), 
     list_granges, 
     ylab = '10-bp periodicity strength', 
     xlab = 'Distance from TSS'
