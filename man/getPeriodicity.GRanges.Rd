@@ -4,29 +4,33 @@
 \alias{getPeriodicity.GRanges}
 \title{Core function}
 \usage{
-\method{getPeriodicity}{GRanges}(granges,
+\method{getPeriodicity}{GRanges}(granges, bg = NULL,
   genome = Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11),
   ...)
 }
 \arguments{
 \item{granges}{a GRanges}
 
-\item{genome}{DNAStringSet object. Ideally, the sequence of an entire genome, 
+\item{bg}{a GRanges to estimate background periodicity.}
+
+\item{genome}{DNAStringSet object. The sequence of an entire genome, 
 obtained for instance by running 
 \code{Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11)}.}
 
-\item{...}{other parameters required in getPeriodicity}
+\item{...}{other parameters forwarded to getPeriodicity.DNAStringSet()}
 }
 \value{
 List a list containing the results of getPeriodicity function. The 
-dists vector is the raw vector of all distances between any possible dinucleotide. 
-The hist data.frame is the distribution of distances over RANGE_FOR_SPECTRUM. 
-The normalized_hist is the raw hist, normalized for decay over increasing distances.
+dists vector is the raw vector of all pairwise distances between dinucleotides. 
+The hist dataframe is the distribution of distances over RANGE_FOR_SPECTRUM. 
+The normalized_hist is the raw histogram normalized for 
+  decay over increasing distances between pairs of dinucleotides.
 The spectra object is the output of the FFT applied over normalized_hist. 
-The PSD data frame is the power spectrum density scores over given frequencies.
-The signal_to_noise_ratio is a data.frame containing enrichment scores of TT
-periodicity, for the periods in the period vector. The motif object is the 
-dinucleotide being analysed.
+The PSD dataframe contains power spectrum density scores over given 
+  frequencies.
+The signal_to_noise_ratio is a dataframe containing enrichment scores of
+dinucleotide periodicity, for each period in the period vector. 
+The motif character is the analysed dinucleotide.
 }
 \description{
 Core function

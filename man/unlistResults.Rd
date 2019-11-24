@@ -7,7 +7,7 @@
 unlistResults(list.results)
 }
 \arguments{
-\item{List}{}
+\item{list.results}{List}
 }
 \value{
 GRanges

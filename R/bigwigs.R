@@ -1,16 +1,28 @@
-#### ---- BigWig utils ---- ####
-
-#' Core function
+#' A function to z-score a bigWig track imported by rtracklayer. 
 #'
-#' @param bw.as.rle a RleList
+#' @param bigWigs a RleList, usually obtained by rtracklayer::import() 
 #' 
-#' @importFrom S4Vectors Rle
-#' @export
 #' @return a list of scaled Rle (z-score)
+#' 
+#' @import S4Vectors
+#' @export
 
-scaleBigWigs <- function(bw.as.rle) {
-    l <- IRanges::RleList(lapply(bw.as.rle, function(L) {
-        S4Vectors::Rle(scale(L))
-    }))
-    return(l)
+scaleBigWigs <- function(bigWigs) {
+    if (class(bigWigs) == 'SimpleRleList' | class(bigWigs) == 'CompressedRleList') {
+        bigWig <- bigWigs
+        ucov <- unlist(bigWig)
+        mi <- mean(ucov)
+        mu <- sd(ucov)
+        zsc <- (bigWig-mi)/mu
+        return(zsc)
+    } else {
+        l <- lapply(bigWigs, function(bigWig) {
+            ucov <- unlist(bigWig)
+            mi <- mean(ucov)
+            mu <- sd(ucov)
+            zsc <- (bigWig-mi)/mu
+            return(zsc)
+        })
+        return(l)
+    }
 }

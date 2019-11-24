@@ -2,39 +2,60 @@
 % Please edit documentation in R/periodicity.R
 \name{getPeriodicity.DNAStringSet}
 \alias{getPeriodicity.DNAStringSet}
-\title{Core function}
+\title{Function to compute the overall periodicity of a motif over a set of 
+  sequences.}
 \usage{
-\method{getPeriodicity}{DNAStringSet}(seqs, motif = "WW",
-  RANGE_FOR_SPECTRUM = 1:100, period = seq(2, 20, 1), plot = FALSE,
-  cores = 2, verbose = TRUE)
+\method{getPeriodicity}{DNAStringSet}(seqs, bg_seqs = NULL,
+  model_background = FALSE, motif = "WW", RANGE_FOR_SPECTRUM = 1:200,
+  period = seq(2, 20, 1), plot = FALSE, cores = 2, roll = 3,
+  verbose = TRUE, sample = 0)
 }
 \arguments{
 \item{seqs}{a DNAStringSet}
 
+\item{bg_seqs}{a DNAStringSet (ideally from random loci) for genome 
+background model}
+
+\item{model_background}{Boolean Should the genome background be taken into 
+account during normalization?}
+
 \item{motif}{a dinucleotide of interest}
 
 \item{RANGE_FOR_SPECTRUM}{Numeric vector The distances between nucleotides
-to take into consideration when performing Fast Fourier Transform (default 1:50).}
+to take into consideration when performing Fast Fourier Transform.}
 
 \item{period}{Vector a numerical vector of periods to extract.}
 
 \item{plot}{Boolean Should the FFT results be plotted?}
 
-\item{cores}{Integer How many processors should be used to split to work?}
+\item{cores}{Integer How many processors should be used to parallelize
+the mapping?}
+
+\item{roll}{Integer Window to smooth the distribution of pairwise distances
+(default: 3, to discard the 3-bp periodicity of dinucleotides which 
+can be very strong in vertebrate genomes)}
 
 \item{verbose}{Boolean}
+
+\item{sample}{Integer if > 0, will randomly sample this many integers
+from the dists vector before normalization. This ensures consistency 
+when looking at periodicity in different genomes, since different genomes
+will have different GC%}
 }
 \value{
 List a list containing the results of getPeriodicity function. The 
-dists vector is the raw vector of all distances between any possible dinucleotide. 
-The hist data.frame is the distribution of distances over RANGE_FOR_SPECTRUM. 
-The normalized_hist is the raw hist, normalized for decay over increasing distances.
+dists vector is the raw vector of all pairwise distances between dinucleotides. 
+The hist dataframe is the distribution of distances over RANGE_FOR_SPECTRUM. 
+The normalized_hist is the raw histogram normalized for 
+  decay over increasing distances between pairs of dinucleotides.
 The spectra object is the output of the FFT applied over normalized_hist. 
-The PSD data frame is the power spectrum density scores over given frequencies.
-The signal_to_noise_ratio is a data.frame containing enrichment scores of TT
-periodicity, for the periods in the period vector. The motif object is the 
-dinucleotide being analysed.
+The PSD dataframe contains power spectrum density scores over given 
+  frequencies.
+The signal_to_noise_ratio is a dataframe containing enrichment scores of
+dinucleotide periodicity, for each period in the period vector. 
+The motif character is the analysed dinucleotide.
 }
 \description{
-Core function
+Function to compute the overall periodicity of a motif over a set of 
+  sequences.
 }

@@ -37,10 +37,10 @@ list_TSSs <- list(
 
 ## How perioDNA works
 
-When running the `r getPeriodicity()` function for a given motif over a set of 
-GRanges, R does the following steps: 
+When running the `r getPeriodicity()` function for a given motif (typically a
+dinucleotide) over a set of GRanges, R does the following steps: 
 
-1. It first find all the possible motif occurences over the GRanges;  
+1. It first finds all the possible motif occurences over the GRanges;  
 2. It then find all the possible pairwise distances and generates a normalized 
 histogram of the pairwise distances;  
 3. It performs a Fast Fourier Transform of the normalized histogram; 
@@ -63,11 +63,11 @@ ubiq_TT <- getPeriodicity(
 We can split promoters by classes (e.g. tissue-specific promoters) and 
 look at the periodicity of each set. 
 
-```r    
+```r
 MOTIF <- 'TT'
 list_periodicities <- lapply(list_TSSs, function(proms) {
     getPeriodicity(
-        proms, 
+        proms[strand(proms) == '+'], 
         genome = ce_seq,
         motif = MOTIF, 
         cores = 40, 
@@ -76,7 +76,7 @@ list_periodicities <- lapply(list_TSSs, function(proms) {
 }) %>% setNames(names(list_TSSs))
 dists <- lapply(list_periodicities, '[[', 'normalized_hist') %>% 
     namedListToLongFormat()
-plots_dists <- ggplot(dists, aes(x = distance, y = norm_counts, color = name)) + 
+plots_dists <- ggplot(dists, aes(x = distance, y = norm_counts, color = name, linetype = name.1)) + 
     geom_line() +
     theme_bw() + 
     ylim(c(-1.5, 1.5)) +
@@ -95,7 +95,7 @@ PSDs <- lapply(list_periodicities, '[[', 'PSD') %>%
     namedListToLongFormat() %>% 
     dplyr::mutate(Period = 1/freq) %>% 
     dplyr::filter(Period < 50)
-plots_PSDs <- ggplot(PSDs, aes(x = Period, y = PSD, color = name)) + 
+plots_PSDs <- ggplot(PSDs, aes(x = Period, y = PSD, color = name, linetype = name.1)) + 
     geom_point() + 
     geom_line(stat = 'identity') +
     theme_bw() + 
@@ -200,10 +200,11 @@ list_granges <- list(
         alignToTSS(500, 500)
 )
 p <- plotAggregateCoverage(
-    list(periodicity_track), 
+    periodicity_track, 
     list_granges, 
-    ylab = '10-bp periodicity strength', 
-    xlab = 'Distance from TSS'
+    ylab = 'TT 10-bp periodicity strength', 
+    xlab = 'Distance from TSS', 
+    split_by_granges = TRUE
 )
 ```
 
@@ -239,5 +240,6 @@ p <- plotAggregateCoverage(
 
 This clearly highlights the increase of WW 10-bp periodicity immediately 
 downstream of ubiquitous and germline promoters, while it is 
-inexistent downstream of other TSSs.  
-We can also notice that this is primarily due to the underlying TT periodicity.
+inexistent downstream of other TSSs. We can also notice that this is primarily 
+due to the underlying TT periodicity, with other dinucleotides playing a minor
+contribution to the overall WW 10-bp periodicity. 

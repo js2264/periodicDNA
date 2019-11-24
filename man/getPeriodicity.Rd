@@ -2,12 +2,9 @@
 % Please edit documentation in R/periodicity.R
 \name{getPeriodicity}
 \alias{getPeriodicity}
-\title{Core function}
+\title{Function to compute the overall periodicity of a motif over sequence(s).}
 \usage{
 getPeriodicity(x, ...)
-}
-\arguments{
-\item{x}{a DNAStringSet, a DNAString of a GRanges}
 }
 \value{
 List a list containing the results of getPeriodicity function. The 
@@ -21,5 +18,5 @@ periodicity, for the periods in the period vector. The motif object is the
 dinucleotide being analysed.
 }
 \description{
-Core function
+Function to compute the overall periodicity of a motif over sequence(s).
 }

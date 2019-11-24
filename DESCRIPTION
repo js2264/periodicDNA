@@ -1,18 +1,18 @@
-Package: perioDNA
+Package: periodicDNA
 Type: Package
 Title: Probing DNA sequences for periodic oligonucleotides
-Version: 0.1.0
+Version: 0.1.1
 Author: Jacques Serizay
 Maintainer: Jacques Serizay <js2264@cam.ac.uk>
-Description: Periodic Elements Represented In Oligosequences. The functions in 
-    this package provide a straightforward approach to identify local over-
-    represented periodic elements in short sequences such as regulatory 
-    elements. CAUTION: This package is still in pre-alpha phase. 
-License: GNU v3
+Description: The functions in this package provide a straightforward approach 
+    to identify local periodic elements in short sequences such as regulatory 
+    elements. 
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1.9000
 Imports: 
+    stats, 
     Biostrings, 
     GenomeInfoDb,
     GenomicRanges,
@@ -23,5 +23,4 @@ Imports:
     parallel,
     reshape2,
     rtracklayer,
-    stats, 
     zoo

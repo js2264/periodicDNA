@@ -7,12 +7,11 @@
 namedListToLongFormat(x)
 }
 \arguments{
-\item{x}{A named list vector.}
+\item{x}{A named list.}
 }
 \value{
 A long data frame
 }
 \description{
-\code{namedListToLongFormat(x)} returns a data.frame in long format, with 
-an added 'name' column, containing the names of the input list.
+A function to easily coerce a named list into a long data.frame
 }

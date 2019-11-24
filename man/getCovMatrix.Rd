@@ -4,16 +4,17 @@
 \alias{getCovMatrix}
 \title{Internal function}
 \usage{
-getCovMatrix(granges, bw_file, norm = "none", verbose = TRUE)
+getCovMatrix(g, bw, norm = "none", verbose = FALSE)
 }
 \arguments{
-\item{granges}{A GRanges to map a track onto}
+\item{g}{GRanges to map a track onto}
 
-\item{bw_file}{a track in RleList format}
+\item{bw}{RleList a track from rtraklayer::import}
 
-\item{norm}{Should the signal be normalized ('none', 'zscore' or 'log2')?}
+\item{norm}{character Should the signal be normalized 
+('none', 'zscore' or 'log2')?}
 
-\item{verbose}{Boolean}
+\item{verbose}{Boolean Should the function be verbose?}
 }
 \value{
 A square numerical matrix of signal values over the GRanges

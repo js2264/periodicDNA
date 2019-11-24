@@ -1,14 +1,11 @@
 #' A function to easily coerce a named list into a long data.frame
 #'
-#' \code{namedListToLongFormat(x)} returns a data.frame in long format, with 
-#' an added 'name' column, containing the names of the input list.  
-#'
-#' @param x A named list vector.
-#' 
-#' @export
-#' @import magrittr
+#' @param x A named list.
 #' 
 #' @return A long data frame
+#' 
+#' @import magrittr
+#' @export
 
 namedListToLongFormat <- function(x) {
     lapply(names(x), function(NAME) {
@@ -22,20 +19,30 @@ namedListToLongFormat <- function(x) {
     }) %>% do.call(rbind, .)
 }
 
-#' A function to replace NA by something else in a vector
-#'
-#' \code{namedListToLongFormat(x)} returns a data.frame in long format, with 
-#' an added 'name' column, containing the names of the input list.  
+#' A tidyverse-compatible function to replace NAs in a vector by a given value
 #'
 #' @param x vector
-#' @param value Replace NA by this variable
-#' 
-#' @export
+#' @param value Replace NAs by this variable
 #' 
 #' @return A vector with NA replaced by value
 #' 
+#' @export
+
 na.replace <- function(x, value) {
     which.na <- is.na(x)
     x[which.na] <- value
     return(x)
+}
+
+#' A tidyverse-compatible function to remove NAs from a vector
+#'
+#' @param x vector
+#' 
+#' @return A vector without NAs
+#' 
+#' @export
+
+na.remove <- function(x) {
+    which.na <- is.na(x)
+    return(x[!which.na])
 }

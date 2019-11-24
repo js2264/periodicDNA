@@ -2,19 +2,20 @@
 #'
 #' @param results The output of getPeriodicity function.
 #' @param HIST_YLIM Vector a numerical vector of length 2, to specify the y-axis 
-#' limits of the first generated plot.
+#' limits of the first plot (normalized distribution of pairwise distances).
+#' 
+#' @return list A list containing three ggplots
 #' 
 #' @import ggplot2
 #' @export
-#' @return list A list containing three ggplots
 
 plotPeriodicityResults <- function(results, HIST_YLIM = c(-1.5, 1.5)) {
     p1 <- ggplot2::ggplot(results$normalized_hist, ggplot2::aes(x = distance, y = norm_counts)) + 
         ggplot2::geom_line() +
         ggplot2::ylim(HIST_YLIM) + 
         ggplot2::theme_classic() + 
-        ggplot2::labs(x = paste0('Distance between pairs of ', results$motif), y = 'Normalized frequency', title = paste0('Normalized frequency of\ndistances between pairs of ', results$motif))
-    p2 <- ggplot2::ggplot(results$PSD, ggplot2::aes(x = freq, y = PSD)) + 
+        ggplot2::labs(x = paste0('Distance between pairs of ', results$motif), y = 'Normalized distribution', title = paste0('Normalized distribution of\ndistances between pairs of ', results$motif))
+    p2 <- ggplot2::ggplot(tail(results$PSD, -2), ggplot2::aes(x = freq, y = PSD)) + 
         ggplot2::geom_point() +
         ggplot2::geom_line() +
         ggplot2::theme_classic() + 

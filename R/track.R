@@ -45,8 +45,10 @@ generatePeriodicityTrack <- function(
     bw.file = NULL
     ) {
     
+    isCircular(seqinfo(granges)) <- NA
     granges.extended <- GenomicRanges::resize(granges, EXTEND.GRANGES, fix = 'center')
-    genome.partionned <- partitionGenome(genome, GENOME.WINDOW.SIZE, GENOME.WINDOW.SLIDING)
+    granges.extended_large <- GenomicRanges::resize(granges, 2*EXTEND.GRANGES, fix = 'center')
+    genome.partionned <- partitionGenome(genome, granges.extended_large, granges.extended, GENOME.WINDOW.SIZE, GENOME.WINDOW.SLIDING)
     genome.partionned.filtered <- IRanges::subsetByOverlaps(genome.partionned, granges.extended)
     chunks <- getChunks(genome.partionned.filtered, PROCS = PROCS)
     
@@ -78,14 +80,15 @@ generatePeriodicityTrack <- function(
         mc.cores = length(chunks)
     )
     # Merge all the chunks
-    motif.granges <- unlistResults(list.results)
+    list.results.2 <- unlist(GRangesList(lapply(list.files(pattern = 'FULL'), rtracklayer::import)))
+    
     # Generate final track
     if (is.null(bw.file)) bw.file = paste0(
         MOTIF, 
         '-periodicity_g-', GENOME.WINDOW.SIZE, '^', GENOME.WINDOW.SLIDING, 
         '_b-', BIN.WINDOW.SIZE, '^', BIN.WINDOW.SLIDING ,'.bw'
     )
-    rtracklayer::export.bw(motif.granges, bw.file)
+    rtracklayer::export.bw(coverage(list.results.2, weight =  list.results.2$score), bw.file)
     # Remove tmp files
     cleanUpDirectory()
 }
@@ -94,6 +97,9 @@ generatePeriodicityTrack <- function(
 #'
 #' @param genome A DNAStringSet object. Ideally, the sequence of an entire genome, 
 #' obtained for instance by running 
+#' \code{Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11)}.
+#' @param granges.extended_large A GRanges object.
+#' @param granges.extended A GRanges object.
 #' \code{Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11)}.
 #' @param GENOME.WINDOW.SIZE An integer. The width of the bins to split the GRanges
 #' objects in (default 100).
@@ -105,12 +111,11 @@ generatePeriodicityTrack <- function(
 #' @import IRanges
 #' @return granges.partionned A Granges object corresponding to the binned genome. 
 
-partitionGenome <- function(genome, GENOME.WINDOW.SIZE, GENOME.WINDOW.SLIDING) {
+partitionGenome <- function(genome, granges.extended_large, granges.extended, GENOME.WINDOW.SIZE, GENOME.WINDOW.SLIDING) {
     genome.Seqinfo <- GenomeInfoDb::Seqinfo(
         seqnames = names(genome), 
         seqlengths = lengths(genome), 
-        isCircular = rep(FALSE, length(genome)), 
-        genome = 'custom'
+        isCircular = rep(FALSE, length(genome))
     )
     genome.granges <- GenomicRanges::GRanges(
         seqnames = GenomicRanges::seqnames(genome.Seqinfo), 
@@ -118,18 +123,10 @@ partitionGenome <- function(genome, GENOME.WINDOW.SIZE, GENOME.WINDOW.SLIDING) {
         width = GenomeInfoDb::seqlengths(genome.Seqinfo))
     )
     GenomeInfoDb::seqinfo(genome.granges) <- genome.Seqinfo
-    granges.partionned <- genome.granges[0,]
-    for (CHR in GenomicRanges::seqnames(genome.Seqinfo)) {
-        seqnames <- rep(
-            CHR, 
-            GenomeInfoDb::seqlengths(genome.Seqinfo)[GenomicRanges::seqnames(genome.Seqinfo) == CHR]
-        )
-        seqnames <- seqnames[seq(1, length(seqnames), GENOME.WINDOW.SLIDING)]
-        seqnames <- factor(seqnames, levels = levels(GenomicRanges::seqnames(genome.granges)))
-        seqstarts <- seq(1, GenomeInfoDb::seqlengths(genome.Seqinfo)[GenomicRanges::seqnames(genome.Seqinfo) == CHR], 1)
-        seqstarts <- seqstarts[seq(1, length(seqstarts), GENOME.WINDOW.SLIDING)]
-        granges.partionned <- c(granges.partionned, GenomicRanges::GRanges(seqnames, IRanges::IRanges(start = seqstarts, width = GENOME.WINDOW.SIZE)))
-    }
+    granges.partionned <- GenomicRanges::slidingWindows(GenomicRanges::reduce(granges.extended_large), GENOME.WINDOW.SIZE, GENOME.WINDOW.SLIDING) %>% 
+        GenomicRanges::GRangesList() %>% 
+        unlist()
+    GenomeInfoDb::seqinfo(granges.partionned) <- genome.Seqinfo
     granges.partionned <- GenomicRanges::trim(granges.partionned)
     granges.partionned <- granges.partionned[GenomicRanges::width(granges.partionned) == GENOME.WINDOW.SIZE]
     return(granges.partionned)
@@ -183,7 +180,7 @@ chunkWrapper <- function(chunk, genome, MOTIF, GENOME.WINDOW.SLIDING, BIN.WINDOW
     res <- chunk
     res$score <- 0
     res <- GenomicRanges::resize(res, width = GENOME.WINDOW.SLIDING, fix = 'center')
-    intervals <- seq(1, length(chunk), length.out = 100)
+    intervals <- seq(1, length(res), length.out = 100)
     for (K in 1:length(chunk)) {
         res$score[K] <- binWrapper(chunk[K], genome, MOTIF, BIN.WINDOW.SIZE, BIN.WINDOW.SLIDING, RANGE.FOR.SPECTRUM, FREQ)
         if (K %in% intervals) {
@@ -229,7 +226,7 @@ binWrapper <- function(grange, genome, MOTIF, BIN.WINDOW.SIZE, BIN.WINDOW.SLIDIN
         c()
     }))
     hist <- hist(dists, breaks = seq(0, 1000, 1), plot = FALSE)
-    s <- stats::spectrum(hist$counts[1:50], plot = FALSE)
+    s <- stats::spectrum(hist$counts[RANGE.FOR.SPECTRUM], plot = FALSE)
     spec <- round(s$spec[which.min(abs(s$freq - FREQ))], 4)
     return(spec)
 }
@@ -261,7 +258,7 @@ partitionBin <- function(grange, genome, BIN.WINDOW.SIZE, BIN.WINDOW.SLIDING) {
 
 #' Internal function
 #'
-#' @param List 
+#' @param list.results List 
 #' 
 #' @return GRanges
 
