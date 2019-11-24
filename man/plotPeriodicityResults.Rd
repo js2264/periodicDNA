@@ -10,7 +10,7 @@ plotPeriodicityResults(results, HIST_YLIM = c(-1.5, 1.5))
 \item{results}{The output of getPeriodicity function.}
 
 \item{HIST_YLIM}{Vector a numerical vector of length 2, to specify the y-axis 
-limits of the first generated plot.}
+limits of the first plot (normalized distribution of pairwise distances).}
 }
 \value{
 list A list containing three ggplots

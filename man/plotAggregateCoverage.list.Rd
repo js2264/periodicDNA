@@ -2,15 +2,17 @@
 % Please edit documentation in R/GRanges.R
 \name{plotAggregateCoverage.list}
 \alias{plotAggregateCoverage.list}
-\title{Core function}
+\title{A function to plot aggregated signals (from a named list of signal tracks) 
+  over sets of GRanges}
 \usage{
 \method{plotAggregateCoverage}{list}(bw_list, granges,
-  colors = c("#991919", "#1232D9", "#3B9B46", "#D99B12", "#7e7e7e",
-  "#D912D4", "#9E7FCC", "#B0E797", "#D1B3B3", "#23A4A3", "#000000"),
+  colors = rep(c("#991919", "#1232D9", "#3B9B46", "#D99B12", "#7e7e7e",
+  "#D912D4", "#9E7FCC", "#B0E797", "#D1B3B3", "#23A4A3", "#000000"), 5),
   xlab = "Center of elements", ylab = "Score", xlim = NULL,
   ylim = NULL, quartiles = c(0.025, 0.975), verbose = FALSE,
   bin = 1, plot_central = TRUE, split_by_granges = TRUE,
-  split_by_track = FALSE, ...)
+  split_by_track = FALSE, free_scales = FALSE, runInParallel = TRUE,
+  norm = "none", ...)
 }
 \arguments{
 \item{granges}{a GRanges object or a list of GRanges}
@@ -33,18 +35,25 @@
 
 \item{plot_central}{Boolean Draw a vertical line at 0}
 
-\item{split_by_granges}{Boolean Split plots over the sets of GRanges}
+\item{split_by_granges}{Boolean Facet plots by the sets of GRanges}
 
-\item{split_by_track}{Boolean Split plots over the sets of signal tracks}
+\item{split_by_track}{Boolean Facet plots by the sets of signal tracks}
 
-\item{bw}{several signal tracks (SimpleRleList or CompressedRleList class) into
-a class object}
+\item{free_scales}{Boolean Should each facet have independent y-axis scales?}
 
-\item{split_by_granges}{Boolean Split plots over the sets of GRanges}
+\item{runInParallel}{Boolean Should the plots be computed in parallel using 
+mclapply?}
+
+\item{norm}{character Should the signals be normalized 
+('none', 'zscore' or 'log2')?}
+
+\item{bw}{several signal tracks (SimpleRleList or CompressedRleList class) 
+grouped in a named list}
 }
 \value{
-A plot
+A plot of aggregated signals
 }
 \description{
-Core function
+A function to plot aggregated signals (from a named list of signal tracks) 
+  over sets of GRanges
 }

@@ -2,19 +2,18 @@
 % Please edit documentation in R/utils.R
 \name{na.replace}
 \alias{na.replace}
-\title{A function to replace NA by something else in a vector}
+\title{A tidyverse-compatible function to replace NAs in a vector by a given value}
 \usage{
 na.replace(x, value)
 }
 \arguments{
 \item{x}{vector}
 
-\item{value}{Replace NA by this variable}
+\item{value}{Replace NAs by this variable}
 }
 \value{
 A vector with NA replaced by value
 }
 \description{
-\code{namedListToLongFormat(x)} returns a data.frame in long format, with 
-an added 'name' column, containing the names of the input list.
+A tidyverse-compatible function to replace NAs in a vector by a given value
 }

@@ -2,17 +2,19 @@
 % Please edit documentation in R/GRanges.R
 \name{plotAggregateCoverage.SimpleRleList}
 \alias{plotAggregateCoverage.SimpleRleList}
-\title{Core function}
+\title{A function to plot aggregated signals (from a SimpleRleList) 
+  over sets of GRanges}
 \usage{
 \method{plotAggregateCoverage}{SimpleRleList}(bw, granges,
-  colors = c("#991919", "#1232D9", "#3B9B46", "#D99B12", "#7e7e7e",
-  "#D912D4", "#9E7FCC", "#B0E797", "#D1B3B3", "#23A4A3", "#000000"),
+  colors = rep(c("#991919", "#1232D9", "#3B9B46", "#D99B12", "#7e7e7e",
+  "#D912D4", "#9E7FCC", "#B0E797", "#D1B3B3", "#23A4A3", "#000000"), 5),
   xlab = "Center of elements", ylab = "Score", xlim = NULL,
   ylim = NULL, quartiles = c(0.025, 0.975), verbose = FALSE,
-  bin = 1, plot_central = TRUE, ...)
+  bin = 1, plot_central = TRUE, runInParallel = TRUE,
+  split_by_granges = FALSE, ...)
 }
 \arguments{
-\item{bw}{a single signal track SimpleRleList class}
+\item{bw}{a single signal track (SimpleRleList class)}
 
 \item{granges}{a GRanges object or a list of GRanges}
 
@@ -30,13 +32,20 @@
 
 \item{verbose}{Boolean}
 
-\item{bin}{Integer Width of the window to use to smooth values}
+\item{bin}{Integer Width of the window to use to smooth values 
+by zoo::rollMean}
 
 \item{plot_central}{Boolean Draw a vertical line at 0}
+
+\item{runInParallel}{Boolean Should the plots be computed in parallel using 
+mclapply?}
+
+\item{split_by_granges}{Boolean Facet plots over the sets of GRanges}
 }
 \value{
-A plot
+A plot of aggregated signals
 }
 \description{
-Core function
+A function to plot aggregated signals (from a SimpleRleList) 
+  over sets of GRanges
 }

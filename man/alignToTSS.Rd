@@ -2,20 +2,26 @@
 % Please edit documentation in R/GRanges.R
 \name{alignToTSS}
 \alias{alignToTSS}
-\title{Core function}
+\title{A function to re-align a GRanges object to a provided set of coordinates 
+(either the TSS column or the TSS.fwd and TSS.rev columns)}
 \usage{
-alignToTSS(granges, upstream, downstream)
+alignToTSS(granges, upstream = 0, downstream = 1)
 }
 \arguments{
-\item{granges}{A GRanges object with a TSS column or TSS.rev and TSS.fwd columns}
+\item{granges}{A stranded GRanges object with a TSS column 
+or TSS.rev and TSS.fwd columns}
 
-\item{upstream}{How many bases upstream of the TSS?}
+\item{upstream}{How many bases upstream of the TSS should the GRanges
+object by extended by? [Default: 0]}
 
-\item{downstream}{How many bases downstream of the TSS?}
+\item{downstream}{How many bases downstream of the TSS should the GRanges
+object by extended by? [Default: 1]}
 }
 \value{
-GRanges aligned to the TSS column or to TSS.rev and TSS.fwd columns
+GRanges aligned to the TSS column or to TSS.rev and TSS.fwd columns, 
+  and extended by upstream/downstream bp.
 }
 \description{
-Core function
+A function to re-align a GRanges object to a provided set of coordinates 
+(either the TSS column or the TSS.fwd and TSS.rev columns)
 }

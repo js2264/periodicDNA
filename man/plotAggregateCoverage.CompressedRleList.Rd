@@ -2,16 +2,20 @@
 % Please edit documentation in R/GRanges.R
 \name{plotAggregateCoverage.CompressedRleList}
 \alias{plotAggregateCoverage.CompressedRleList}
-\title{Core function}
+\title{A function to plot aggregated signals (from a CompressedRleList) 
+  over sets of GRanges}
 \usage{
 \method{plotAggregateCoverage}{CompressedRleList}(bw, granges, ...)
 }
 \arguments{
-\item{bw}{a single signal track CompressedRleList class}
+\item{bw}{a single signal track (CompressedRleList class)}
+
+\item{granges}{a GRanges object or a list of GRanges}
 }
 \value{
-A plot
+A plot of aggregated signals
 }
 \description{
-Core function
+A function to plot aggregated signals (from a CompressedRleList) 
+  over sets of GRanges
 }

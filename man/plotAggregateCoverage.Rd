@@ -2,17 +2,13 @@
 % Please edit documentation in R/GRanges.R
 \name{plotAggregateCoverage}
 \alias{plotAggregateCoverage}
-\title{Core function}
+\title{A function to plot aggregated signals over sets of GRanges}
 \usage{
 plotAggregateCoverage(x, ...)
 }
-\arguments{
-\item{x}{a single signal track (in SimpleRleList or CompressedRleList class) 
-or a set of signal tracks (in list class)}
-}
 \value{
-A plot
+A plot of aggregated signals
 }
 \description{
-Core function
+A function to plot aggregated signals over sets of GRanges
 }

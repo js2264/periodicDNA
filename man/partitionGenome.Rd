@@ -4,11 +4,17 @@
 \alias{partitionGenome}
 \title{Internal function}
 \usage{
-partitionGenome(genome, GENOME.WINDOW.SIZE, GENOME.WINDOW.SLIDING)
+partitionGenome(genome, granges.extended_large, granges.extended,
+  GENOME.WINDOW.SIZE, GENOME.WINDOW.SLIDING)
 }
 \arguments{
 \item{genome}{A DNAStringSet object. Ideally, the sequence of an entire genome, 
 obtained for instance by running 
+\code{Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11)}.}
+
+\item{granges.extended_large}{A GRanges object.}
+
+\item{granges.extended}{A GRanges object.
 \code{Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11)}.}
 
 \item{GENOME.WINDOW.SIZE}{An integer. The width of the bins to split the GRanges

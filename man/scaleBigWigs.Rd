@@ -2,16 +2,16 @@
 % Please edit documentation in R/bigwigs.R
 \name{scaleBigWigs}
 \alias{scaleBigWigs}
-\title{Core function}
+\title{A function to z-score a bigWig track imported by rtracklayer.}
 \usage{
-scaleBigWigs(bw.as.rle)
+scaleBigWigs(bigWigs)
 }
 \arguments{
-\item{bw.as.rle}{a RleList}
+\item{bigWigs}{a RleList, usually obtained by rtracklayer::import()}
 }
 \value{
 a list of scaled Rle (z-score)
 }
 \description{
-Core function
+A function to z-score a bigWig track imported by rtracklayer.
 }

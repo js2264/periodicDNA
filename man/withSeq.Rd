@@ -2,7 +2,7 @@
 % Please edit documentation in R/GRanges.R
 \name{withSeq}
 \alias{withSeq}
-\title{Core function}
+\title{Tidyverse-compatible function to add sequence to an existing GRanges}
 \usage{
 withSeq(granges, genome)
 }
@@ -10,12 +10,11 @@ withSeq(granges, genome)
 \item{granges}{A GRanges object}
 
 \item{genome}{DNAStringSet object. Ideally, the sequence of an entire genome, 
-obtained for instance by running 
-\code{Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11)}.}
+obtained for instance by running}
 }
 \value{
 GRanges with a seq column containing the sequence of the GRanges.
 }
 \description{
-Core function
+Tidyverse-compatible function to add sequence to an existing GRanges
 }

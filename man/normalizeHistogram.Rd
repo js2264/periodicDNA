@@ -2,9 +2,9 @@
 % Please edit documentation in R/periodicity.R
 \name{normalizeHistogram}
 \alias{normalizeHistogram}
-\title{Internal function}
+\title{Internal function to normalize a pairwise distance}
 \usage{
-normalizeHistogram(hist)
+normalizeHistogram(hist, roll = 1)
 }
 \arguments{
 \item{hist}{Vector a numeric vector}
@@ -13,5 +13,5 @@ normalizeHistogram(hist)
 a normalized vector
 }
 \description{
-Internal function
+Internal function to normalize a pairwise distance
 }
