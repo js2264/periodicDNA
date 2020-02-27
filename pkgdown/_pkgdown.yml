@@ -1,0 +1,42 @@
+home:
+  title: periodicDNA package
+  links:
+  - text: Contact the author at
+    href: https://js2264.github.io/
+  - text: Browse source code at
+    href: https://github.com/js2264/periodicDNA/
+  - text: Read publication at
+    href: https://github.com/js2264/periodicDNA/blob/master/vignettes/Introduction.md
+
+authors:
+  Jacques Serizay:
+    href: https://https://js2264.github.io/
+
+# reference:
+#   - title: Probing DNA sequences for periodic oligonucleotides
+#     contents:
+#     - plotVmat
+#     - computeVmat
+#     - scaleVmat
+#     - normalizeVmat
+#     - shuffleVmat
+#   - title: Computing flanking nucleosome enrichment scores
+#     contents:
+#     - nucleosomeEnrichment
+#     - computeNucleosomeEnrichmentOverBackground
+#   - title: Helpers
+#     contents:
+#     - importPEBamFiles
+#     - shiftATACGranges
+#     - getFragmentsDistribution
+ 
+toc:
+  depth: 3
+
+# navbar:
+#   components:
+#     articles:
+#       text: Articles
+#       menu:
+#       - text: 'In-depth use'
+#         href: articles/advanced.html

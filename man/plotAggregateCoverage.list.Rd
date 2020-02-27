@@ -15,6 +15,9 @@
   norm = "none", ...)
 }
 \arguments{
+\item{bw_list}{several signal tracks (SimpleRleList or CompressedRleList class) 
+grouped in a named list}
+
 \item{granges}{a GRanges object or a list of GRanges}
 
 \item{colors}{a vector of colors}
@@ -46,9 +49,6 @@ mclapply?}
 
 \item{norm}{character Should the signals be normalized 
 ('none', 'zscore' or 'log2')?}
-
-\item{bw}{several signal tracks (SimpleRleList or CompressedRleList class) 
-grouped in a named list}
 }
 \value{
 A plot of aggregated signals

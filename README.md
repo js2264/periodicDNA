@@ -1,16 +1,15 @@
 # periodicDNA
 
-**periodicDNA is still in pre-release. Additional documentation will come soon.**
-
-![periodicDNA](man/images/ubiquitous-promoters_TT-periodicity.png)
+![](man/images/TT_tissue-specific-classes.png)
+![](man/images/WW-TT-AA-10bp-periodicity_tissue-spe-TSSs.png)
 
 ## Introduction
 
 This R package helps the user to identify very short sequences (e.g. di- or 
 tri-nucleotides) present periodically in a set of genomic loci (typically 
 regulatory elements). It is not aimed at identifying motifs separated by a 
-conserved distance - for this analysis, please visit [MEME](http://meme-suite.org)
-website.
+conserved distance; for this type of analysis, please visit 
+[MEME](http://meme-suite.org) website.
 
 ## Installation
 
@@ -32,8 +31,7 @@ require(magrittr)
 require(GenomicRanges)
 require(ggplot2)
 ce_seq <- Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11)
-ce_proms <- readRDS(url('http://ahringerlab.com/periodicDNA/ce11_annotated_REs.rds')) %>% 
-    '['(.$is.prom)
+ce_proms <- readRDS(url('http://ahringerlab.com/VplotR/promoters_Granges.rds'))
 ```
 
 ## Dinucleotide periodicity over a set of Genomic Ranges
@@ -51,7 +49,7 @@ ubiq_TT <- getPeriodicity(
 list_plots <- plotPeriodicityResults(ubiq_TT)
 ``` 
 
-![TT-periodicity](examples/png/ubiquitous-promoters_TT-periodicity.png)
+![TT-periodicity](man/images/ubiquitous-promoters_TT-periodicity.png)
 
 ## Make track of periodicity over a set of Genomic Ranges
 
@@ -69,7 +67,7 @@ generatePeriodicityTrack(
     granges = ce_proms, 
     MOTIF = 'TT',
     FREQ = 1/10,
-    PROCS = 100, 
+    PROCS = 12, 
     GENOME.WINDOW.SIZE = 100, 
     GENOME.WINDOW.SLIDING = 2, # can be 1 for single-base resolution
     BIN.WINDOW.SIZE = 60, # Set BIN.WINDOW.SIZE == GENOME.WINDOW.SIZE for no sliding window
