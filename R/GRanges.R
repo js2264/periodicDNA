@@ -223,7 +223,7 @@ plotAggregateCoverage.SimpleRleList <- function(
         if (unique(GenomicRanges::width(g)) < 2) {
             stop('Please provide only GRanges with widths >=2. Aborting.')
         }
-        mat <- getCovMatrix(g, bw, verbose = FALSE, nrom = norm)
+        mat <- getCovMatrix(g, bw, verbose = FALSE, norm = norm)
         colnames(mat) <- c(
             -unique(GenomicRanges::width(g))/2, 
             rep('', (ncol(mat) - 3)/2), 

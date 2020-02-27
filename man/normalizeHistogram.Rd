@@ -4,7 +4,7 @@
 \alias{normalizeHistogram}
 \title{Internal function to normalize a pairwise distance}
 \usage{
-normalizeHistogram(hist, roll = 1)
+normalizeHistogram(hist, roll = 1, doZscore = TRUE)
 }
 \arguments{
 \item{hist}{Vector a numeric vector}

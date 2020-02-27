@@ -11,7 +11,7 @@
   xlab = "Center of elements", ylab = "Score", xlim = NULL,
   ylim = NULL, quartiles = c(0.025, 0.975), verbose = FALSE,
   bin = 1, plot_central = TRUE, runInParallel = TRUE,
-  split_by_granges = FALSE, ...)
+  split_by_granges = FALSE, norm = "none", ...)
 }
 \arguments{
 \item{bw}{a single signal track (SimpleRleList class)}
@@ -41,6 +41,9 @@ by zoo::rollMean}
 mclapply?}
 
 \item{split_by_granges}{Boolean Facet plots over the sets of GRanges}
+
+\item{norm}{character Should the signal be normalized 
+('none', 'zscore' or 'log2')?}
 }
 \value{
 A plot of aggregated signals
