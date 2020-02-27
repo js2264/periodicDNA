@@ -1,7 +1,7 @@
 Package: periodicDNA
 Type: Package
 Title: Probing DNA sequences for periodic oligonucleotides
-Version: 0.1.1
+Version: 0.2.0
 Author: Jacques Serizay
 Maintainer: Jacques Serizay <js2264@cam.ac.uk>
 Description: The functions in this package provide a straightforward approach 

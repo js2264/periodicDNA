@@ -182,12 +182,14 @@ plotAggregateCoverage.CompressedRleList <- function(bw, granges, ...) {
 #' @param runInParallel Boolean Should the plots be computed in parallel using 
 #'   mclapply?
 #' @param split_by_granges Boolean Facet plots over the sets of GRanges
+#' @param norm character Should the signal be normalized 
+#'   ('none', 'zscore' or 'log2')?
 #' 
 #' @return A plot of aggregated signals
 #' 
 #' @import GenomicRanges
 #' @import ggplot2
-#' @import zoo
+#' @importFrom zoo rollmean
 #' @import parallel
 #' 
 #' @export
@@ -206,6 +208,7 @@ plotAggregateCoverage.SimpleRleList <- function(
     plot_central = TRUE,
     runInParallel = TRUE,
     split_by_granges = FALSE,
+    norm = 'none',
     ...
 ) 
 {
@@ -220,7 +223,7 @@ plotAggregateCoverage.SimpleRleList <- function(
         if (unique(GenomicRanges::width(g)) < 2) {
             stop('Please provide only GRanges with widths >=2. Aborting.')
         }
-        mat <- getCovMatrix(g, bw, verbose = FALSE)
+        mat <- getCovMatrix(g, bw, verbose = FALSE, nrom = norm)
         colnames(mat) <- c(
             -unique(GenomicRanges::width(g))/2, 
             rep('', (ncol(mat) - 3)/2), 
@@ -345,7 +348,7 @@ plotAggregateCoverage.SimpleRleList <- function(
 #' 
 #' @import GenomicRanges
 #' @import ggplot2
-#' @import zoo
+#' @importFrom zoo rollmean
 #' @import parallel
 #' 
 #' @return A plot of aggregated signals
