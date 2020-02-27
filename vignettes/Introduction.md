@@ -1,7 +1,7 @@
 ---
 title: "Introduction to perioDNA"
 author: "Jacques Serizay"
-date: "`r Sys.Date()`"
+date: "2020-02-27"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction Title}
