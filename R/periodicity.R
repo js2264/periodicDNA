@@ -67,7 +67,8 @@ getPeriodicity.DNAStringSet <- function(
     cores = 2, 
     roll = 3,
     verbose = TRUE, 
-    sample = 0
+    sample = 0, 
+    doZscore = TRUE
 )
 {
     # Get pairwise distances ---------------------------------------------------
@@ -124,7 +125,7 @@ getPeriodicity.DNAStringSet <- function(
     else {bg_hist <- NULL}
     if (verbose) message("- Normalizing histogram vector.")
     if (length(hist) > 10) {
-        norm_hist <- normalizeHistogram(hist, roll)
+        norm_hist <- normalizeHistogram(hist, roll, doZscore)
     } 
     else {
         norm_hist <- hist
@@ -259,16 +260,21 @@ getPeriodicity.GRanges <- function(
 #' @export
 #' @return a normalized vector
 
-normalizeHistogram <- function(hist, roll = 1) {
+normalizeHistogram <- function(hist, roll = 1, doZscore = TRUE) {
     h <- hist
     h <- h / sum(h) # Normalize to total number of pairwise distances
     smoothed.h <- c(
         zoo::rollmean(h, k = 10), 
         rep(0, 9)
     ) # Smoothed distribution
-    norm.h <- scale(
-        h - smoothed.h
-    ) # Substract smoothed distribution and then z-score
+    if (doZscore) {
+        norm.h <- scale(
+            h - smoothed.h
+        ) # Substract smoothed distribution and then z-score
+    } 
+    else {
+        norm.h <- h - smoothed.h
+    }
     norm.h <- zoo::rollmean(
         norm.h, k = roll, na.pad = TRUE, align = 'center'
     ) # Smooth the normalized distribution 

@@ -2,7 +2,7 @@
 
 **periodicDNA is still in pre-release. Additional documentation will come soon.**
 
-![periodicDNA](examples/png/ubiquitous-promoters_TT-periodicity.png)
+![periodicDNA](man/images/ubiquitous-promoters_TT-periodicity.png)
 
 ## Introduction
 
