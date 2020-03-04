@@ -40,7 +40,7 @@ can be very strong in vertebrate genomes)}
 \item{sample}{Integer if > 0, will randomly sample this many integers
 from the dists vector before normalization. This ensures consistency 
 when looking at periodicity in different genomes, since different genomes
-will have different GC%}
+will have different GC percent}
 }
 \value{
 List a list containing the results of getPeriodicity function. The 

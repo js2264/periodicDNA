@@ -18,7 +18,7 @@ getPeriodicity <- function(x, ...) {
 
 #' Function to compute the overall periodicity of a motif over a set of 
 #'   sequences.
-#'
+#' 
 #' @param seqs a DNAStringSet
 #' @param bg_seqs a DNAStringSet (ideally from random loci) for genome 
 #'   background model
@@ -38,12 +38,8 @@ getPeriodicity <- function(x, ...) {
 #' @param sample Integer if > 0, will randomly sample this many integers
 #'   from the dists vector before normalization. This ensures consistency 
 #'   when looking at periodicity in different genomes, since different genomes
-#'   will have different GC%
-#' @import parallel
-#' @import Biostrings
-#' @import IRanges
-#' @importFrom stats spectrum
-#' @export
+#'   will have different GC percent
+#' 
 #' @return List a list containing the results of getPeriodicity function. The 
 #' dists vector is the raw vector of all pairwise distances between dinucleotides. 
 #' The hist dataframe is the distribution of distances over RANGE_FOR_SPECTRUM. 
@@ -55,6 +51,13 @@ getPeriodicity <- function(x, ...) {
 #' The signal_to_noise_ratio is a dataframe containing enrichment scores of
 #' dinucleotide periodicity, for each period in the period vector. 
 #' The motif character is the analysed dinucleotide.
+#' 
+#' @import parallel
+#' @import Biostrings
+#' @import IRanges
+#' @importFrom stats spectrum
+#' 
+#' @export
 
 getPeriodicity.DNAStringSet <- function(
     seqs, 
@@ -214,7 +217,7 @@ getPeriodicity.DNAStringSet <- function(
 # }
 
 #' Core function
-#'
+#' 
 #' @param granges a GRanges
 #' @param bg a GRanges to estimate background periodicity. 
 #' @param genome DNAStringSet object. The sequence of an entire genome, 
