@@ -260,12 +260,12 @@ getPeriodicity.GRanges <- function(
 #' @export
 #' @return a normalized vector
 
-normalizeHistogram <- function(hist, roll = 1, doZscore = TRUE) {
+normalizeHistogram <- function(hist, roll = 1, doZscore = TRUE, roll_smoothed.h = 10) {
     h <- hist
     h <- h / sum(h) # Normalize to total number of pairwise distances
     smoothed.h <- c(
-        zoo::rollmean(h, k = 10), 
-        rep(0, 9)
+        zoo::rollmean(h, k = roll_smoothed.h), 
+        rep(0, roll_smoothed.h-1)
     ) # Smoothed distribution
     if (doZscore) {
         norm.h <- scale(
