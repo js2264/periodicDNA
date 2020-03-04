@@ -24,6 +24,5 @@ Imports:
     S4Vectors,
     parallel,
     rtracklayer,
-    zoo
-Suggests:
+    zoo,
     ggplot2
