@@ -42,7 +42,7 @@ getPeriodicity <- function(x, ...) {
 #' @import parallel
 #' @import Biostrings
 #' @import IRanges
-#' @import stats
+#' @importFrom stats spectrum
 #' @export
 #' @return List a list containing the results of getPeriodicity function. The 
 #' dists vector is the raw vector of all pairwise distances between dinucleotides. 
