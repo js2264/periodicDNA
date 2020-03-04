@@ -21,37 +21,30 @@ devtools::install_github("js2264/periodicDNA")
 library(periodicDNA)
 ```
 
-## Overview
+## Quick use
 
-To begin, a genome sequence and a set of genomic loci must be defined. Let's 
-focus on the C. elegans genome for now, and more specifically around its TSSs. 
+### Dinucleotide periodicity over a set of Genomic Ranges
 
-```r
-require(magrittr)
-require(GenomicRanges)
-require(ggplot2)
-ce_seq <- Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11)
-ce_proms <- readRDS(url('http://ahringerlab.com/VplotR/promoters_Granges.rds'))
-```
-
-## Dinucleotide periodicity over a set of Genomic Ranges
-
-Let's look at the TT 10-bp periodicity strength around ubiquitous promoters:
+`getPeriodicity()` is used to quantify the overall periodicity of a 
+given motif over a set of genomic ranges.
 
 ```r
-MOTIF <- 'TT'
-ubiq_TT <- getPeriodicity(
-    alignToTSS(ce_proms[ce_proms$which.tissues == 'Ubiq.'], 30, 500), 
-    genome = ce_seq, 
-    motif = MOTIF, 
+library(periodicDNA)
+library(periodicDNA)
+periodicity_result <- getPeriodicity(
+    readRDS(url('http://ahringerlab.com/VplotR/promoters_Granges.rds')),
+    genome = Biostrings::getSeq(
+        BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
+    ), 
+    motif = 'TT', 
     cores = 4
 )
-list_plots <- plotPeriodicityResults(ubiq_TT)
-``` 
+list_plots <- plotPeriodicityResults(periodicity_result)
+```
 
 ![TT-periodicity](man/images/ubiquitous-promoters_TT-periodicity.png)
 
-## Make track of periodicity over a set of Genomic Ranges
+### Make track of periodicity over a set of Genomic Ranges
 
 The other major use of this package is to generate specific tracks 
 over a set of loci, e.g. the strength of WW 10-pb periodicity over promoters.  
@@ -63,8 +56,10 @@ We highly recommand the user to run this command in a new `screen` session.
 
 ```r
 generatePeriodicityTrack(
-    ce_seq,
-    granges = ce_proms, 
+    Biostrings::getSeq(
+        BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
+    ),
+    granges = granges, 
     MOTIF = 'TT',
     FREQ = 1/10,
     PROCS = 12, 
@@ -76,8 +71,17 @@ generatePeriodicityTrack(
 )
 ```
 
-## Other functions of the package
+## Advanced use
 
 Please read the [Introduction](vignettes/Introduction.md) vignette 
 for a full presentation of the package functions.
 
+## Contributions
+Code contributions, bug reports, fixes and feature requests are most welcome.
+Please make any pull requests against the master branch at 
+https://github.com/js2264/periodicityDNA
+and file issues at https://github.com/js2264/periodicityDNA/issues
+
+
+## License 
+**periodicDNA** is licensed under the MIT license.

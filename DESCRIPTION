@@ -2,13 +2,16 @@ Package: periodicDNA
 Type: Package
 Title: Probing DNA sequences for periodic oligonucleotides
 Version: 0.2.0
+Date: 2020-03-04
+Encoding: UTF-8
 Author: Jacques Serizay
-Maintainer: Jacques Serizay <js2264@cam.ac.uk>
+Maintainer: Jacques Serizay <jacquesserizay@gmail.com>
 Description: The functions in this package provide a straightforward approach 
     to identify local periodic elements in short sequences such as regulatory 
     elements. 
+URL: www.github.com/js2264/periodicDNA
+BugReports: https://github.com/js2264/periodicDNA/issues
 License: MIT
-Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1.9000
 Imports: 
@@ -18,9 +21,9 @@ Imports:
     GenomicRanges,
     IRanges,
     magrittr, 
-    ggplot2, 
     S4Vectors,
     parallel,
-    reshape2,
     rtracklayer,
     zoo
+Suggests:
+    ggplot2
