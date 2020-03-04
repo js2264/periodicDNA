@@ -52,7 +52,7 @@ getPeriodicity <- function(x, ...) {
 #' dinucleotide periodicity, for each period in the period vector. 
 #' The motif character is the analysed dinucleotide.
 #' 
-#' @import parallel
+#' @importFrom parallel mclapply
 #' @import Biostrings
 #' @import IRanges
 #' @importFrom stats spectrum

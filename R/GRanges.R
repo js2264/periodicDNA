@@ -190,7 +190,7 @@ plotAggregateCoverage.CompressedRleList <- function(bw, granges, ...) {
 #' @import GenomicRanges
 #' @import ggplot2
 #' @importFrom zoo rollmean
-#' @import parallel
+#' @importFrom parallel mclapply
 #' 
 #' @export
 
@@ -349,7 +349,7 @@ plotAggregateCoverage.SimpleRleList <- function(
 #' @import GenomicRanges
 #' @import ggplot2
 #' @importFrom zoo rollmean
-#' @import parallel
+#' @importFrom parallel mclapply
 #' 
 #' @return A plot of aggregated signals
 #' 
