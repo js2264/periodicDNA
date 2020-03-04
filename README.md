@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/js2264/periodicDNA.svg?branch=master)](https://travis-ci.com/js2264/periodicDNA)
+
 # periodicDNA
 
 ![](man/images/TT_tissue-specific-classes.png)

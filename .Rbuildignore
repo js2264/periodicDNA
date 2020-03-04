@@ -1,3 +1,7 @@
 ^pkgdown$
 ^docs$
 ^paper$
+.travis.yml
+LICENSE
+CONDUCT
+TODO
