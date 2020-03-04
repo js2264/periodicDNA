@@ -248,11 +248,29 @@ binWrapper <- function(grange, genome, MOTIF, BIN.WINDOW.SIZE, BIN.WINDOW.SLIDIN
 #' @return list A GRanges object
 
 partitionBin <- function(grange, genome, BIN.WINDOW.SIZE, BIN.WINDOW.SLIDING) {
-    genome.Seqinfo <- GenomeInfoDb::Seqinfo(seqnames = names(genome), seqlengths = lengths(genome), isCircular = rep(F, length(genome)), genome = 'custom')
-    genome.granges <- GenomicRanges::GRanges(seqnames = GenomicRanges::seqnames(genome.Seqinfo), IRanges::IRanges(start = rep(1, length(genome.Seqinfo)), width = GenomeInfoDb::seqlengths(genome.Seqinfo)))
+    genome.Seqinfo <- GenomeInfoDb::Seqinfo(
+        seqnames = names(genome), 
+        seqlengths = lengths(genome), 
+        isCircular = rep(F, length(genome)), 
+        genome = 'custom'
+    )
+    genome.granges <- GenomicRanges::GRanges(
+        seqnames = GenomicRanges::seqnames(genome.Seqinfo), 
+        IRanges::IRanges(
+            start = rep(1, length(genome.Seqinfo)), 
+            width = GenomeInfoDb::seqlengths(genome.Seqinfo)
+        )
+    )
     GenomeInfoDb::seqinfo(genome.granges) <- genome.Seqinfo
-    starts <- seq(IRanges::start(grange), IRanges::start(grange) + GenomicRanges::width(grange) - BIN.WINDOW.SIZE, BIN.WINDOW.SLIDING)
-    granges <- GenomicRanges::GRanges(seqnames = rep(GenomicRanges::seqnames(grange), length(starts)), IRanges::IRanges(start = starts, width = BIN.WINDOW.SIZE))
+    starts <- seq(
+        IRanges::start(grange), 
+        IRanges::start(grange) + GenomicRanges::width(grange) - BIN.WINDOW.SIZE, 
+        BIN.WINDOW.SLIDING
+    )
+    granges <- GenomicRanges::GRanges(
+        seqnames = rep(GenomicRanges::seqnames(grange), length(starts)),
+        IRanges::IRanges(start = starts, width = BIN.WINDOW.SIZE)
+    )
     return(granges)
 }
 

@@ -1,5 +1,7 @@
 #' Function to compute the overall periodicity of a motif over sequence(s). 
 #'
+#' @param x a DNAStringSet, or a GRanges
+#' 
 #' @return List a list containing the results of getPeriodicity function. The 
 #' dists vector is the raw vector of all distances between any possible dinucleotide. 
 #' The hist data.frame is the distribution of distances over RANGE_FOR_SPECTRUM. 
@@ -39,6 +41,7 @@ getPeriodicity <- function(x, ...) {
 #'   from the dists vector before normalization. This ensures consistency 
 #'   when looking at periodicity in different genomes, since different genomes
 #'   will have different GC percent
+#' @param doZscore Boolean should the normalized dampened signal be z-scored?
 #' 
 #' @return List a list containing the results of getPeriodicity function. The 
 #' dists vector is the raw vector of all pairwise distances between dinucleotides. 
