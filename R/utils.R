@@ -1,6 +1,6 @@
 #' A function to easily coerce a named list into a long data.frame
 #'
-#' @param x A named list.
+#' @param x A named list of vectors or data.frames
 #' 
 #' @return A long data frame
 #' 
