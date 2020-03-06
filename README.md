@@ -32,12 +32,10 @@ given motif over a set of genomic ranges.
 
 ```r
 library(periodicDNA)
-library(periodicDNA)
+data(ce_proms)
 periodicity_result <- getPeriodicity(
-    readRDS(url('http://ahringerlab.com/VplotR/promoters_Granges.rds')),
-    genome = Biostrings::getSeq(
-        BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
-    ), 
+    ce_proms,
+    genome = 'ce11',
     motif = 'TT', 
     cores = 4
 )

@@ -203,15 +203,15 @@ Or using multiple periodicity tracks:
 ```r
 list_periodicity_tracks <- list(
     'WW' = rtracklayer::import.bw(
-        'http://ahringerlab.com/periodicDNA/WW-10-bp-periodicity.bw',
+        'https://ahringerlab.com/periodicDNA/WW-10-bp-periodicity.bw',
         as = 'Rle'
     ) %>% scaleBigWigs(),
     'TT' = rtracklayer::import.bw(
-        'http://ahringerlab.com/periodicDNA/TT-10-bp-periodicity.bw',
+        'https://ahringerlab.com/periodicDNA/TT-10-bp-periodicity.bw',
         as = 'Rle'
     ) %>% scaleBigWigs(),
     'AA' = rtracklayer::import.bw(
-        'http://ahringerlab.com/periodicDNA/AA-10-bp-periodicity.bw',
+        'https://ahringerlab.com/periodicDNA/AA-10-bp-periodicity.bw',
         as = 'Rle'
     ) %>% scaleBigWigs()
 )

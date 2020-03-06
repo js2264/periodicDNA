@@ -58,6 +58,7 @@ getPeriodicity <- function(x, ...) {
 #' @importFrom parallel mclapply
 #' @import Biostrings
 #' @import IRanges
+#' @import magrittr
 #' @importFrom stats spectrum
 #' 
 #' @export
@@ -249,6 +250,22 @@ getPeriodicity.GRanges <- function(
     ...
 )
 {
+    if (class(genome) == 'character' & length(genome) > 1) {
+        genome <- genome[1]
+    }
+    if (genome %in% c('ce11', 'dm6', 'mm10', 'hg38', 'danRer10')) {
+        genome <- switch(
+            genome, 
+            'ce11' = BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11, 
+            'dm6' = BSgenome.Dmelanogaster.UCSC.dm6::BSgenome.Dmelanogaster.UCSC.dm6, 
+            'danRer10' = BSgenome.Drerio.UCSC.danRer10::BSgenome.Drerio.UCSC.danRer10, 
+            'mm10' = BSgenome.Mmusculus.UCSC.mm10::BSgenome.Mmusculus.UCSC.mm10, 
+            'hg38' = BSgenome.Hsapiens.UCSC.hg38::BSgenome.Hsapiens.UCSC.hg38
+        )
+    }
+    if (class(genome) == 'BSgenome') {
+        genome <- Biostrings::getSeq(genome)
+    }
     seqs <- withSeq(granges, genome)$seq
     if (!is.null(bg)) {
         bg_seqs <- withSeq(bg, genome)$seq
