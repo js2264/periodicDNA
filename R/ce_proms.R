@@ -1,4 +1,4 @@
-#' C. elegans promoters
+#' ce_proms
 #'
 #' Promoters annotated in C. elegans (ce11) according to Serizay et 
 #' al. 2020, "Tissue-specific profiling reveals distinctive regulatory 
