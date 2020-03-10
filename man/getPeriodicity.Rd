@@ -6,6 +6,9 @@
 \usage{
 getPeriodicity(x, ...)
 }
+\arguments{
+\item{x}{a DNAStringSet, or a GRanges}
+}
 \value{
 List a list containing the results of getPeriodicity function. The 
 dists vector is the raw vector of all distances between any possible dinucleotide. 

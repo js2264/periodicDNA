@@ -7,7 +7,7 @@
 namedListToLongFormat(x)
 }
 \arguments{
-\item{x}{A named list.}
+\item{x}{A named list of vectors or data.frames}
 }
 \value{
 A long data frame

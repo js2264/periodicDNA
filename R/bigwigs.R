@@ -12,14 +12,14 @@ scaleBigWigs <- function(bigWigs) {
         bigWig <- bigWigs
         ucov <- unlist(bigWig)
         mi <- mean(ucov)
-        mu <- sd(ucov)
+        mu <- S4Vectors::sd(ucov)
         zsc <- (bigWig-mi)/mu
         return(zsc)
     } else {
         l <- lapply(bigWigs, function(bigWig) {
             ucov <- unlist(bigWig)
             mi <- mean(ucov)
-            mu <- sd(ucov)
+            mu <- S4Vectors::sd(ucov)
             zsc <- (bigWig-mi)/mu
             return(zsc)
         })

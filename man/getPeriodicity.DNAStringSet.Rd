@@ -41,6 +41,8 @@ can be very strong in vertebrate genomes)}
 from the dists vector before normalization. This ensures consistency 
 when looking at periodicity in different genomes, since different genomes
 will have different GC percent}
+
+\item{doZscore}{Boolean should the normalized dampened signal be z-scored?}
 }
 \value{
 List a list containing the results of getPeriodicity function. The 

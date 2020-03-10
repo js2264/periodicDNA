@@ -4,16 +4,16 @@
 \alias{plotPeriodicityResults}
 \title{Plotting function}
 \usage{
-plotPeriodicityResults(results, HIST_YLIM = c(-1.5, 1.5))
+plotPeriodicityResults(results, norm_hist_ylim = c(-1.5, 1.5))
 }
 \arguments{
 \item{results}{The output of getPeriodicity function.}
 
-\item{HIST_YLIM}{Vector a numerical vector of length 2, to specify the y-axis 
+\item{norm_hist_ylim}{Vector a numerical vector of length 2, to specify the y-axis 
 limits of the first plot (normalized distribution of pairwise distances).}
 }
 \value{
-list A list containing three ggplots
+list A list containing four ggplots
 }
 \description{
 Plotting function

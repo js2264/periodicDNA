@@ -11,7 +11,6 @@ Description: The functions in this package provide a straightforward approach
     elements. 
 URL: www.github.com/js2264/periodicDNA
 BugReports: https://github.com/js2264/periodicDNA/issues
-License: MIT + file LICENSE
 LazyData: true
 RoxygenNote: 6.1.1.9000
 Depends:
@@ -29,4 +28,4 @@ Imports:
 Enhances:
     parallel
 biocViews:
-    
+License: MIT + file LICENSE
