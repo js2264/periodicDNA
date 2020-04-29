@@ -13,3 +13,19 @@ test_that("getPeriodicity works", {
         class(list_plots) == "list"
     }, TRUE)
 })
+
+test_that("getPeriodicity works with shuffling", {
+    expect_equal({
+        data(ce_proms)
+        periodicity_result <- getPeriodicity(
+            ce_proms[1:2],
+            genome = 'ce11',
+            motif = 'TT', 
+            cores = 1, 
+            skip_shuffling = FALSE, 
+            doZscore = TRUE
+        )
+        list_plots <- plotPeriodicityResults(periodicity_result)
+        class(list_plots) == "list"
+    }, TRUE)
+})
