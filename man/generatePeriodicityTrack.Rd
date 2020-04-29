@@ -9,7 +9,7 @@ dinucleotide at a given frequency, over a set of chosen GRanges.}
   generatePeriodicityTrack(genome = Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11),
   granges, MOTIF = "WW", EXTEND.GRANGES = 1000,
   GENOME.WINDOW.SIZE = 100, GENOME.WINDOW.SLIDING = 2,
-  BIN.WINDOW.SIZE = 60, BIN.WINDOW.SLIDING = 5,
+  BIN.WINDOW.SIZE = 100, BIN.WINDOW.SLIDING = 5,
   RANGE.FOR.SPECTRUM = 1:50, FREQ = 1/10, PROCS = 12,
   bw.file = NULL)
 }

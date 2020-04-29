@@ -1,5 +1,5 @@
 [![](https://travis-ci.org/js2264/periodicDNA.svg?branch=master)](https://travis-ci.org/js2264/periodicDNA)
-[![](https://codecov.io/gh/js2264/periodicDNA/branch/master/graph/badge.svg)](https://codecov.io/gh/js2264/periodicDNA)
+[![](https://codecov.io/gh/js2264/periodicDNA/branch/master/graph/badge.svg)](https://codecov.io/github/js2264/periodicDNA?branch=master)
 [![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![](https://img.shields.io/github/languages/code-size/js2264/periodicDNA.svg)](https://github.com/js2264/periodicDNA)
 
@@ -35,14 +35,16 @@ given motif over a set of genomic ranges.
 
 ```r
 library(periodicDNA)
-data(ce_proms)
+library(tidyverse)
+data(proms)
 periodicity_result <- getPeriodicity(
-    ce_proms,
+    proms,
     genome = 'ce11',
     motif = 'TT', 
     cores = 4
 )
-list_plots <- plotPeriodicityResults(periodicity_result)
+list_plots <- plotPeriodicityResults(periodicity_result) %>% 
+    cowplot::plot_grid(plotlist = ., nrow = 1)
 ```
 
 ![TT-periodicity](man/images/ubiquitous-promoters_TT-periodicity.png)
@@ -58,11 +60,12 @@ track over 15,000 GRanges of 150 bp (with default parameters) using `PROCS = 12`
 We highly recommand the user to run this command in a new `screen` session. 
 
 ```r
+data(ce_proms)
 generatePeriodicityTrack(
     Biostrings::getSeq(
         BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
     ),
-    granges = granges, 
+    granges = ce_proms, 
     MOTIF = 'TT',
     FREQ = 1/10,
     PROCS = 12, 
@@ -84,7 +87,6 @@ Code contributions, bug reports, fixes and feature requests are most welcome.
 Please make any pull requests against the master branch at 
 https://github.com/js2264/periodicityDNA
 and file issues at https://github.com/js2264/periodicityDNA/issues
-
 
 ## License 
 **periodicDNA** is licensed under the MIT license.

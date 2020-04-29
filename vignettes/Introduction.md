@@ -17,8 +17,9 @@ focus on the C. elegans genome for now, and more specifically around its TSSs.
 require(magrittr)
 require(GenomicRanges)
 require(ggplot2)
+require(periodicDNA)
+data(ce_proms)
 ce_seq <- Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11)
-ce_proms <- readRDS(url('http://ahringerlab.com/VplotR/promoters_Granges.rds'))
 ce_TSSs <- lapply(ce_proms, function(g) {
     deconvolveBidirectionalPromoters(g) %>% 
     alignToTSS(50, 300) %>%

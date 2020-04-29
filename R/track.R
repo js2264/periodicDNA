@@ -37,7 +37,7 @@ generatePeriodicityTrack <- function(
     EXTEND.GRANGES = 1000, 
     GENOME.WINDOW.SIZE = 100, 
     GENOME.WINDOW.SLIDING = 2, 
-    BIN.WINDOW.SIZE = 60, 
+    BIN.WINDOW.SIZE = 100, 
     BIN.WINDOW.SLIDING = 5, 
     RANGE.FOR.SPECTRUM = 1:50, 
     FREQ = 1/10, 
