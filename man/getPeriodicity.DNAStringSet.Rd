@@ -8,7 +8,8 @@
 \method{getPeriodicity}{DNAStringSet}(seqs, bg_seqs = NULL,
   model_background = FALSE, motif = "WW", RANGE_FOR_SPECTRUM = 1:200,
   period = seq(2, 20, 1), plot = FALSE, cores = 2, roll = 3,
-  verbose = TRUE, sample = 0, doZscore = TRUE)
+  verbose = TRUE, sample = 0, doZscore = FALSE,
+  skip_shuffling = TRUE, seed = 42)
 }
 \arguments{
 \item{seqs}{a DNAStringSet}

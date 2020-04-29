@@ -46,3 +46,80 @@ na.remove <- function(x) {
     which.na <- is.na(x)
     return(x[!which.na])
 }
+
+#' A function to quickly shuffle sequence(s)
+#'
+#' @param dna DNAString or DNAStringSet
+#' @param seed Integer
+#' 
+#' @return A DNAString or DNAStringSet
+#' 
+#' @import Biostrings
+#' @export
+
+shuffleSeq <- function(dna, seed = 17) {
+    if (class(dna) == 'DNAString') {
+        charvec <- strsplit(as.character(dna),"")[[1]]
+        set.seed(seed)
+        shuffled_charvec <- sample(charvec)
+        Biostrings::DNAString( paste(shuffled_charvec, collapse="") )
+    } else if (class(dna) == 'DNAStringSet') {
+        Biostrings::DNAStringSet(lapply(dna, function(seq) {
+            charvec <- strsplit(as.character(seq),"")[[1]]
+            set.seed(seed)
+            shuffled_charvec <- sample(charvec)
+            Biostrings::DNAString( paste(shuffled_charvec, collapse="") )
+        }))
+    }
+}
+
+#' A function to sample GRanges within GRanges
+#'
+#' @param granges a GRanges object
+#' @param n Integer
+#' 
+#' @return A GRanges object of length n
+#' 
+#' @import GenomicRanges
+#' @import IRanges
+#' @import GenomeInfoDb
+#' @export
+
+sampleGRanges <- function(granges, n, seed = 42){
+    set.seed(seed)
+    rand_c <- sample(
+        length(granges), n, replace = TRUE, prob = GenomicRanges::width(granges)
+    )
+    rand_ranges <- granges[rand_c]
+    rand <- sapply(GenomicRanges::width(rand_ranges), sample, size=1)
+    pos <- GenomicRanges::start(rand_ranges)+rand-1
+    res <- GenomicRanges::GRanges(
+        GenomicRanges::seqnames(rand_ranges), 
+        IRanges::IRanges(pos, width=1),
+        strand='*', 
+        seqinfo = GenomeInfoDb::seqinfo(granges), 
+        GenomicRanges::mcols(rand_ranges)
+    )
+    res <- sort(res)
+    return(res)
+}
+
+#' A function to generate a GRanges from a DNAStringSet
+#'
+#' @param seqs A DNAStringSet
+#' 
+#' @return A GRanges object
+#' 
+#' @import GenomicRanges
+#' @import IRanges
+#' @import GenomeInfoDb
+#' @export
+
+DNAStringSet2GRanges <- function(seqs) {
+    g <- GenomicRanges::GRanges(
+        names(seqs), 
+        IRanges::IRanges(1, width = lengths(seqs))
+    )
+    GenomeInfoDb::seqlengths(g) <- lengths(seqs)
+    return(g)
+}

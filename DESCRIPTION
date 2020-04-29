@@ -7,7 +7,7 @@ Encoding: UTF-8
 Author: Jacques Serizay
 Maintainer: Jacques Serizay <jacquesserizay@gmail.com>
 Description: The functions in this package provide a straightforward approach 
-    to identify local periodic elements in short sequences such as regulatory 
+    to identify periodic occurrences of k-mers or oligonucleotides in longer sequences such as regulatory 
     elements. 
 URL: www.github.com/js2264/periodicDNA
 BugReports: https://github.com/js2264/periodicDNA/issues
@@ -27,5 +27,13 @@ Imports:
     ggplot2
 Enhances:
     parallel
+Suggests:
+    BSgenome.Celegans.UCSC.ce11,
+    BSgenome.Dmelanogaster.UCSC.dm6,
+    BSgenome.Drerio.UCSC.danRer10,
+    BSgenome.Hsapiens.UCSC.hg38,
+    BSgenome.Mmusculus.UCSC.mm10,
+    testthat,
+    covr
 biocViews:
 License: MIT + file LICENSE
