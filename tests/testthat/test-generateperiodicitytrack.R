@@ -18,6 +18,7 @@ test_that("generateperiodicitytrack works", {
             bw.file = 'TT-10-bp-periodicity_over-proms_gwin100_bwin60_bslide5.bw'
         )
         track <- rtracklayer::import('TT-10-bp-periodicity_over-proms_gwin100_bwin60_bslide5.bw', as = 'Rle')
+        scaled_track <- scaleBigWigs(list('test' = track))
         scaled_track <- scaleBigWigs(track)
         vec <- na.replace(scaled_track, 0)
         vec <- na.remove(scaled_track)

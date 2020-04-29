@@ -110,8 +110,19 @@ plotPeriodicityResults <- function(results, periods = c(2, 20), filter_periods =
     }
 }
 
+#' Plotting function
+#'
+#' @param results The output of FPI function.
+#' @param periods Vector a numerical vector of length 2, to specify the
+#' x-axis limits 
+#' 
+#' @return ggplot A ggplot
+#' 
+#' @import ggplot2
+#' @import dplyr
+#' @export
 
-plotFPI <- function(fpi, periods = c(2, 20), filter_periods = TRUE) {
+plotFPI <- function(fpi, periods = c(2, 20)) {
     n_shuffled <- length(fpi$shuffled_spectra)
     x = c(
         1/fpi$observed_spectra$PSD$freq,
@@ -140,7 +151,7 @@ plotFPI <- function(fpi, periods = c(2, 20), filter_periods = TRUE) {
         ), 
         group = groups
     ) %>% 
-        filter(x >= periods[1] & x <= periods[2])
+        dplyr::filter(x >= periods[1] & x <= periods[2])
     p <- ggplot2::ggplot(df) + 
         ggplot2::aes(x = x, y = y) + 
         ggplot2::geom_point(

@@ -22,10 +22,6 @@ getPeriodicity <- function(x, ...) {
 #'   sequences.
 #' 
 #' @param seqs a DNAStringSet
-#' @param bg_seqs a DNAStringSet (ideally from random loci) for genome 
-#'   background model
-#' @param model_background Boolean Should the genome background be taken into 
-#'   account during normalization?
 #' @param motif a dinucleotide of interest
 #' @param RANGE_FOR_SPECTRUM Numeric vector The distances between nucleotides
 #' to take into consideration when performing Fast Fourier Transform.
@@ -65,8 +61,6 @@ getPeriodicity <- function(x, ...) {
 
 getPeriodicity.DNAStringSet <- function(
     seqs, 
-    bg_seqs = NULL,
-    model_background = FALSE, 
     motif = 'WW', 
     RANGE_FOR_SPECTRUM = 1:200,
     period = seq(2, 20, 1),
@@ -107,43 +101,19 @@ getPeriodicity.DNAStringSet <- function(
         ))
     }
     if (verbose) message("- ", length(dists), " k-mers found.")
-    if (sample < length(dists) & sample > 0 & is.null(bg_seqs)) {
+    if (sample < length(dists) & sample > 0) {
         if (verbose) message("- Sampling ", sample, " k-mers.")
         set.seed(222) 
         dists <- dists[sample(1:length(dists), sample)]
     }
     if (verbose) message("- Calculating pairwise distances.")
     hist <- hist(dists, breaks = seq(1, max(dists)+1, 1), plot = FALSE)$counts
-    if (!is.null(bg_seqs) & model_background) {
-        if (verbose) message("- Mapping k-mers in background.")
-        bg_dists <- parallel::mclapply(1:length(bg_seqs), function(k) {
-            seq <- bg_seqs[k]
-            Biostrings::vmatchPattern(
-                motif, 
-                seq, 
-                max.mismatch = 0, 
-                fixed = FALSE
-            )[[1]] %>% 
-                IRanges::start() %>% 
-                dist() %>% 
-                c()
-        }, mc.cores = cores) %>% unlist()
-        if (verbose) message("- Calculating pairwise distances in background.")
-        bg_hist <- hist(bg_dists, breaks = seq(1, max(bg_dists)+1, 1), plot = FALSE)$counts
-    } 
-    else {bg_hist <- NULL}
     if (verbose) message("- Normalizing histogram vector.")
     if (length(hist) > 10) {
         norm_hist <- normalizeHistogram(hist, roll, doZscore)
     } 
     else {
         norm_hist <- hist
-    }
-    if (!is.null(bg_hist) & model_background) {
-        if (verbose) message("- Normalizing histogram vector in background.")
-        norm_bg_hist <- normalizeHistogram(bg_hist, roll)
-        if (verbose) message("- Substracting background.")
-        norm_hist <- norm_hist - norm_bg_hist
     }
     # Fourier ------------------------------------------------------------------
     if (verbose) message("- Applying Fast Fourier Transform to the vector of distances.")
@@ -225,7 +195,7 @@ getPeriodicity.DNAStringSet <- function(
             ))
         }
         if (verbose) message("- SHUFFLING: ", length(dists_shuffled), " k-mers found.")
-        if (sample < length(dists_shuffled) & sample > 0 & is.null(bg_seqs)) {
+        if (sample < length(dists_shuffled) & sample > 0) {
             if (verbose) message("- Sampling ", sample, " k-mers.")
             set.seed(222) 
             dists_shuffled <- dists_shuffled[sample(1:length(dists_shuffled), sample)]
@@ -327,7 +297,6 @@ getPeriodicity.DNAStringSet <- function(
 #' Core function
 #' 
 #' @param granges a GRanges
-#' @param bg a GRanges to estimate background periodicity. 
 #' @param genome DNAStringSet object. The sequence of an entire genome, 
 #'   obtained for instance by running 
 #'   \code{Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11)}.
@@ -349,7 +318,6 @@ getPeriodicity.DNAStringSet <- function(
 
 getPeriodicity.GRanges <- function(
     granges,
-    bg = NULL, 
     genome = Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11), 
     ...
 )
@@ -371,12 +339,7 @@ getPeriodicity.GRanges <- function(
         genome <- Biostrings::getSeq(genome)
     }
     seqs <- withSeq(granges, genome)$seq
-    if (!is.null(bg)) {
-        bg_seqs <- withSeq(bg, genome)$seq
-    } else {
-        bg_seqs <- NULL
-    }
-    getPeriodicity(seqs, bg_seqs, ...)
+    getPeriodicity(seqs, ...)
 }
 
 #' Internal function to normalize a pairwise distance 
