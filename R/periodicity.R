@@ -75,7 +75,9 @@ getPeriodicity.DNAStringSet <- function(
     roll = 3,
     verbose = TRUE, 
     sample = 0, 
-    doZscore = TRUE
+    doZscore = FALSE,
+    skip_shuffling = TRUE, 
+    seed = 42
 )
 {
     # Get pairwise distances ---------------------------------------------------
@@ -175,6 +177,96 @@ getPeriodicity.DNAStringSet <- function(
         SNR = sapply(1:length(mtm), function(x) {mtm[x]/mean(mtm[-x])})
     )
     # Return all results -------------------------------------------------------
+    if (skip_shuffling) {
+        return(list(
+            dists = dists, 
+            hist = data.frame(
+                distance = seq(1, max(dists), 1), 
+                counts = hist
+            ), 
+            normalized_hist = data.frame(
+                distance = seq(1, max(dists), 1), 
+                norm_counts = norm_hist
+            ),
+            spectra = spectra, 
+            PSD = PSD,
+            signal_to_noise_ratio = ratios, 
+            motif = motif
+        ))
+    }
+    #
+    # DO THE SAME FOR SHUFFLED SEQUENCES ----------------------------------------
+    {
+        if (verbose) message("- SHUFFLING: suffling sequences.")
+        seqs <- shuffleSeq(seqs, seed)
+        if (verbose) message("- SHUFFLING: Mapping k-mers.")
+        dists_shuffled <- parallel::mclapply(1:length(seqs), function(k) {
+            seq <- seqs[k]
+            Biostrings::vmatchPattern(
+                motif, 
+                seq, 
+                max.mismatch = 0, 
+                fixed = FALSE
+            )[[1]] %>% 
+                IRanges::start() %>% 
+                dist() %>% 
+                c()
+        }, mc.cores = cores) %>% unlist()
+        if (length(dists_shuffled) < 10) {
+            if (verbose) message("- Only ", length(dists_shuffled), " pairs of k-mers found. Returning null results")
+            return(list(
+                dists = dists_shuffled, 
+                hist = 0, 
+                normalized_hist = 0,
+                spectra = 0, 
+                PSD = 0,
+                signal_to_noise_ratio = 0, 
+                motif = motif
+            ))
+        }
+        if (verbose) message("- SHUFFLING: ", length(dists_shuffled), " k-mers found.")
+        if (sample < length(dists_shuffled) & sample > 0 & is.null(bg_seqs)) {
+            if (verbose) message("- Sampling ", sample, " k-mers.")
+            set.seed(222) 
+            dists_shuffled <- dists_shuffled[sample(1:length(dists_shuffled), sample)]
+        }
+        if (verbose) message("- SHUFFLING: Calculating pairwise distances.")
+        hist_shuffled <- hist(dists_shuffled, breaks = seq(1, max(dists_shuffled)+1, 1), plot = FALSE)$counts
+        if (verbose) message("- SHUFFLING: Normalizing histogram vector.")
+        if (length(hist_shuffled) > 10) {
+            norm_hist_shuffled <- normalizeHistogram(hist_shuffled, roll, doZscore)
+        } 
+        else {
+            norm_hist_shuffled <- hist_shuffled
+        }
+        # Fourier ------------------------------------------------------------------
+        if (verbose) message("- SHUFFLING: Applying Fast Fourier Transform to the vector of distances.")
+        if (max(dists_shuffled) < tail(RANGE_FOR_SPECTRUM, 1)) {
+            if (verbose) message(
+                'Range (', 
+                head(RANGE_FOR_SPECTRUM, 1), ':', tail(RANGE_FOR_SPECTRUM, 1), 
+                ') is wider than any range in the current distances vector. Shortening the range from ', 
+                head(RANGE_FOR_SPECTRUM, 1), ' to ', max(dists_shuffled), '...'
+            )
+            RANGE_FOR_SPECTRUM <- head(RANGE_FOR_SPECTRUM, 1):max(dists_shuffled)
+        }
+        spectra_shuffled <- norm_hist_shuffled %>%
+                '['(RANGE_FOR_SPECTRUM) %>% 
+                stats::spectrum(plot = FALSE)
+        PSD_shuffled <- data.frame(
+            freq = spectra_shuffled$freq, 
+            PSD = spectra_shuffled$spec
+        )
+        # Get signal-to-noise ratio ------------------------------------------------
+        if (verbose) message("- SHUFFLING: Computing signal-to-noise ratios.")
+        mtm_shuffled <- spectra_shuffled$spec[unlist(lapply(c(1/(period)), function (freq) {
+            idx <- which.min(abs(freq - spectra_shuffled$freq))
+        }))]
+        ratios_shuffled <- data.frame(
+            period = period,
+            SNR = sapply(1:length(mtm_shuffled), function(x) {mtm_shuffled[x]/mean(mtm_shuffled[-x])})
+        )
+    }
     return(list(
         dists = dists, 
         hist = data.frame(
@@ -188,6 +280,18 @@ getPeriodicity.DNAStringSet <- function(
         spectra = spectra, 
         PSD = PSD,
         signal_to_noise_ratio = ratios, 
+        dists_shuffled = dists_shuffled, 
+        hist_shuffled = data.frame(
+            distance = seq(1, max(dists_shuffled), 1), 
+            counts = hist_shuffled
+        ), 
+        normalized_hist_shuffled = data.frame(
+            distance = seq(1, max(dists_shuffled), 1), 
+            norm_counts = norm_hist_shuffled
+        ),
+        spectra_shuffled = spectra_shuffled, 
+        PSD_shuffled = PSD_shuffled,
+        signal_to_noise_ratio_shuffled = ratios_shuffled, 
         motif = motif
     ))
 }
