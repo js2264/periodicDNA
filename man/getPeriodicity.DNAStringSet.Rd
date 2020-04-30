@@ -5,20 +5,13 @@
 \title{Function to compute the overall periodicity of a motif over a set of 
   sequences.}
 \usage{
-\method{getPeriodicity}{DNAStringSet}(seqs, bg_seqs = NULL,
-  model_background = FALSE, motif = "WW", RANGE_FOR_SPECTRUM = 1:200,
-  period = seq(2, 20, 1), plot = FALSE, cores = 2, roll = 3,
-  verbose = TRUE, sample = 0, doZscore = FALSE,
-  skip_shuffling = TRUE, seed = 42)
+\method{getPeriodicity}{DNAStringSet}(seqs, motif = "WW",
+  RANGE_FOR_SPECTRUM = 1:200, period = seq(2, 20, 1), plot = FALSE,
+  cores = 2, roll = 3, verbose = TRUE, sample = 0,
+  doZscore = FALSE, skip_shuffling = TRUE, seed = 42)
 }
 \arguments{
 \item{seqs}{a DNAStringSet}
-
-\item{bg_seqs}{a DNAStringSet (ideally from random loci) for genome 
-background model}
-
-\item{model_background}{Boolean Should the genome background be taken into 
-account during normalization?}
 
 \item{motif}{a dinucleotide of interest}
 

@@ -14,7 +14,8 @@ plotPeriodicityResults <- function(results, periods = c(2, 20), filter_periods =
         d <- rbind(
             cbind(results$hist[-c(1:5),], type = 'observed'),
             cbind(results$hist_shuffled[-c(1:5),], type = 'shuffled')
-        ) %>% mutate(type = factor(type))
+        )
+        d$type = factor(d$type)
         p0 <- ggplot2::ggplot(d, ggplot2::aes(x = distance, y = counts, col = type)) + 
             ggplot2::geom_line(alpha = c(1, 0.4)[d$type]) +
             ggplot2::theme_classic() + 
@@ -23,7 +24,8 @@ plotPeriodicityResults <- function(results, periods = c(2, 20), filter_periods =
         d <- rbind(
             cbind(results$normalized_hist %>% '['(-c(1:5, (nrow(.)-1):nrow(.)),), type = 'observed'),
             cbind(results$normalized_hist_shuffled %>% '['(-c(1:5, (nrow(.)-1):nrow(.)),), type = 'shuffled')
-        ) %>% mutate(type = factor(type))
+        )
+        d$type = factor(d$type)
         p1 <- ggplot2::ggplot(d) + 
             ggplot2::aes(x = distance, y = norm_counts, col = type) + 
             ggplot2::geom_line(alpha = c(1, 0.4)[d$type]) +
@@ -119,7 +121,6 @@ plotPeriodicityResults <- function(results, periods = c(2, 20), filter_periods =
 #' @return ggplot A ggplot
 #' 
 #' @import ggplot2
-#' @import dplyr
 #' @export
 
 plotFPI <- function(fpi, periods = c(2, 20)) {
@@ -150,8 +151,8 @@ plotFPI <- function(fpi, periods = c(2, 20)) {
             rep('shuffled', length(x)-length(fpi$observed_spectra$PSD$freq))
         ), 
         group = groups
-    ) %>% 
-        dplyr::filter(x >= periods[1] & x <= periods[2])
+    )
+    df <- df[x >= periods[1] & x <= periods[2],]
     p <- ggplot2::ggplot(df) + 
         ggplot2::aes(x = x, y = y) + 
         ggplot2::geom_point(

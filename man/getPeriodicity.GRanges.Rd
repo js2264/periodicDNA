@@ -4,14 +4,12 @@
 \alias{getPeriodicity.GRanges}
 \title{Core function}
 \usage{
-\method{getPeriodicity}{GRanges}(granges, bg = NULL,
+\method{getPeriodicity}{GRanges}(granges,
   genome = Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11),
   ...)
 }
 \arguments{
 \item{granges}{a GRanges}
-
-\item{bg}{a GRanges to estimate background periodicity.}
 
 \item{genome}{DNAStringSet object. The sequence of an entire genome, 
 obtained for instance by running 
