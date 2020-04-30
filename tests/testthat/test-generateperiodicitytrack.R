@@ -26,6 +26,10 @@ test_that("generateperiodicitytrack works", {
             track, 
             ce_proms
         )
+        p <- plotAggregateCoverage(
+            list('test' = track), 
+            ce_proms
+        )
         unlink('TT-10-bp-periodicity_over-proms_gwin100_bwin60_bslide5.bw')
         any(class(p) == "gg")
     }, TRUE)

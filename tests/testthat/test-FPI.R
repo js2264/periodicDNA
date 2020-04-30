@@ -11,7 +11,8 @@ test_that("FPI works", {
         rand_regions_seq <- ce_proms_seqs[rand_regions]
         fpi <- FPI(
             rand_regions_seq,
-            motif = 'TT'
+            motif = 'TT', 
+            parallel_shuffling = 1
         )
         p <- plotFPI(fpi)
         class(p)[[1]] == "gg"
