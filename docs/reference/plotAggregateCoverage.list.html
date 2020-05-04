@@ -6,8 +6,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A function to plot aggregated signals (from a named list of signal tracks) 
-  over sets of GRanges — plotAggregateCoverage.list • periodicDNA</title>
+<title>A function to plot aggregated signals 
+    (from a named list of signal tracks) 
+    over sets of GRanges — plotAggregateCoverage.list • periodicDNA</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -33,11 +34,13 @@
 
 
 
-<meta property="og:title" content="A function to plot aggregated signals (from a named list of signal tracks) 
-  over sets of GRanges — plotAggregateCoverage.list" />
+<meta property="og:title" content="A function to plot aggregated signals 
+    (from a named list of signal tracks) 
+    over sets of GRanges — plotAggregateCoverage.list" />
 
-<meta property="og:description" content="A function to plot aggregated signals (from a named list of signal tracks) 
-  over sets of GRanges" />
+<meta property="og:description" content="A function to plot aggregated signals 
+    (from a named list of signal tracks) 
+    over sets of GRanges" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -69,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -83,6 +86,18 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/introduction-to-periodicdna.html">Introduction to periodicDNA</a>
+    </li>
+  </ul>
 </li>
       </ul>
       
@@ -101,21 +116,23 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A function to plot aggregated signals (from a named list of signal tracks) 
-  over sets of GRanges</h1>
+    <h1>A function to plot aggregated signals 
+    (from a named list of signal tracks) 
+    over sets of GRanges</h1>
     
     <div class="hidden name"><code>plotAggregateCoverage.list.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>A function to plot aggregated signals (from a named list of signal tracks) 
-  over sets of GRanges</p>
+    <p>A function to plot aggregated signals 
+    (from a named list of signal tracks) 
+    over sets of GRanges</p>
     
     </div>
 
     <pre class="usage"><span class='co'># S3 method for list</span>
-<span class='fu'>plotAggregateCoverage</span>(<span class='no'>bw_list</span>, <span class='no'>granges</span>,
+<span class='fu'><a href='plotAggregateCoverage.html'>plotAggregateCoverage</a></span>(<span class='no'>x</span>, <span class='no'>granges</span>,
   <span class='kw'>colors</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#991919"</span>, <span class='st'>"#1232D9"</span>, <span class='st'>"#3B9B46"</span>, <span class='st'>"#D99B12"</span>, <span class='st'>"#7e7e7e"</span>,
   <span class='st'>"#D912D4"</span>, <span class='st'>"#9E7FCC"</span>, <span class='st'>"#B0E797"</span>, <span class='st'>"#D1B3B3"</span>, <span class='st'>"#23A4A3"</span>, <span class='st'>"#000000"</span>), <span class='fl'>5</span>),
   <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"Center of elements"</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"Score"</span>, <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -128,7 +145,7 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>bw_list</th>
+      <th>x</th>
       <td><p>several signal tracks (SimpleRleList or CompressedRleList class) 
 grouped in a named list</p></td>
     </tr>
@@ -193,6 +210,10 @@ mclapply?</p></td>
       <th>norm</th>
       <td><p>character Should the signals be normalized 
 ('none', 'zscore' or 'log2')?</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>additional parameters</p></td>
     </tr>
     </table>
     

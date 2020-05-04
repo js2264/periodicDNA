@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function to compute the overall periodicity of a motif over sequence(s). — getPeriodicity • periodicDNA</title>
+<title>Function to compute the overall periodicity of a 
+    motif over sequence(s). — getPeriodicity • periodicDNA</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,9 +33,11 @@
 
 
 
-<meta property="og:title" content="Function to compute the overall periodicity of a motif over sequence(s). — getPeriodicity" />
+<meta property="og:title" content="Function to compute the overall periodicity of a 
+    motif over sequence(s). — getPeriodicity" />
 
-<meta property="og:description" content="Function to compute the overall periodicity of a motif over sequence(s)." />
+<meta property="og:description" content="Function to compute the overall periodicity of a 
+    motif over sequence(s)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -66,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -80,6 +83,18 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/introduction-to-periodicdna.html">Introduction to periodicDNA</a>
+    </li>
+  </ul>
 </li>
       </ul>
       
@@ -98,36 +113,53 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Function to compute the overall periodicity of a motif over sequence(s).</h1>
+    <h1>Function to compute the overall periodicity of a 
+    motif over sequence(s).</h1>
     
     <div class="hidden name"><code>getPeriodicity.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Function to compute the overall periodicity of a motif over sequence(s).</p>
+    <p>Function to compute the overall periodicity of a 
+    motif over sequence(s).</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>getPeriodicity</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
-        
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>a DNAStringSet, or a GRanges</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>additional parameters</p></td>
+    </tr>
+    </table>
+    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>List a list containing the results of getPeriodicity function. The 
-dists vector is the raw vector of all distances between any possible dinucleotide. 
-The hist data.frame is the distribution of distances over RANGE_FOR_SPECTRUM. 
-The normalized_hist is the raw hist, normalized for decay over increasing distances.
-The spectra object is the output of the FFT applied over normalized_hist. 
-The PSD data frame is the power spectrum density scores over given frequencies.
-The signal_to_noise_ratio is a data.frame containing enrichment scores of TT
-periodicity, for the periods in the period vector. The motif object is the 
-dinucleotide being analysed.</p>
+    <p>List a list containing the results of getPeriodicity function. 
+    The dists vector is the raw vector of all distances between any 
+    possible dinucleotide. The hist data.frame is the distribution of 
+    distances over RANGE_FOR_SPECTRUM. The normalized_hist is the raw 
+    hist, normalized for  decay over increasing distances. The spectra 
+    object is the output of the FFT applied over normalized_hist. 
+    The PSD data frame is the power spect.  density scores over given 
+    frequencies. The signal_to_noise_ratio is a data.frame containing 
+    enrichment scores of TT periodicity, for the periods in the period 
+    vector. The motif object is the dinucleotide being analysed.</p>
     
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
           </ul>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>A function to plot aggregated signals (from a CompressedRleList) 
-  over sets of GRanges — plotAggregateCoverage.CompressedRleList • periodicDNA</title>
+    over sets of GRanges — plotAggregateCoverage.CompressedRleList • periodicDNA</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -34,10 +34,10 @@
 
 
 <meta property="og:title" content="A function to plot aggregated signals (from a CompressedRleList) 
-  over sets of GRanges — plotAggregateCoverage.CompressedRleList" />
+    over sets of GRanges — plotAggregateCoverage.CompressedRleList" />
 
 <meta property="og:description" content="A function to plot aggregated signals (from a CompressedRleList) 
-  over sets of GRanges" />
+    over sets of GRanges" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -83,6 +83,18 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/introduction-to-periodicdna.html">Introduction to periodicDNA</a>
+    </li>
+  </ul>
 </li>
       </ul>
       
@@ -102,7 +114,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>A function to plot aggregated signals (from a CompressedRleList) 
-  over sets of GRanges</h1>
+    over sets of GRanges</h1>
     
     <div class="hidden name"><code>plotAggregateCoverage.CompressedRleList.Rd</code></div>
     </div>
@@ -110,23 +122,27 @@
     <div class="ref-description">
     
     <p>A function to plot aggregated signals (from a CompressedRleList) 
-  over sets of GRanges</p>
+    over sets of GRanges</p>
     
     </div>
 
     <pre class="usage"><span class='co'># S3 method for CompressedRleList</span>
-<span class='fu'>plotAggregateCoverage</span>(<span class='no'>bw</span>, <span class='no'>granges</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='plotAggregateCoverage.html'>plotAggregateCoverage</a></span>(<span class='no'>x</span>, <span class='no'>granges</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>bw</th>
+      <th>x</th>
       <td><p>a single signal track (CompressedRleList class)</p></td>
     </tr>
     <tr>
       <th>granges</th>
       <td><p>a GRanges object or a list of GRanges</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>additional parameters</p></td>
     </tr>
     </table>
     

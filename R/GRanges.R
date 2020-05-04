@@ -104,7 +104,6 @@ withSeq <- function(granges, genome) {
 #' @import IRanges
 #' @import GenomicRanges
 #' @import GenomeInfoDb
-#' @export
 
 getCovMatrix <- function(g, bw, norm = 'none', verbose = FALSE) {
     scores <- bw

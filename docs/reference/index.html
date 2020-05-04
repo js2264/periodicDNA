@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -77,6 +77,18 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/introduction-to-periodicdna.html">Introduction to periodicDNA</a>
+    </li>
+  </ul>
 </li>
       </ul>
       
@@ -116,16 +128,36 @@
       <tr>
         
         <td>
+          <p><code><a href="DNAStringSet2GRanges.html">DNAStringSet2GRanges()</a></code> </p>
+        </td>
+        <td><p>A function to generate a GRanges from a DNAStringSet</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="alignToTSS.html">alignToTSS()</a></code> </p>
         </td>
-        <td><p>A function to re-align a GRanges object to a provided set of coordinates 
-(either the TSS column or the TSS.fwd and TSS.rev columns)</p></td>
+        <td><p>A function to re-align a GRanges object to a 
+    provided set of coordinates 
+    (either the TSS column or the TSS.fwd 
+    and TSS.rev columns)</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="binWrapper.html">binWrapper()</a></code> </p>
         </td>
         <td><p>Internal function</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ce_proms.html">ce_proms</a></code> </p>
+        </td>
+        <td><p>ce_proms</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ce_proms_seqs.html">ce_proms_seqs</a></code> </p>
+        </td>
+        <td><p>ce_proms_seqs</p></td>
       </tr><tr>
         
         <td>
@@ -143,7 +175,8 @@
         <td>
           <p><code><a href="deconvolveBidirectionalPromoters.html">deconvolveBidirectionalPromoters()</a></code> </p>
         </td>
-        <td><p>A function to duplicate bi-directional GRanges into + and - stranded GRanges.</p></td>
+        <td><p>A function to duplicate bi-directional GRanges into 
+    + and - stranded GRanges</p></td>
       </tr><tr>
         
         <td>
@@ -166,10 +199,17 @@ dinucleotide at a given frequency, over a set of chosen GRanges.</p></td>
       </tr><tr>
         
         <td>
+          <p><code><a href="getFPI.html">getFPI()</a></code> </p>
+        </td>
+        <td><p>A function to compute the fold power increase, as introduced by 
+  Pich et al., Cell 2018.</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="getPeriodicity.DNAStringSet.html">getPeriodicity(<i>&lt;DNAStringSet&gt;</i>)</a></code> </p>
         </td>
         <td><p>Function to compute the overall periodicity of a motif over a set of 
-  sequences.</p></td>
+    sequences.</p></td>
       </tr><tr>
         
         <td>
@@ -181,7 +221,8 @@ dinucleotide at a given frequency, over a set of chosen GRanges.</p></td>
         <td>
           <p><code><a href="getPeriodicity.html">getPeriodicity()</a></code> </p>
         </td>
-        <td><p>Function to compute the overall periodicity of a motif over sequence(s).</p></td>
+        <td><p>Function to compute the overall periodicity of a 
+    motif over sequence(s).</p></td>
       </tr><tr>
         
         <td>
@@ -193,7 +234,8 @@ dinucleotide at a given frequency, over a set of chosen GRanges.</p></td>
         <td>
           <p><code><a href="na.replace.html">na.replace()</a></code> </p>
         </td>
-        <td><p>A tidyverse-compatible function to replace NAs in a vector by a given value</p></td>
+        <td><p>A tidyverse-compatible function 
+    to replace NAs in a vector by a given value</p></td>
       </tr><tr>
         
         <td>
@@ -224,7 +266,7 @@ dinucleotide at a given frequency, over a set of chosen GRanges.</p></td>
           <p><code><a href="plotAggregateCoverage.CompressedRleList.html">plotAggregateCoverage(<i>&lt;CompressedRleList&gt;</i>)</a></code> </p>
         </td>
         <td><p>A function to plot aggregated signals (from a CompressedRleList) 
-  over sets of GRanges</p></td>
+    over sets of GRanges</p></td>
       </tr><tr>
         
         <td>
@@ -236,15 +278,23 @@ dinucleotide at a given frequency, over a set of chosen GRanges.</p></td>
         <td>
           <p><code><a href="plotAggregateCoverage.SimpleRleList.html">plotAggregateCoverage(<i>&lt;SimpleRleList&gt;</i>)</a></code> </p>
         </td>
-        <td><p>A function to plot aggregated signals (from a SimpleRleList) 
-  over sets of GRanges</p></td>
+        <td><p>A function to plot aggregated signals 
+    (from a SimpleRleList) 
+    over sets of GRanges</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="plotAggregateCoverage.list.html">plotAggregateCoverage(<i>&lt;list&gt;</i>)</a></code> </p>
         </td>
-        <td><p>A function to plot aggregated signals (from a named list of signal tracks) 
-  over sets of GRanges</p></td>
+        <td><p>A function to plot aggregated signals 
+    (from a named list of signal tracks) 
+    over sets of GRanges</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plotFPI.html">plotFPI()</a></code> </p>
+        </td>
+        <td><p>Plotting function</p></td>
       </tr><tr>
         
         <td>
@@ -254,9 +304,27 @@ dinucleotide at a given frequency, over a set of chosen GRanges.</p></td>
       </tr><tr>
         
         <td>
+          <p><code><a href="proms.html">proms</a></code> </p>
+        </td>
+        <td><p>proms</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="sampleGRanges.html">sampleGRanges()</a></code> </p>
+        </td>
+        <td><p>A function to sample GRanges within GRanges</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="scaleBigWigs.html">scaleBigWigs()</a></code> </p>
         </td>
         <td><p>A function to z-score a bigWig track imported by rtracklayer.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="shuffleSeq.html">shuffleSeq()</a></code> </p>
+        </td>
+        <td><p>A function to quickly shuffle sequence(s)</p></td>
       </tr><tr>
         
         <td>
