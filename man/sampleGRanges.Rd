@@ -17,3 +17,9 @@ A GRanges object of length n
 \description{
 A function to sample GRanges within GRanges
 }
+\examples{
+\dontrun{
+    data(ce_proms)
+    sampleGRanges(ce_proms, 100)
+}
+}

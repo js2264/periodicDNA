@@ -15,3 +15,9 @@ A GRanges object
 \description{
 A function to generate a GRanges from a DNAStringSet
 }
+\examples{
+\dontrun{
+    seq <- BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
+    DNAStringSet2GRanges(seq)
+}
+}

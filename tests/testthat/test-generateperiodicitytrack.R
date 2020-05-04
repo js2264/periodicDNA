@@ -11,13 +11,11 @@ test_that("generateperiodicitytrack works", {
             MOTIF = 'TT',
             FREQ = 1/10,
             PROCS = 1, 
-            GENOME.WINDOW.SIZE = 100, 
-            GENOME.WINDOW.SLIDING = 5, # can be 1 for single-base resolution
-            BIN.WINDOW.SIZE = 100, # Set BIN.WINDOW.SIZE == GENOME.WINDOW.SIZE for no sliding window
-            BIN.WINDOW.SLIDING = 5, 
-            bw.file = 'TT-10-bp-periodicity_over-proms_gwin100_bwin60_bslide5.bw'
+            bw_file = 'TT-10-bp-periodicity_over-proms.bw'
         )
-        track <- rtracklayer::import('TT-10-bp-periodicity_over-proms_gwin100_bwin60_bslide5.bw', as = 'Rle')
+        track <- rtracklayer::import(
+            'TT-10-bp-periodicity_over-proms.bw', as = 'Rle'
+        )
         scaled_track <- scaleBigWigs(list('test' = track))
         scaled_track <- scaleBigWigs(track)
         vec <- na.replace(scaled_track, 0)
@@ -30,7 +28,7 @@ test_that("generateperiodicitytrack works", {
             list('test' = track), 
             ce_proms
         )
-        unlink('TT-10-bp-periodicity_over-proms_gwin100_bwin60_bslide5.bw')
+        unlink('TT-10-bp-periodicity_over-proms.bw')
         methods::is(p, "gg")
     }, TRUE)
 })

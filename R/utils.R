@@ -3,8 +3,6 @@
 #' @param x A named list of vectors or data.frames
 #' 
 #' @return A long data frame
-#' 
-#' @export
 
 namedListToLongFormat <- function(x) {
     l <- lapply(names(x), function(NAME) {
@@ -53,18 +51,30 @@ na.remove <- function(x) {
 #' 
 #' @import Biostrings
 #' @export
+#' 
+#' @examples
+#' \dontrun{
+#'     shuffleSeq('ACGTGGGCTATTAGCTACTGTACGTG')
+#' }
 
 shuffleSeq <- function(dna) {
     if (is(dna, 'DNAString')) {
         charvec <- strsplit(as.character(dna),"")[[1]]
         shuffled_charvec <- sample(charvec)
         Biostrings::DNAString( paste(shuffled_charvec, collapse="") )
-    } else if (is(dna, 'DNAStringSet')) {
+    } 
+    else if (is(dna, 'DNAStringSet')) {
         Biostrings::DNAStringSet(lapply(dna, function(seq) {
             charvec <- strsplit(as.character(seq),"")[[1]]
             shuffled_charvec <- sample(charvec)
             Biostrings::DNAString( paste(shuffled_charvec, collapse="") )
         }))
+    }
+    else if (is(dna, 'character')) {
+        dna <- Biostrings::DNAString(dna)
+        charvec <- strsplit(as.character(dna),"")[[1]]
+        shuffled_charvec <- sample(charvec)
+        Biostrings::DNAString( paste(shuffled_charvec, collapse="") )
     }
 }
 
@@ -79,6 +89,12 @@ shuffleSeq <- function(dna) {
 #' @import IRanges
 #' @import GenomeInfoDb
 #' @export
+#' 
+#' @examples
+#' \dontrun{
+#'     data(ce_proms)
+#'     sampleGRanges(ce_proms, 100)
+#' }
 
 sampleGRanges <- function(granges, n){
     rand_c <- sample(
@@ -113,6 +129,13 @@ sampleGRanges <- function(granges, n){
 #' @import IRanges
 #' @import GenomeInfoDb
 #' @export
+#' 
+#' @examples
+#' \dontrun{
+#'     seq <- BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
+#'     DNAStringSet2GRanges(seq)
+#' }
+
 
 DNAStringSet2GRanges <- function(seqs) {
     g <- GenomicRanges::GRanges(

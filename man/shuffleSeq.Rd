@@ -15,3 +15,8 @@ A DNAString or DNAStringSet
 \description{
 A function to quickly shuffle sequence(s)
 }
+\examples{
+\dontrun{
+    shuffleSeq('ACGTGGGCTATTAGCTACTGTACGTG')
+}
+}
