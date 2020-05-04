@@ -20,7 +20,7 @@ test_that("namedListToLongFormat", {
             function(TISSUE) {
                 data.frame(
                     n = names(ce_proms[ce_proms$which.tissues == TISSUE]), 
-                    t = TISSUE
+                    t = 1
                 )
             }
         )

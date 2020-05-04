@@ -1,15 +1,17 @@
-#' A function to re-align a GRanges object to a provided set of coordinates 
-#' (either the TSS column or the TSS.fwd and TSS.rev columns)
+#' A function to re-align a GRanges object to a 
+#'     provided set of coordinates 
+#'     (either the TSS column or the TSS.fwd 
+#'     and TSS.rev columns)
 #'
 #' @param granges A stranded GRanges object with a TSS column 
-#'   or TSS.rev and TSS.fwd columns
+#'     or TSS.rev and TSS.fwd columns
 #' @param upstream How many bases upstream of the TSS should the GRanges
-#'   object by extended by? [Default: 0]
+#'     object by extended by? [Default: 0]
 #' @param downstream How many bases downstream of the TSS should the GRanges
-#'   object by extended by? [Default: 1]
+#'     object by extended by? [Default: 1]
 #' 
-#' @return GRanges aligned to the TSS column or to TSS.rev and TSS.fwd columns, 
-#'   and extended by upstream/downstream bp. 
+#' @return GRanges aligned to the TSS column or to TSS.rev and TSS.fwd columns,
+#'     and extended by upstream/downstream bp. 
 #' 
 #' @import GenomicRanges
 #' @import IRanges
@@ -21,14 +23,22 @@ alignToTSS <- function(granges, upstream = 0, downstream = 1) {
     }
     if (!is.null(granges$TSS)) {
         GenomicRanges::ranges(granges) <- IRanges::IRanges(
-            start = ifelse(as.vector(GenomicRanges::strand(granges)) == '+', (granges$TSS - upstream), (granges$TSS - downstream + 1)),
+            start = ifelse(
+                as.vector(GenomicRanges::strand(granges)) == '+',
+                (granges$TSS - upstream), 
+                (granges$TSS - downstream + 1)
+            ),
             width = downstream + upstream,
             names = names(IRanges::ranges(granges))
         )
     }
     else if (!is.null(granges$TSS.fwd) & !is.null(granges$TSS.rev)) {
         GenomicRanges::ranges(granges) <- IRanges::IRanges(
-            start = ifelse(as.vector(GenomicRanges::strand(granges)) == '+', (granges$TSS.fwd - upstream), (granges$TSS.rev - downstream + 1)),
+            start = ifelse(
+                as.vector(GenomicRanges::strand(granges)) == '+', 
+                (granges$TSS.fwd - upstream), 
+                (granges$TSS.rev - downstream + 1)
+            ),
             width = downstream + upstream,
             names = names(IRanges::ranges(granges))
         )
@@ -39,18 +49,21 @@ alignToTSS <- function(granges, upstream = 0, downstream = 1) {
     return(granges)
 }
 
-#' A function to duplicate bi-directional GRanges into + and - stranded GRanges.
+#' A function to duplicate bi-directional GRanges into 
+#'     + and - stranded GRanges
 #'
 #' @param granges A stranded GRanges object 
 #' 
 #' @return GRanges with only '+' and '-' strands. GRanges with '*' strand 
-#' have been duplicated and split into forward and reverse strands.
+#'     have been duplicated and split into forward and reverse strands.
 #' 
 #' @import GenomicRanges
 #' @export
 
 deconvolveBidirectionalPromoters <- function(granges) {
-    unid <- granges[GenomicRanges::strand(granges) == '+' | GenomicRanges::strand(granges) == '-']
+    filt <- GenomicRanges::strand(granges) == '+' | 
+        GenomicRanges::strand(granges) == '-'
+    unid <- granges[filt]
     bid <- granges[GenomicRanges::strand(granges) == '*']
     bid.fwd <- bid
     GenomicRanges::strand(bid.fwd) <- '+'
@@ -63,8 +76,8 @@ deconvolveBidirectionalPromoters <- function(granges) {
 #' Tidyverse-compatible function to add sequence to an existing GRanges
 #'
 #' @param granges A GRanges object 
-#' @param genome DNAStringSet object. Ideally, the sequence of an entire genome, 
-#' obtained for instance by running 
+#' @param genome DNAStringSet object. Ideally, the sequence of an entire genome
+#'     obtained for instance by running 
 #' 
 #' @return GRanges with a seq column containing the sequence of the GRanges.
 #' 
@@ -82,7 +95,7 @@ withSeq <- function(granges, genome) {
 #' @param g GRanges to map a track onto
 #' @param bw RleList a track from rtraklayer::import
 #' @param norm character Should the signal be normalized 
-#'   ('none', 'zscore' or 'log2')?
+#'     ('none', 'zscore' or 'log2')?
 #' @param verbose Boolean Should the function be verbose?
 #' 
 #' @return A square numerical matrix of signal values over the GRanges
@@ -110,13 +123,13 @@ getCovMatrix <- function(g, bw, norm = 'none', verbose = FALSE) {
     scores.subset <- suppressWarnings(suppressMessages(
         matrix(
             as.vector(unlist(scores.subset)), nrow = length(g),
-            byrow = T
+            byrow = TRUE
         )
     ))
     scores.subset.flipped <- t(apply(scores.subset, 1, rev))
     scores.subset <- matrix(
         lapply(
-            1:nrow(scores.subset), 
+            seq_len(nrow(scores.subset)), 
             function(K) {
                 if((as.vector(GenomicRanges::strand(g)) == '-')[K]) {
                     scores.subset.flipped[K,]
@@ -126,11 +139,13 @@ getCovMatrix <- function(g, bw, norm = 'none', verbose = FALSE) {
             }
         ) %>% unlist(), 
         nrow = length(g), 
-        byrow = T
+        byrow = TRUE
     )
     # Normalize matrix
     if (norm == 'zscore') {
-        scores.subset <- apply(scores.subset, 1, scale) %>% t() %>% na.replace(0)
+        scores.subset <- apply(
+            scores.subset, 1, scale
+        ) %>% t() %>% na.replace(0)
     } 
     else if (norm == 'log2') {
         scores.subset <- log2(scores.subset + 1)
@@ -140,6 +155,9 @@ getCovMatrix <- function(g, bw, norm = 'none', verbose = FALSE) {
 }
 
 #' A function to plot aggregated signals over sets of GRanges
+#'
+#' @param x CompressedRleList or SimpleRleList (in lists or single)
+#' @param ... additional parameters
 #' 
 #' @return A plot of aggregated signals
 #' 
@@ -150,24 +168,33 @@ plotAggregateCoverage <- function(x, ...) {
 }
 
 #' A function to plot aggregated signals (from a CompressedRleList) 
-#'   over sets of GRanges
+#'     over sets of GRanges
 #'
-#' @param bw a single signal track (CompressedRleList class)
+#' @param x a single signal track (CompressedRleList class)
 #' @param granges a GRanges object or a list of GRanges
+#' @param ... additional parameters
 #' 
 #' @return A plot of aggregated signals
 #' 
+#' @importFrom methods as
+#' 
 #' @export
 
-plotAggregateCoverage.CompressedRleList <- function(bw, granges, ...) {
-    bw <- as(bw, 'SimpleRleList')
+plotAggregateCoverage.CompressedRleList <- function(
+    x,
+    granges, 
+    ...
+)
+{
+    bw <- methods::as(x, 'SimpleRleList')
     plotAggregateCoverage(bw, granges, ...)
 }
 
-#' A function to plot aggregated signals (from a SimpleRleList) 
-#'   over sets of GRanges
+#' A function to plot aggregated signals 
+#'     (from a SimpleRleList) 
+#'     over sets of GRanges
 #'
-#' @param bw a single signal track (SimpleRleList class)
+#' @param x a single signal track (SimpleRleList class)
 #' @param granges a GRanges object or a list of GRanges
 #' @param colors a vector of colors
 #' @param xlab x axis label
@@ -177,13 +204,14 @@ plotAggregateCoverage.CompressedRleList <- function(bw, granges, ...) {
 #' @param quartiles Which quantiles to use to determine y scale automatically?
 #' @param verbose Boolean
 #' @param bin Integer Width of the window to use to smooth values 
-#'   by zoo::rollMean
+#'     by zoo::rollMean
 #' @param plot_central Boolean Draw a vertical line at 0
 #' @param runInParallel Boolean Should the plots be computed in parallel using 
-#'   mclapply?
+#'     mclapply?
 #' @param split_by_granges Boolean Facet plots over the sets of GRanges
 #' @param norm character Should the signal be normalized 
-#'   ('none', 'zscore' or 'log2')?
+#'     ('none', 'zscore' or 'log2')?
+#' @param ... additional parameters
 #' 
 #' @return A plot of aggregated signals
 #' 
@@ -191,13 +219,21 @@ plotAggregateCoverage.CompressedRleList <- function(bw, granges, ...) {
 #' @import ggplot2
 #' @importFrom zoo rollmean
 #' @importFrom parallel mclapply
+#' @importFrom stats qt
+#' @importFrom methods is
 #' 
 #' @export
 
 plotAggregateCoverage.SimpleRleList <- function(
-    bw, 
+    x, 
     granges, 
-    colors = rep(c('#991919', '#1232D9', '#3B9B46', '#D99B12', '#7e7e7e', '#D912D4', '#9E7FCC', '#B0E797', '#D1B3B3', '#23A4A3', '#000000'), 5), 
+    colors = rep(
+        c(
+            '#991919', '#1232D9', '#3B9B46', '#D99B12', '#7e7e7e',
+            '#D912D4', '#9E7FCC', '#B0E797', '#D1B3B3', '#23A4A3', '#000000'
+        ),
+        5
+    ), 
     xlab = 'Center of elements',
     ylab = 'Score', 
     xlim = NULL, 
@@ -212,7 +248,9 @@ plotAggregateCoverage.SimpleRleList <- function(
     ...
 ) 
 {
-    if (class(granges) == 'GRanges') granges <- list('granges' = granges)
+    bw <- x
+    
+    if (methods::is(granges, 'GRanges')) granges <- list('granges' = granges)
     # Compute scores
     lists <- parallel::mclapply(seq_along(granges), function(K) {
         g <- granges[[K]]
@@ -231,17 +269,17 @@ plotAggregateCoverage.SimpleRleList <- function(
             rep('', (ncol(mat) - 2)/2), 
             paste0('+', unique(GenomicRanges::width(g))/2)
         )
-        row.names(mat) <- paste0('locus_', as.character(1:nrow(mat)))
+        row.names(mat) <- paste0('locus_', as.character(seq_len(nrow(mat))))
         means <- c(
             rep(NA, bin/2), 
             zoo::rollmean(apply(mat, 2, mean), bin), 
             rep(NA, bin/2)
-        )[1:ncol(mat)]
+        )[seq_len(ncol(mat))]
         conint <- c(
             rep(NA, bin/2), 
             zoo::rollmean(
                 apply(mat, 2, function (n) {
-                    Q <- qt(0.975,sum(!is.na(n)))
+                    Q <- stats::qt(0.975,sum(!is.na(n)))
                     S <- sd(n,na.rm=TRUE)
                     sq <- sqrt(sum(!is.na(n)))
                     Q * S / sq
@@ -249,7 +287,7 @@ plotAggregateCoverage.SimpleRleList <- function(
                 bin
             ), 
             rep(NA, bin/2)
-        )[1:ncol(mat)]
+        )[seq_len(ncol(mat))]
         topEE <- means + conint
         bottomEE <- means - conint
         coords <- round(
@@ -260,11 +298,11 @@ plotAggregateCoverage.SimpleRleList <- function(
             )
         )
         EE <- data.frame(
-            means = means, 
-            meansUp = topEE, 
-            meansDown = bottomEE, 
-            x = coords,
-            grange = rep(
+            'means' = means, 
+            'meansUp' = topEE, 
+            'meansDown' = bottomEE, 
+            'x' = coords,
+            'grange' = rep(
                 ifelse(
                     !is.null(names(granges)), 
                     names(granges)[K], 
@@ -281,7 +319,9 @@ plotAggregateCoverage.SimpleRleList <- function(
         EEs$grange <- factor(EEs$grange, levels = names(granges))
     } 
     else {
-        EEs$grange <- factor(EEs$grange, levels = as.character(1:length(granges)))
+        EEs$grange <- factor(
+            EEs$grange, levels = as.character(seq_along(granges))
+        )
     }
     # Determining YLIM 
     if (is.null(ylim)) {
@@ -317,16 +357,19 @@ plotAggregateCoverage.SimpleRleList <- function(
         p <- p + ggplot2::scale_fill_manual(values = colors)
         p <- p + ggplot2::scale_color_manual(values = colors)
     }
-    if (plot_central) p <- p + ggplot2::geom_vline(xintercept = 0, colour="black", linetype = "longdash", size = 0.1)
+    if (plot_central) p <- p + ggplot2::geom_vline(
+        xintercept = 0, colour="black", linetype = "longdash", size = 0.1
+    )
     if (split_by_granges) p <- p + ggplot2::facet_wrap(~ grange)
     # Return plot
     return(p)
 }
 
-#' A function to plot aggregated signals (from a named list of signal tracks) 
-#'   over sets of GRanges
+#' A function to plot aggregated signals 
+#'     (from a named list of signal tracks) 
+#'     over sets of GRanges
 #'
-#' @param bw_list several signal tracks (SimpleRleList or CompressedRleList class) 
+#' @param x several signal tracks (SimpleRleList or CompressedRleList class) 
 #' grouped in a named list
 #' @param granges a GRanges object or a list of GRanges
 #' @param colors a vector of colors
@@ -342,23 +385,41 @@ plotAggregateCoverage.SimpleRleList <- function(
 #' @param split_by_track Boolean Facet plots by the sets of signal tracks
 #' @param free_scales Boolean Should each facet have independent y-axis scales?
 #' @param runInParallel Boolean Should the plots be computed in parallel using 
-#'   mclapply?
+#'     mclapply?
 #' @param norm character Should the signals be normalized 
-#'   ('none', 'zscore' or 'log2')?
+#'     ('none', 'zscore' or 'log2')?
+#' @param ... additional parameters
 #' 
 #' @import GenomicRanges
 #' @import ggplot2
 #' @importFrom zoo rollmean
 #' @importFrom parallel mclapply
+#' @importFrom stats qt
+#' @importFrom methods is
 #' 
 #' @return A plot of aggregated signals
 #' 
 #' @export
 
 plotAggregateCoverage.list <- function(
-    bw_list, 
+    x, 
     granges, 
-    colors = rep(c('#991919', '#1232D9', '#3B9B46', '#D99B12', '#7e7e7e', '#D912D4', '#9E7FCC', '#B0E797', '#D1B3B3', '#23A4A3', '#000000'), 5), 
+    colors = rep(
+        c(
+            '#991919', 
+            '#1232D9', 
+            '#3B9B46', 
+            '#D99B12', 
+            '#7e7e7e', 
+            '#D912D4', 
+            '#9E7FCC', 
+            '#B0E797', 
+            '#D1B3B3', 
+            '#23A4A3', 
+            '#000000'
+        ),
+        5
+    ), 
     xlab = 'Center of elements',
     ylab = 'Score', 
     xlim = NULL, 
@@ -375,6 +436,8 @@ plotAggregateCoverage.list <- function(
     ...
 ) 
 {
+    bw_list <- x
+    
     if (!all(unlist(
         lapply(
             bw_list, 
@@ -386,14 +449,15 @@ plotAggregateCoverage.list <- function(
         stop('Some objects in the bw_list are not bigwig tracks 
         (in SimpleRleList or CompressedRleList format). Aborting.')
     }
-    if (class(granges) == 'GRanges') granges <- list('granges' = granges)
+    if (methods::is(granges, 'GRanges')) granges <- list('granges' = granges)
     llists <- parallel::mclapply(seq_along(bw_list), function(B) {
         bw <- bw_list[[B]]
         # Compute scores
         lists <- parallel::mclapply(seq_along(granges), function(K) {
             g <- granges[[K]]
             if (length(unique(GenomicRanges::width(g))) > 1) {
-                stop('Please provide GRanges that are all the same width. Aborting.')
+                return(stop('Please provide GRanges that are 
+                all the same width. Aborting.'))
             }
             mat <- getCovMatrix(g, bw, norm = norm, verbose = FALSE)
             colnames(mat) <- c(
@@ -403,19 +467,57 @@ plotAggregateCoverage.list <- function(
                 rep('', (ncol(mat) - 2)/2), 
                 paste0('+', unique(GenomicRanges::width(g))/2)
             )
-            row.names(mat) <- paste0('locus_', as.character(1:nrow(mat)))
-            means <- c(rep(NA, bin/2), zoo::rollmean(apply(mat, 2, mean), bin), rep(NA, bin/2))[1:ncol(mat)]
-            conint <- c(rep(NA, bin/2), zoo::rollmean(apply(mat, 2, function (n) { qt(0.975,sum(!is.na(n)))*sd(n,na.rm=TRUE)/sqrt(sum(!is.na(n))) }), bin), rep(NA, bin/2))[1:ncol(mat)]
+            row.names(mat) <- paste0('locus_', as.character(seq_len(nrow(mat))))
+            means <- c(
+                rep(NA, bin/2), 
+                zoo::rollmean(apply(mat, 2, mean), bin), rep(NA, bin/2)
+            )[seq_len(ncol(mat))]
+            conint <- c(
+                rep(NA, bin/2), 
+                zoo::rollmean(
+                    apply(
+                        mat, 
+                        2, 
+                        function (n) { 
+                            qt <- stats::qt(0.975,sum(!is.na(n)))
+                            sd <- sd(n,na.rm=TRUE)
+                            sqrt <- sqrt(sum(!is.na(n)))
+                            return(qt*sd/sqrt)
+                        }
+                    ), 
+                    bin
+                ), 
+                rep(NA, bin/2)
+            )[seq_len(ncol(mat))]
             topEE <- means + conint
             bottomEE <- means - conint
-            coords <- round(seq(-unique(GenomicRanges::width(g))/2, unique(GenomicRanges::width(g))/2, length.out = unique(width(g))))
+            coords <- round(
+                seq(
+                    -unique(GenomicRanges::width(g))/2, 
+                    unique(GenomicRanges::width(g))/2, 
+                    length.out = unique(width(g))
+                )
+            )
             EE <- data.frame(
-                means = means, 
-                meansUp = topEE, 
-                meansDown = bottomEE, 
-                x = coords,
-                grange = rep(ifelse(!is.null(names(granges)), names(granges)[K], as.character(K)), length(means)), 
-                bw = rep(ifelse(!is.null(names(bw_list)), names(bw_list)[B], as.character(K)), length(means)), 
+                'means' = means, 
+                'meansUp' = topEE, 
+                'meansDown' = bottomEE, 
+                'x' = coords,
+                'grange' = rep(
+                    ifelse(
+                        !is.null(names(granges)), 
+                        names(granges)[K], 
+                        as.character(K)
+                    ), length(means)
+                ), 
+                'bw' = rep(
+                    ifelse(
+                        !is.null(names(bw_list)), 
+                        names(bw_list)[B], 
+                        as.character(K)
+                    ), 
+                    length(means)
+                ), 
                 stringsAsFactors = FALSE
             )
             return(EE)
@@ -426,13 +528,15 @@ plotAggregateCoverage.list <- function(
         EEs$grange <- factor(EEs$grange, levels = names(granges))
     } 
     else {
-        EEs$grange <- factor(EEs$grange, levels = as.character(1:length(granges)))
+        EEs$grange <- factor(
+            EEs$grange, levels = as.character(seq_along(granges))
+        )
     }
     if (!is.null(names(bw_list))) {
         EEs$bw <- factor(EEs$bw, levels = names(bw_list))
     } 
     else {
-        EEs$bw <- factor(EEs$bw, levels = as.character(1:length(bw_list)))
+        EEs$bw <- factor(EEs$bw, levels = as.character(seq_along(bw_list)))
     }
     # Determining YLIM 
     if (is.null(ylim)) {
@@ -520,7 +624,9 @@ plotAggregateCoverage.list <- function(
         p <- p + ggplot2::scale_fill_manual(values = colors)
         p <- p + ggplot2::scale_color_manual(values = colors)
     }
-    if (plot_central) p <- p + ggplot2::geom_vline(xintercept = 0, colour="black", linetype = "longdash", size = 0.1)
+    if (plot_central) p <- p + ggplot2::geom_vline(
+        xintercept = 0, colour="black", linetype = "longdash", size = 0.1
+    )
     p <- p + ggplot2::theme(panel.spacing = unit(2, "lines"))
     # Return plot
     return(p)
@@ -561,7 +667,7 @@ plotAggregateCoverage.list <- function(
 #     ...
 # )
 # {
-#     if (class(MAT) == 'matrix') MAT <- list(MAT)
+#     if (is(MAT, 'matrix') MAT <- list(MAT)
 #     # Define color space
 #     if (length(colorspace)) {
 #         gcol <- colorRampPalette(colorspace)
@@ -577,14 +683,14 @@ plotAggregateCoverage.list <- function(
 #     # Process each matrix 
 #     for (i in seq(NP)) {
 #         data <- MAT[[i]]
-#         bins <- 1:ncol(data)
-#         colnames(data) <- 1:ncol(data) 
+#         bins <- seq_len(ncol(data))
+#         colnames(data) <- seq_len(ncol(data) )
 #         # Bin data
 #         if (bin > 1) {
 #             data <- apply(data, 1, function(ROW) {
 #                 zoo::rollmean(ROW, bin)
 #             }) %>% t()
-#             bins <- 1:ncol(data) + bin/2 - 1
+#             bins <- seq_len(ncol(data)) + bin/2 - 1
 #             colnames(data) <- bins 
 #         }
 #         # Rescale outliers
@@ -597,7 +703,6 @@ plotAggregateCoverage.list <- function(
 #         data[data > zmax] <- zmax
 #         # Cluster data
 #         if (clusters > 0) {
-#             set.seed(222)
 #             data <- data[order(kmeans(data, centers = clusters)$cluster),]
 #         } 
 #         # Reorder data 
@@ -628,7 +733,8 @@ plotAggregateCoverage.list <- function(
 #             expand = c(0.05, 0.05)
 #         ) 
 #         p <- p + ggplot2::geom_vline(
-#             xintercept = length(bins)/2, size = .5, colour = 'black', linetype = 'dashed'
+#             xintercept = length(bins)/2, 
+#             size = .5, colour = 'black', linetype = 'dashed'
 #         ) 
 #         p <- p + ggplot2::scale_y_reverse(
 #             breaks=c(1, nrow(data)),
@@ -646,7 +752,10 @@ plotAggregateCoverage.list <- function(
 #             legend.text=ggplot2::element_text(size=cex.legend) 
 #         ) 
 #         p <- p + ggplot2::guides(
-#             fill = ggplot2::guide_colorbar(frame.colour = 'black', frame.size = 0.25, title = "", raster = TRUE)
+#             fill = ggplot2::guide_colorbar(
+#                 frame.colour = 'black', 
+#                 frame.size = 0.25, title = "", raster = TRUE
+#             )
 #         )
 #         p <- p + ggplot2::theme(
 #             panel.background = ggplot2::element_blank(), 
@@ -681,10 +790,22 @@ plotAggregateCoverage.list <- function(
 # #' @import GenomicRanges
 # #' @export
 # 
-# getMotifMatrix <- function(granges, motif, seqs = Biostrings::readDNAStringSet("~/shared/sequences/Caenorhabditis_elegans.WBcel235.dna.toplevel.fa"), N_MISMATCHES = 0, ...) {
+# getMotifMatrix <- function(
+#     granges, 
+#     motif, 
+#     seqs = Biostrings::readDNAStringSet(
+#         "~/shared/sequences/Caenorhabditis_elegans.WBcel235.dna.toplevel.fa"
+#     ), 
+#     N_MISMATCHES = 0, 
+#     ...
+# ) 
+# {
 #     pattern <- Biostrings::DNAString(motif)
 #     seqs_g <- seqs[granges]
-#     if (!all(sapply(unlist(strsplit(as.character(pattern), '')), function(CHAR) {CHAR %in% c('A', 'T', 'C', 'G')}))) {
+#    if (!all(sapply(
+#        unlist(strsplit(as.character(pattern), '')), 
+#        function(CHAR) {CHAR %in% c('A', 'T', 'C', 'G')}
+#    ))) {
 #         ALGO <- "shift-or"
 #         FIXED <- FALSE
 #     } else {
@@ -696,10 +817,16 @@ plotAggregateCoverage.list <- function(
 #             FIXED <- TRUE
 #         }
 #     }
-#     hits <- Biostrings::vmatchPattern(pattern, seqs_g, algorithm = ALGO, fixed = FIXED, max.mismatch = N_MISMATCHES) %>% 
+#     hits <- Biostrings::vmatchPattern(
+#         pattern, seqs_g, algorithm = ALGO, fixed = FIXED, 
+#         max.mismatch = N_MISMATCHES
+#     ) %>% 
 #         as("CompressedIRangesList") %>%
 #         IRanges::resize(1, fix = 'center')
-#     rhits <- Biostrings::vmatchPattern(pattern, seqs_g, algorithm = ALGO, fixed = FIXED, max.mismatch = N_MISMATCHES) %>% 
+#     rhits <- Biostrings::vmatchPattern(
+#         pattern, seqs_g, algorithm = ALGO, fixed = FIXED,
+#         max.mismatch = N_MISMATCHES
+#     ) %>% 
 #         as("CompressedIRangesList") %>%
 #         resize(1, fix = 'center')
 #     out <- lapply(seq_along(granges), function(K) {

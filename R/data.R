@@ -54,7 +54,7 @@
 
 #' ce_proms_seqs
 #'
-#' Sample of sequences of promoters annotated in C. elegans (ce11) according to 
+#' Sample of sequences of promoters annotated in C. elegans (ce11) according to
 #' Serizay et al. 2020, "Tissue-specific profiling reveals distinctive 
 #' regulatory architectures for ubiquitous, germline and somatic genes", 
 #' BiorXiv.

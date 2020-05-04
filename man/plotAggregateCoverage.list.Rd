@@ -2,10 +2,11 @@
 % Please edit documentation in R/GRanges.R
 \name{plotAggregateCoverage.list}
 \alias{plotAggregateCoverage.list}
-\title{A function to plot aggregated signals (from a named list of signal tracks) 
-  over sets of GRanges}
+\title{A function to plot aggregated signals 
+    (from a named list of signal tracks) 
+    over sets of GRanges}
 \usage{
-\method{plotAggregateCoverage}{list}(bw_list, granges,
+\method{plotAggregateCoverage}{list}(x, granges,
   colors = rep(c("#991919", "#1232D9", "#3B9B46", "#D99B12", "#7e7e7e",
   "#D912D4", "#9E7FCC", "#B0E797", "#D1B3B3", "#23A4A3", "#000000"), 5),
   xlab = "Center of elements", ylab = "Score", xlim = NULL,
@@ -15,7 +16,7 @@
   norm = "none", ...)
 }
 \arguments{
-\item{bw_list}{several signal tracks (SimpleRleList or CompressedRleList class) 
+\item{x}{several signal tracks (SimpleRleList or CompressedRleList class) 
 grouped in a named list}
 
 \item{granges}{a GRanges object or a list of GRanges}
@@ -49,11 +50,14 @@ mclapply?}
 
 \item{norm}{character Should the signals be normalized 
 ('none', 'zscore' or 'log2')?}
+
+\item{...}{additional parameters}
 }
 \value{
 A plot of aggregated signals
 }
 \description{
-A function to plot aggregated signals (from a named list of signal tracks) 
-  over sets of GRanges
+A function to plot aggregated signals 
+    (from a named list of signal tracks) 
+    over sets of GRanges
 }

@@ -10,8 +10,13 @@ plotPeriodicityResults(results, periods = c(2, 20),
 \arguments{
 \item{results}{The output of getPeriodicity function.}
 
-\item{norm_hist_ylim}{Vector a numerical vector of length 2, to specify the y-axis 
-limits of the first plot (normalized distribution of pairwise distances).}
+\item{periods}{Vector a numerical vector of length 2, to specify the
+x-axis limits}
+
+\item{filter_periods}{Boolean Should the x-axis be 
+constrained to the periods?}
+
+\item{skip_shuffling}{Boolean should the shuffling sequences be done?}
 }
 \value{
 list A list containing four ggplots

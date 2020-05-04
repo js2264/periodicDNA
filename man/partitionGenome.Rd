@@ -8,23 +8,28 @@ partitionGenome(genome, granges.extended_large, granges.extended,
   GENOME.WINDOW.SIZE, GENOME.WINDOW.SLIDING)
 }
 \arguments{
-\item{genome}{A DNAStringSet object. Ideally, the sequence of an entire genome, 
-obtained for instance by running 
-\code{Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11)}.}
+\item{genome}{A DNAStringSet object. Ideally, the sequence of an 
+entire genome, obtained for instance by running 
+\code{Biostrings::getSeq(
+  BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
+)}.}
 
 \item{granges.extended_large}{A GRanges object.}
 
 \item{granges.extended}{A GRanges object.
-\code{Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11)}.}
+\code{Biostrings::getSeq(
+  BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
+)}.}
 
-\item{GENOME.WINDOW.SIZE}{An integer. The width of the bins to split the GRanges
-objects in (default 100).}
+\item{GENOME.WINDOW.SIZE}{An integer. The width of the bins to split 
+the GRanges objects in (default 100).}
 
-\item{GENOME.WINDOW.SLIDING}{An integer. The increment between bins over GRanges
-(default 2).}
+\item{GENOME.WINDOW.SLIDING}{An integer. The increment between bins 
+over GRanges (default 2).}
 }
 \value{
-granges.partionned A Granges object corresponding to the binned genome.
+granges.partionned A Granges object corresponding to the binned 
+  genome.
 }
 \description{
 Internal function

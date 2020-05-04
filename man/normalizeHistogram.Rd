@@ -9,6 +9,12 @@ normalizeHistogram(hist, roll = 1, doZscore = TRUE,
 }
 \arguments{
 \item{hist}{Vector a numeric vector}
+
+\item{roll}{Integer window used to roll the flatten histogram}
+
+\item{doZscore}{Boolean should the normalized dampened signal be z-scored?}
+
+\item{roll_smoothed.h}{Integer window used to flatten the histogram}
 }
 \value{
 a normalized vector

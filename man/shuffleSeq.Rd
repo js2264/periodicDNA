@@ -4,12 +4,10 @@
 \alias{shuffleSeq}
 \title{A function to quickly shuffle sequence(s)}
 \usage{
-shuffleSeq(dna, seed = 17)
+shuffleSeq(dna)
 }
 \arguments{
 \item{dna}{DNAString or DNAStringSet}
-
-\item{seed}{Integer}
 }
 \value{
 A DNAString or DNAStringSet

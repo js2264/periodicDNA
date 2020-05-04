@@ -4,7 +4,7 @@
 \alias{sampleGRanges}
 \title{A function to sample GRanges within GRanges}
 \usage{
-sampleGRanges(granges, n, seed = 42)
+sampleGRanges(granges, n)
 }
 \arguments{
 \item{granges}{a GRanges object}

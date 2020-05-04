@@ -2,7 +2,8 @@
 % Please edit documentation in R/utils.R
 \name{na.replace}
 \alias{na.replace}
-\title{A tidyverse-compatible function to replace NAs in a vector by a given value}
+\title{A tidyverse-compatible function 
+    to replace NAs in a vector by a given value}
 \usage{
 na.replace(x, value)
 }
@@ -15,5 +16,6 @@ na.replace(x, value)
 A vector with NA replaced by value
 }
 \description{
-A tidyverse-compatible function to replace NAs in a vector by a given value
+A tidyverse-compatible function 
+    to replace NAs in a vector by a given value
 }

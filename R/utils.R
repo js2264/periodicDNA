@@ -4,11 +4,10 @@
 #' 
 #' @return A long data frame
 #' 
-#' @import magrittr
 #' @export
 
 namedListToLongFormat <- function(x) {
-    lapply(names(x), function(NAME) {
+    l <- lapply(names(x), function(NAME) {
         L <- x[[NAME]]
         if (is.null(ncol(L))) {
             data.frame(value = L, name = rep(NAME, length(L)))
@@ -16,10 +15,13 @@ namedListToLongFormat <- function(x) {
         else {
             data.frame(L, name = rep(NAME, nrow(L)))
         }
-    }) %>% do.call(rbind, .)
+    }) 
+    res <- do.call(rbind, l)
+    return(res)
 }
 
-#' A tidyverse-compatible function to replace NAs in a vector by a given value
+#' A tidyverse-compatible function 
+#'     to replace NAs in a vector by a given value
 #'
 #' @param x vector
 #' @param value Replace NAs by this variable
@@ -50,23 +52,20 @@ na.remove <- function(x) {
 #' A function to quickly shuffle sequence(s)
 #'
 #' @param dna DNAString or DNAStringSet
-#' @param seed Integer
 #' 
 #' @return A DNAString or DNAStringSet
 #' 
 #' @import Biostrings
 #' @export
 
-shuffleSeq <- function(dna, seed = 17) {
-    if (class(dna) == 'DNAString') {
+shuffleSeq <- function(dna) {
+    if (is(dna, 'DNAString')) {
         charvec <- strsplit(as.character(dna),"")[[1]]
-        set.seed(seed)
         shuffled_charvec <- sample(charvec)
         Biostrings::DNAString( paste(shuffled_charvec, collapse="") )
-    } else if (class(dna) == 'DNAStringSet') {
+    } else if (is(dna, 'DNAStringSet')) {
         Biostrings::DNAStringSet(lapply(dna, function(seq) {
             charvec <- strsplit(as.character(seq),"")[[1]]
-            set.seed(seed)
             shuffled_charvec <- sample(charvec)
             Biostrings::DNAString( paste(shuffled_charvec, collapse="") )
         }))
@@ -85,13 +84,17 @@ shuffleSeq <- function(dna, seed = 17) {
 #' @import GenomeInfoDb
 #' @export
 
-sampleGRanges <- function(granges, n, seed = 42){
-    set.seed(seed)
+sampleGRanges <- function(granges, n){
     rand_c <- sample(
-        length(granges), n, replace = TRUE, prob = GenomicRanges::width(granges)
+        length(granges),
+        n, 
+        replace = TRUE, 
+        prob = GenomicRanges::width(granges)
     )
     rand_ranges <- granges[rand_c]
-    rand <- sapply(GenomicRanges::width(rand_ranges), sample, size=1)
+    rand <- unlist(
+        lapply(GenomicRanges::width(rand_ranges), sample, size=1)
+    )
     pos <- GenomicRanges::start(rand_ranges)+rand-1
     res <- GenomicRanges::GRanges(
         GenomicRanges::seqnames(rand_ranges), 

@@ -1,4 +1,22 @@
-FPI <- function(
+#' A function to compute the fold power increase, as introduced by 
+#'   Pich et al., Cell 2018.
+#'
+#' @param seqs DNAStringSet sequences of interest
+#' @param motif character k-mer of interest
+#' @param period integer Period of interest
+#' @param n_shuffle integer Number of shuffling
+#' @param parallel_shuffling integer Number of threads to use to split
+#'   shuffling
+#' @param verbose integer Should the function be verbose? 
+#' @param ... Additional arguments
+#' 
+#' @return list Several metrics included (FPI, observed PSD, etc...)
+#' 
+#' @import GenomicRanges
+#' @import IRanges
+#' @export
+
+getFPI <- function(
     seqs, 
     motif,
     period = 10, 
@@ -21,10 +39,10 @@ FPI <- function(
     # Shuffling sequences and re-computing ---------------------------
     l_shuff <- parallel::mclapply(
         mc.cores = parallel_shuffling, 
-        1:n_shuffle, 
+        seq_len(n_shuffle), 
         function(k) {
             if (verbose) message('- Shuffling ', k, '/', n_shuffle)
-            shuff_seqs <- shuffleSeq(seqs, k)
+            shuff_seqs <- shuffleSeq(seqs)
             shuff <- getPeriodicity(
                 shuff_seqs, 
                 motif,

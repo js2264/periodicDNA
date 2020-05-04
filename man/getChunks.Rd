@@ -7,10 +7,11 @@
 getChunks(genome.partionned.filtered, PROCS)
 }
 \arguments{
-\item{genome.partionned.filtered}{Output from partitionGenome() filtered over
-GRanges of interest.}
+\item{genome.partionned.filtered}{Output from partitionGenome() filtered 
+over GRanges of interest.}
 
-\item{PROCS}{An integer Split the workload over several processors (default 12).}
+\item{PROCS}{An integer Split the workload over several processors 
+(default 12).}
 }
 \value{
 list Chunks list of primary bins to measure.

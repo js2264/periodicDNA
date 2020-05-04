@@ -1,9 +1,9 @@
-^codecov\.yml$
-^LICENSE\.md$
-^pkgdown$
-^docs$
-^paper$
+docs/
+paper/
+pkgdown/
+.gitignore
+.git/
 .travis.yml
-LICENSE
-CONDUCT
+codecov.yml
 TODO
+CONDUCT

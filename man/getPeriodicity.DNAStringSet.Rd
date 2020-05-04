@@ -3,15 +3,15 @@
 \name{getPeriodicity.DNAStringSet}
 \alias{getPeriodicity.DNAStringSet}
 \title{Function to compute the overall periodicity of a motif over a set of 
-  sequences.}
+    sequences.}
 \usage{
-\method{getPeriodicity}{DNAStringSet}(seqs, motif = "WW",
-  RANGE_FOR_SPECTRUM = 1:200, period = seq(2, 20, 1), plot = FALSE,
-  cores = 2, roll = 3, verbose = TRUE, sample = 0,
-  doZscore = FALSE, skip_shuffling = TRUE, seed = 42)
+\method{getPeriodicity}{DNAStringSet}(x, motif = "WW",
+  RANGE_FOR_SPECTRUM = seq_len(200), period = seq(2, 20, 1),
+  plot = FALSE, cores = 2, roll = 3, verbose = TRUE, sample = 0,
+  doZscore = FALSE, skip_shuffling = TRUE, ...)
 }
 \arguments{
-\item{seqs}{a DNAStringSet}
+\item{x}{a DNAStringSet}
 
 \item{motif}{a dinucleotide of interest}
 
@@ -33,25 +33,28 @@ can be very strong in vertebrate genomes)}
 
 \item{sample}{Integer if > 0, will randomly sample this many integers
 from the dists vector before normalization. This ensures consistency 
-when looking at periodicity in different genomes, since different genomes
-will have different GC percent}
+when looking at periodicity in different genomes, since different
+genomes will have different GC percent}
 
 \item{doZscore}{Boolean should the normalized dampened signal be z-scored?}
+
+\item{skip_shuffling}{Boolean should the shuffling sequences be done?}
+
+\item{...}{additional parameters}
 }
 \value{
-List a list containing the results of getPeriodicity function. The 
-dists vector is the raw vector of all pairwise distances between dinucleotides. 
-The hist dataframe is the distribution of distances over RANGE_FOR_SPECTRUM. 
-The normalized_hist is the raw histogram normalized for 
-  decay over increasing distances between pairs of dinucleotides.
-The spectra object is the output of the FFT applied over normalized_hist. 
-The PSD dataframe contains power spectrum density scores over given 
-  frequencies.
-The signal_to_noise_ratio is a dataframe containing enrichment scores of
-dinucleotide periodicity, for each period in the period vector. 
-The motif character is the analysed dinucleotide.
+List a list containing the results of getPeriodicity function. 
+    The dists vector is the raw vector of all distances between any 
+    possible dinucleotide. The hist data.frame is the distribution of 
+    distances over RANGE_FOR_SPECTRUM. The normalized_hist is the raw 
+    hist, normalized for  decay over increasing distances. The spectra 
+    object is the output of the FFT applied over normalized_hist. 
+    The PSD data frame is the power spect.  density scores over given 
+    frequencies. The signal_to_noise_ratio is a data.frame containing 
+    enrichment scores of TT periodicity, for the periods in the period 
+    vector. The motif object is the dinucleotide being analysed.
 }
 \description{
 Function to compute the overall periodicity of a motif over a set of 
-  sequences.
+    sequences.
 }

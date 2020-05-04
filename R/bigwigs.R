@@ -5,10 +5,11 @@
 #' @return a list of scaled Rle (z-score)
 #' 
 #' @import S4Vectors
+#' @importFrom methods is
 #' @export
 
 scaleBigWigs <- function(bigWigs) {
-    if (class(bigWigs) == 'SimpleRleList' | class(bigWigs) == 'CompressedRleList') {
+    if (methods::is(bigWigs, 'RleList')) {
         bigWig <- bigWigs
         ucov <- unlist(bigWig)
         mi <- mean(ucov)

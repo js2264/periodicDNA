@@ -9,7 +9,7 @@ withSeq(granges, genome)
 \arguments{
 \item{granges}{A GRanges object}
 
-\item{genome}{DNAStringSet object. Ideally, the sequence of an entire genome, 
+\item{genome}{DNAStringSet object. Ideally, the sequence of an entire genome
 obtained for instance by running}
 }
 \value{

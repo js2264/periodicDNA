@@ -3,19 +3,21 @@
 \name{plotAggregateCoverage.CompressedRleList}
 \alias{plotAggregateCoverage.CompressedRleList}
 \title{A function to plot aggregated signals (from a CompressedRleList) 
-  over sets of GRanges}
+    over sets of GRanges}
 \usage{
-\method{plotAggregateCoverage}{CompressedRleList}(bw, granges, ...)
+\method{plotAggregateCoverage}{CompressedRleList}(x, granges, ...)
 }
 \arguments{
-\item{bw}{a single signal track (CompressedRleList class)}
+\item{x}{a single signal track (CompressedRleList class)}
 
 \item{granges}{a GRanges object or a list of GRanges}
+
+\item{...}{additional parameters}
 }
 \value{
 A plot of aggregated signals
 }
 \description{
 A function to plot aggregated signals (from a CompressedRleList) 
-  over sets of GRanges
+    over sets of GRanges
 }
