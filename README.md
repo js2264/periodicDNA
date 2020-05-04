@@ -1,3 +1,4 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/159342624fce406eb42125ebd39d286c)](https://app.codacy.com/manual/js2264/periodicDNA?utm_source=github.com&utm_medium=referral&utm_content=js2264/periodicDNA&utm_campaign=Badge_Grade_Settings)
 [![](https://travis-ci.com/js2264/periodicDNA.svg?branch=master)](https://travis-ci.com/js2264/periodicDNA)
 [![](https://codecov.io/gh/js2264/periodicDNA/branch/master/graph/badge.svg)](https://codecov.io/github/js2264/periodicDNA?branch=master)
 [![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
