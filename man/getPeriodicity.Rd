@@ -2,24 +2,29 @@
 % Please edit documentation in R/periodicity.R
 \name{getPeriodicity}
 \alias{getPeriodicity}
-\title{Function to compute the overall periodicity of a motif over sequence(s).}
+\title{Function to compute the overall periodicity of a 
+    motif over sequence(s).}
 \usage{
 getPeriodicity(x, ...)
 }
 \arguments{
 \item{x}{a DNAStringSet, or a GRanges}
+
+\item{...}{additional parameters}
 }
 \value{
-List a list containing the results of getPeriodicity function. The 
-dists vector is the raw vector of all distances between any possible dinucleotide. 
-The hist data.frame is the distribution of distances over RANGE_FOR_SPECTRUM. 
-The normalized_hist is the raw hist, normalized for decay over increasing distances.
-The spectra object is the output of the FFT applied over normalized_hist. 
-The PSD data frame is the power spectrum density scores over given frequencies.
-The signal_to_noise_ratio is a data.frame containing enrichment scores of TT
-periodicity, for the periods in the period vector. The motif object is the 
-dinucleotide being analysed.
+List a list containing the results of getPeriodicity function. 
+    The dists vector is the raw vector of all distances between any 
+    possible dinucleotide. The hist data.frame is the distribution of 
+    distances over RANGE_FOR_SPECTRUM. The normalized_hist is the raw 
+    hist, normalized for  decay over increasing distances. The spectra 
+    object is the output of the FFT applied over normalized_hist. 
+    The PSD data frame is the power spect.  density scores over given 
+    frequencies. The signal_to_noise_ratio is a data.frame containing 
+    enrichment scores of TT periodicity, for the periods in the period 
+    vector. The motif object is the dinucleotide being analysed.
 }
 \description{
-Function to compute the overall periodicity of a motif over sequence(s).
+Function to compute the overall periodicity of a 
+    motif over sequence(s).
 }

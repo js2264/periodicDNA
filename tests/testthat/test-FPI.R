@@ -9,12 +9,12 @@ test_that("FPI works", {
             trim() %>% 
             '['(width(.) == 200)
         rand_regions_seq <- ce_proms_seqs[rand_regions]
-        fpi <- FPI(
+        fpi <- getFPI(
             rand_regions_seq,
             motif = 'TT', 
             parallel_shuffling = 1
         )
         p <- plotFPI(fpi)
-        class(p)[[1]] == "gg"
+        methods::is(p, 'gg')
     }, TRUE)
 })

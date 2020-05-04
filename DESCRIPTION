@@ -1,19 +1,21 @@
 Package: periodicDNA
 Type: Package
-Title: Probing DNA sequences for periodic oligonucleotides
-Version: 0.2.1
-Date: 2020-03-04
+Title: Set of tools to identify periodic occurrences of k-mers in 
+    DNA sequences
+Version: 0.3.0
+Date: 2020-05-03
 Encoding: UTF-8
 Author: Jacques Serizay
 Maintainer: Jacques Serizay <jacquesserizay@gmail.com>
-Description: The functions in this package provide a straightforward approach 
-    to identify periodic occurrences of k-mers or oligonucleotides in longer sequences such as regulatory 
+Description: The functions in this package provide a straightforward 
+    approach to identify periodic occurrences of k-mers or 
+    oligonucleotides in longer sequences such as regulatory 
     elements. 
 URL: www.github.com/js2264/periodicDNA
 BugReports: https://github.com/js2264/periodicDNA/issues
-LazyData: true
 RoxygenNote: 6.1.1.9000
 Depends:
+    R (>= 3.5),
     Biostrings, 
     GenomicRanges,
     IRanges
@@ -24,8 +26,8 @@ Imports:
     GenomeInfoDb,
     magrittr, 
     zoo,
-    ggplot2
-Enhances:
+    ggplot2, 
+    methods,
     parallel
 Suggests:
     BSgenome.Celegans.UCSC.ce11,
@@ -34,6 +36,16 @@ Suggests:
     BSgenome.Hsapiens.UCSC.hg38,
     BSgenome.Mmusculus.UCSC.mm10,
     testthat,
-    covr
+    covr,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
 biocViews:
+    SequenceMatching,
+    MotifDiscovery,
+    MotifAnnotation, 
+    Sequencing, 
+    Coverage, 
+    Alignment, 
+    DataImport
 License: MIT + file LICENSE

@@ -1,0 +1,13 @@
+utils::globalVariables(c(
+    ".",
+    "x",
+    "y", 
+    "bw",
+    "means", 
+    "meansDown", 
+    "meansUp",
+    "grange",
+    "group",
+    "counts",
+    "norm_counts"
+))

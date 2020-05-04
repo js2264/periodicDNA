@@ -6,6 +6,11 @@
 \usage{
 plotAggregateCoverage(x, ...)
 }
+\arguments{
+\item{x}{CompressedRleList or SimpleRleList (in lists or single)}
+
+\item{...}{additional parameters}
+}
 \value{
 A plot of aggregated signals
 }

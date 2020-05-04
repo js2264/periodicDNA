@@ -4,31 +4,30 @@
 \alias{getPeriodicity.GRanges}
 \title{Core function}
 \usage{
-\method{getPeriodicity}{GRanges}(granges,
-  genome = Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11),
-  ...)
+\method{getPeriodicity}{GRanges}(x, genome = "ce11", ...)
 }
 \arguments{
-\item{granges}{a GRanges}
+\item{x}{a GRanges}
 
 \item{genome}{DNAStringSet object. The sequence of an entire genome, 
 obtained for instance by running 
-\code{Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11)}.}
+\code{Biostrings::getSeq(
+    BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
+)}.}
 
 \item{...}{other parameters forwarded to getPeriodicity.DNAStringSet()}
 }
 \value{
-List a list containing the results of getPeriodicity function. The 
-dists vector is the raw vector of all pairwise distances between dinucleotides. 
-The hist dataframe is the distribution of distances over RANGE_FOR_SPECTRUM. 
-The normalized_hist is the raw histogram normalized for 
-  decay over increasing distances between pairs of dinucleotides.
-The spectra object is the output of the FFT applied over normalized_hist. 
-The PSD dataframe contains power spectrum density scores over given 
-  frequencies.
-The signal_to_noise_ratio is a dataframe containing enrichment scores of
-dinucleotide periodicity, for each period in the period vector. 
-The motif character is the analysed dinucleotide.
+List a list containing the results of getPeriodicity function. 
+    The dists vector is the raw vector of all distances between any 
+    possible dinucleotide. The hist data.frame is the distribution of 
+    distances over RANGE_FOR_SPECTRUM. The normalized_hist is the raw 
+    hist, normalized for  decay over increasing distances. The spectra 
+    object is the output of the FFT applied over normalized_hist. 
+    The PSD data frame is the power spect.  density scores over given 
+    frequencies. The signal_to_noise_ratio is a data.frame containing 
+    enrichment scores of TT periodicity, for the periods in the period 
+    vector. The motif object is the dinucleotide being analysed.
 }
 \description{
 Core function

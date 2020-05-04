@@ -1,0 +1,133 @@
+---
+title: Introduction to periodicDNA
+author: 
+    - name: Jacques Serizay
+      affiliation: "The Gurdon Institute and Department of Genetics, 
+      University of Cambridge, Cambridge, United Kingdom"
+      email: jacquesserizay@gmail.com
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+    %\VignetteIndexEntry{Introduction to periodicDNA}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo=FALSE, results="hide", warning=FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>"
+)
+suppressPackageStartupMessages({
+    library(GenomicRanges)
+    library(magrittr)
+    library(ggplot2)
+})
+```
+
+# Introduction 
+
+Many oligonucleotides are periodically occurring in genomes 
+across eukaryotes, and some are impacting the physical properties of 
+DNA. For example, DNA bendability is modulated by 10-bp periodic 
+occurrences of WW (W = A/T) dinucleotides. periodicDNA is an R 
+package offering a set of functions to identify k-mer periodicity 
+in sequences of interest such as regulatory elements. 
+It also provides a method to generate continuous tracks of k-mer 
+periodicity over genomic loci. 
+
+# Installation
+
+periodicDNA can be installed from GitHub as follows:
+
+```{r, eval = FALSE}
+install.packages("devtools")
+devtools::install_github("js2264/periodicDNA")
+library(periodicDNA)
+```
+
+# Loading periodicDNA and other useful packages
+
+```{r}
+library(periodicDNA)
+library(magrittr)
+library(GenomicRanges)
+library(ggplot2)
+```
+
+# How perioDNA works
+
+When running `getPeriodicity()` function for a given k-mer (typically a
+dinucleotide) over a set of GRanges, R does the following steps: 
+
+1. It first finds all the possible motif occurrences over the GRanges;  
+2. It then find all the possible pairwise distances and generates a 
+   normalised histogram of the pairwise distances;  
+3. It performs a Fast Fourier Transform of the normalised histogram; 
+4. Finally, it outputs the power spectrum density of the k-mer in the 
+   provided GRanges.
+
+# Quick k-mer periodicity
+
+A genome sequence and a set of genomic loci must be defined. 
+Let's focus on the C. elegans genome for now, and more specifically 
+around its ubiquitous TSSs. 
+
+```{r, fig.wide = TRUE}
+data(ce_proms)
+ce_seq <- getSeq(
+    BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
+)
+ubiq_TSSs <- ce_proms[ce_proms$which.tissues == 'Ubiq.'] %>%
+    deconvolveBidirectionalPromoters() %>% 
+    alignToTSS(50, 300)
+ubiq_TT <- getPeriodicity(
+    ubiq_TSSs, 
+    genome = ce_seq, 
+    motif = 'TT', 
+    cores = 1
+)
+plotPeriodicityResults(ubiq_TT)
+``` 
+
+# Fold Power Increase metric
+
+The FPI (fold power increase) metric was originally described in 
+Pich et al., Cell 2018. It allows to accurately estimate the periodicity 
+strength of a k-mer of interest by modelling the background periodicity.
+
+```{r, fig.small = TRUE}
+fpi <- getFPI(
+    ce_seq[ubiq_TSSs],
+    motif = 'TT', 
+    parallel_shuffling = 1, 
+    n_shuffle = 3
+)
+plotFPI(fpi)
+``` 
+
+# Generating periodicity tracks with periodicDNA
+
+Rather than computing the periodicity of a chosen k-mer in a given 
+set of sequences, `generatePeriodicityTrack()` function computes 
+a linear periodicity track covering loci of interest. 
+
+```{r}
+generatePeriodicityTrack(
+    ce_seq,
+    granges = ce_proms[1], 
+    MOTIF = 'TT',
+    FREQ = 1/10,
+    PROCS = 1
+)
+```
+
+```{r, echo=FALSE, results="hide", warning=FALSE}
+unlink('TT-periodicity_g-100^2_b-100^5.bw')
+```
+
+# Session info
+
+```{r}
+sessionInfo()
+```

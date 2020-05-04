@@ -12,8 +12,8 @@ test_that("generateperiodicitytrack works", {
             FREQ = 1/10,
             PROCS = 1, 
             GENOME.WINDOW.SIZE = 100, 
-            GENOME.WINDOW.SLIDING = 20, # can be 1 for single-base resolution
-            BIN.WINDOW.SIZE = 60, # Set BIN.WINDOW.SIZE == GENOME.WINDOW.SIZE for no sliding window
+            GENOME.WINDOW.SLIDING = 5, # can be 1 for single-base resolution
+            BIN.WINDOW.SIZE = 100, # Set BIN.WINDOW.SIZE == GENOME.WINDOW.SIZE for no sliding window
             BIN.WINDOW.SLIDING = 5, 
             bw.file = 'TT-10-bp-periodicity_over-proms_gwin100_bwin60_bslide5.bw'
         )
@@ -31,6 +31,6 @@ test_that("generateperiodicitytrack works", {
             ce_proms
         )
         unlink('TT-10-bp-periodicity_over-proms_gwin100_bwin60_bslide5.bw')
-        any(class(p) == "gg")
+        methods::is(p, "gg")
     }, TRUE)
 })

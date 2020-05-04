@@ -7,10 +7,10 @@
 plotFPI(fpi, periods = c(2, 20))
 }
 \arguments{
+\item{fpi}{The output of getFPI function.}
+
 \item{periods}{Vector a numerical vector of length 2, to specify the
 x-axis limits}
-
-\item{results}{The output of FPI function.}
 }
 \value{
 ggplot A ggplot

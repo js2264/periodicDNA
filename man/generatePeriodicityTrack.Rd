@@ -5,20 +5,18 @@
 \title{Core function to generate a track of periodicity strenght of a given 
 dinucleotide at a given frequency, over a set of chosen GRanges.}
 \usage{
-
-  generatePeriodicityTrack(genome = Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11),
-  granges, MOTIF = "WW", EXTEND.GRANGES = 1000,
-  GENOME.WINDOW.SIZE = 100, GENOME.WINDOW.SLIDING = 2,
-  BIN.WINDOW.SIZE = 100, BIN.WINDOW.SLIDING = 5,
-  RANGE.FOR.SPECTRUM = 1:50, FREQ = 1/10, PROCS = 12,
-  bw.file = NULL)
+generatePeriodicityTrack(genome = NULL, granges, MOTIF = "WW",
+  EXTEND.GRANGES = 1000, GENOME.WINDOW.SIZE = 100,
+  GENOME.WINDOW.SLIDING = 2, BIN.WINDOW.SIZE = 100,
+  BIN.WINDOW.SLIDING = 5, RANGE.FOR.SPECTRUM = seq_len(50),
+  FREQ = 1/10, PROCS = 12, bw.file = NULL)
 }
 \arguments{
-\item{genome}{DNAStringSet object. Ideally, the sequence of an entire genome, 
-obtained for instance by running 
-\code{Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11)}.}
+\item{genome}{DNAStringSet object obtained from
+\code{Biostrings::getSeq(BSgenome.xxx)}.}
 
-\item{granges}{GRanges object (with seqnames overlapping the names of genome).}
+\item{granges}{GRanges object (with seqnames overlapping 
+the names of genome).}
 
 \item{MOTIF}{String Oligonucleotide of interest.}
 
@@ -31,18 +29,20 @@ objects in (default 100).}
 \item{GENOME.WINDOW.SLIDING}{Integer The increment between bins over GRanges
 (default 2).}
 
-\item{BIN.WINDOW.SIZE}{Integer The width of the bins to split each primary bin
-in (default 60).}
+\item{BIN.WINDOW.SIZE}{Integer The width of the bins to split each primary 
+bin in (default 60).}
 
 \item{BIN.WINDOW.SLIDING}{Integer The increment between secondary bins
 (default 5).}
 
 \item{RANGE.FOR.SPECTRUM}{Numeric vector The distances between nucleotides
-to take into consideration when performing Fast Fourier Transform (default 1:50).}
+to take into consideration when performing Fast Fourier Transform 
+(default seq_len(50)).}
 
 \item{FREQ}{Float The frequence of the dinucleotide to study (default 1/10).}
 
-\item{PROCS}{Integer Split the workload over several processors (default 12).}
+\item{PROCS}{Integer Split the workload over several processors 
+(default 12).}
 
 \item{bw.file}{String. The name of the output bigWig track}
 }

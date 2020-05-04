@@ -9,12 +9,11 @@ partitionBin(grange, genome, BIN.WINDOW.SIZE, BIN.WINDOW.SLIDING)
 \arguments{
 \item{grange}{A GRanges object of length 1}
 
-\item{genome}{A DNAStringSet object. Ideally, the sequence of an entire genome, 
-obtained for instance by running 
-\code{Biostrings::getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11)}.}
+\item{genome}{A DNAStringSet object. Ideally, the sequence of an entire 
+genome}
 
-\item{BIN.WINDOW.SIZE}{Integer The width of the bins to split each primary bin
-in (default 60).}
+\item{BIN.WINDOW.SIZE}{Integer The width of the bins to split each primary
+bin in (default 60).}
 
 \item{BIN.WINDOW.SLIDING}{Integer The increment between secondary bins
 (default 5).}
