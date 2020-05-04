@@ -22,7 +22,7 @@
 #' @param FREQ Float The frequence of the dinucleotide to study (default 1/10).
 #' @param PROCS Integer Split the workload over several processors 
 #'     (default 12).
-#' @param bw.file String. The name of the output bigWig track
+#' @param bw_file String. The name of the output bigWig track
 #' 
 #' @import Biostrings
 #' @import GenomicRanges
@@ -44,7 +44,7 @@ generatePeriodicityTrack <- function(
     RANGE.FOR.SPECTRUM = seq_len(50), 
     FREQ = 1/10, 
     PROCS = 12, 
-    bw.file = NULL
+    bw_file = NULL
     ) {
     
     if (is.null(genome)) {
@@ -102,16 +102,16 @@ generatePeriodicityTrack <- function(
     )
     
     # Generate final track
-    if (is.null(bw.file)) bw.file = paste0(
+    if (is.null(bw_file)) bw_file = paste0(
         MOTIF, 
         '-periodicity_g-', GENOME.WINDOW.SIZE, '^', GENOME.WINDOW.SLIDING, 
         '_b-', BIN.WINDOW.SIZE, '^', BIN.WINDOW.SLIDING ,'.bw'
     )
     rtracklayer::export.bw(
         coverage(list.results.2, weight = list.results.2$score), 
-        bw.file
+        bw_file
     )
-    message(' SUCCESS: ', bw.file, ' has been created!')
+    message(' SUCCESS: ', bw_file, ' has been created!')
     
     # Remove tmp files
     cleanUpDirectory()

@@ -416,9 +416,9 @@ getPeriodicity.GRanges <- function(
 #' @param doZscore Boolean should the normalized dampened signal be z-scored?
 #' @param roll_smoothed.h Integer window used to flatten the histogram
 #' 
-#' @importFrom zoo rollmean
-#' @export
 #' @return a normalized vector
+#' 
+#' @importFrom zoo rollmean
 
 normalizeHistogram <- function(
     hist, 

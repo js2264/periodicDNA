@@ -49,31 +49,27 @@ list_plots <- plotPeriodicityResults(periodicity_result) %>%
 
 ![TT-periodicity](man/images/ubiquitous-promoters_TT-periodicity.png)
 
-### Make track of periodicity over a set of Genomic Ranges
+### Track of periodicity over a set of Genomic Ranges
 
 The other major use of this package is to generate specific tracks 
 over a set of loci, e.g. the strength of WW 10-pb periodicity over promoters.  
-**Important note:** We recommand to run this command across at least a dozen of
+**Important note:** We recommend to run this command across at least a dozen of
 processors (use the `PROCS` argument). This command will take several hours and
-possibly up to a day to run. It typically takes one day to produce a periodicity
-track over 15,000 GRanges of 150 bp (with default parameters) using `PROCS = 12`.
-We highly recommand the user to run this command in a new `screen` session. 
+possibly up to a day to run. It typically takes one day to produce a
+periodicity track over 15,000 GRanges of 150 bp (with default parameters) 
+using `PROCS = 12`. We highly recommend the user to run this command in a 
+new `screen` session. 
 
 ```r
-data(ce_proms)
 generatePeriodicityTrack(
     Biostrings::getSeq(
         BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
     ),
-    granges = ce_proms, 
+    granges = proms, 
     MOTIF = 'TT',
     FREQ = 1/10,
     PROCS = 12, 
-    GENOME.WINDOW.SIZE = 100, 
-    GENOME.WINDOW.SLIDING = 2, # can be 1 for single-base resolution
-    BIN.WINDOW.SIZE = 60, # Set BIN.WINDOW.SIZE == GENOME.WINDOW.SIZE for no sliding window
-    BIN.WINDOW.SLIDING = 5, 
-    bw.file = 'TT-10-bp-periodicity_over-proms_gwin100_bwin60_bslide5.bw'
+    bw_file = 'TT-10-bp-periodicity_over-proms.bw'
 )
 ```
 

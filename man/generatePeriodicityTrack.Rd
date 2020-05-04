@@ -9,7 +9,7 @@ generatePeriodicityTrack(genome = NULL, granges, MOTIF = "WW",
   EXTEND.GRANGES = 1000, GENOME.WINDOW.SIZE = 100,
   GENOME.WINDOW.SLIDING = 2, BIN.WINDOW.SIZE = 100,
   BIN.WINDOW.SLIDING = 5, RANGE.FOR.SPECTRUM = seq_len(50),
-  FREQ = 1/10, PROCS = 12, bw.file = NULL)
+  FREQ = 1/10, PROCS = 12, bw_file = NULL)
 }
 \arguments{
 \item{genome}{DNAStringSet object obtained from
@@ -44,7 +44,7 @@ to take into consideration when performing Fast Fourier Transform
 \item{PROCS}{Integer Split the workload over several processors 
 (default 12).}
 
-\item{bw.file}{String. The name of the output bigWig track}
+\item{bw_file}{String. The name of the output bigWig track}
 }
 \value{
 NULL A bigWig track in the working directory.

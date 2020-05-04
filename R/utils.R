@@ -27,8 +27,6 @@ namedListToLongFormat <- function(x) {
 #' @param value Replace NAs by this variable
 #' 
 #' @return A vector with NA replaced by value
-#' 
-#' @export
 
 na.replace <- function(x, value) {
     which.na <- is.na(x)
@@ -41,8 +39,6 @@ na.replace <- function(x, value) {
 #' @param x vector
 #' 
 #' @return A vector without NAs
-#' 
-#' @export
 
 na.remove <- function(x) {
     which.na <- is.na(x)
