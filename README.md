@@ -2,6 +2,7 @@
 [![](https://codecov.io/gh/js2264/periodicDNA/branch/master/graph/badge.svg)](https://codecov.io/github/js2264/periodicDNA?branch=master)
 [![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![](https://img.shields.io/github/languages/code-size/js2264/periodicDNA.svg)](https://github.com/js2264/periodicDNA)
+[![](https://img.shields.io/badge/license-GPL--3-yellow.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
 # periodicDNA <img src="man/figures/logo.png" align="right" alt="" />
 
@@ -85,4 +86,4 @@ https://github.com/js2264/periodicityDNA
 and file issues at https://github.com/js2264/periodicityDNA/issues
 
 ## License 
-**periodicDNA** is licensed under the MIT license.
+**periodicDNA** is licensed under the GPL-3 license.

@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>periodicDNA • periodicDNA</title>
+<title>icDNA • periodicDNA</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -16,7 +16,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="periodicDNA">
+<script src="../pkgdown.js"></script><meta property="og:title" content="icDNA">
 <meta property="og:description" content="">
 <meta property="og:image" content="/logo.png">
 <meta name="twitter:card" content="summary">
@@ -60,7 +60,14 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/js2264/periodicDNA">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -73,12 +80,12 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>periodicDNA</h1>
+      <h1>icDNA</h1>
                         <h4 class="author">Jacques Serizay</h4>
             
             <h4 class="date">2020-05-04</h4>
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/js2264/periodicDNA/blob/master/vignettes/periodicDNA.Rmd"><code>vignettes/periodicDNA.Rmd</code></a></small>
       <div class="hidden name"><code>periodicDNA.Rmd</code></div>
 
     </div>
@@ -102,20 +109,12 @@
 <h2 class="hasAnchor">
 <a href="#loading-periodicdna-and-other-useful-packages" class="anchor"></a>Loading periodicDNA and other useful packages</h2>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(periodicDNA)</a>
-<a class="sourceLine" id="cb2-2" title="2"><span class="co">#&gt; Loading required package: Biostrings</span></a>
-<a class="sourceLine" id="cb2-3" title="3"><span class="co">#&gt; Loading required package: XVector</span></a>
-<a class="sourceLine" id="cb2-4" title="4"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-5" title="5"><span class="co">#&gt; Attaching package: 'Biostrings'</span></a>
-<a class="sourceLine" id="cb2-6" title="6"><span class="co">#&gt; The following object is masked from 'package:base':</span></a>
-<a class="sourceLine" id="cb2-7" title="7"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-8" title="8"><span class="co">#&gt;     strsplit</span></a>
-<a class="sourceLine" id="cb2-9" title="9"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(magrittr)</a>
-<a class="sourceLine" id="cb2-10" title="10"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(GenomicRanges)</a>
-<a class="sourceLine" id="cb2-11" title="11"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</a></code></pre></div>
+<a class="sourceLine" id="cb2-2" title="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(magrittr)</a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</a></code></pre></div>
 </div>
-<div id="how-periodna-works" class="section level2">
+<div id="how-periodicdna-works" class="section level2">
 <h2 class="hasAnchor">
-<a href="#how-periodna-works" class="anchor"></a>How perioDNA works</h2>
+<a href="#how-periodicdna-works" class="anchor"></a>How periodicDNA works</h2>
 <p>When running <code><a href="../reference/getPeriodicity.html">getPeriodicity()</a></code> function for a given k-mer (typically a dinucleotide) over a set of GRanges, R does the following steps:</p>
 <ol style="list-style-type: decimal">
 <li>It first finds all the possible motif occurrences over the GRanges;<br>
@@ -167,7 +166,7 @@
 <a class="sourceLine" id="cb6-2" title="2">    ce_seq[ubiq_TSSs],</a>
 <a class="sourceLine" id="cb6-3" title="3">    <span class="dt">motif =</span> <span class="st">'TT'</span>, </a>
 <a class="sourceLine" id="cb6-4" title="4">    <span class="dt">parallel_shuffling =</span> <span class="dv">1</span>, </a>
-<a class="sourceLine" id="cb6-5" title="5">    <span class="dt">n_shuffle =</span> <span class="dv">3</span></a>
+<a class="sourceLine" id="cb6-5" title="5">    <span class="dt">n_shuffle =</span> <span class="dv">10</span></a>
 <a class="sourceLine" id="cb6-6" title="6">)</a>
 <a class="sourceLine" id="cb6-7" title="7"><span class="co">#&gt; - Calculating observed PSD</span></a>
 <a class="sourceLine" id="cb6-8" title="8"><span class="co">#&gt; - Mapping k-mers.</span></a>
@@ -177,11 +176,19 @@
 <a class="sourceLine" id="cb6-12" title="12"><span class="co">#&gt; - Applying Fast Fourier Transform to the vector of distances.</span></a>
 <a class="sourceLine" id="cb6-13" title="13"><span class="co">#&gt; - Computing signal-to-noise ratios.</span></a>
 <a class="sourceLine" id="cb6-14" title="14"><span class="co">#&gt; &gt;&gt; Measured PSD @ 10bp is: 3.06609400342861e-06</span></a>
-<a class="sourceLine" id="cb6-15" title="15"><span class="co">#&gt; - Shuffling 1/3</span></a>
-<a class="sourceLine" id="cb6-16" title="16"><span class="co">#&gt; - Shuffling 2/3</span></a>
-<a class="sourceLine" id="cb6-17" title="17"><span class="co">#&gt; - Shuffling 3/3</span></a>
-<a class="sourceLine" id="cb6-18" title="18"><span class="kw"><a href="../reference/plotFPI.html">plotFPI</a></span>(fpi)</a></code></pre></div>
+<a class="sourceLine" id="cb6-15" title="15"><span class="co">#&gt; - Shuffling 1/10</span></a>
+<a class="sourceLine" id="cb6-16" title="16"><span class="co">#&gt; - Shuffling 2/10</span></a>
+<a class="sourceLine" id="cb6-17" title="17"><span class="co">#&gt; - Shuffling 3/10</span></a>
+<a class="sourceLine" id="cb6-18" title="18"><span class="co">#&gt; - Shuffling 4/10</span></a>
+<a class="sourceLine" id="cb6-19" title="19"><span class="co">#&gt; - Shuffling 5/10</span></a>
+<a class="sourceLine" id="cb6-20" title="20"><span class="co">#&gt; - Shuffling 6/10</span></a>
+<a class="sourceLine" id="cb6-21" title="21"><span class="co">#&gt; - Shuffling 7/10</span></a>
+<a class="sourceLine" id="cb6-22" title="22"><span class="co">#&gt; - Shuffling 8/10</span></a>
+<a class="sourceLine" id="cb6-23" title="23"><span class="co">#&gt; - Shuffling 9/10</span></a>
+<a class="sourceLine" id="cb6-24" title="24"><span class="co">#&gt; - Shuffling 10/10</span></a>
+<a class="sourceLine" id="cb6-25" title="25"><span class="kw"><a href="../reference/plotFPI.html">plotFPI</a></span>(fpi)</a></code></pre></div>
 <p><img src="periodicDNA_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<p><strong>Note:</strong> To calculate the FPI of a k-mer in a set of sequences, the sequences of interest are first randomly shuffled (<code>n_shuffle</code> times). This process is stochastic and for this reason, the FPI score might vary each time the <code><a href="../reference/getFPI.html">getFPI()</a></code> function is ran. To ensure accurate estimation of the FPI score, it is recommended to run the <code><a href="../reference/getFPI.html">getFPI()</a></code> function with a high <code>n_shuffle</code>. The process can be parallelised using the <code>parallel_shuffling</code> argument.</p>
 </div>
 <div id="generating-periodicity-tracks-with-periodicdna" class="section level2">
 <h2 class="hasAnchor">
@@ -207,8 +214,8 @@
 <a class="sourceLine" id="cb7-18" title="18"><span class="co">#&gt;     </span></a>
 <a class="sourceLine" id="cb7-19" title="19"><span class="co">#&gt;     Now starting...</span></a>
 <a class="sourceLine" id="cb7-20" title="20"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-21" title="21"><span class="co">#&gt; &gt;&gt; 1 bins computed /// TIME: 2020-05-04 18:26:18</span></a>
-<a class="sourceLine" id="cb7-22" title="22"><span class="co">#&gt; &gt;&gt; 549 bins computed /// TIME: 2020-05-04 18:26:44</span></a>
+<a class="sourceLine" id="cb7-21" title="21"><span class="co">#&gt; &gt;&gt; 1 bins computed /// TIME: 2020-05-04 22:01:59</span></a>
+<a class="sourceLine" id="cb7-22" title="22"><span class="co">#&gt; &gt;&gt; 549 bins computed /// TIME: 2020-05-04 22:02:22</span></a>
 <a class="sourceLine" id="cb7-23" title="23"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb7-24" title="24"><span class="co">#&gt;    SUCCESS: TT-periodicity_g-100^2_b-100^5.bw has been created!</span></a>
 <a class="sourceLine" id="cb7-25" title="25"><span class="co">#&gt;    1098 bases covered by the generated track.</span></a>
@@ -285,7 +292,7 @@
 <li><a href="#introduction">Introduction</a></li>
       <li><a href="#installation">Installation</a></li>
       <li><a href="#loading-periodicdna-and-other-useful-packages">Loading periodicDNA and other useful packages</a></li>
-      <li><a href="#how-periodna-works">How perioDNA works</a></li>
+      <li><a href="#how-periodicdna-works">How periodicDNA works</a></li>
       <li><a href="#quick-k-mer-periodicity">Quick k-mer periodicity</a></li>
       <li><a href="#fold-power-increase-metric">Fold Power Increase metric</a></li>
       <li><a href="#generating-periodicity-tracks-with-periodicdna">Generating periodicity tracks with periodicDNA</a></li>
@@ -299,7 +306,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://https://js2264.github.io/">Jacques Serizay</a>.</p>
+  <p>Developed by <a href="https://js2264.github.io/">Jacques Serizay</a>.</p>
 </div>
 
 <div class="pkgdown">
