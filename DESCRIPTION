@@ -11,7 +11,7 @@ Description: The functions in this package provide a straightforward
     approach to identify periodic occurrences of k-mers or 
     oligonucleotides in longer sequences such as regulatory 
     elements. 
-URL: www.github.com/js2264/periodicDNA
+URL: https://github.com/js2264/periodicDNA
 BugReports: https://github.com/js2264/periodicDNA/issues
 RoxygenNote: 6.1.1.9000
 Depends:

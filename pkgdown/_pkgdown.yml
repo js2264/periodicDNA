@@ -6,11 +6,11 @@ home:
   - text: Browse source code at
     href: https://github.com/js2264/periodicDNA/
   - text: Read publication at
-    href: https://github.com/js2264/periodicDNA/blob/master/vignettes/introduction-to-periodicdna.Rmd
+    href: https://github.com/js2264/periodicDNA/blob/master/vignettes/periodicDNA.Rmd
 
 authors:
   Jacques Serizay:
-    href: https://https://js2264.github.io/
+    href: https://js2264.github.io/
 
 template:
   params:
