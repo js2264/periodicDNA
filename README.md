@@ -3,10 +3,10 @@
 [![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![](https://img.shields.io/github/languages/code-size/js2264/periodicDNA.svg)](https://github.com/js2264/periodicDNA)
 
-# periodicDNA
+# periodicDNA <img src="man/figures/logo.png" align="right" alt="" />
 
-![](man/images/TT_tissue-specific-classes.png)
-![](man/images/WW-TT-AA-10bp-periodicity_tissue-spe-TSSs.png)
+![](https://raw.githubusercontent.com/js2264/periodicDNA/master/man/images/TT_tissue-specific-classes.png)
+![](https://raw.githubusercontent.com/js2264/periodicDNA/master/man/images/WW-TT-AA-10bp-periodicity_tissue-spe-TSSs.png)
 
 ## Introduction
 
@@ -47,7 +47,7 @@ list_plots <- plotPeriodicityResults(periodicity_result) %>%
     cowplot::plot_grid(plotlist = ., nrow = 1)
 ```
 
-![TT-periodicity](man/images/ubiquitous-promoters_TT-periodicity.png)
+![TT-periodicity](https://raw.githubusercontent.com/js2264/periodicDNA/master/man/images/ubiquitous-promoters_TT-periodicity.png)
 
 ### Track of periodicity over a set of Genomic Ranges
 
@@ -75,8 +75,8 @@ generatePeriodicityTrack(
 
 ## Advanced use
 
-Please read the [Introduction](vignettes/Introduction.md) vignette 
-for a full presentation of the package functions.
+Please read the [Introduction](vignettes/periodicDNA.Rmd) 
+vignette for a full presentation of the package functions.
 
 ## Contributions
 Code contributions, bug reports, fixes and feature requests are most welcome.

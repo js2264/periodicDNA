@@ -107,12 +107,15 @@ generatePeriodicityTrack <- function(
         '-periodicity_g-', GENOME.WINDOW.SIZE, '^', GENOME.WINDOW.SLIDING, 
         '_b-', BIN.WINDOW.SIZE, '^', BIN.WINDOW.SLIDING ,'.bw'
     )
+    res <- coverage(list.results.2, weight = list.results.2$score)
     rtracklayer::export.bw(
-        coverage(list.results.2, weight = list.results.2$score), 
+        res, 
         bw_file
     )
-    message(' SUCCESS: ', bw_file, ' has been created!')
-    
+    message('\n   SUCCESS: ', bw_file, ' has been created!')
+    message(
+        '   ', sum(sum(res != 0)), ' bases covered by the generated track.'
+    )
     # Remove tmp files
     cleanUpDirectory()
 }
