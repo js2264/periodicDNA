@@ -13,4 +13,4 @@ matrix:
       r: bioc-devel
       after_success: Rscript -e 'covr::codecov()'
     - os: osx
-      r: bioc-devel
+      r: bioc-release
