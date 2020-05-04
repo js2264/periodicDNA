@@ -18,6 +18,7 @@ suppressPackageStartupMessages({
     library(GenomicRanges)
     library(magrittr)
     library(ggplot2)
+    library(periodicDNA)
 })
 ```
 
@@ -47,7 +48,6 @@ library(periodicDNA)
 ```{r}
 library(periodicDNA)
 library(magrittr)
-library(GenomicRanges)
 library(ggplot2)
 ```
 
@@ -96,12 +96,18 @@ strength of a k-mer of interest by modelling the background periodicity.
 fpi <- getFPI(
     ce_seq[ubiq_TSSs],
     motif = 'TT', 
-    parallel_shuffling = 100, 
-    n_shuffle = 100
+    parallel_shuffling = 1, 
+    n_shuffle = 10
 )
-fpi$FPI
 plotFPI(fpi)
 ``` 
+
+**Note:** To calculate the FPI of a k-mer in a set of sequences, the sequences
+of interest are first randomly shuffled (`n_shuffle` times). This process is
+stochastic and for this reason, the FPI score might vary each time the 
+`getFPI()` function is ran. To ensure accurate estimation of the FPI score, 
+it is recommended to run the `getFPI()` function with a high `n_shuffle`. The 
+process can be parallelised using the `parallel_shuffling` argument. 
 
 ## Generating periodicity tracks with periodicDNA
 
