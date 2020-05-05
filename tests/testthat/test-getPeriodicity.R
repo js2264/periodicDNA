@@ -18,7 +18,7 @@ test_that("getPeriodicity works with shuffling", {
     expect_equal({
         data(ce_proms)
         periodicity_result <- getPeriodicity(
-            ce_proms[seq_len(2)],
+            ce_proms[seq_len(50)],
             genome = 'ce11',
             motif = 'TT', 
             cores = 1, 

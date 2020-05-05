@@ -8,7 +8,7 @@
 #'
 #' @usage data(ce_proms)
 #'
-#' @format An object of class \code{"GRanges"}.
+#' @format GRanges
 #'
 #' @keywords datasets
 #'
@@ -35,7 +35,7 @@
 #'
 #' @usage data(proms)
 #'
-#' @format An object of class \code{"GRanges"}.
+#' @format GRanges
 #'
 #' @keywords datasets
 #'
@@ -63,7 +63,7 @@
 #'
 #' @usage data(ce_proms_seqs)
 #'
-#' @format An object of class \code{"DNAStringSet"}.
+#' @format DNAStringSet
 #'
 #' @keywords datasets
 #'

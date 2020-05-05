@@ -4,8 +4,8 @@
 \alias{binWrapper}
 \title{Internal function}
 \usage{
-binWrapper(grange, genome, MOTIF, BIN.WINDOW.SIZE, BIN.WINDOW.SLIDING,
-  RANGE.FOR.SPECTRUM, FREQ)
+binWrapper(grange, genome, motif, window_sliding_size, window_sliding_bin,
+  range_spectrum, freq)
 }
 \arguments{
 \item{grange}{A GRanges object of length 1}
@@ -13,19 +13,19 @@ binWrapper(grange, genome, MOTIF, BIN.WINDOW.SIZE, BIN.WINDOW.SLIDING,
 \item{genome}{A DNAStringSet object. Ideally, the sequence of an entire 
 genome}
 
-\item{MOTIF}{String Oligonucleotide of interest.}
+\item{motif}{String Oligonucleotide of interest.}
 
-\item{BIN.WINDOW.SIZE}{Integer The width of the bins to split each primary
+\item{window_sliding_size}{Integer The width of the bins to split each primary
 bin in (default 60).}
 
-\item{BIN.WINDOW.SLIDING}{Integer The increment between secondary bins
+\item{window_sliding_bin}{Integer The increment between secondary bins
 (default 5).}
 
-\item{RANGE.FOR.SPECTRUM}{Numeric vector The distances between nucleotides
+\item{range_spectrum}{Numeric vector The distances between nucleotides
 to take into consideration when performing Fast Fourier Transform 
 (default seq_len(50)).}
 
-\item{FREQ}{Float The frequence of the dinucleotide to study (default 1/10).}
+\item{freq}{Float The frequence of the dinucleotide to study (default 1/10).}
 }
 \value{
 Float The estimated periodicity score of the input GRanges

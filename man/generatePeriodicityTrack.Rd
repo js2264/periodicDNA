@@ -5,11 +5,11 @@
 \title{Core function to generate a track of periodicity strenght of a given 
 dinucleotide at a given frequency, over a set of chosen GRanges.}
 \usage{
-generatePeriodicityTrack(genome = NULL, granges, MOTIF = "WW",
-  EXTEND.GRANGES = 1000, GENOME.WINDOW.SIZE = 100,
-  GENOME.WINDOW.SLIDING = 2, BIN.WINDOW.SIZE = 100,
-  BIN.WINDOW.SLIDING = 5, RANGE.FOR.SPECTRUM = seq_len(50),
-  FREQ = 1/10, PROCS = 12, bw_file = NULL)
+generatePeriodicityTrack(genome = NULL, granges, motif = "WW",
+  extension = 1000, genome_sliding_size = 100,
+  genome_sliding_sliding = 2, window_sliding_size = 100,
+  window_sliding_bin = 5, range_spectrum = seq_len(50), freq = 1/10,
+  cores = 12, bw_file = NULL)
 }
 \arguments{
 \item{genome}{DNAStringSet object obtained from
@@ -18,30 +18,30 @@ generatePeriodicityTrack(genome = NULL, granges, MOTIF = "WW",
 \item{granges}{GRanges object (with seqnames overlapping 
 the names of genome).}
 
-\item{MOTIF}{String Oligonucleotide of interest.}
+\item{motif}{String Oligonucleotide of interest.}
 
-\item{EXTEND.GRANGES}{Integer The width the GRanges are going to 
+\item{extension}{Integer The width the GRanges are going to 
 be extended to (default 1000).}
 
-\item{GENOME.WINDOW.SIZE}{Integer The width of the bins to split the GRanges
+\item{genome_sliding_size}{Integer The width of the bins to split the GRanges
 objects in (default 100).}
 
-\item{GENOME.WINDOW.SLIDING}{Integer The increment between bins over GRanges
+\item{genome_sliding_sliding}{Integer The increment between bins over GRanges
 (default 2).}
 
-\item{BIN.WINDOW.SIZE}{Integer The width of the bins to split each primary 
+\item{window_sliding_size}{Integer The width of the bins to split each primary 
 bin in (default 60).}
 
-\item{BIN.WINDOW.SLIDING}{Integer The increment between secondary bins
+\item{window_sliding_bin}{Integer The increment between secondary bins
 (default 5).}
 
-\item{RANGE.FOR.SPECTRUM}{Numeric vector The distances between nucleotides
+\item{range_spectrum}{Numeric vector The distances between nucleotides
 to take into consideration when performing Fast Fourier Transform 
 (default seq_len(50)).}
 
-\item{FREQ}{Float The frequence of the dinucleotide to study (default 1/10).}
+\item{freq}{Float The frequence of the dinucleotide to study (default 1/10).}
 
-\item{PROCS}{Integer Split the workload over several processors 
+\item{cores}{Integer Split the workload over several processors 
 (default 12).}
 
 \item{bw_file}{String. The name of the output bigWig track}

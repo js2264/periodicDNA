@@ -381,9 +381,13 @@ getPeriodicity.GRanges <- function(
     granges <- x
     
     if (methods::is(genome, 'character')) {
-        if (genome %in% c('ce11', 'dm6', 'mm10', 'hg38', 'danRer10')) {
+        if (genome %in% c(
+            'sacCer3', 'ce11', 'dm6', 'mm10', 'hg38', 'danRer10'
+        )) {
             genome <- switch(
                 genome, 
+                'sacCer3' = (BSgenome.Scerevisiae.UCSC.sacCer3::
+                    BSgenome.Scerevisiae.UCSC.sacCer3), 
                 'ce11' = (BSgenome.Celegans.UCSC.ce11::
                     BSgenome.Celegans.UCSC.ce11), 
                 'dm6' = (BSgenome.Dmelanogaster.UCSC.dm6::

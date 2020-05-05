@@ -5,22 +5,22 @@
 #'     \code{Biostrings::getSeq(BSgenome.xxx)}.
 #' @param granges GRanges object (with seqnames overlapping 
 #'     the names of genome).
-#' @param MOTIF String Oligonucleotide of interest. 
-#' @param EXTEND.GRANGES Integer The width the GRanges are going to 
+#' @param motif String Oligonucleotide of interest. 
+#' @param extension Integer The width the GRanges are going to 
 #'     be extended to (default 1000).
-#' @param GENOME.WINDOW.SIZE Integer The width of the bins to split the GRanges
+#' @param genome_sliding_size Integer The width of the bins to split the GRanges
 #'     objects in (default 100).
-#' @param GENOME.WINDOW.SLIDING Integer The increment between bins over GRanges
+#' @param genome_sliding_sliding Integer The increment between bins over GRanges
 #'     (default 2).
-#' @param BIN.WINDOW.SIZE Integer The width of the bins to split each primary 
+#' @param window_sliding_size Integer The width of the bins to split each primary 
 #'     bin in (default 60).
-#' @param BIN.WINDOW.SLIDING Integer The increment between secondary bins
+#' @param window_sliding_bin Integer The increment between secondary bins
 #'     (default 5).
-#' @param RANGE.FOR.SPECTRUM Numeric vector The distances between nucleotides
+#' @param range_spectrum Numeric vector The distances between nucleotides
 #'     to take into consideration when performing Fast Fourier Transform 
 #'     (default seq_len(50)).
-#' @param FREQ Float The frequence of the dinucleotide to study (default 1/10).
-#' @param PROCS Integer Split the workload over several processors 
+#' @param freq Float The frequence of the dinucleotide to study (default 1/10).
+#' @param cores Integer Split the workload over several processors 
 #'     (default 12).
 #' @param bw_file String. The name of the output bigWig track
 #' 
@@ -35,15 +35,15 @@
 generatePeriodicityTrack <- function(
     genome = NULL, 
     granges, 
-    MOTIF = 'WW', 
-    EXTEND.GRANGES = 1000, 
-    GENOME.WINDOW.SIZE = 100, 
-    GENOME.WINDOW.SLIDING = 2, 
-    BIN.WINDOW.SIZE = 100, 
-    BIN.WINDOW.SLIDING = 5, 
-    RANGE.FOR.SPECTRUM = seq_len(50), 
-    FREQ = 1/10, 
-    PROCS = 12, 
+    motif = 'WW', 
+    extension = 1000, 
+    genome_sliding_size = 100, 
+    genome_sliding_sliding = 2, 
+    window_sliding_size = 100, 
+    window_sliding_bin = 5, 
+    range_spectrum = seq_len(50), 
+    freq = 1/10, 
+    cores = 12, 
     bw_file = NULL
     ) {
     
@@ -54,28 +54,28 @@ generatePeriodicityTrack <- function(
     }
     isCircular(seqinfo(granges)) <- NA
     granges.extended <- GenomicRanges::resize(
-        granges, EXTEND.GRANGES, fix = 'center'
+        granges, extension, fix = 'center'
     )
     granges.extended_large <- GenomicRanges::resize(
-        granges, 2*EXTEND.GRANGES, fix = 'center'
+        granges, 2*extension, fix = 'center'
     )
     genome.partionned <- partitionGenome(
         genome, granges.extended_large, granges.extended, 
-        GENOME.WINDOW.SIZE, GENOME.WINDOW.SLIDING
+        genome_sliding_size, genome_sliding_sliding
     )
     genome.partionned.filtered <- IRanges::subsetByOverlaps(
         genome.partionned, granges.extended
     )
-    chunks <- getChunks(genome.partionned.filtered, PROCS = PROCS)
+    chunks <- getChunks(genome.partionned.filtered, cores = cores)
     
     message('
-    The genome has been divided in ', GENOME.WINDOW.SIZE, '-bp bins
-    with a sliding window of ', GENOME.WINDOW.SLIDING, '-bp.
+    The genome has been divided in ', genome_sliding_size, '-bp bins
+    with a sliding window of ', genome_sliding_sliding, '-bp.
     
     ', length(genome.partionned.filtered), ' windows overlap the input 
-    loci (extended to ', EXTEND.GRANGES, '-bp).
+    loci (extended to ', extension, '-bp).
     
-    The mapping will be split among ', PROCS, ' jobs.
+    The mapping will be split among ', cores, ' jobs.
     
     Each job will analyse ', lengths(chunks)[1], ' bins.
     
@@ -87,12 +87,12 @@ generatePeriodicityTrack <- function(
         chunks, 
         chunkWrapper,
         genome, 
-        MOTIF, 
-        GENOME.WINDOW.SLIDING,
-        BIN.WINDOW.SIZE, 
-        BIN.WINDOW.SLIDING,
-        RANGE.FOR.SPECTRUM, 
-        FREQ,
+        motif, 
+        genome_sliding_sliding,
+        window_sliding_size, 
+        window_sliding_bin,
+        range_spectrum, 
+        freq,
         mc.cores = length(chunks)
     )
     
@@ -103,9 +103,9 @@ generatePeriodicityTrack <- function(
     
     # Generate final track
     if (is.null(bw_file)) bw_file = paste0(
-        MOTIF, 
-        '-periodicity_g-', GENOME.WINDOW.SIZE, '^', GENOME.WINDOW.SLIDING, 
-        '_b-', BIN.WINDOW.SIZE, '^', BIN.WINDOW.SLIDING ,'.bw'
+        motif, 
+        '-periodicity_g-', genome_sliding_size, '^', genome_sliding_sliding, 
+        '_b-', window_sliding_size, '^', window_sliding_bin ,'.bw'
     )
     res <- coverage(list.results.2, weight = list.results.2$score)
     rtracklayer::export.bw(
@@ -132,9 +132,9 @@ generatePeriodicityTrack <- function(
 #'     \code{Biostrings::getSeq(
 #'       BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
 #'     )}.
-#' @param GENOME.WINDOW.SIZE An integer. The width of the bins to split 
+#' @param genome_sliding_size An integer. The width of the bins to split 
 #'     the GRanges objects in (default 100).
-#' @param GENOME.WINDOW.SLIDING An integer. The increment between bins 
+#' @param genome_sliding_sliding An integer. The increment between bins 
 #'     over GRanges (default 2).
 #' 
 #' @import GenomeInfoDb
@@ -147,8 +147,8 @@ partitionGenome <- function(
     genome, 
     granges.extended_large, 
     granges.extended, 
-    GENOME.WINDOW.SIZE, 
-    GENOME.WINDOW.SLIDING
+    genome_sliding_size, 
+    genome_sliding_sliding
 ) 
 {
     genome.Seqinfo <- GenomeInfoDb::Seqinfo(
@@ -164,15 +164,15 @@ partitionGenome <- function(
     GenomeInfoDb::seqinfo(genome.granges) <- genome.Seqinfo
     granges.partionned <- GenomicRanges::slidingWindows(
         GenomicRanges::reduce(granges.extended_large), 
-        GENOME.WINDOW.SIZE, 
-        GENOME.WINDOW.SLIDING
+        genome_sliding_size, 
+        genome_sliding_sliding
     ) %>% 
         GenomicRanges::GRangesList() %>% 
         unlist()
     GenomeInfoDb::seqinfo(granges.partionned) <- genome.Seqinfo
     granges.partionned <- GenomicRanges::trim(granges.partionned)
     granges.partionned <- granges.partionned[
-        GenomicRanges::width(granges.partionned) == GENOME.WINDOW.SIZE
+        GenomicRanges::width(granges.partionned) == genome_sliding_size
     ]
     return(granges.partionned)
 }
@@ -181,22 +181,22 @@ partitionGenome <- function(
 #'
 #' @param genome.partionned.filtered Output from partitionGenome() filtered 
 #'     over GRanges of interest. 
-#' @param PROCS An integer Split the workload over several processors 
+#' @param cores An integer Split the workload over several processors 
 #'     (default 12).
 #' 
 #' @return list Chunks list of primary bins to measure.
 
-getChunks <- function(genome.partionned.filtered, PROCS) {
+getChunks <- function(genome.partionned.filtered, cores) {
     chunks <- as.numeric(
         cut(
             seq_len(length(genome.partionned.filtered)), 
             breaks = seq(
-                1, length(genome.partionned.filtered), length.out = PROCS + 1
+                1, length(genome.partionned.filtered), length.out = cores + 1
             ), 
             include.lowest = TRUE)
         )
     list.granges <- list()
-    for (K in seq_len(PROCS)) {
+    for (K in seq_len(cores)) {
         list.granges[[K]] <- genome.partionned.filtered[chunks == K]
     }
     return(list.granges)
@@ -210,17 +210,17 @@ getChunks <- function(genome.partionned.filtered, PROCS) {
 #'     \code{Biostrings::getSeq(
 #'       BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
 #'     )}.
-#' @param MOTIF String Oligonucleotide of interest. 
-#' @param GENOME.WINDOW.SLIDING Integer The increment between bins over GRanges
+#' @param motif String Oligonucleotide of interest. 
+#' @param genome_sliding_sliding Integer The increment between bins over GRanges
 #'     (default 2).
-#' @param BIN.WINDOW.SIZE Integer The width of the bins to split each primary 
+#' @param window_sliding_size Integer The width of the bins to split each primary 
 #'     bin in (default 60).
-#' @param BIN.WINDOW.SLIDING Integer The increment between secondary bins
+#' @param window_sliding_bin Integer The increment between secondary bins
 #'     (default 5).
-#' @param RANGE.FOR.SPECTRUM Numeric vector The distances between nucleotides
+#' @param range_spectrum Numeric vector The distances between nucleotides
 #'     to take into consideration when performing Fast Fourier Transform 
 #'     (default seq_len(50)).
-#' @param FREQ Float The frequence of the dinucleotide to study (default 1/10).
+#' @param freq Float The frequence of the dinucleotide to study (default 1/10).
 #' 
 #' @import GenomicRanges
 #' @importFrom rtracklayer export.bw
@@ -230,24 +230,24 @@ getChunks <- function(genome.partionned.filtered, PROCS) {
 chunkWrapper <- function(
     chunk, 
     genome, 
-    MOTIF, 
-    GENOME.WINDOW.SLIDING, 
-    BIN.WINDOW.SIZE, 
-    BIN.WINDOW.SLIDING, 
-    RANGE.FOR.SPECTRUM, 
-    FREQ
+    motif, 
+    genome_sliding_sliding, 
+    window_sliding_size, 
+    window_sliding_bin, 
+    range_spectrum, 
+    freq
 ) 
 {
     res <- chunk
     res$score <- 0
     res <- GenomicRanges::resize(
-        res, width = GENOME.WINDOW.SLIDING, fix = 'center'
+        res, width = genome_sliding_sliding, fix = 'center'
     )
     intervals <- seq(1, length(res), length.out = 100)
     for (K in seq_len(length(chunk))) {
         res$score[K] <- binWrapper(
-            chunk[K], genome, MOTIF, BIN.WINDOW.SIZE, 
-            BIN.WINDOW.SLIDING, RANGE.FOR.SPECTRUM, FREQ
+            chunk[K], genome, motif, window_sliding_size, 
+            window_sliding_bin, range_spectrum, freq
         )
         if (K %in% intervals) {
             message('>> ', K, ' bins computed /// TIME: ', Sys.time())
@@ -265,15 +265,15 @@ chunkWrapper <- function(
 #' @param grange A GRanges object of length 1
 #' @param genome A DNAStringSet object. Ideally, the sequence of an entire 
 #'     genome
-#' @param MOTIF String Oligonucleotide of interest. 
-#' @param BIN.WINDOW.SIZE Integer The width of the bins to split each primary
+#' @param motif String Oligonucleotide of interest. 
+#' @param window_sliding_size Integer The width of the bins to split each primary
 #'     bin in (default 60).
-#' @param BIN.WINDOW.SLIDING Integer The increment between secondary bins
+#' @param window_sliding_bin Integer The increment between secondary bins
 #'     (default 5).
-#' @param RANGE.FOR.SPECTRUM Numeric vector The distances between nucleotides
+#' @param range_spectrum Numeric vector The distances between nucleotides
 #'     to take into consideration when performing Fast Fourier Transform 
 #'     (default seq_len(50)).
-#' @param FREQ Float The frequence of the dinucleotide to study (default 1/10).
+#' @param freq Float The frequence of the dinucleotide to study (default 1/10).
 #' 
 #' @import magrittr
 #' @importFrom stats dist
@@ -286,21 +286,21 @@ chunkWrapper <- function(
 binWrapper <- function(
     grange, 
     genome, 
-    MOTIF,
-    BIN.WINDOW.SIZE,
-    BIN.WINDOW.SLIDING, 
-    RANGE.FOR.SPECTRUM, 
-    FREQ
+    motif,
+    window_sliding_size,
+    window_sliding_bin, 
+    range_spectrum, 
+    freq
 ) 
 {
     bins <- withSeq(
-        partitionBin(grange, genome, BIN.WINDOW.SIZE, BIN.WINDOW.SLIDING), 
+        partitionBin(grange, genome, window_sliding_size, window_sliding_bin), 
         genome
     )
     seqs <- bins$seq
     dists <- unlist(lapply(seq_along(seqs), function(k) {
         Biostrings::vmatchPattern(
-            MOTIF, seqs[k], max.mismatch = 0, fixed = FALSE
+            motif, seqs[k], max.mismatch = 0, fixed = FALSE
         ) %>% 
         IRanges::start() %>% 
         '[['(1) %>% 
@@ -308,8 +308,8 @@ binWrapper <- function(
         c()
     }))
     hist <- hist(dists, breaks = seq(0, 1000, 1), plot = FALSE)
-    s <- stats::spectrum(hist$counts[RANGE.FOR.SPECTRUM], plot = FALSE)
-    spec <- round(s$spec[which.min(abs(s$freq - FREQ))], 4)
+    s <- stats::spectrum(hist$counts[range_spectrum], plot = FALSE)
+    spec <- round(s$spec[which.min(abs(s$freq - freq))], 4)
     return(spec)
 }
 
@@ -318,9 +318,9 @@ binWrapper <- function(
 #' @param grange A GRanges object of length 1
 #' @param genome A DNAStringSet object. Ideally, the sequence of an entire 
 #'     genome
-#' @param BIN.WINDOW.SIZE Integer The width of the bins to split each primary
+#' @param window_sliding_size Integer The width of the bins to split each primary
 #'     bin in (default 60).
-#' @param BIN.WINDOW.SLIDING Integer The increment between secondary bins
+#' @param window_sliding_bin Integer The increment between secondary bins
 #'     (default 5).
 #' 
 #' @import GenomeInfoDb
@@ -328,7 +328,7 @@ binWrapper <- function(
 #' @import IRanges
 #' @return list A GRanges object
 
-partitionBin <- function(grange, genome, BIN.WINDOW.SIZE, BIN.WINDOW.SLIDING) {
+partitionBin <- function(grange, genome, window_sliding_size, window_sliding_bin) {
     genome.Seqinfo <- GenomeInfoDb::Seqinfo(
         seqnames = names(genome), 
         seqlengths = lengths(genome), 
@@ -345,12 +345,12 @@ partitionBin <- function(grange, genome, BIN.WINDOW.SIZE, BIN.WINDOW.SLIDING) {
     GenomeInfoDb::seqinfo(genome.granges) <- genome.Seqinfo
     starts <- seq(
         IRanges::start(grange), 
-        IRanges::start(grange)+GenomicRanges::width(grange)-BIN.WINDOW.SIZE, 
-        BIN.WINDOW.SLIDING
+        IRanges::start(grange)+GenomicRanges::width(grange)-window_sliding_size, 
+        window_sliding_bin
     )
     granges <- GenomicRanges::GRanges(
         seqnames = rep(GenomicRanges::seqnames(grange), length(starts)),
-        IRanges::IRanges(start = starts, width = BIN.WINDOW.SIZE)
+        IRanges::IRanges(start = starts, width = window_sliding_size)
     )
     return(granges)
 }

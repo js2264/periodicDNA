@@ -4,13 +4,13 @@
 \alias{getChunks}
 \title{Internal function}
 \usage{
-getChunks(genome.partionned.filtered, PROCS)
+getChunks(genome.partionned.filtered, cores)
 }
 \arguments{
 \item{genome.partionned.filtered}{Output from partitionGenome() filtered 
 over GRanges of interest.}
 
-\item{PROCS}{An integer Split the workload over several processors 
+\item{cores}{An integer Split the workload over several processors 
 (default 12).}
 }
 \value{

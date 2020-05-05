@@ -5,7 +5,7 @@ home:
     href: https://js2264.github.io/
   - text: Browse source code at
     href: https://github.com/js2264/periodicDNA/
-  - text: Read publication at
+  - text: Read vignette at
     href: https://github.com/js2264/periodicDNA/blob/master/vignettes/periodicDNA.Rmd
 
 authors:
@@ -16,24 +16,50 @@ template:
   params:
     bootswatch: sandstone
 
-# reference:
-#   - title: Probing DNA sequences for periodic oligonucleotides
-#     contents:
-#     - plotVmat
-#     - computeVmat
-#     - scaleVmat
-#     - normalizeVmat
-#     - shuffleVmat
-#   - title: Computing flanking nucleosome enrichment scores
-#     contents:
-#     - nucleosomeEnrichment
-#     - computeNucleosomeEnrichmentOverBackground
-#   - title: Helpers
-#     contents:
-#     - importPEBamFiles
-#     - shiftATACGranges
-#     - getFragmentsDistribution
- 
+reference:
+- title: Build
+  desc:  Build a complete site or its individual section components.
+- contents:
+  - getPeriodicity
+  - getPeriodicity.DNAStringSet
+  - getPeriodicity.GRanges
+  - generatePeriodicityTrack
+  - getFPI
+- title: Plotting functions
+- contents: 
+  - starts_with("plot")
+- title: Utilities
+- contents:
+  - sampleGRanges
+  - sampleGRanges.BSgenome
+  - sampleGRanges.DNAStringSet
+  - sampleGRanges.GRanges
+  - withSeq
+  - shuffleSeq
+  - deconvolveBidirectionalPromoters
+  - alignToTSS
+  - scaleBigWigs
+  - DNAStringSet2GRanges
+- title: Data
+- contents:
+  - proms
+  - ce_proms
+  - ce_proms_seqs
+- title: Internal functions
+- contents: 
+  - binWrapper
+  - chunkWrapper
+  - cleanUpDirectory
+  - getChunks
+  - getCovMatrix
+  - na.remove
+  - na.replace
+  - namedListToLongFormat
+  - normalizeHistogram
+  - partitionBin
+  - partitionGenome
+  - unlistResults
+
 toc:
   depth: 3
 

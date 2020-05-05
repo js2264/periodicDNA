@@ -8,9 +8,9 @@ test_that("generateperiodicitytrack works", {
                 BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
             ),
             granges = ce_proms[1], 
-            MOTIF = 'TT',
-            FREQ = 1/10,
-            PROCS = 1, 
+            motif = 'TT',
+            freq = 1/10,
+            cores = 1, 
             bw_file = 'TT-10-bp-periodicity_over-proms.bw'
         )
         track <- rtracklayer::import(

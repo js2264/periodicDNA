@@ -2,24 +2,33 @@
 % Please edit documentation in R/utils.R
 \name{sampleGRanges}
 \alias{sampleGRanges}
-\title{A function to sample GRanges within GRanges}
+\title{A function to sample GRanges from GRanges/DNAStringSet}
 \usage{
-sampleGRanges(granges, n)
+sampleGRanges(x, n = NULL, width = NULL, exclude = FALSE)
 }
 \arguments{
-\item{granges}{a GRanges object}
+\item{x}{a GRanges or DNAStringSet object}
 
-\item{n}{Integer}
+\item{n}{Integer number of sampled GRanges}
+
+\item{width}{Integer width of sampled GRanges}
+
+\item{exclude}{Boolean should the original GRanges be excluded?}
 }
 \value{
 A GRanges object of length n
 }
 \description{
-A function to sample GRanges within GRanges
+A function to sample GRanges from GRanges/DNAStringSet
 }
 \examples{
 \dontrun{
     data(ce_proms)
     sampleGRanges(ce_proms, 100)
+    #
+    yeast_seq <- getSeq(
+        BSgenome.Scerevisiae.UCSC.sacCer3::BSgenome.Scerevisiae.UCSC.sacCer3
+    )
+    sacCer3_random_regions <- sampleGRanges(yeast_seq, n = 10000, w = 200)
 }
 }

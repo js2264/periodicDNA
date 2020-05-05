@@ -1,5 +1,5 @@
 ---
-title: icDNA
+title: periodicDNA
 author: Jacques Serizay
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -71,21 +71,35 @@ around its ubiquitous TSSs.
 
 ```{r, fig.wide = TRUE}
 data(ce_proms)
-ce_seq <- getSeq(
-    BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
-)
 ubiq_TSSs <- ce_proms[ce_proms$which.tissues == 'Ubiq.'] %>%
     deconvolveBidirectionalPromoters() %>% 
     alignToTSS(50, 300)
+seqs <- getSeq(
+    BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
+)
+ubiq_seqs <- seqs[ubiq_TSSs]
 ubiq_TT <- getPeriodicity(
-    ubiq_TSSs, 
-    genome = ce_seq, 
+    ubiq_seqs,
     motif = 'TT', 
     cores = 1
 )
 plotPeriodicityResults(ubiq_TT)
 ``` 
 
+`getPeriodicity` can also works with GRanges objects, as long as a `genome`
+is supplied. 'ce11', 'sacCer3', 'mm10', 'dm6', 'hg38' and 'danRer10' are 
+currently supported. Otherwise, a BSgenome can be used directly. 
+
+```{r, fig.wide = TRUE}
+ubiq_TT <- getPeriodicity(
+    ce_proms, 
+    genome = 'ce11', 
+    motif = 'TT', 
+    cores = 1
+)
+``` 
+
+<!--  
 ## Fold Power Increase metric
 
 The FPI (fold power increase) metric was originally described in 
@@ -94,7 +108,7 @@ strength of a k-mer of interest by modelling the background periodicity.
 
 ```{r, fig.small = TRUE}
 fpi <- getFPI(
-    ce_seq[ubiq_TSSs],
+    ubiq_seqs,
     motif = 'TT', 
     parallel_shuffling = 1, 
     n_shuffle = 10
@@ -109,6 +123,8 @@ stochastic and for this reason, the FPI score might vary each time the
 it is recommended to run the `getFPI()` function with a high `n_shuffle`. The 
 process can be parallelised using the `parallel_shuffling` argument. 
 
+-->
+
 ## Generating periodicity tracks with periodicDNA
 
 Rather than computing the periodicity of a chosen k-mer in a given 
@@ -117,11 +133,11 @@ a linear periodicity track covering loci of interest.
 
 ```{r}
 generatePeriodicityTrack(
-    ce_seq,
+    seqs,
     granges = ce_proms[1], 
-    MOTIF = 'TT',
-    FREQ = 1/10,
-    PROCS = 1
+    motif = 'TT',
+    freq = 1/10,
+    cores = 1
 )
 ```
 

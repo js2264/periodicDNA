@@ -5,7 +5,7 @@
 \title{Internal function}
 \usage{
 partitionGenome(genome, granges.extended_large, granges.extended,
-  GENOME.WINDOW.SIZE, GENOME.WINDOW.SLIDING)
+  genome_sliding_size, genome_sliding_sliding)
 }
 \arguments{
 \item{genome}{A DNAStringSet object. Ideally, the sequence of an 
@@ -21,10 +21,10 @@ entire genome, obtained for instance by running
   BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
 )}.}
 
-\item{GENOME.WINDOW.SIZE}{An integer. The width of the bins to split 
+\item{genome_sliding_size}{An integer. The width of the bins to split 
 the GRanges objects in (default 100).}
 
-\item{GENOME.WINDOW.SLIDING}{An integer. The increment between bins 
+\item{genome_sliding_sliding}{An integer. The increment between bins 
 over GRanges (default 2).}
 }
 \value{

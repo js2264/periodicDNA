@@ -30,6 +30,7 @@ Imports:
     methods,
     parallel
 Suggests:
+    BSgenome.Scerevisiae.UCSC.sacCer3, 
     BSgenome.Celegans.UCSC.ce11,
     BSgenome.Dmelanogaster.UCSC.dm6,
     BSgenome.Drerio.UCSC.danRer10,

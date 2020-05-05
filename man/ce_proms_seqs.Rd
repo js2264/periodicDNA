@@ -4,7 +4,7 @@
 \name{ce_proms_seqs}
 \alias{ce_proms_seqs}
 \title{ce_proms_seqs}
-\format{An object of class \code{"DNAStringSet"}.}
+\format{DNAStringSet}
 \source{
 \href{https://doi.org/10.1101/2020.02.20.958579}{BiorXiv}
 }

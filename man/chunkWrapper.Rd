@@ -4,8 +4,8 @@
 \alias{chunkWrapper}
 \title{Internal function}
 \usage{
-chunkWrapper(chunk, genome, MOTIF, GENOME.WINDOW.SLIDING, BIN.WINDOW.SIZE,
-  BIN.WINDOW.SLIDING, RANGE.FOR.SPECTRUM, FREQ)
+chunkWrapper(chunk, genome, motif, genome_sliding_sliding,
+  window_sliding_size, window_sliding_bin, range_spectrum, freq)
 }
 \arguments{
 \item{chunk}{A GRanges from the output list obtained with getChunks}
@@ -16,22 +16,22 @@ entire genome, obtained for instance by running
   BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
 )}.}
 
-\item{MOTIF}{String Oligonucleotide of interest.}
+\item{motif}{String Oligonucleotide of interest.}
 
-\item{GENOME.WINDOW.SLIDING}{Integer The increment between bins over GRanges
+\item{genome_sliding_sliding}{Integer The increment between bins over GRanges
 (default 2).}
 
-\item{BIN.WINDOW.SIZE}{Integer The width of the bins to split each primary 
+\item{window_sliding_size}{Integer The width of the bins to split each primary 
 bin in (default 60).}
 
-\item{BIN.WINDOW.SLIDING}{Integer The increment between secondary bins
+\item{window_sliding_bin}{Integer The increment between secondary bins
 (default 5).}
 
-\item{RANGE.FOR.SPECTRUM}{Numeric vector The distances between nucleotides
+\item{range_spectrum}{Numeric vector The distances between nucleotides
 to take into consideration when performing Fast Fourier Transform 
 (default seq_len(50)).}
 
-\item{FREQ}{Float The frequence of the dinucleotide to study (default 1/10).}
+\item{freq}{Float The frequence of the dinucleotide to study (default 1/10).}
 }
 \value{
 GRanges a GRanges object with a score column containing estimated

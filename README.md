@@ -2,7 +2,7 @@
 [![](https://codecov.io/gh/js2264/periodicDNA/branch/master/graph/badge.svg)](https://codecov.io/github/js2264/periodicDNA?branch=master)
 [![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![](https://img.shields.io/github/languages/code-size/js2264/periodicDNA.svg)](https://github.com/js2264/periodicDNA)
-[![](https://img.shields.io/badge/license-GPL--3-yellow.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+[![](https://img.shields.io/badge/license-GPL--3-orange.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
 # periodicDNA <img src="man/figures/logo.png" align="right" alt="" />
 
@@ -11,7 +11,7 @@
 
 ## Introduction
 
-This R package helps the user to identify very short sequences (e.g. di- or 
+This R package helps the user identify k-mers (e.g. di- or 
 tri-nucleotides) present periodically in a set of genomic loci (typically 
 regulatory elements). It is not aimed at identifying motifs separated by a 
 conserved distance; for this type of analysis, please visit 
@@ -32,7 +32,7 @@ library(periodicDNA)
 ### Dinucleotide periodicity over a set of Genomic Ranges
 
 `getPeriodicity()` is used to quantify the overall periodicity of a 
-given motif over a set of genomic ranges.
+given k-mer over a set of genomic ranges.
 
 ```r
 library(periodicDNA)
@@ -55,10 +55,10 @@ list_plots <- plotPeriodicityResults(periodicity_result) %>%
 The other major use of this package is to generate specific tracks 
 over a set of loci, e.g. the strength of WW 10-pb periodicity over promoters.  
 **Important note:** We recommend to run this command across at least a dozen of
-processors (use the `PROCS` argument). This command will take several hours and
+processors (use the `cores` argument). This command will take several hours and
 possibly up to a day to run. It typically takes one day to produce a
 periodicity track over 15,000 GRanges of 150 bp (with default parameters) 
-using `PROCS = 12`. We highly recommend the user to run this command in a 
+using `cores = 12`. We highly recommend the user to run this command in a 
 new `screen` session. 
 
 ```r
@@ -69,7 +69,7 @@ generatePeriodicityTrack(
     granges = proms, 
     MOTIF = 'TT',
     FREQ = 1/10,
-    PROCS = 12, 
+    cores = 12, 
     bw_file = 'TT-10-bp-periodicity_over-proms.bw'
 )
 ```

@@ -78,13 +78,42 @@ shuffleSeq <- function(dna) {
     }
 }
 
-#' A function to sample GRanges within GRanges
+#' A function to sample GRanges from GRanges/DNAStringSet
 #'
-#' @param granges a GRanges object
-#' @param n Integer
+#' @param x a GRanges or DNAStringSet object
+#' @param n Integer number of sampled GRanges
+#' @param width Integer width of sampled GRanges
+#' @param exclude Boolean should the original GRanges be excluded?
 #' 
 #' @return A GRanges object of length n
 #' 
+#' @export
+#' 
+#' @examples
+#' \dontrun{
+#'     data(ce_proms)
+#'     sampleGRanges(ce_proms, 100)
+#'     #
+#'     yeast_seq <- getSeq(
+#'         BSgenome.Scerevisiae.UCSC.sacCer3::BSgenome.Scerevisiae.UCSC.sacCer3
+#'     )
+#'     sacCer3_random_regions <- sampleGRanges(yeast_seq, n = 10000, w = 200)
+#' }
+
+sampleGRanges <- function(x, n = NULL, width = NULL, exclude = FALSE){
+    UseMethod("sampleGRanges")
+}
+
+#' A function to sample GRanges within GRanges
+#'
+#' @param x a GRanges object
+#' @param n Integer number of sampled GRanges
+#' @param width Integer width of sampled GRanges
+#' @param exclude Boolean should the original GRanges be excluded?
+#' 
+#' @return A GRanges object of length n
+#' 
+#' @importFrom methods as
 #' @import GenomicRanges
 #' @import IRanges
 #' @import GenomeInfoDb
@@ -93,30 +122,176 @@ shuffleSeq <- function(dna) {
 #' @examples
 #' \dontrun{
 #'     data(ce_proms)
+#'     sampleGRanges(ce_proms)
+#' }
+
+sampleGRanges.GRanges <- function(
+    x, 
+    n = NULL, 
+    width = NULL, 
+    exclude = TRUE
+)
+{
+    granges <- x
+    maxed_granges <- GenomicRanges::GRanges(
+        levels(GenomicRanges::seqnames(granges)), 
+        IRanges::IRanges(
+            1, 
+            width = lengths(GenomicRanges::coverage(granges))
+        )
+    )
+    if (is.null(n)) n <- length(x)
+    N <- 2*n 
+    g <- GRanges()
+    #
+    while (length(g) < n) {
+        # Sample chrs based on their size
+        chrs <- unlist(lapply(
+            seq_along(IRanges::width(maxed_granges)), 
+            function(K) {
+                rep(
+                    as.character(GenomicRanges::seqnames(maxed_granges)[K]), 
+                    GenomicRanges::end(maxed_granges)[K]
+                )
+            }
+        ))
+        chrs <- sample(chrs, N)
+        chrs <- as.character(sort(factor(
+            chrs, 
+            levels = levels(GenomicRanges::seqnames(maxed_granges))
+        )))
+        # For each chr, get random positions within this chr.
+        pos <- unlist(lapply(
+            unique(chrs), 
+            function(chr) {
+                sample(
+                    lengths(GenomicRanges::coverage(granges)[chr]), 
+                    table(chrs)[chr]
+                )
+            }
+        ))
+        # For each chr, get random strands within this chr.
+        strands <- unlist(RleList(lapply(
+            unique(chrs), 
+            function(chr) {
+                sample(
+                    as.vector(GenomicRanges::strand(
+                        granges[GenomicRanges::seqnames(granges) == chr]
+                    )), 
+                    table(chrs)[chr], 
+                    replace = TRUE
+                )
+            }
+        )))
+        # For each chr, get widths within this chr.
+        if (is.null(width)) {
+            widths <- as.vector(unlist(RleList(lapply(
+                unique(chrs), 
+                function(chr) {
+                    sample(
+                        IRanges::width(
+                            granges[GenomicRanges::seqnames(granges) == chr]
+                        ), 
+                        table(chrs)[chr], 
+                        replace = TRUE
+                    )
+                }
+            ))))
+        } 
+        else {
+            widths <- width
+        }
+        # Build a GRanges object 
+        suppressWarnings({
+            g2 <- GenomicRanges::GRanges(
+                chrs, 
+                IRanges::IRanges(pos, width = widths),
+                strand = strands, 
+                seqinfo = GenomeInfoDb::seqinfo(granges)
+            )
+            GenomeInfoDb::seqlengths(g2) <- lengths(maxed_granges)
+        })
+        g2 <- reduce(g2)
+        # Remove regions overlapping with initial GRanges
+        if (exclude) {
+            g2 <- g2[!(IRanges::`%over%`(g2, granges))]
+        }
+        # Remove the extended granges not embedded within the initial granges
+        g2 <- IRanges::subsetByOverlaps(
+            g2, 
+            maxed_granges, 
+            type = 'within'
+        )
+        # g2 <- GenomicRanges::trim(g2)
+        if (length(unique(widths)) == 1) {
+            g2 <- g2[GenomicRanges::width(g2) == unique(widths)]
+        }
+        g <- c(g, g2)
+    }
+    g <- g[sample(seq_len(length(g)), n)]
+    g <- sort(g)
+    return(g)
+}
+
+#' A function to sample GRanges within DNAStringSet
+#'
+#' @param x a DNAStringSet object
+#' @param ... Additional parameters
+#' 
+#' @return A GRanges object of length n
+#' 
+#' @import GenomicRanges
+#' @import IRanges
+#' @import GenomeInfoDb
+#' 
+#' @examples
+#' \dontrun{
+#'     data(ce_proms)
 #'     sampleGRanges(ce_proms, 100)
 #' }
 
-sampleGRanges <- function(granges, n){
-    rand_c <- sample(
-        length(granges),
-        n, 
-        replace = TRUE, 
-        prob = GenomicRanges::width(granges)
+sampleGRanges.DNAStringSet <- function(
+    x, 
+    ...
+)
+{
+    seqs <- x
+    granges <- DNAStringSet2GRanges(seqs)
+    sampleGRanges(granges, ...)
+}
+
+#' A function to sample GRanges from BSgenome
+#'
+#' @param x a BSgenome object
+#' @param ... Additional parameters
+#' 
+#' @return A GRanges object of length n
+#' 
+#' @import GenomicRanges
+#' @import IRanges
+#' @import GenomeInfoDb
+#' 
+#' @examples
+#' \dontrun{
+#'     sampleGRanges(
+#'         (BSgenome.Scerevisiae.UCSC.sacCer3::
+#'             BSgenome.Scerevisiae.UCSC.sacCer3), 
+#'         100
+#'     )
+#' }
+
+sampleGRanges.BSgenome <- function(
+    x, 
+    ...
+)
+{
+    genome <- x
+    granges <- GenomicRanges::GRanges(
+        names(genome), 
+        lengths(genome)
     )
-    rand_ranges <- granges[rand_c]
-    rand <- unlist(
-        lapply(GenomicRanges::width(rand_ranges), sample, size=1)
-    )
-    pos <- GenomicRanges::start(rand_ranges)+rand-1
-    res <- GenomicRanges::GRanges(
-        GenomicRanges::seqnames(rand_ranges), 
-        IRanges::IRanges(pos, width=1),
-        strand='*', 
-        seqinfo = GenomeInfoDb::seqinfo(granges), 
-        GenomicRanges::mcols(rand_ranges)
-    )
-    res <- sort(res)
-    return(res)
+    GenomeInfoDb::seqlengths(granges) <- lengths(genome)
+    sampleGRanges(granges, ...)
 }
 
 #' A function to generate a GRanges from a DNAStringSet
@@ -136,8 +311,10 @@ sampleGRanges <- function(granges, n){
 #'     DNAStringSet2GRanges(seq)
 #' }
 
-
 DNAStringSet2GRanges <- function(seqs) {
+    if (length(names(seqs)) == 0) {
+        names(seqs) <- paste0('seq_', seq_len(length(seqs)))
+    }
     g <- GenomicRanges::GRanges(
         names(seqs), 
         IRanges::IRanges(1, width = lengths(seqs))
