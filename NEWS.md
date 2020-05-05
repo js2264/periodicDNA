@@ -1,3 +1,10 @@
+# periodicDNA 0.3.1 (2020-05-05)  
+
+* Changed many variable names (all to snake_case)
+* sampleGRanges is now full-fledged function 
+    (GRanges, DNAStringSet and BSgenome methods)
+* Added sacCer3 to getPeriodicity BSgenomes
+
 # periodicDNA 0.3.0 (2020-05-03)  
 
 * Added tests
