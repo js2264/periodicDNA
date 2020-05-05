@@ -1,0 +1,37 @@
+---
+title: How periodicDNA works
+author: Jacques Serizay
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+    %\VignetteIndexEntry{How periodicDNA works}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo=FALSE, results="hide", warning=FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>"
+)
+suppressPackageStartupMessages({
+    library(GenomicRanges)
+    library(magrittr)
+    library(ggplot2)
+    library(periodicDNA)
+})
+```
+
+## How periodicDNA works
+
+To estimate the periodicity strength of a given k-mer in one or several
+sequences, periodicDNA does the following steps: 
+
+1. It first finds all the possible k-mer occurrences over the sequence(s);
+2. It then find all the possible pairwise distances and generates a 
+   normalised histogram of the pairwise distances;  
+3. It performs a Fast Fourier Transform of the normalised histogram; 
+4. Finally, it outputs the power spectral density of the k-mer in the 
+   provided sequences.
+
+![internal-steps](https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/periodicityDNA_principle.png)

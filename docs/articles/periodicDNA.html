@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -55,6 +55,18 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="../articles/internal-steps.html">How periodicDNA works</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -92,163 +104,108 @@
 
     
     
-<div id="introduction" class="section level2">
-<h2 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>Many oligonucleotides are periodically occurring in genomes across eukaryotes, and some are impacting the physical properties of DNA. For example, DNA bendability is modulated by 10-bp periodic occurrences of WW (W = A/T) dinucleotides. periodicDNA is an R package offering a set of functions to identify k-mer periodicity in sequences of interest such as regulatory elements. It also provides a method to generate continuous tracks of k-mer periodicity over genomic loci.</p>
-</div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<p>periodicDNA can be installed from GitHub as follows:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/devtools/man/reexports.html">install_github</a></span>(<span class="st">"js2264/periodicDNA"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">periodicDNA</span>)</pre></body></html></div>
-</div>
-<div id="loading-periodicdna-and-other-useful-packages" class="section level2">
-<h2 class="hasAnchor">
-<a href="#loading-periodicdna-and-other-useful-packages" class="anchor"></a>Loading periodicDNA and other useful packages</h2>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">periodicDNA</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">magrittr</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)</pre></body></html></div>
-</div>
-<div id="how-periodicdna-works" class="section level2">
-<h2 class="hasAnchor">
-<a href="#how-periodicdna-works" class="anchor"></a>How periodicDNA works</h2>
-<p>When running <code><a href="../reference/getPeriodicity.html">getPeriodicity()</a></code> function for a given k-mer (typically a dinucleotide) over a set of GRanges, R does the following steps:</p>
-<ol style="list-style-type: decimal">
-<li>It first finds all the possible motif occurrences over the GRanges;<br>
-</li>
-<li>It then find all the possible pairwise distances and generates a normalised histogram of the pairwise distances;<br>
-</li>
-<li>It performs a Fast Fourier Transform of the normalised histogram;</li>
-<li>Finally, it outputs the power spectrum density of the k-mer in the provided GRanges.</li>
-</ol>
-</div>
-<div id="quick-k-mer-periodicity" class="section level2">
-<h2 class="hasAnchor">
-<a href="#quick-k-mer-periodicity" class="anchor"></a>Quick k-mer periodicity</h2>
-<p>A genome sequence and a set of genomic loci must be defined. Let’s focus on the C. elegans genome for now, and more specifically around its ubiquitous TSSs.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce_proms</span>)
-<span class="no">ubiq_TSSs</span> <span class="kw">&lt;-</span> <span class="no">ce_proms</span>[<span class="no">ce_proms</span>$<span class="no">which.tissues</span> <span class="kw">==</span> <span class="st">'Ubiq.'</span>] <span class="kw">%&gt;%</span>
-    <span class="fu"><a href="../reference/deconvolveBidirectionalPromoters.html">deconvolveBidirectionalPromoters</a></span>() <span class="kw">%&gt;%</span>
-    <span class="fu"><a href="../reference/alignToTSS.html">alignToTSS</a></span>(<span class="fl">50</span>, <span class="fl">300</span>)
-<span class="no">seqs</span> <span class="kw">&lt;-</span> <span class="fu">getSeq</span>(
-    <span class="kw pkg">BSgenome.Celegans.UCSC.ce11</span><span class="kw ns">::</span><span class="no"><a href="https://rdrr.io/pkg/BSgenome.Celegans.UCSC.ce11/man/package.html">BSgenome.Celegans.UCSC.ce11</a></span>
-)
-<span class="no">ubiq_seqs</span> <span class="kw">&lt;-</span> <span class="no">seqs</span>[<span class="no">ubiq_TSSs</span>]
-<span class="no">ubiq_TT</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/getPeriodicity.html">getPeriodicity</a></span>(
-    <span class="no">ubiq_seqs</span>,
-    <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
-    <span class="kw">cores</span> <span class="kw">=</span> <span class="fl">1</span>
-)
-<span class="co">#&gt; - Mapping k-mers.</span>
-<span class="co">#&gt; - 3668916 k-mers found.</span>
-<span class="co">#&gt; - Calculating pairwise distances.</span>
-<span class="co">#&gt; - Normalizing histogram vector.</span>
-<span class="co">#&gt; - Applying Fast Fourier Transform to the vector of distances.</span>
-<span class="co">#&gt; - Computing signal-to-noise ratios.</span>
-<span class="fu"><a href="../reference/plotPeriodicityResults.html">plotPeriodicityResults</a></span>(<span class="no">ubiq_TT</span>)
-<span class="co">#&gt; [[1]]</span></pre></body></html></div>
-<p><img src="periodicDNA_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
-<pre><code>#&gt; 
-#&gt; [[2]]</code></pre>
-<p><img src="periodicDNA_files/figure-html/unnamed-chunk-4-2.png" width="700"></p>
-<pre><code>#&gt; 
-#&gt; [[3]]</code></pre>
-<p><img src="periodicDNA_files/figure-html/unnamed-chunk-4-3.png" width="700"></p>
-<p><code>getPeriodicity</code> can also works with GRanges objects, as long as a <code>genome</code> is supplied. ‘ce11’, ‘sacCer3’, ‘mm10’, ‘dm6’, ‘hg38’ and ‘danRer10’ are currently supported. Otherwise, a BSgenome can be used directly.</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">ubiq_TT</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/getPeriodicity.html">getPeriodicity</a></span>(
-    <span class="no">ce_proms</span>,
+<div id="dinucleotide-periodicity-over-a-set-of-genomic-ranges" class="section level3">
+<h3 class="hasAnchor">
+<a href="#dinucleotide-periodicity-over-a-set-of-genomic-ranges" class="anchor"></a>Dinucleotide periodicity over a set of Genomic Ranges</h3>
+<p>The main goal of periodicDNA is to quantify periodicity of a given k-mer in a set of sequences. <code>getPeriodicity()</code> can be used to achieve this. In the following example, <code>getPeriodicity()</code> is usually ran using a GRanges object, specifying from which genome this GRanges comes from.</p>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">proms</span>)
+<span class="no">periodicity_result</span> <span class="kw">&lt;-</span> <span class="fu">getPeriodicity</span>(
+    <span class="no">proms</span>,
     <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'ce11'</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
     <span class="kw">cores</span> <span class="kw">=</span> <span class="fl">1</span>
 )
 <span class="co">#&gt; - Mapping k-mers.</span>
-<span class="co">#&gt; - 2638289 k-mers found.</span>
+<span class="co">#&gt; - 554700 k-mers found.</span>
+<span class="co">#&gt; - Calculating pairwise distances.</span>
+<span class="co">#&gt; - Normalizing histogram vector.</span>
+<span class="co">#&gt; - Applying Fast Fourier Transform to the vector of distances.</span></pre></body></html></div>
+<p>The output of <code>getPeriodicity()</code> is an object containing the PSD scores associated with each period. For a given period, a high PSD score indicates a high periodicity of the k-mer of interest.</p>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">periodicity_result</span>$<span class="no">PSD</span>)
+<span class="co">#&gt;    freq    period          PSD</span>
+<span class="co">#&gt; 1 0.005 200.00000 2.559759e-07</span>
+<span class="co">#&gt; 2 0.010 100.00000 6.976725e-09</span>
+<span class="co">#&gt; 3 0.015  66.66667 2.199845e-08</span>
+<span class="co">#&gt; 4 0.020  50.00000 1.868792e-08</span>
+<span class="co">#&gt; 5 0.025  40.00000 4.660834e-08</span>
+<span class="co">#&gt; 6 0.030  33.33333 7.065561e-09</span></pre></body></html></div>
+<p>Graphical output of <code>getPeriodicity()</code> can be obtained using the <code>plotPeriodicityResults()</code> function:</p>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu">plotPeriodicityResults</span>(<span class="no">periodicity_result</span>)</pre></body></html></div>
+<div class="figure">
+<img src="https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/ubiquitous-promoters_TT-periodicity.png" alt="TT-periodicity"><p class="caption">TT-periodicity</p>
+</div>
+<p>The first plot shows the raw distribution of distances between pairs of ‘TT’ in the sequences of the provided GRanges. The second plot shows the decay-normalised distribution. Finally, the third plot shows the PSD scores of the ‘TT’ k-mer, measured from the normalised distribution.</p>
+<p><strong>Note:</strong><br><code>getPeriodicity()</code> can also be ran directly on a set of sequences of interest as follows:</p>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce_proms_seqs</span>)
+<span class="no">periodicity_result</span> <span class="kw">&lt;-</span> <span class="fu">getPeriodicity</span>(
+    <span class="no">ce_proms_seqs</span>,
+    <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
+    <span class="kw">cores</span> <span class="kw">=</span> <span class="fl">4</span>
+)</pre></body></html></div>
+</div>
+<div id="track-of-periodicity-over-a-set-of-genomic-ranges" class="section level3">
+<h3 class="hasAnchor">
+<a href="#track-of-periodicity-over-a-set-of-genomic-ranges" class="anchor"></a>Track of periodicity over a set of Genomic Ranges</h3>
+<p>Another major aim of periodicDNA is to generate continuous linear tracks of k-mer periodicity strength over genomic loci of interest. <code>getPeriodicityTrack()</code> can be used to generate suck genomic tracks. In the following example,</p>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu">getPeriodicityTrack</span>(
+    <span class="kw pkg">Biostrings</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/getSeq.html">getSeq</a></span>(
+        <span class="kw pkg">BSgenome.Celegans.UCSC.ce11</span><span class="kw ns">::</span><span class="no"><a href="https://rdrr.io/pkg/BSgenome.Celegans.UCSC.ce11/man/package.html">BSgenome.Celegans.UCSC.ce11</a></span>
+    ),
+    <span class="kw">granges</span> <span class="kw">=</span> <span class="no">proms</span>,
+    <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'WW'</span>,
+    <span class="kw">period</span> <span class="kw">=</span> <span class="fl">10</span>,
+    <span class="kw">cores</span> <span class="kw">=</span> <span class="fl">12</span>,
+    <span class="kw">bw_file</span> <span class="kw">=</span> <span class="st">'WW-10-bp-periodicity_over-proms.bw'</span>
+)</pre></body></html></div>
+<p>When plotted over sets of ubiquitous, germline or somatic TSSs, the resulting track clearly shows increase of WW 10-bp periodicity above the ubiquitous and germline TSSs, whereas somatic TSSs do not show such increase.</p>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">WW_10bp_track</span> <span class="kw">&lt;-</span> <span class="kw pkg">rtracklayer</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/rtracklayer/man/export.html">import</a></span>(
+    <span class="st">'WW-10-bp-periodicity_over-proms.bw'</span>,
+    <span class="kw">as</span> <span class="kw">=</span> <span class="st">'Rle'</span>
+)
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce11_TSSs</span>)
+<span class="fu">plotAggregateCoverage</span>(
+    <span class="no">WW_10bp_track</span>,
+    <span class="no">ce11_TSSs</span>,
+    <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">'TSS'</span>,
+    <span class="kw">ylab</span> <span class="kw">=</span> <span class="st">'WW 10-bp PSD score'</span>
+)</pre></body></html></div>
+<div class="figure">
+<img src="https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/TT-10bp-periodicity_tissue-spe-TSSs.png" alt="TT-periodicity"><p class="caption">TT-periodicity</p>
+</div>
+</div>
+<div id="fold-power-increase" class="section level3">
+<h3 class="hasAnchor">
+<a href="#fold-power-increase" class="anchor"></a>Fold Power Increase</h3>
+<p>Fold Power Increase (FPI) is a metric introduced by Pich et al., Cell 2018. It can be computed using the <code>getFPI()</code> function. In the following example, the FPI of TT dinucleotides at a 10-bp periodicity is computed over 200-bp long sequences randomly sampled in ce11 genome.</p>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">ce11_random_regions</span> <span class="kw">&lt;-</span> <span class="fu">sampleGenome</span>(
+    <span class="st">'ce11'</span>,
+    <span class="kw">n</span> <span class="kw">=</span> <span class="fl">200</span>, <span class="kw">w</span> <span class="kw">=</span> <span class="fl">1000</span>
+)
+<span class="no">fpi</span> <span class="kw">&lt;-</span> <span class="fu">getFPI</span>(
+    <span class="no">ce11_random_regions</span>$<span class="no">seq</span>,
+    <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
+    <span class="kw">parallel_shuffling</span> <span class="kw">=</span> <span class="fl">1</span>,
+    <span class="kw">n_shuffle</span> <span class="kw">=</span> <span class="fl">10</span>
+)
+<span class="co">#&gt; - Calculating observed PSD</span>
+<span class="co">#&gt; - Mapping k-mers.</span>
+<span class="co">#&gt; - 1998180 k-mers found.</span>
 <span class="co">#&gt; - Calculating pairwise distances.</span>
 <span class="co">#&gt; - Normalizing histogram vector.</span>
 <span class="co">#&gt; - Applying Fast Fourier Transform to the vector of distances.</span>
-<span class="co">#&gt; Range (1:200) is wider than any range in the current </span>
-<span class="co">#&gt;             distances vector. Shortening the range from 1 to 149...</span>
-<span class="co">#&gt; - Computing signal-to-noise ratios.</span></pre></body></html></div>
-<!--  
-## Fold Power Increase metric
-
-The FPI (fold power increase) metric was originally described in 
-Pich et al., Cell 2018. It allows to accurately estimate the periodicity 
-strength of a k-mer of interest by modelling the background periodicity.
-
-
-```r
-fpi <- getFPI(
-    ubiq_seqs,
-    motif = 'TT', 
-    parallel_shuffling = 1, 
-    n_shuffle = 10
-)
-#> - Calculating observed PSD
-#> - Mapping k-mers.
-#> - 3668916 k-mers found.
-#> - Calculating pairwise distances.
-#> - Normalizing histogram vector.
-#> - Applying Fast Fourier Transform to the vector of distances.
-#> - Computing signal-to-noise ratios.
-#> >> Measured PSD @ 10bp is: 3.06609400342861e-06
-#> - Shuffling 1/10
-#> - Shuffling 2/10
-#> - Shuffling 3/10
-#> - Shuffling 4/10
-#> - Shuffling 5/10
-#> - Shuffling 6/10
-#> - Shuffling 7/10
-#> - Shuffling 8/10
-#> - Shuffling 9/10
-#> - Shuffling 10/10
-plotFPI(fpi)
-```
-
-<img src="periodicDNA_files/figure-html/unnamed-chunk-6-1.png" width="700" />
-
-**Note:** To calculate the FPI of a k-mer in a set of sequences, the sequences
-of interest are first randomly shuffled (`n_shuffle` times). This process is
-stochastic and for this reason, the FPI score might vary each time the 
-`getFPI()` function is ran. To ensure accurate estimation of the FPI score, 
-it is recommended to run the `getFPI()` function with a high `n_shuffle`. The 
-process can be parallelised using the `parallel_shuffling` argument. 
-
--->
-</div>
-<div id="generating-periodicity-tracks-with-periodicdna" class="section level2">
-<h2 class="hasAnchor">
-<a href="#generating-periodicity-tracks-with-periodicdna" class="anchor"></a>Generating periodicity tracks with periodicDNA</h2>
-<p>Rather than computing the periodicity of a chosen k-mer in a given set of sequences, <code><a href="../reference/generatePeriodicityTrack.html">generatePeriodicityTrack()</a></code> function computes a linear periodicity track covering loci of interest.</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="../reference/generatePeriodicityTrack.html">generatePeriodicityTrack</a></span>(
-    <span class="no">seqs</span>,
-    <span class="kw">granges</span> <span class="kw">=</span> <span class="no">ce_proms</span>[<span class="fl">1</span>],
-    <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
-    <span class="kw">freq</span> <span class="kw">=</span> <span class="fl">1</span>/<span class="fl">10</span>,
-    <span class="kw">cores</span> <span class="kw">=</span> <span class="fl">1</span>
-)
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     The genome has been divided in 100-bp bins</span>
-<span class="co">#&gt;     with a sliding window of 2-bp.</span>
-<span class="co">#&gt;     </span>
-<span class="co">#&gt;     549 windows overlap the input </span>
-<span class="co">#&gt;     loci (extended to 1000-bp).</span>
-<span class="co">#&gt;     </span>
-<span class="co">#&gt;     The mapping will be split among 1 jobs.</span>
-<span class="co">#&gt;     </span>
-<span class="co">#&gt;     Each job will analyse 549 bins.</span>
-<span class="co">#&gt;     </span>
-<span class="co">#&gt;     Now starting...</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; &gt;&gt; 1 bins computed /// TIME: 2020-05-05 18:04:17</span>
-<span class="co">#&gt; &gt;&gt; 549 bins computed /// TIME: 2020-05-05 18:04:39</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;    SUCCESS: TT-periodicity_g-100^2_b-100^5.bw has been created!</span>
-<span class="co">#&gt;    1098 bases covered by the generated track.</span>
-<span class="co">#&gt; [1] TRUE</span></pre></body></html></div>
+<span class="co">#&gt; &gt;&gt; Measured PSD @ 10bp is: 2.36221402852559e-08</span>
+<span class="co">#&gt; - Shuffling 1/10</span>
+<span class="co">#&gt; - Shuffling 2/10</span>
+<span class="co">#&gt; - Shuffling 3/10</span>
+<span class="co">#&gt; - Shuffling 4/10</span>
+<span class="co">#&gt; - Shuffling 5/10</span>
+<span class="co">#&gt; - Shuffling 6/10</span>
+<span class="co">#&gt; - Shuffling 7/10</span>
+<span class="co">#&gt; - Shuffling 8/10</span>
+<span class="co">#&gt; - Shuffling 9/10</span>
+<span class="co">#&gt; - Shuffling 10/10</span>
+<span class="fu">plotFPI</span>(<span class="no">fpi</span>)</pre></body></html></div>
+<p><img src="man/figures/periodicDNA-unnamed-chunk-8-1.png" width="700"></p>
 </div>
 <div id="session-info" class="section level2">
 <h2 class="hasAnchor">
@@ -275,7 +232,7 @@ process can be parallelised using the `parallel_shuffling` argument.
 <span class="co">#&gt; [8] methods   base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt;  [1] periodicDNA_0.3.0    Biostrings_2.50.2    XVector_0.22.0      </span>
+<span class="co">#&gt;  [1] periodicDNA_0.3.1    Biostrings_2.50.2    XVector_0.22.0      </span>
 <span class="co">#&gt;  [4] ggplot2_3.1.1        magrittr_1.5         GenomicRanges_1.34.0</span>
 <span class="co">#&gt;  [7] GenomeInfoDb_1.18.2  IRanges_2.16.0       S4Vectors_0.20.1    </span>
 <span class="co">#&gt; [10] BiocGenerics_0.28.0 </span>
@@ -283,12 +240,12 @@ process can be parallelised using the `parallel_shuffling` argument.
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
 <span class="co">#&gt;  [1] SummarizedExperiment_1.12.0       zoo_1.8-5                        </span>
 <span class="co">#&gt;  [3] tidyselect_0.2.5                  xfun_0.5                         </span>
-<span class="co">#&gt;  [5] purrr_0.3.2                       lattice_0.20-38                  </span>
+<span class="co">#&gt;  [5] purrr_0.3.4                       lattice_0.20-38                  </span>
 <span class="co">#&gt;  [7] colorspace_1.4-1                  htmltools_0.3.6                  </span>
 <span class="co">#&gt;  [9] rtracklayer_1.42.2                yaml_2.2.0                       </span>
-<span class="co">#&gt; [11] XML_3.98-1.19                     rlang_0.4.2                      </span>
+<span class="co">#&gt; [11] XML_3.98-1.19                     rlang_0.4.6                      </span>
 <span class="co">#&gt; [13] pkgdown_1.5.1                     pillar_1.3.1                     </span>
-<span class="co">#&gt; [15] glue_1.3.1                        withr_2.1.2                      </span>
+<span class="co">#&gt; [15] glue_1.4.0                        withr_2.2.0                      </span>
 <span class="co">#&gt; [17] BiocParallel_1.16.6               matrixStats_0.54.0               </span>
 <span class="co">#&gt; [19] GenomeInfoDbData_1.2.0            plyr_1.8.4                       </span>
 <span class="co">#&gt; [21] stringr_1.4.0                     zlibbioc_1.28.0                  </span>
@@ -314,6 +271,7 @@ process can be parallelised using the `parallel_shuffling` argument.
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+
         <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
     </nav>
 </div>

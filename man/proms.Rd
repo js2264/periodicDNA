@@ -4,7 +4,9 @@
 \name{proms}
 \alias{proms}
 \title{proms}
-\format{GRanges}
+\format{
+GRanges
+}
 \source{
 \href{https://doi.org/10.1101/2020.02.20.958579}{BiorXiv}
 }

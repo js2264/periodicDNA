@@ -4,8 +4,13 @@
 \alias{sampleGRanges.GRanges}
 \title{A function to sample GRanges within GRanges}
 \usage{
-\method{sampleGRanges}{GRanges}(x, n = NULL, width = NULL,
-  exclude = TRUE)
+\method{sampleGRanges}{GRanges}(
+  x,
+  n = NULL,
+  width = NULL,
+  exclude = FALSE,
+  avoid_overlap = FALSE
+)
 }
 \arguments{
 \item{x}{a GRanges object}
@@ -15,6 +20,8 @@
 \item{width}{Integer width of sampled GRanges}
 
 \item{exclude}{Boolean should the original GRanges be excluded?}
+
+\item{avoid_overlap}{Boolean should the sampled GRanges not be overlapping?}
 }
 \value{
 A GRanges object of length n

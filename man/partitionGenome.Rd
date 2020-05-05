@@ -4,8 +4,13 @@
 \alias{partitionGenome}
 \title{Internal function}
 \usage{
-partitionGenome(genome, granges.extended_large, granges.extended,
-  genome_sliding_size, genome_sliding_sliding)
+partitionGenome(
+  genome,
+  granges.extended_large,
+  granges.extended,
+  genome_sliding_size,
+  genome_sliding_sliding
+)
 }
 \arguments{
 \item{genome}{A DNAStringSet object. Ideally, the sequence of an 

@@ -6,14 +6,26 @@
     (from a named list of signal tracks) 
     over sets of GRanges}
 \usage{
-\method{plotAggregateCoverage}{list}(x, granges,
-  colors = rep(c("#991919", "#1232D9", "#3B9B46", "#D99B12", "#7e7e7e",
-  "#D912D4", "#9E7FCC", "#B0E797", "#D1B3B3", "#23A4A3", "#000000"), 5),
-  xlab = "Center of elements", ylab = "Score", xlim = NULL,
-  ylim = NULL, quartiles = c(0.025, 0.975), verbose = FALSE,
-  bin = 1, plot_central = TRUE, split_by_granges = TRUE,
-  split_by_track = FALSE, free_scales = FALSE, runInParallel = TRUE,
-  norm = "none", ...)
+\method{plotAggregateCoverage}{list}(
+  x,
+  granges,
+  colors = rep(c("#991919", "#1232D9", "#3B9B46", "#D99B12", "#7e7e7e", "#D912D4",
+    "#9E7FCC", "#B0E797", "#D1B3B3", "#23A4A3", "#000000"), 5),
+  xlab = "Center of elements",
+  ylab = "Score",
+  xlim = NULL,
+  ylim = NULL,
+  quartiles = c(0.025, 0.975),
+  verbose = FALSE,
+  bin = 1,
+  plot_central = TRUE,
+  split_by_granges = TRUE,
+  split_by_track = FALSE,
+  free_scales = FALSE,
+  runInParallel = TRUE,
+  norm = "none",
+  ...
+)
 }
 \arguments{
 \item{x}{several signal tracks (SimpleRleList or CompressedRleList class) 

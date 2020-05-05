@@ -6,8 +6,8 @@
 
 # periodicDNA <img src="man/figures/logo.png" align="right" alt="" />
 
-![](https://raw.githubusercontent.com/js2264/periodicDNA/master/man/images/TT_tissue-specific-classes.png)
-![](https://raw.githubusercontent.com/js2264/periodicDNA/master/man/images/WW-TT-AA-10bp-periodicity_tissue-spe-TSSs.png)
+![](https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/TT_tissue-specific-classes.png)
+![](https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/WW-TT-AA-10bp-periodicity_tissue-spe-TSSs.png)
 
 ## Introduction
 
@@ -27,57 +27,63 @@ devtools::install_github("js2264/periodicDNA")
 library(periodicDNA)
 ```
 
-## Quick use
+## Main functions 
 
-### Dinucleotide periodicity over a set of Genomic Ranges
+The three main user-level functions of periodicDNA are `getPeriodicity()`, 
+`getFPI()` and `getPeriodicityTrack()`. 
 
-`getPeriodicity()` is used to quantify the overall periodicity of a 
-given k-mer over a set of genomic ranges.
+* `getPeriodicity()` is used to compute the power spectral density 
+  (PSD) of a chosen k-mer (i.e. `TT`) in a set of sequences. The PSD 
+  score at a given period indicates the strength of the k-mer at 
+  this period. 
+* `getPeriodicityTrack()` can be used to generate linear tracks representing 
+  the periodicity strength of a given k-mer at a chosen period, over genomic
+  loci of interest. 
+* `getFPI()` is used to compute the Fold Power Increase, a more sophisticated 
+  metric derived from the PSD. It was initially developed by Pich et al., 
+  Cell 2018. It takes into account the background periodicity
+  of the k-mer of interest in the provided sequences. 
+
+### `getPeriodicity()` function
 
 ```r
-library(periodicDNA)
-library(tidyverse)
 data(proms)
-periodicity_result <- getPeriodicity(
+PSDs <- getPeriodicity(
     proms,
     genome = 'ce11',
     motif = 'TT', 
     cores = 4
 )
-list_plots <- plotPeriodicityResults(periodicity_result) %>% 
-    cowplot::plot_grid(plotlist = ., nrow = 1)
+plotPeriodicityResults(PSDs)
 ```
 
-![TT-periodicity](https://raw.githubusercontent.com/js2264/periodicDNA/master/man/images/ubiquitous-promoters_TT-periodicity.png)
-
-### Track of periodicity over a set of Genomic Ranges
-
-The other major use of this package is to generate specific tracks 
-over a set of loci, e.g. the strength of WW 10-pb periodicity over promoters.  
-**Important note:** We recommend to run this command across at least a dozen of
-processors (use the `cores` argument). This command will take several hours and
-possibly up to a day to run. It typically takes one day to produce a
-periodicity track over 15,000 GRanges of 150 bp (with default parameters) 
-using `cores = 12`. We highly recommend the user to run this command in a 
-new `screen` session. 
+### `getPeriodicityTrack()` function
 
 ```r
-generatePeriodicityTrack(
-    Biostrings::getSeq(
-        BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
-    ),
+getPeriodicityTrack(
+    genome = 'ce11',
     granges = proms, 
-    MOTIF = 'TT',
-    FREQ = 1/10,
+    motif = 'WW',
+    period = 10,
     cores = 12, 
-    bw_file = 'TT-10-bp-periodicity_over-proms.bw'
+    bw_file = 'WW-10-bp-periodicity_over-proms.bw'
 )
 ```
 
-## Advanced use
+### `getFPI()` function
 
-Please read the [Introduction](vignettes/periodicDNA.Rmd) 
-vignette for a full presentation of the package functions.
+```r
+ce_seq <- Biostrings::getSeq(
+    BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
+)
+FPI <- getFPI(
+    proms[ce_seq], 
+    motif = 'TT', 
+    parallel_shuffling = 10, 
+    n_shuffle = 10
+)
+plotFPI(FPI)
+```
 
 ## Contributions
 Code contributions, bug reports, fixes and feature requests are most welcome.

@@ -18,10 +18,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
@@ -46,18 +48,16 @@
 
 
 
+
 <meta property="og:title" content="A function to re-align a GRanges object to a 
     provided set of coordinates 
     (either the TSS column or the TSS.fwd 
     and TSS.rev columns) — alignToTSS" />
-
 <meta property="og:description" content="A function to re-align a GRanges object to a 
     provided set of coordinates 
     (either the TSS column or the TSS.fwd 
     and TSS.rev columns)" />
-
 <meta property="og:image" content="/logo.png" />
-
 
 
 
@@ -89,7 +89,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -107,11 +107,22 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/internal-steps.html">How periodicDNA works</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/js2264/periodicDNA/">
@@ -141,16 +152,14 @@
     </div>
 
     <div class="ref-description">
-    
     <p>A function to re-align a GRanges object to a 
     provided set of coordinates 
     (either the TSS column or the TSS.fwd 
     and TSS.rev columns)</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>alignToTSS</span>(<span class='no'>granges</span>, <span class='kw'>upstream</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>downstream</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -170,12 +179,11 @@ object by extended by? [Default: 0]</p></td>
 object by extended by? [Default: 1]</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>GRanges aligned to the TSS column or to TSS.rev and TSS.fwd columns,
     and extended by upstream/downstream bp.</p>
-    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

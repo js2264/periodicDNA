@@ -4,8 +4,12 @@
 \alias{plotPeriodicityResults}
 \title{Plotting function}
 \usage{
-plotPeriodicityResults(results, periods = c(2, 20),
-  filter_periods = FALSE, skip_shuffling = FALSE)
+plotPeriodicityResults(
+  results,
+  periods = c(2, 20),
+  filter_periods = FALSE,
+  skip_shuffling = FALSE
+)
 }
 \arguments{
 \item{results}{The output of getPeriodicity function.}

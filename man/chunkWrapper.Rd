@@ -4,8 +4,16 @@
 \alias{chunkWrapper}
 \title{Internal function}
 \usage{
-chunkWrapper(chunk, genome, motif, genome_sliding_sliding,
-  window_sliding_size, window_sliding_bin, range_spectrum, freq)
+chunkWrapper(
+  chunk,
+  genome,
+  motif,
+  genome_sliding_sliding,
+  window_sliding_size,
+  window_sliding_bin,
+  range_spectrum,
+  freq
+)
 }
 \arguments{
 \item{chunk}{A GRanges from the output list obtained with getChunks}

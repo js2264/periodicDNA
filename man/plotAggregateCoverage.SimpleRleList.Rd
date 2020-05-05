@@ -6,13 +6,24 @@
     (from a SimpleRleList) 
     over sets of GRanges}
 \usage{
-\method{plotAggregateCoverage}{SimpleRleList}(x, granges,
-  colors = rep(c("#991919", "#1232D9", "#3B9B46", "#D99B12", "#7e7e7e",
-  "#D912D4", "#9E7FCC", "#B0E797", "#D1B3B3", "#23A4A3", "#000000"), 5),
-  xlab = "Center of elements", ylab = "Score", xlim = NULL,
-  ylim = NULL, quartiles = c(0.025, 0.975), verbose = FALSE,
-  bin = 1, plot_central = TRUE, runInParallel = TRUE,
-  split_by_granges = FALSE, norm = "none", ...)
+\method{plotAggregateCoverage}{SimpleRleList}(
+  x,
+  granges,
+  colors = rep(c("#991919", "#1232D9", "#3B9B46", "#D99B12", "#7e7e7e", "#D912D4",
+    "#9E7FCC", "#B0E797", "#D1B3B3", "#23A4A3", "#000000"), 5),
+  xlab = "Center of elements",
+  ylab = "Score",
+  xlim = NULL,
+  ylim = NULL,
+  quartiles = c(0.025, 0.975),
+  verbose = FALSE,
+  bin = 1,
+  plot_central = TRUE,
+  runInParallel = TRUE,
+  split_by_granges = FALSE,
+  norm = "none",
+  ...
+)
 }
 \arguments{
 \item{x}{a single signal track (SimpleRleList class)}

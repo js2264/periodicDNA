@@ -84,6 +84,7 @@ shuffleSeq <- function(dna) {
 #' @param n Integer number of sampled GRanges
 #' @param width Integer width of sampled GRanges
 #' @param exclude Boolean should the original GRanges be excluded?
+#' @param avoid_overlap Boolean should the sampled GRanges not be overlapping?
 #' 
 #' @return A GRanges object of length n
 #' 
@@ -100,7 +101,14 @@ shuffleSeq <- function(dna) {
 #'     sacCer3_random_regions <- sampleGRanges(yeast_seq, n = 10000, w = 200)
 #' }
 
-sampleGRanges <- function(x, n = NULL, width = NULL, exclude = FALSE){
+sampleGRanges <- function(
+    x, 
+    n = NULL, 
+    width = NULL,
+    exclude = FALSE, 
+    avoid_overlap = FALSE
+)
+{
     UseMethod("sampleGRanges")
 }
 
@@ -110,6 +118,7 @@ sampleGRanges <- function(x, n = NULL, width = NULL, exclude = FALSE){
 #' @param n Integer number of sampled GRanges
 #' @param width Integer width of sampled GRanges
 #' @param exclude Boolean should the original GRanges be excluded?
+#' @param avoid_overlap Boolean should the sampled GRanges not be overlapping?
 #' 
 #' @return A GRanges object of length n
 #' 
@@ -129,7 +138,8 @@ sampleGRanges.GRanges <- function(
     x, 
     n = NULL, 
     width = NULL, 
-    exclude = TRUE
+    exclude = FALSE, 
+    avoid_overlap = FALSE
 )
 {
     granges <- x
@@ -211,7 +221,9 @@ sampleGRanges.GRanges <- function(
             )
             GenomeInfoDb::seqlengths(g2) <- lengths(maxed_granges)
         })
-        g2 <- reduce(g2)
+        if (avoid_overlap) {
+            g2 <- reduce(g2)
+        }
         # Remove regions overlapping with initial GRanges
         if (exclude) {
             g2 <- g2[!(IRanges::`%over%`(g2, granges))]
@@ -267,6 +279,7 @@ sampleGRanges.DNAStringSet <- function(
 #' 
 #' @return A GRanges object of length n
 #' 
+#' @import Biostrings
 #' @import GenomicRanges
 #' @import IRanges
 #' @import GenomeInfoDb
@@ -291,8 +304,67 @@ sampleGRanges.BSgenome <- function(
         lengths(genome)
     )
     GenomeInfoDb::seqlengths(granges) <- lengths(genome)
-    sampleGRanges(granges, ...)
+    g <- sampleGRanges(granges, ...)
+    g$seq <- Biostrings::getSeq(genome, g)
+    return(g)
 }
+
+#' A function to sample GRanges from genome IDs
+#'
+#' @param x a genome ID ()
+#' @param ... Additional parameters
+#' 
+#' @return A GRanges object of length n
+#' 
+#' @import Biostrings
+#' @import GenomicRanges
+#' @import IRanges
+#' @import GenomeInfoDb
+#' 
+#' @examples
+#' \dontrun{
+#'     sampleGRanges(
+#'         'ce11', 
+#'         100
+#'     )
+#' }
+
+sampleGRanges.character <- function(
+    x, 
+    ...
+)
+{
+    if (x %in% c(
+        'sacCer3', 'ce11', 'dm6', 'mm10', 'hg38', 'danRer10'
+    )) {
+        genome <- switch(
+            x, 
+            'sacCer3' = (BSgenome.Scerevisiae.UCSC.sacCer3::
+                BSgenome.Scerevisiae.UCSC.sacCer3), 
+            'ce11' = (BSgenome.Celegans.UCSC.ce11::
+                BSgenome.Celegans.UCSC.ce11), 
+            'dm6' = (BSgenome.Dmelanogaster.UCSC.dm6::
+                BSgenome.Dmelanogaster.UCSC.dm6), 
+            'danRer10' = (BSgenome.Drerio.UCSC.danRer10::
+                BSgenome.Drerio.UCSC.danRer10), 
+            'mm10' = (BSgenome.Mmusculus.UCSC.mm10::
+                BSgenome.Mmusculus.UCSC.mm10), 
+            'hg38' = (BSgenome.Hsapiens.UCSC.hg38::
+                BSgenome.Hsapiens.UCSC.hg38)
+        )
+    }
+    else {
+        return(stop(
+            'Only sacCer3, ce11, dm6, mm10, hg38 and danRer10 are supported'
+        ))
+    }
+    sampleGRanges(genome, ...)
+}
+
+#' @rdname sampleGRanges.character
+#' @export
+
+sampleGenome <- sampleGRanges.character
 
 #' A function to generate a GRanges from a DNAStringSet
 #'

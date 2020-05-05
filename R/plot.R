@@ -119,9 +119,9 @@ plotPeriodicityResults <- function(
             ggplot2::theme_classic() + 
             ggplot2::labs(
                 x = paste0(results$motif, ' frequency'), 
-                y = 'Power Spectrum Density', 
+                y = 'Power Spectral Density', 
                 title = paste0(
-                    'Power Spectrum Density of\n', 
+                    'Power Spectral Density of\n', 
                     results$motif, 
                     ' frequencies'
                 )
@@ -186,9 +186,9 @@ plotPeriodicityResults <- function(
             ggplot2::theme_classic() + 
             ggplot2::labs(
                 x = paste0(results$motif, ' frequency'), 
-                y = 'Power Spectrum Density', 
+                y = 'Power Spectral Density', 
                 title = paste0(
-                    'Power Spectrum Density of\n', 
+                    'Power Spectral Density of\n', 
                     results$motif, 
                     ' frequencies'
                 )
@@ -267,7 +267,7 @@ plotFPI <- function(fpi, periods = c(2, 20)) {
         ggplot2::theme_classic() + 
         ggplot2::labs(
             x = paste0(fpi$motif, ' periods'), 
-            y = 'Power Spectrum Density', 
+            y = 'Power Spectral Density', 
             title = paste0('FPI @ ', fpi$period, 'bp: ', round(fpi$FPI, 1))
         )
     return(p)

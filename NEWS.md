@@ -2,8 +2,12 @@
 
 * Changed many variable names (all to snake_case)
 * sampleGRanges is now full-fledged function 
-    (GRanges, DNAStringSet and BSgenome methods)
+    (GRanges, DNAStringSet, character and BSgenome methods)
 * Added sacCer3 to getPeriodicity BSgenomes
+* Added a vignette describing the internal steps
+* Clarified user-level functions in README
+* Added ce11_TSSs data
+* Renamed generateperiodicitytrack as getPeriodicityTrack
 
 # periodicDNA 0.3.0 (2020-05-03)  
 

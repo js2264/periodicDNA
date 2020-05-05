@@ -15,10 +15,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
@@ -43,15 +45,13 @@
 
 
 
-<meta property="og:title" content="ce_proms_seqs — ce_proms_seqs" />
 
+<meta property="og:title" content="ce_proms_seqs — ce_proms_seqs" />
 <meta property="og:description" content="Sample of sequences of promoters annotated in C. elegans (ce11) according to
 Serizay et al. 2020, &quot;Tissue-specific profiling reveals distinctive 
 regulatory architectures for ubiquitous, germline and somatic genes&quot;, 
 BiorXiv." />
-
 <meta property="og:image" content="/logo.png" />
-
 
 
 
@@ -83,7 +83,7 @@ BiorXiv." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -101,11 +101,22 @@ BiorXiv." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/internal-steps.html">How periodicDNA works</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/js2264/periodicDNA/">
@@ -132,31 +143,27 @@ BiorXiv." />
     </div>
 
     <div class="ref-description">
-    
     <p>Sample of sequences of promoters annotated in C. elegans (ce11) according to
 Serizay et al. 2020, "Tissue-specific profiling reveals distinctive 
 regulatory architectures for ubiquitous, germline and somatic genes", 
 BiorXiv.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce_proms_seqs</span>)</pre>
-        
+
+
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
     <p>DNAStringSet</p>
-    
     <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
     <p><a href='https://doi.org/10.1101/2020.02.20.958579'>BiorXiv</a></p>
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Serizay et al. 2020, 
 "Tissue-specific profiling reveals distinctive regulatory 
 architectures for ubiquitous, germline and somatic genes", BiorXiv.
 (<a href='https://doi.org/10.1101/2020.02.20.958579'>DOI</a>)</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce_proms_seqs</span>)

@@ -19,7 +19,7 @@
 #' @param range_spectrum Numeric vector The distances between nucleotides
 #'     to take into consideration when performing Fast Fourier Transform 
 #'     (default seq_len(50)).
-#' @param freq Float The frequence of the dinucleotide to study (default 1/10).
+#' @param period Integer The period of the dinucleotide to study (default=10).
 #' @param cores Integer Split the workload over several processors 
 #'     (default 12).
 #' @param bw_file String. The name of the output bigWig track
@@ -29,10 +29,11 @@
 #' @import IRanges
 #' @importFrom parallel mclapply
 #' @importFrom rtracklayer export.bw
+#' @importFrom methods is
 #' @export
 #' @return NULL A bigWig track in the working directory. 
 
-generatePeriodicityTrack <- function(
+getPeriodicityTrack <- function(
     genome = NULL, 
     granges, 
     motif = 'WW', 
@@ -42,16 +43,47 @@ generatePeriodicityTrack <- function(
     window_sliding_size = 100, 
     window_sliding_bin = 5, 
     range_spectrum = seq_len(50), 
-    freq = 1/10, 
+    period = 10, 
     cores = 12, 
     bw_file = NULL
-    ) {
-    
+)
+{
+    freq <- 1/period
+    #
     if (is.null(genome)) {
-        genome <- Biostrings::getSeq(
-            BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
-        )
+        genome <- 'ce11'
     }
+    if (methods::is(genome, 'character')) {
+        if (genome %in% c(
+            'sacCer3', 'ce11', 'dm6', 'mm10', 'hg38', 'danRer10'
+        )) {
+            genome <- switch(
+                genome, 
+                'sacCer3' = (BSgenome.Scerevisiae.UCSC.sacCer3::
+                    BSgenome.Scerevisiae.UCSC.sacCer3), 
+                'ce11' = (BSgenome.Celegans.UCSC.ce11::
+                    BSgenome.Celegans.UCSC.ce11), 
+                'dm6' = (BSgenome.Dmelanogaster.UCSC.dm6::
+                    BSgenome.Dmelanogaster.UCSC.dm6), 
+                'danRer10' = (BSgenome.Drerio.UCSC.danRer10::
+                    BSgenome.Drerio.UCSC.danRer10), 
+                'mm10' = (BSgenome.Mmusculus.UCSC.mm10::
+                    BSgenome.Mmusculus.UCSC.mm10), 
+                'hg38' = (BSgenome.Hsapiens.UCSC.hg38::
+                    BSgenome.Hsapiens.UCSC.hg38)
+            )
+        }
+        else {
+            return(stop(
+                'Only sacCer3, ce11, dm6, mm10, hg38 
+                and danRer10 are supported'
+            ))
+        }
+    }
+    if (methods::is(genome, 'BSgenome')) {
+        genome <- Biostrings::getSeq(genome)
+    }
+    #
     isCircular(seqinfo(granges)) <- NA
     granges.extended <- GenomicRanges::resize(
         granges, extension, fix = 'center'
@@ -373,7 +405,7 @@ unlistResults <- function(list.results) {
 #' 
 #' @import magrittr
 #' @return NULL Clean-up temporary files generated when running 
-#'     generatePeriodicityTrack.
+#'     getPeriodicityTrack.
 
 cleanUpDirectory <- function() {
     list.files(pattern = '.*tmp.*') %>% file.remove()

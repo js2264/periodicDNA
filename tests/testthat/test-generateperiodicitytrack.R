@@ -1,15 +1,15 @@
-context("test-generateperiodicitytrack")
+context("test-getPeriodicityTrack")
 
-test_that("generateperiodicitytrack works", {
+test_that("getPeriodicityTrack works", {
     expect_equal({
         data(ce_proms)
-        generatePeriodicityTrack(
+        getPeriodicityTrack(
             Biostrings::getSeq(
                 BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
             ),
             granges = ce_proms[1], 
             motif = 'TT',
-            freq = 1/10,
+            period = 10,
             cores = 1, 
             bw_file = 'TT-10-bp-periodicity_over-proms.bw'
         )

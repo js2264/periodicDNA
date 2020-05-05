@@ -9,10 +9,11 @@ vignette: >
     %\VignetteEncoding{UTF-8}
 ---
 
-```{r, echo=FALSE, results="hide", warning=FALSE}
+```{r, eval = TRUE, echo=FALSE, results="hide", warning=FALSE}
 knitr::opts_chunk$set(
     collapse = TRUE,
-    comment = "#>"
+    comment = "#>", 
+    fig.path = "man/figures/periodicDNA-"
 )
 suppressPackageStartupMessages({
     library(GenomicRanges)
@@ -22,131 +23,121 @@ suppressPackageStartupMessages({
 })
 ```
 
-## Introduction 
+### Dinucleotide periodicity over a set of Genomic Ranges
 
-Many oligonucleotides are periodically occurring in genomes 
-across eukaryotes, and some are impacting the physical properties of 
-DNA. For example, DNA bendability is modulated by 10-bp periodic 
-occurrences of WW (W = A/T) dinucleotides. periodicDNA is an R 
-package offering a set of functions to identify k-mer periodicity 
-in sequences of interest such as regulatory elements. 
-It also provides a method to generate continuous tracks of k-mer 
-periodicity over genomic loci. 
+The main goal of periodicDNA is to quantify periodicity of a given k-mer in a
+set of sequences. `getPeriodicity()` can be used to achieve this. 
+In the following example, `getPeriodicity()` is usually ran using 
+a GRanges object, specifying from which genome this GRanges comes from. 
 
-## Installation
+```{r, eval = TRUE}
+data(proms)
+periodicity_result <- getPeriodicity(
+    proms,
+    genome = 'ce11',
+    motif = 'TT', 
+    cores = 1
+)
+```
 
-periodicDNA can be installed from GitHub as follows:
+The output of `getPeriodicity()` is an object containing the PSD scores 
+associated with each period. For a given period, a high PSD score 
+indicates a high periodicity of the k-mer of interest. 
+
+```{r, eval = TRUE}
+head(periodicity_result$PSD)
+```
+
+Graphical output of `getPeriodicity()` can be obtained using the 
+`plotPeriodicityResults()` function: 
 
 ```{r, eval = FALSE}
-install.packages("devtools")
-devtools::install_github("js2264/periodicDNA")
-library(periodicDNA)
+plotPeriodicityResults(periodicity_result)
 ```
 
-## Loading periodicDNA and other useful packages
+![TT-periodicity](https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/ubiquitous-promoters_TT-periodicity.png)
 
-```{r}
-library(periodicDNA)
-library(magrittr)
-library(ggplot2)
+The first plot shows the raw distribution of distances between pairs of 'TT' 
+in the sequences of the provided GRanges. The second plot shows the 
+decay-normalised distribution. Finally, the third plot shows the PSD scores 
+of the 'TT' k-mer, measured from the normalised distribution.  
+
+**Note:**  
+`getPeriodicity()` can also be ran directly on a set of sequences of interest 
+as follows: 
+
+```{r, eval = FALSE}
+data(ce_proms_seqs)
+periodicity_result <- getPeriodicity(
+    ce_proms_seqs,
+    motif = 'TT', 
+    cores = 4
+)
 ```
 
-## How periodicDNA works
+### Track of periodicity over a set of Genomic Ranges
 
-When running `getPeriodicity()` function for a given k-mer (typically a
-dinucleotide) over a set of GRanges, R does the following steps: 
+Another major aim of periodicDNA is to generate continuous linear tracks of 
+k-mer periodicity strength over genomic loci of interest. 
+`getPeriodicityTrack()` can be used to generate suck genomic tracks. In the 
+following example,  
 
-1. It first finds all the possible motif occurrences over the GRanges;  
-2. It then find all the possible pairwise distances and generates a 
-   normalised histogram of the pairwise distances;  
-3. It performs a Fast Fourier Transform of the normalised histogram; 
-4. Finally, it outputs the power spectrum density of the k-mer in the 
-   provided GRanges.
-
-## Quick k-mer periodicity
-
-A genome sequence and a set of genomic loci must be defined. 
-Let's focus on the C. elegans genome for now, and more specifically 
-around its ubiquitous TSSs. 
-
-```{r, fig.wide = TRUE}
-data(ce_proms)
-ubiq_TSSs <- ce_proms[ce_proms$which.tissues == 'Ubiq.'] %>%
-    deconvolveBidirectionalPromoters() %>% 
-    alignToTSS(50, 300)
-seqs <- getSeq(
-    BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
+```{r, eval = FALSE}
+getPeriodicityTrack(
+    Biostrings::getSeq(
+        BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
+    ),
+    granges = proms, 
+    motif = 'WW',
+    period = 10,
+    cores = 12, 
+    bw_file = 'WW-10-bp-periodicity_over-proms.bw'
 )
-ubiq_seqs <- seqs[ubiq_TSSs]
-ubiq_TT <- getPeriodicity(
-    ubiq_seqs,
-    motif = 'TT', 
-    cores = 1
+```
+
+When plotted over sets of ubiquitous, germline or somatic TSSs, the resulting 
+track clearly shows increase of WW 10-bp periodicity above the ubiquitous and
+germline TSSs, whereas somatic TSSs do not show such increase.
+
+```{r, eval = FALSE, results="hide", warning=FALSE}
+WW_10bp_track <- rtracklayer::import(
+    'WW-10-bp-periodicity_over-proms.bw', 
+    as = 'Rle'
 )
-plotPeriodicityResults(ubiq_TT)
-``` 
-
-`getPeriodicity` can also works with GRanges objects, as long as a `genome`
-is supplied. 'ce11', 'sacCer3', 'mm10', 'dm6', 'hg38' and 'danRer10' are 
-currently supported. Otherwise, a BSgenome can be used directly. 
-
-```{r, fig.wide = TRUE}
-ubiq_TT <- getPeriodicity(
-    ce_proms, 
-    genome = 'ce11', 
-    motif = 'TT', 
-    cores = 1
+data(ce11_TSSs)
+plotAggregateCoverage(
+    WW_10bp_track, 
+    ce11_TSSs, 
+    xlab = 'TSS',
+    ylab = 'WW 10-bp PSD score'
 )
-``` 
+```
 
-<!--  
-## Fold Power Increase metric
+![TT-periodicity](https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/TT-10bp-periodicity_tissue-spe-TSSs.png)
 
-The FPI (fold power increase) metric was originally described in 
-Pich et al., Cell 2018. It allows to accurately estimate the periodicity 
-strength of a k-mer of interest by modelling the background periodicity.
+### Fold Power Increase
 
-```{r, fig.small = TRUE}
+Fold Power Increase (FPI) is a metric introduced by Pich et al., 
+Cell 2018. It can be computed using the `getFPI()` function. In the 
+following example, the FPI of TT dinucleotides at a 10-bp periodicity is 
+computed over 200-bp long sequences randomly sampled in ce11 genome. 
+
+```{r, eval = TRUE}
+ce11_random_regions <- sampleGenome(
+    'ce11',
+    n = 200, w = 1000
+)
 fpi <- getFPI(
-    ubiq_seqs,
+    ce11_random_regions$seq, 
     motif = 'TT', 
     parallel_shuffling = 1, 
     n_shuffle = 10
 )
 plotFPI(fpi)
-``` 
-
-**Note:** To calculate the FPI of a k-mer in a set of sequences, the sequences
-of interest are first randomly shuffled (`n_shuffle` times). This process is
-stochastic and for this reason, the FPI score might vary each time the 
-`getFPI()` function is ran. To ensure accurate estimation of the FPI score, 
-it is recommended to run the `getFPI()` function with a high `n_shuffle`. The 
-process can be parallelised using the `parallel_shuffling` argument. 
-
--->
-
-## Generating periodicity tracks with periodicDNA
-
-Rather than computing the periodicity of a chosen k-mer in a given 
-set of sequences, `generatePeriodicityTrack()` function computes 
-a linear periodicity track covering loci of interest. 
-
-```{r}
-generatePeriodicityTrack(
-    seqs,
-    granges = ce_proms[1], 
-    motif = 'TT',
-    freq = 1/10,
-    cores = 1
-)
-```
-
-```{r, echo=FALSE, results="hide", warning=FALSE}
-unlink('TT-periodicity_g-100^2_b-100^5.bw')
 ```
 
 ## Session info
 
-```{r}
+```{r, eval = TRUE}
 sessionInfo()
 ```

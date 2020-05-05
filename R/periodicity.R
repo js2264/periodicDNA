@@ -10,10 +10,8 @@
 #'     distances over RANGE_FOR_SPECTRUM. The normalized_hist is the raw 
 #'     hist, normalized for  decay over increasing distances. The spectra 
 #'     object is the output of the FFT applied over normalized_hist. 
-#'     The PSD data frame is the power spect.  density scores over given 
-#'     frequencies. The signal_to_noise_ratio is a data.frame containing 
-#'     enrichment scores of TT periodicity, for the periods in the period 
-#'     vector. The motif object is the dinucleotide being analysed.
+#'     The PSD data frame is the power spectral density scores over given 
+#'     frequencies. The motif object is the dinucleotide being analysed.
 #' 
 #' @export
 
@@ -50,10 +48,8 @@ getPeriodicity <- function(x, ...) {
 #'     distances over RANGE_FOR_SPECTRUM. The normalized_hist is the raw 
 #'     hist, normalized for  decay over increasing distances. The spectra 
 #'     object is the output of the FFT applied over normalized_hist. 
-#'     The PSD data frame is the power spect.  density scores over given 
-#'     frequencies. The signal_to_noise_ratio is a data.frame containing 
-#'     enrichment scores of TT periodicity, for the periods in the period 
-#'     vector. The motif object is the dinucleotide being analysed.
+#'     The PSD data frame is the power spectral density scores over given 
+#'     frequencies. The motif object is the dinucleotide being analysed.
 #' 
 #' @importFrom parallel mclapply
 #' @import Biostrings
@@ -69,7 +65,7 @@ getPeriodicity.DNAStringSet <- function(
     RANGE_FOR_SPECTRUM = seq_len(200),
     period = seq(2, 20, 1),
     plot = FALSE,
-    cores = 2, 
+    cores = 1, 
     roll = 3,
     verbose = TRUE, 
     sample = 0, 
@@ -103,7 +99,6 @@ getPeriodicity.DNAStringSet <- function(
             normalized_hist = 0,
             spectra = 0, 
             PSD = 0,
-            signal_to_noise_ratio = 0, 
             motif = motif
         ))
     }
@@ -140,23 +135,13 @@ getPeriodicity.DNAStringSet <- function(
             stats::spectrum(plot = FALSE)
     PSD <- data.frame(
         freq = spectra$freq, 
+        period = 1/spectra$freq, 
         PSD = spectra$spec
     )
     if (plot) {
         if (verbose) message("- Plotting results.")
         plot(spectra)
     }
-    # Get signal-to-noise ratio -----------------------------------------------
-    if (verbose) message("- Computing signal-to-noise ratios.")
-    mtm <- spectra$spec[unlist(lapply(c(1/(period)), function (freq) {
-        idx <- which.min(abs(freq - spectra$freq))
-    }))]
-    ratios <- data.frame(
-        period = period,
-        SNR = unlist(
-            lapply(seq_along(mtm), function(x) {mtm[x]/mean(mtm[-x])})
-        )
-    )
     # Return all results ------------------------------------------------------
     if (skip_shuffling) {
         return(list(
@@ -171,7 +156,6 @@ getPeriodicity.DNAStringSet <- function(
             ),
             spectra = spectra, 
             PSD = PSD,
-            signal_to_noise_ratio = ratios, 
             motif = motif
         ))
     }
@@ -205,7 +189,6 @@ getPeriodicity.DNAStringSet <- function(
                 normalized_hist = 0,
                 spectra = 0, 
                 PSD = 0,
-                signal_to_noise_ratio = 0, 
                 motif = motif
             ))
         }
@@ -256,24 +239,6 @@ getPeriodicity.DNAStringSet <- function(
             freq = spectra_shuffled$freq, 
             PSD = spectra_shuffled$spec
         )
-        # Get signal-to-noise ratio -------------------------------------------
-        if (verbose) message("- SHUFFLING: Computing signal-to-noise ratios.")
-        mtm_shuffled <- spectra_shuffled$spec[
-            unlist(lapply(c(1/(period)), function (freq) {
-                idx <- which.min(abs(freq - spectra_shuffled$freq))
-            }))
-        ]
-        ratios_shuffled <- data.frame(
-            period = period,
-            SNR = unlist(
-                lapply(
-                    seq_along(mtm_shuffled), 
-                    function(x) {
-                        mtm_shuffled[x]/mean(mtm_shuffled[-x])
-                    }
-                )
-            )
-        )
     }
     return(list(
         dists = dists, 
@@ -287,7 +252,6 @@ getPeriodicity.DNAStringSet <- function(
         ),
         spectra = spectra, 
         PSD = PSD,
-        signal_to_noise_ratio = ratios, 
         dists_shuffled = dists_shuffled, 
         hist_shuffled = data.frame(
             distance = seq(1, max(dists_shuffled), 1), 
@@ -299,7 +263,6 @@ getPeriodicity.DNAStringSet <- function(
         ),
         spectra_shuffled = spectra_shuffled, 
         PSD_shuffled = PSD_shuffled,
-        signal_to_noise_ratio_shuffled = ratios_shuffled, 
         motif = motif
     ))
 }
@@ -363,10 +326,8 @@ getPeriodicity.DNAStringSet <- function(
 #'     distances over RANGE_FOR_SPECTRUM. The normalized_hist is the raw 
 #'     hist, normalized for  decay over increasing distances. The spectra 
 #'     object is the output of the FFT applied over normalized_hist. 
-#'     The PSD data frame is the power spect.  density scores over given 
-#'     frequencies. The signal_to_noise_ratio is a data.frame containing 
-#'     enrichment scores of TT periodicity, for the periods in the period 
-#'     vector. The motif object is the dinucleotide being analysed.
+#'     The PSD data frame is the power spectral density scores over given 
+#'     frequencies. The motif object is the dinucleotide being analysed.
 #' 
 #' @importFrom methods is
 #' 
@@ -402,7 +363,8 @@ getPeriodicity.GRanges <- function(
         }
         else {
             return(stop(
-                'Only ce11, dm6, mm10, hg38 and danRer10 are supported'
+                'Only sacCer3, ce11, dm6, mm10, hg38 
+                and danRer10 are supported'
             ))
         }
     }

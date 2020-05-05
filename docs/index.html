@@ -41,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -58,6 +58,18 @@
 </li>
 <li>
   <a href="reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/internal-steps.html">How periodicDNA works</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="news/index.html">Changelog</a>
@@ -88,7 +100,7 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#periodicdna-" class="anchor"></a>periodicDNA <img src="reference/figures/logo.png" align="right" alt="">
 </h1></div>
-<p><img src="https://raw.githubusercontent.com/js2264/periodicDNA/master/man/images/TT_tissue-specific-classes.png"><img src="https://raw.githubusercontent.com/js2264/periodicDNA/master/man/images/WW-TT-AA-10bp-periodicity_tissue-spe-TSSs.png"></p>
+<p><img src="https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/TT_tissue-specific-classes.png"><img src="https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/WW-TT-AA-10bp-periodicity_tissue-spe-TSSs.png"></p>
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
@@ -102,46 +114,56 @@
 <span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/devtools/man/reexports.html">install_github</a></span>(<span class="st">"js2264/periodicDNA"</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">periodicDNA</span>)</pre></div>
 </div>
-<div id="quick-use" class="section level2">
+<div id="main-functions" class="section level2">
 <h2 class="hasAnchor">
-<a href="#quick-use" class="anchor"></a>Quick use</h2>
-<div id="dinucleotide-periodicity-over-a-set-of-genomic-ranges" class="section level3">
+<a href="#main-functions" class="anchor"></a>Main functions</h2>
+<p>The three main user-level functions of periodicDNA are <code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicity.html">getPeriodicity()</a></code>, <code><a href="https://rdrr.io/pkg/periodicDNA/man/getFPI.html">getFPI()</a></code> and <code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicityTrack.html">getPeriodicityTrack()</a></code>.</p>
+<ul>
+<li>
+<code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicity.html">getPeriodicity()</a></code> is used to compute the power spectral density (PSD) of a chosen k-mer (i.e. <code>TT</code>) in a set of sequences. The PSD score at a given period indicates the strength of the k-mer at this period.</li>
+<li>
+<code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicityTrack.html">getPeriodicityTrack()</a></code> can be used to generate linear tracks representing the periodicity strength of a given k-mer at a chosen period, over genomic loci of interest.</li>
+<li>
+<code><a href="https://rdrr.io/pkg/periodicDNA/man/getFPI.html">getFPI()</a></code> is used to compute the Fold Power Increase, a more sophisticated metric derived from the PSD. It was initially developed by Pich et al., Cell 2018. It takes into account the background periodicity of the k-mer of interest in the provided sequences.</li>
+</ul>
+<div id="getperiodicity-function" class="section level3">
 <h3 class="hasAnchor">
-<a href="#dinucleotide-periodicity-over-a-set-of-genomic-ranges" class="anchor"></a>Dinucleotide periodicity over a set of Genomic Ranges</h3>
-<p><code><a href="reference/getPeriodicity.html">getPeriodicity()</a></code> is used to quantify the overall periodicity of a given k-mer over a set of genomic ranges.</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">periodicDNA</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyverse</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">proms</span>)
-<span class="no">periodicity_result</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/getPeriodicity.html">getPeriodicity</a></span>(
+<a href="#getperiodicity-function" class="anchor"></a><code>getPeriodicity()</code> function</h3>
+<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">proms</span>)
+<span class="no">PSDs</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicity.html">getPeriodicity</a></span>(
     <span class="no">proms</span>,
     <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'ce11'</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
     <span class="kw">cores</span> <span class="kw">=</span> <span class="fl">4</span>
 )
-<span class="no">list_plots</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/plotPeriodicityResults.html">plotPeriodicityResults</a></span>(<span class="no">periodicity_result</span>) <span class="kw">%&gt;%</span>
-    <span class="kw pkg">cowplot</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/cowplot/man/plot_grid.html">plot_grid</a></span>(<span class="kw">plotlist</span> <span class="kw">=</span> <span class="no">.</span>, <span class="kw">nrow</span> <span class="kw">=</span> <span class="fl">1</span>)</pre></div>
-<p><img src="https://raw.githubusercontent.com/js2264/periodicDNA/master/man/images/ubiquitous-promoters_TT-periodicity.png" alt="TT-periodicity"></p>
+<span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/plotPeriodicityResults.html">plotPeriodicityResults</a></span>(<span class="no">PSDs</span>)</pre></div>
 </div>
-<div id="track-of-periodicity-over-a-set-of-genomic-ranges" class="section level3">
+<div id="getperiodicitytrack-function" class="section level3">
 <h3 class="hasAnchor">
-<a href="#track-of-periodicity-over-a-set-of-genomic-ranges" class="anchor"></a>Track of periodicity over a set of Genomic Ranges</h3>
-<p>The other major use of this package is to generate specific tracks over a set of loci, e.g. the strength of WW 10-pb periodicity over promoters.<br><strong>Important note:</strong> We recommend to run this command across at least a dozen of processors (use the <code>cores</code> argument). This command will take several hours and possibly up to a day to run. It typically takes one day to produce a periodicity track over 15,000 GRanges of 150 bp (with default parameters) using <code>cores = 12</code>. We highly recommend the user to run this command in a new <code>screen</code> session.</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="reference/generatePeriodicityTrack.html">generatePeriodicityTrack</a></span>(
-    <span class="kw pkg">Biostrings</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/getSeq.html">getSeq</a></span>(
-        <span class="kw pkg">BSgenome.Celegans.UCSC.ce11</span><span class="kw ns">::</span><span class="no"><a href="https://rdrr.io/pkg/BSgenome.Celegans.UCSC.ce11/man/package.html">BSgenome.Celegans.UCSC.ce11</a></span>
-    ),
+<a href="#getperiodicitytrack-function" class="anchor"></a><code>getPeriodicityTrack()</code> function</h3>
+<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicityTrack.html">getPeriodicityTrack</a></span>(
+    <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'ce11'</span>,
     <span class="kw">granges</span> <span class="kw">=</span> <span class="no">proms</span>,
-    <span class="kw">MOTIF</span> <span class="kw">=</span> <span class="st">'TT'</span>,
-    <span class="kw">FREQ</span> <span class="kw">=</span> <span class="fl">1</span>/<span class="fl">10</span>,
+    <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'WW'</span>,
+    <span class="kw">period</span> <span class="kw">=</span> <span class="fl">10</span>,
     <span class="kw">cores</span> <span class="kw">=</span> <span class="fl">12</span>,
-    <span class="kw">bw_file</span> <span class="kw">=</span> <span class="st">'TT-10-bp-periodicity_over-proms.bw'</span>
+    <span class="kw">bw_file</span> <span class="kw">=</span> <span class="st">'WW-10-bp-periodicity_over-proms.bw'</span>
 )</pre></div>
 </div>
+<div id="getfpi-function" class="section level3">
+<h3 class="hasAnchor">
+<a href="#getfpi-function" class="anchor"></a><code>getFPI()</code> function</h3>
+<div class="sourceCode" id="cb4"><pre class="r"><span class="no">ce_seq</span> <span class="kw">&lt;-</span> <span class="kw pkg">Biostrings</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/getSeq.html">getSeq</a></span>(
+    <span class="kw pkg">BSgenome.Celegans.UCSC.ce11</span><span class="kw ns">::</span><span class="no"><a href="https://rdrr.io/pkg/BSgenome.Celegans.UCSC.ce11/man/package.html">BSgenome.Celegans.UCSC.ce11</a></span>
+)
+<span class="no">FPI</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/getFPI.html">getFPI</a></span>(
+    <span class="no">proms</span>[<span class="no">ce_seq</span>],
+    <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
+    <span class="kw">parallel_shuffling</span> <span class="kw">=</span> <span class="fl">10</span>,
+    <span class="kw">n_shuffle</span> <span class="kw">=</span> <span class="fl">10</span>
+)
+<span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/plotFPI.html">plotFPI</a></span>(<span class="no">FPI</span>)</pre></div>
 </div>
-<div id="advanced-use" class="section level2">
-<h2 class="hasAnchor">
-<a href="#advanced-use" class="anchor"></a>Advanced use</h2>
-<p>Please read the <a href="vignettes/periodicDNA.Rmd">Introduction</a> vignette for a full presentation of the package functions.</p>
 </div>
 <div id="contributions" class="section level2">
 <h2 class="hasAnchor">

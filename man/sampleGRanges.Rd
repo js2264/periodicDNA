@@ -4,7 +4,13 @@
 \alias{sampleGRanges}
 \title{A function to sample GRanges from GRanges/DNAStringSet}
 \usage{
-sampleGRanges(x, n = NULL, width = NULL, exclude = FALSE)
+sampleGRanges(
+  x,
+  n = NULL,
+  width = NULL,
+  exclude = FALSE,
+  avoid_overlap = FALSE
+)
 }
 \arguments{
 \item{x}{a GRanges or DNAStringSet object}
@@ -14,6 +20,8 @@ sampleGRanges(x, n = NULL, width = NULL, exclude = FALSE)
 \item{width}{Integer width of sampled GRanges}
 
 \item{exclude}{Boolean should the original GRanges be excluded?}
+
+\item{avoid_overlap}{Boolean should the sampled GRanges not be overlapping?}
 }
 \value{
 A GRanges object of length n

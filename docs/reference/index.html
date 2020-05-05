@@ -15,10 +15,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
@@ -43,10 +45,9 @@
 
 
 
+
 <meta property="og:title" content="Function reference" />
-
 <meta property="og:image" content="/logo.png" />
-
 
 
 
@@ -78,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -96,11 +97,22 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/internal-steps.html">How periodicDNA works</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/js2264/periodicDNA/">
@@ -135,8 +147,8 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-build" class="hasAnchor"><a href="#section-build" class="anchor"></a>Build</h2>
-          <p class="section-desc"><p>Build a complete site or its individual section components.</p></p>
+          <h2 id="section-main-functions" class="hasAnchor"><a href="#section-main-functions" class="anchor"></a>Main functions</h2>
+          <p class="section-desc"></p>
         </th>
       </tr>
       
@@ -167,7 +179,7 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="generatePeriodicityTrack.html">generatePeriodicityTrack()</a></code> </p>
+          <p><code><a href="getPeriodicityTrack.html">getPeriodicityTrack()</a></code> </p>
         </td>
         <td><p>Core function to generate a track of periodicity strenght of a given 
 dinucleotide at a given frequency, over a set of chosen GRanges.</p></td>
@@ -272,6 +284,12 @@ dinucleotide at a given frequency, over a set of chosen GRanges.</p></td>
       </tr><tr>
         
         <td>
+          <p><code><a href="sampleGRanges.character.html">sampleGRanges(<i>&lt;character&gt;</i>)</a></code> <code><a href="sampleGRanges.character.html">sampleGenome()</a></code> </p>
+        </td>
+        <td><p>A function to sample GRanges from genome IDs</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="withSeq.html">withSeq()</a></code> </p>
         </td>
         <td><p>Tidyverse-compatible function to add sequence to an existing GRanges</p></td>
@@ -340,6 +358,12 @@ dinucleotide at a given frequency, over a set of chosen GRanges.</p></td>
           <p><code><a href="ce_proms_seqs.html">ce_proms_seqs</a></code> </p>
         </td>
         <td><p>ce_proms_seqs</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ce11_TSSs.html">proms</a></code> </p>
+        </td>
+        <td><p>ce11_TSSs</p></td>
       </tr>
     </tbody><tbody>
       <tr>

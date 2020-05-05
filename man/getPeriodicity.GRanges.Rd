@@ -24,10 +24,8 @@ List a list containing the results of getPeriodicity function.
     distances over RANGE_FOR_SPECTRUM. The normalized_hist is the raw 
     hist, normalized for  decay over increasing distances. The spectra 
     object is the output of the FFT applied over normalized_hist. 
-    The PSD data frame is the power spect.  density scores over given 
-    frequencies. The signal_to_noise_ratio is a data.frame containing 
-    enrichment scores of TT periodicity, for the periods in the period 
-    vector. The motif object is the dinucleotide being analysed.
+    The PSD data frame is the power spectral density scores over given 
+    frequencies. The motif object is the dinucleotide being analysed.
 }
 \description{
 Core function

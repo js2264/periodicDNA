@@ -8,7 +8,7 @@ cleanUpDirectory()
 }
 \value{
 NULL Clean-up temporary files generated when running 
-    generatePeriodicityTrack.
+    getPeriodicityTrack.
 }
 \description{
 Internal function

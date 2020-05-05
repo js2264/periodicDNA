@@ -5,8 +5,15 @@
 \title{A function to compute the fold power increase, as introduced by 
   Pich et al., Cell 2018.}
 \usage{
-getFPI(seqs, motif, period = 10, n_shuffle = 10,
-  parallel_shuffling = 10, verbose = 1, ...)
+getFPI(
+  seqs,
+  motif,
+  period = 10,
+  n_shuffle = 10,
+  parallel_shuffling = 10,
+  verbose = 1,
+  ...
+)
 }
 \arguments{
 \item{seqs}{DNAStringSet sequences of interest}

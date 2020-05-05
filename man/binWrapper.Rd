@@ -4,8 +4,15 @@
 \alias{binWrapper}
 \title{Internal function}
 \usage{
-binWrapper(grange, genome, motif, window_sliding_size, window_sliding_bin,
-  range_spectrum, freq)
+binWrapper(
+  grange,
+  genome,
+  motif,
+  window_sliding_size,
+  window_sliding_bin,
+  range_spectrum,
+  freq
+)
 }
 \arguments{
 \item{grange}{A GRanges object of length 1}
