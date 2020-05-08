@@ -1,4 +1,5 @@
 inst/doc
+data-raw/
 giffdiff.html
 *.bw
 *.pdf
