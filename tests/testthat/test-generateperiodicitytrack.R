@@ -40,14 +40,8 @@ test_that("getPeriodicityTrack and plotAggregateCoverage works", {
             split_by_granges = TRUE, split_by_track = FALSE, 
             free_scales = TRUE
         )
-        t <- plotAggregateCoverage(
-            list('test' = track, 'test2' = track), 
-            list(ce11_proms, ce11_proms), 
-            split_by_granges = FALSE, split_by_track = FALSE, 
-            free_scales = FALSE
-        )
         unlink('TT-10-bp-periodicity_over-proms.bw')
-        methods::is(p, "gg")
+        methods::is(s, "gg")
     }, TRUE)
 })
 

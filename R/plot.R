@@ -27,7 +27,7 @@ plotPeriodicityResults <- function(
 ) 
 {
     if (is.null(xlim)) {
-        xlim <- nrow(results$hist) - 5
+        xlim <- nrow(results$hist) - 6
     }
     
     if (skip_shuffling == FALSE & 'dists_shuffled' %in% names(results)) {
@@ -80,18 +80,18 @@ plotPeriodicityResults <- function(
         p1 <- ggplot2::ggplot(d, ggplot2::aes(
             x = distance, y = norm_counts, col = type
         )) + 
-        ggplot2::geom_line(alpha = c(1, 0.4)[d$type]) +
-        theme_ggplot2(...) + 
-        ggplot2::labs(
-            x = paste0('Distance between pairs of ', results$motif), 
-            y = 'Normalized distribution', 
-            title = paste0(
-                'Normalized distribution of\ndistances between pairs of ',
-                results$motif
-            )
-        ) + 
-        scale_color_manual(values = c('black', 'grey30')) +
-        theme(legend.position = 'none')
+            ggplot2::geom_line(alpha = c(1, 0.4)[d$type]) +
+            theme_ggplot2(...) + 
+            ggplot2::labs(
+                x = paste0('Distance between pairs of ', results$motif), 
+                y = 'Normalized distribution', 
+                title = paste0(
+                    'Normalized distribution of\ndistances between pairs of ',
+                    results$motif
+                )
+            ) + 
+            scale_color_manual(values = c('black', 'grey30')) +
+            theme(legend.position = 'none')
         if (facet_control) p1 <- p1 + ggplot2::facet_wrap(~type, nrow = 2) 
         #
         if (filter_periods == FALSE) {
@@ -166,29 +166,31 @@ plotPeriodicityResults <- function(
             head(results$hist[-c(seq_len(5)),], xlim), 
             ggplot2::aes(x = distance, y = counts)
         ) + 
-        ggplot2::geom_line() +
-        theme_ggplot2(...) + 
-        ggplot2::labs(
-            x = paste0('Distance between pairs of ', results$motif),
-            y = 'Distribution', 
-            title = paste0(
-                'Distribution of\ndistances between pairs of ', 
-                results$motif
+            ggplot2::geom_line() +
+            # theme_ggplot2(...) + 
+            ggplot2::labs(
+                x = paste0('Distance between pairs of ', results$motif),
+                y = 'Distribution', 
+                title = paste0(
+                    'Distribution of\ndistances between pairs of ', 
+                    results$motif
+                )
             )
-        )
         #
         df <- head(results$normalized_hist[-c(seq_len(5)),], xlim)
-        p1 <- ggplot2::ggplot(df, ggplot2::aes(x = distance, y = norm_counts))+
-        ggplot2::geom_line() +
-        theme_ggplot2(...) + 
-        ggplot2::labs(
-            x = paste0('Distance between pairs of ', results$motif), 
-            y = 'Normalized distribution', 
-            title = paste0(
-                'Normalized distribution of\ndistances between pairs of ',
-                results$motif
+        p1 <- ggplot2::ggplot(
+            df, ggplot2::aes(x = distance, y = norm_counts)
+        ) +
+            ggplot2::geom_line() +
+            # theme_ggplot2(...) + 
+            ggplot2::labs(
+                x = paste0('Distance between pairs of ', results$motif), 
+                y = 'Normalized distribution', 
+                title = paste0(
+                    'Normalized distribution of\ndistances between pairs of ',
+                    results$motif
+                )
             )
-        )
         #
         if (filter_periods == FALSE) {
             df <- data.frame(
@@ -213,7 +215,7 @@ plotPeriodicityResults <- function(
             ggplot2::geom_point() +
             ggplot2::geom_segment(aes(x=x, xend=x, y=0, yend=y)) +
             ggplot2::xlim(periods) +
-            theme_ggplot2(...) + 
+            # theme_ggplot2(...) + 
             ggplot2::labs(
                 x = paste0(results$motif, ' periods'), 
                 y = 'Power Spectral Density', 
@@ -311,12 +313,12 @@ plotFPI <- function(fpi, periods = c(2, 20), s = 0.05) {
 #' @param base_family,base_size base font family and size
 #' @param plot_title_family,plot_title_face,plot_title_size,plot_title_margin 
 #'     plot tilte family, face, size and margin
-#' @param subtitle_family,subtitle_face,subtitle_size plot subtitle family, 
+#' @param subtitle_face,subtitle_size plot subtitle family, 
 #'     face and size
 #' @param subtitle_margin plot subtitle margin bottom (single numeric value)
 #' @param strip_text_family,strip_text_face,strip_text_size facet label font 
 #'     family, face and size
-#' @param caption_family,caption_face,caption_size,caption_margin plot caption
+#' @param caption_face,caption_size,caption_margin plot caption
 #'     family, face, size and margin
 #' @param axis_title_family,axis_title_face,axis_title_size axis title font 
 #'     family, face and size
@@ -330,6 +332,7 @@ plotFPI <- function(fpi, periods = c(2, 20), s = 0.05) {
 #' @param axis_col axis color
 #' @param axis add x or y axes? `TRUE`, `FALSE`, "`xy`"
 #' @param ticks ticks if `TRUE` add ticks
+#' @param border border if `TRUE` add border
 #' 
 #' @examples \dontrun{
 #' library(ggplot2)

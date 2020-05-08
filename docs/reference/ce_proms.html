@@ -82,7 +82,7 @@ architectures for ubiquitous, germline and somatic genes&quot;, BiorXiv." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
       </span>
     </div>
 
@@ -164,48 +164,7 @@ architectures for ubiquitous, germline and somatic genes", BiorXiv.
 (<a href='https://doi.org/10.1101/2020.02.20.958579'>DOI</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce_proms</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>ce_proms</span>$<span class='no'>regulatory_class</span>)</div><div class='output co'>#&gt; 
-#&gt;        fwd-promoter        rev-promoter   bidirect-promoter   putative_enhancer 
-#&gt;                6616                6480                2181                   0 
-#&gt; unassigned_promoter pseudogene_promoter      non-coding_RNA       other_element 
-#&gt;                   0                   0                   0                   0 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>ce_proms</span>$<span class='no'>which.tissues</span>)</div><div class='output co'>#&gt; 
-#&gt;                               Germline                                Neurons 
-#&gt;                                    914                                    847 
-#&gt;                                 Muscle                                 Hypod. 
-#&gt;                                    905                                   1332 
-#&gt;                                Intest.                       Germline_Neurons 
-#&gt;                                   1349                                     35 
-#&gt;                        Germline_Muscle                        Germline_Hypod. 
-#&gt;                                     39                                     24 
-#&gt;                       Germline_Intest.                         Neurons_Muscle 
-#&gt;                                     21                                    388 
-#&gt;                         Neurons_Hypod.                        Neurons_Intest. 
-#&gt;                                     39                                     39 
-#&gt;                          Muscle_Hypod.                         Muscle_Intest. 
-#&gt;                                    162                                     75 
-#&gt;                         Hypod._Intest.                Germline_Neurons_Muscle 
-#&gt;                                    413                                     19 
-#&gt;                Germline_Neurons_Hypod.               Germline_Neurons_Intest. 
-#&gt;                                      4                                      3 
-#&gt;                 Germline_Muscle_Hypod.                Germline_Muscle_Intest. 
-#&gt;                                      8                                      3 
-#&gt;                Germline_Hypod._Intest.                  Neurons_Muscle_Hypod. 
-#&gt;                                      8                                     78 
-#&gt;                 Neurons_Muscle_Intest.                 Neurons_Hypod._Intest. 
-#&gt;                                    100                                     37 
-#&gt;                  Muscle_Hypod._Intest.         Germline_Neurons_Muscle_Hypod. 
-#&gt;                                    239                                     24 
-#&gt;        Germline_Neurons_Muscle_Intest.        Germline_Neurons_Hypod._Intest. 
-#&gt;                                     19                                      5 
-#&gt;         Germline_Muscle_Hypod._Intest.          Neurons_Muscle_Hypod._Intest. 
-#&gt;                                     51                                      0 
-#&gt; Germline_Neurons_Muscle_Hypod._Intest.                                   Soma 
-#&gt;                                      0                                    549 
-#&gt;                                  Ubiq.                              Ubiq.-Reg 
-#&gt;                                   1607                                   1085 
-#&gt;                           Unclassified                                    Low 
-#&gt;                                   4519                                    337 </div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce_proms</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: data set ‘ce_proms’ not found</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>ce_proms</span>$<span class='no'>regulatory_class</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(quote(list(...)), env): object 'ce_proms' not found</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>ce_proms</span>$<span class='no'>which.tissues</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(quote(list(...)), env): object 'ce_proms' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

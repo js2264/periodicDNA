@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Own ggplot2 theming function — theme_ggplot2 • periodicDNA</title>
+<title>Own ggplot2 theming function, adapted from 
+    https://github.com/hrbrmstr/hrbrthemes/blob/master/R/roboto-condensed.r — theme_ggplot2 • periodicDNA</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +47,10 @@
 
 
 
-<meta property="og:title" content="Own ggplot2 theming function — theme_ggplot2" />
-<meta property="og:description" content="Own ggplot2 theming function" />
+<meta property="og:title" content="Own ggplot2 theming function, adapted from 
+    https://github.com/hrbrmstr/hrbrthemes/blob/master/R/roboto-condensed.r — theme_ggplot2" />
+<meta property="og:description" content="Own ggplot2 theming function, adapted from 
+    https://github.com/hrbrmstr/hrbrthemes/blob/master/R/roboto-condensed.r" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -80,7 +83,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
       </span>
     </div>
 
@@ -134,13 +137,15 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Own ggplot2 theming function</h1>
+    <h1>Own ggplot2 theming function, adapted from 
+    https://github.com/hrbrmstr/hrbrthemes/blob/master/R/roboto-condensed.r</h1>
     <small class="dont-index">Source: <a href='https://github.com/js2264/periodicDNA/blob/master/R/plot.R'><code>R/plot.R</code></a></small>
     <div class="hidden name"><code>theme_ggplot2.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Own ggplot2 theming function</p>
+    <p>Own ggplot2 theming function, adapted from 
+    https://github.com/hrbrmstr/hrbrthemes/blob/master/R/roboto-condensed.r</p>
     </div>
 
     <pre class="usage"><span class='fu'>theme_ggplot2</span>(
@@ -174,11 +179,101 @@
   <span class='kw'>ticks</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>grid</th>
+      <td><p>panel grid (`TRUE`, `FALSE`, or a combination of 
+`X`, `x`, `Y`, `y`)</p></td>
+    </tr>
+    <tr>
+      <th>border</th>
+      <td><p>border if `TRUE` add border</p></td>
+    </tr>
+    <tr>
+      <th>base_family, base_size</th>
+      <td><p>base font family and size</p></td>
+    </tr>
+    <tr>
+      <th>plot_title_family, plot_title_face, plot_title_size, plot_title_margin</th>
+      <td><p>plot tilte family, face, size and margin</p></td>
+    </tr>
+    <tr>
+      <th>subtitle_face, subtitle_size</th>
+      <td><p>plot subtitle family, 
+face and size</p></td>
+    </tr>
+    <tr>
+      <th>subtitle_margin</th>
+      <td><p>plot subtitle margin bottom (single numeric value)</p></td>
+    </tr>
+    <tr>
+      <th>strip_text_family, strip_text_face, strip_text_size</th>
+      <td><p>facet label font 
+family, face and size</p></td>
+    </tr>
+    <tr>
+      <th>caption_face, caption_size, caption_margin</th>
+      <td><p>plot caption
+family, face, size and margin</p></td>
+    </tr>
+    <tr>
+      <th>axis_text_size</th>
+      <td><p>font size of axis text</p></td>
+    </tr>
+    <tr>
+      <th>axis_title_family, axis_title_face, axis_title_size</th>
+      <td><p>axis title font 
+family, face and size</p></td>
+    </tr>
+    <tr>
+      <th>axis_title_just</th>
+      <td><p>axis title font justificationk one of `[blmcrt]`</p></td>
+    </tr>
+    <tr>
+      <th>panel_spacing</th>
+      <td><p>panel spacing (use `unit()`)</p></td>
+    </tr>
+    <tr>
+      <th>grid_col</th>
+      <td><p>grid color</p></td>
+    </tr>
+    <tr>
+      <th>plot_margin</th>
+      <td><p>plot margin (specify with [ggplot2::margin])</p></td>
+    </tr>
+    <tr>
+      <th>axis_col</th>
+      <td><p>axis color</p></td>
+    </tr>
+    <tr>
+      <th>axis</th>
+      <td><p>add x or y axes? `TRUE`, `FALSE`, "`xy`"</p></td>
+    </tr>
+    <tr>
+      <th>ticks</th>
+      <td><p>ticks if `TRUE` add ticks</p></td>
+    </tr>
+    </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>theme A ggplot theme</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
+
+<span class='co'># seminal scatterplot</span>
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mtcars</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>mpg</span>, <span class='no'>wt</span>)) +
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>() +
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span>(<span class='kw'>x</span><span class='kw'>=</span><span class='st'>"Fuel effiency (mpg)"</span>, <span class='kw'>y</span><span class='kw'>=</span><span class='st'>"Weight (tons)"</span>,
+       <span class='kw'>title</span><span class='kw'>=</span><span class='st'>"Seminal ggplot2 scatterplot example"</span>,
+       <span class='kw'>subtitle</span><span class='kw'>=</span><span class='st'>"A plot that is only useful for demonstration purposes"</span>) +
+  <span class='fu'>theme_ggplot2</span>()
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

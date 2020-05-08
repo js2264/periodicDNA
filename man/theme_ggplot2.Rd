@@ -2,7 +2,8 @@
 % Please edit documentation in R/plot.R
 \name{theme_ggplot2}
 \alias{theme_ggplot2}
-\title{Own ggplot2 theming function}
+\title{Own ggplot2 theming function, adapted from 
+    https://github.com/hrbrmstr/hrbrthemes/blob/master/R/roboto-condensed.r}
 \usage{
 theme_ggplot2(
   grid = TRUE,
@@ -35,9 +36,65 @@ theme_ggplot2(
   ticks = FALSE
 )
 }
+\arguments{
+\item{grid}{panel grid (`TRUE`, `FALSE`, or a combination of 
+`X`, `x`, `Y`, `y`)}
+
+\item{border}{border if `TRUE` add border}
+
+\item{base_family, base_size}{base font family and size}
+
+\item{plot_title_family, plot_title_face, plot_title_size, plot_title_margin}{plot tilte family, face, size and margin}
+
+\item{subtitle_face, subtitle_size}{plot subtitle family, 
+face and size}
+
+\item{subtitle_margin}{plot subtitle margin bottom (single numeric value)}
+
+\item{strip_text_family, strip_text_face, strip_text_size}{facet label font 
+family, face and size}
+
+\item{caption_face, caption_size, caption_margin}{plot caption
+family, face, size and margin}
+
+\item{axis_text_size}{font size of axis text}
+
+\item{axis_title_family, axis_title_face, axis_title_size}{axis title font 
+family, face and size}
+
+\item{axis_title_just}{axis title font justificationk one of `[blmcrt]`}
+
+\item{panel_spacing}{panel spacing (use `unit()`)}
+
+\item{grid_col}{grid color}
+
+\item{plot_margin}{plot margin (specify with [ggplot2::margin])}
+
+\item{axis_col}{axis color}
+
+\item{axis}{add x or y axes? `TRUE`, `FALSE`, "`xy`"}
+
+\item{ticks}{ticks if `TRUE` add ticks}
+}
 \value{
 theme A ggplot theme
 }
 \description{
-Own ggplot2 theming function
+Own ggplot2 theming function, adapted from 
+    https://github.com/hrbrmstr/hrbrthemes/blob/master/R/roboto-condensed.r
+}
+\examples{
+\dontrun{
+library(ggplot2)
+library(dplyr)
+
+# seminal scatterplot
+ggplot(mtcars, aes(mpg, wt)) +
+  geom_point() +
+  labs(x="Fuel effiency (mpg)", y="Weight (tons)",
+       title="Seminal ggplot2 scatterplot example",
+       subtitle="A plot that is only useful for demonstration purposes") +
+  theme_ggplot2()
+}
+
 }

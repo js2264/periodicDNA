@@ -47,7 +47,7 @@ indicates a high periodicity of the k-mer of interest.
 ```{r, eval = TRUE}
 head(periodicity_result$PSD)
 periodicity_result$PSD %>% 
-    dplyr::filter(period == 10)
+    .$PSD[.$period == 10]
 ```
 
 Graphical output of `getPeriodicity()` can be obtained using the 

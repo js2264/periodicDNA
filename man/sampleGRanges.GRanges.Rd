@@ -31,7 +31,7 @@ A function to sample GRanges within GRanges
 }
 \examples{
 \dontrun{
-    data(ce_proms)
-    sampleGRanges(ce_proms)
+    data(ce11_proms)
+    sampleGRanges(ce11_proms)
 }
 }

@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
       </span>
     </div>
 
@@ -108,35 +108,40 @@
 <h3 class="hasAnchor">
 <a href="#dinucleotide-periodicity-over-a-set-of-genomic-ranges" class="anchor"></a>Dinucleotide periodicity over a set of Genomic Ranges</h3>
 <p>The main goal of periodicDNA is to quantify periodicity of a given k-mer in a set of sequences. <code><a href="../reference/getPeriodicity.html">getPeriodicity()</a></code> can be used to achieve this. In the following example, <code><a href="../reference/getPeriodicity.html">getPeriodicity()</a></code> is usually ran using a GRanges object, specifying from which genome this GRanges comes from.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">proms</span>)
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce11_proms</span>)
 <span class="no">periodicity_result</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/getPeriodicity.html">getPeriodicity</a></span>(
-    <span class="no">proms</span>,
+    <span class="no">ce11_proms</span>[<span class="no">ce11_proms</span>$<span class="no">which.tissues</span> <span class="kw">==</span> <span class="st">'Ubiq.'</span>][<span class="fl">1</span>:<span class="fl">500</span>],
     <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'ce11'</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
     <span class="kw">cores</span> <span class="kw">=</span> <span class="fl">1</span>
 )
 <span class="co">#&gt; - Mapping k-mers.</span>
-<span class="co">#&gt; - 554700 pairwise distances measured.</span>
+<span class="co">#&gt; - 90162 pairwise distances measured.</span>
 <span class="co">#&gt; - Calculating pairwise distance distribution.</span>
 <span class="co">#&gt; - Normalizing histogram vector.</span>
-<span class="co">#&gt; - Applying Fast Fourier Transform to the vector of distances.</span></pre></body></html></div>
+<span class="co">#&gt; - Applying Fast Fourier Transform to the vector of distances.</span>
+<span class="co">#&gt; Range (1:200) is wider than any range in the current </span>
+<span class="co">#&gt;             distances vector. Shortening the range from 1 to 149...</span></pre></body></html></div>
 <p>The output of <code><a href="../reference/getPeriodicity.html">getPeriodicity()</a></code> is an object containing the PSD scores associated with each period. For a given period, a high PSD score indicates a high periodicity of the k-mer of interest.</p>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">periodicity_result</span>$<span class="no">PSD</span>)
-<span class="co">#&gt;    freq    period          PSD</span>
-<span class="co">#&gt; 1 0.005 200.00000 2.679545e-07</span>
-<span class="co">#&gt; 2 0.010 100.00000 7.303205e-09</span>
-<span class="co">#&gt; 3 0.015  66.66667 2.302789e-08</span>
-<span class="co">#&gt; 4 0.020  50.00000 1.956243e-08</span>
-<span class="co">#&gt; 5 0.025  40.00000 4.878941e-08</span>
-<span class="co">#&gt; 6 0.030  33.33333 7.396199e-09</span></pre></body></html></div>
+<span class="co">#&gt;          freq period          PSD</span>
+<span class="co">#&gt; 1 0.006666667  150.0 1.092855e-05</span>
+<span class="co">#&gt; 2 0.013333333   75.0 7.141434e-08</span>
+<span class="co">#&gt; 3 0.020000000   50.0 7.359122e-07</span>
+<span class="co">#&gt; 4 0.026666667   37.5 3.592715e-07</span>
+<span class="co">#&gt; 5 0.033333333   30.0 6.171229e-07</span>
+<span class="co">#&gt; 6 0.040000000   25.0 2.413387e-07</span>
+<span class="no">periodicity_result</span>$<span class="no">PSD</span> <span class="kw">%&gt;%</span>
+    <span class="no">.</span>$<span class="no">PSD</span>[<span class="no">.</span>$<span class="no">period</span> <span class="kw">==</span> <span class="fl">10</span>]
+<span class="co">#&gt; NULL</span></pre></body></html></div>
 <p>Graphical output of <code><a href="../reference/getPeriodicity.html">getPeriodicity()</a></code> can be obtained using the <code><a href="../reference/plotPeriodicityResults.html">plotPeriodicityResults()</a></code> function:</p>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="../reference/plotPeriodicityResults.html">plotPeriodicityResults</a></span>(<span class="no">periodicity_result</span>)</pre></body></html></div>
 <p><img src="https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/ubiquitous-promoters_TT-periodicity.png"></p>
 <p>The first plot shows the raw distribution of distances between pairs of ‘TT’ in the sequences of the provided GRanges. The second plot shows the decay-normalised distribution. Finally, the third plot shows the PSD scores of the ‘TT’ k-mer, measured from the normalised distribution.</p>
 <p><strong>Note:</strong><br><code><a href="../reference/getPeriodicity.html">getPeriodicity()</a></code> can also be ran directly on a set of sequences of interest as follows:</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce_proms_seqs</span>)
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce11_proms_seqs</span>)
 <span class="no">periodicity_result</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/getPeriodicity.html">getPeriodicity</a></span>(
-    <span class="no">ce_proms_seqs</span>,
+    <span class="no">ce11_proms_seqs</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
     <span class="kw">cores</span> <span class="kw">=</span> <span class="fl">4</span>
 )</pre></body></html></div>
@@ -149,7 +154,7 @@
     <span class="kw pkg">Biostrings</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/getSeq.html">getSeq</a></span>(
         <span class="kw pkg">BSgenome.Celegans.UCSC.ce11</span><span class="kw ns">::</span><span class="no"><a href="https://rdrr.io/pkg/BSgenome.Celegans.UCSC.ce11/man/package.html">BSgenome.Celegans.UCSC.ce11</a></span>
     ),
-    <span class="kw">granges</span> <span class="kw">=</span> <span class="no">proms</span>,
+    <span class="kw">granges</span> <span class="kw">=</span> <span class="no">ce11_proms</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'WW'</span>,
     <span class="kw">period</span> <span class="kw">=</span> <span class="fl">10</span>,
     <span class="kw">cores</span> <span class="kw">=</span> <span class="fl">12</span>,
@@ -183,11 +188,11 @@
 )
 <span class="co">#&gt; - Calculating observed PSD</span>
 <span class="co">#&gt; - Mapping k-mers.</span>
-<span class="co">#&gt; - 1890591 pairwise distances measured.</span>
+<span class="co">#&gt; - 1810230 pairwise distances measured.</span>
 <span class="co">#&gt; - Calculating pairwise distance distribution.</span>
 <span class="co">#&gt; - Normalizing histogram vector.</span>
 <span class="co">#&gt; - Applying Fast Fourier Transform to the vector of distances.</span>
-<span class="co">#&gt; &gt;&gt; Measured PSD @ 10bp is: 1.34473155215725e-08</span>
+<span class="co">#&gt; &gt;&gt; Measured PSD @ 10bp is: 5.60261314879551e-08</span>
 <span class="co">#&gt; - Shuffling 1/10</span>
 <span class="co">#&gt; - Shuffling 2/10</span>
 <span class="co">#&gt; - Shuffling 3/10</span>
@@ -198,7 +203,7 @@
 <span class="co">#&gt; - Shuffling 8/10</span>
 <span class="co">#&gt; - Shuffling 9/10</span>
 <span class="co">#&gt; - Shuffling 10/10</span>
-<span class="co">#&gt; &gt;&gt; Calculated FPI @ 10bp is: 6.49511662764729</span>
+<span class="co">#&gt; &gt;&gt; Calculated FPI @ 10bp is: 23.7695370836887</span>
 <span class="fu"><a href="../reference/plotFPI.html">plotFPI</a></span>(<span class="no">fpi</span>)
 <span class="co">#&gt; `geom_smooth()` using formula 'y ~ x'</span>
 <span class="co">#&gt; `geom_smooth()` using formula 'y ~ x'</span>
@@ -231,8 +236,8 @@
 <span class="co">#&gt; [8] methods   base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt;  [1] periodicDNA_0.3.1    Biostrings_2.50.2    XVector_0.22.0      </span>
-<span class="co">#&gt;  [4] ggplot2_3.3.0        magrittr_1.5         GenomicRanges_1.34.0</span>
+<span class="co">#&gt;  [1] periodicDNA_0.3.2    Biostrings_2.50.2    XVector_0.22.0      </span>
+<span class="co">#&gt;  [4] magrittr_1.5         ggplot2_3.3.0        GenomicRanges_1.34.0</span>
 <span class="co">#&gt;  [7] GenomeInfoDb_1.18.2  IRanges_2.16.0       S4Vectors_0.20.1    </span>
 <span class="co">#&gt; [10] BiocGenerics_0.28.0 </span>
 <span class="co">#&gt; </span>

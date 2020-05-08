@@ -7,9 +7,11 @@
 plotPeriodicityResults(
   results,
   periods = c(2, 20),
-  filter_periods = FALSE,
+  filter_periods = TRUE,
   skip_shuffling = FALSE,
-  facet_control = TRUE
+  facet_control = TRUE,
+  xlim = NULL,
+  ...
 )
 }
 \arguments{
@@ -24,6 +26,10 @@ constrained to the periods?}
 \item{skip_shuffling}{Boolean should the shuffling sequences be done?}
 
 \item{facet_control}{Boolean should the shuffling plots be faceted?}
+
+\item{xlim}{Integer x axis upper limit in raw and norm. distograms}
+
+\item{...}{Additional theme arguments passed to theme_ggplot2()}
 }
 \value{
 list A list containing four ggplots

@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
       </span>
     </div>
 
@@ -146,9 +146,11 @@
     <pre class="usage"><span class='fu'>plotPeriodicityResults</span>(
   <span class='no'>results</span>,
   <span class='kw'>periods</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>20</span>),
-  <span class='kw'>filter_periods</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>filter_periods</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>skip_shuffling</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>facet_control</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+  <span class='kw'>facet_control</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>...</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -175,6 +177,14 @@ constrained to the periods?</p></td>
     <tr>
       <th>facet_control</th>
       <td><p>Boolean should the shuffling plots be faceted?</p></td>
+    </tr>
+    <tr>
+      <th>xlim</th>
+      <td><p>Integer x axis upper limit in raw and norm. distograms</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional theme arguments passed to theme_ggplot2()</p></td>
     </tr>
     </table>
 

@@ -47,8 +47,8 @@
 
 
 <meta property="og:title" content="ce11_TSSs — ce11_TSSs" />
-<meta property="og:description" content="Annotated TSSs in C. elegans (ce11) according to Serizay et 
-al. 2020, &quot;Tissue-specific profiling reveals distinctive regulatory 
+<meta property="og:description" content="Coordinates of promoter TSSs annotated in C. elegans (ce11) used in Serizay 
+et al. 2020, &quot;Tissue-specific profiling reveals distinctive regulatory 
 architectures for ubiquitous, germline and somatic genes&quot;, BiorXiv." />
 <meta property="og:image" content="/logo.png" />
 
@@ -82,7 +82,7 @@ architectures for ubiquitous, germline and somatic genes&quot;, BiorXiv." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
       </span>
     </div>
 
@@ -142,8 +142,8 @@ architectures for ubiquitous, germline and somatic genes&quot;, BiorXiv." />
     </div>
 
     <div class="ref-description">
-    <p>Annotated TSSs in C. elegans (ce11) according to Serizay et 
-al. 2020, "Tissue-specific profiling reveals distinctive regulatory 
+    <p>Coordinates of promoter TSSs annotated in C. elegans (ce11) used in Serizay 
+et al. 2020, "Tissue-specific profiling reveals distinctive regulatory 
 architectures for ubiquitous, germline and somatic genes", BiorXiv.</p>
     </div>
 
@@ -166,7 +166,22 @@ architectures for ubiquitous, germline and somatic genes", BiorXiv.
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_TSSs</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/lengths.html'>lengths</a></span>(<span class='no'>ce11_TSSs</span>)</div><div class='output co'>#&gt;    Ubiq. Germline  Neurons   Muscle   Hypod.  Intest. 
-#&gt;     2295     1098      889      984     1440     1512 </div></pre>
+#&gt;     2295     1098      889      984     1440     1512 </div><div class='input'><span class='no'>ce11_TSSs</span><span class='kw'>[[</span><span class='fl'>1</span>]]</div><div class='output co'>#&gt; GRanges object with 2295 ranges and 0 metadata columns:
+#&gt;                                     seqnames            ranges strand
+#&gt;                                        &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;
+#&gt;             rcor-1_chrI_26903_27053     chrI       26451-27350      -
+#&gt;           Y74C9A.1_chrI_43281_43431     chrI       42966-43865      +
+#&gt;           Y48G1C.6_chrI_86365_86515     chrI       85909-86808      -
+#&gt;   rpl-7,rab-11.1_chrI_110636_110786     chrI     110334-111233      +
+#&gt;   rpl-7,rab-11.1_chrI_110636_110786     chrI     110209-111108      -
+#&gt;                                 ...      ...               ...    ...
+#&gt;     zipt-7.2_chrX_15508115_15508265     chrX 15507666-15508565      -
+#&gt;       nipi-3_chrX_15606342_15606492     chrX 15606044-15606943      +
+#&gt;     F59D12.5_chrX_15647416_15647566     chrX 15646959-15647858      -
+#&gt;        cas-1_chrX_16814106_16814256     chrX 16813693-16814592      -
+#&gt;      C36E6.2_chrX_17451496_17451646     chrX 17451191-17452090      +
+#&gt;   -------
+#&gt;   seqinfo: 6 sequences from an unspecified genome; no seqlengths</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

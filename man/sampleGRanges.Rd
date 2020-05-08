@@ -31,8 +31,8 @@ A function to sample GRanges from GRanges/DNAStringSet
 }
 \examples{
 \dontrun{
-    data(ce_proms)
-    sampleGRanges(ce_proms, 100)
+    data(ce11_proms)
+    sampleGRanges(ce11_proms, 100)
     #
     yeast_seq <- getSeq(
         BSgenome.Scerevisiae.UCSC.sacCer3::BSgenome.Scerevisiae.UCSC.sacCer3

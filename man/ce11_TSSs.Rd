@@ -14,13 +14,14 @@ GRanges
 data(ce11_TSSs)
 }
 \description{
-Annotated TSSs in C. elegans (ce11) according to Serizay et 
-al. 2020, "Tissue-specific profiling reveals distinctive regulatory 
+Coordinates of promoter TSSs annotated in C. elegans (ce11) used in Serizay 
+et al. 2020, "Tissue-specific profiling reveals distinctive regulatory 
 architectures for ubiquitous, germline and somatic genes", BiorXiv.
 }
 \examples{
 data(ce11_TSSs)
 lengths(ce11_TSSs)
+ce11_TSSs[[1]]
 }
 \references{
 Serizay et al. 2020, 

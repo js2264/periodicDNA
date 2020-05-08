@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A tidyverse-compatible function 
-    to replace NAs in a vector by a given value — na.replace • periodicDNA</title>
+<title>ce11_all_REs — ce11_all_REs • periodicDNA</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,10 +46,10 @@
 
 
 
-<meta property="og:title" content="A tidyverse-compatible function 
-    to replace NAs in a vector by a given value — na.replace" />
-<meta property="og:description" content="A tidyverse-compatible function 
-    to replace NAs in a vector by a given value" />
+<meta property="og:title" content="ce11_all_REs — ce11_all_REs" />
+<meta property="og:description" content="Regulatory elements annotated in C. elegans (ce11) according to Serizay et 
+al. 2020, &quot;Tissue-specific profiling reveals distinctive regulatory 
+architectures for ubiquitous, germline and somatic genes&quot;, BiorXiv." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -137,36 +136,76 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A tidyverse-compatible function 
-    to replace NAs in a vector by a given value</h1>
-    <small class="dont-index">Source: <a href='https://github.com/js2264/periodicDNA/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>na.replace.Rd</code></div>
+    <h1>ce11_all_REs</h1>
+    <small class="dont-index">Source: <a href='https://github.com/js2264/periodicDNA/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>ce11_all_REs.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A tidyverse-compatible function 
-    to replace NAs in a vector by a given value</p>
+    <p>Regulatory elements annotated in C. elegans (ce11) according to Serizay et 
+al. 2020, "Tissue-specific profiling reveals distinctive regulatory 
+architectures for ubiquitous, germline and somatic genes", BiorXiv.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>na.replace</span>(<span class='no'>x</span>, <span class='no'>value</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_all_REs</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>vector</p></td>
-    </tr>
-    <tr>
-      <th>value</th>
-      <td><p>Replace NAs by this variable</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A vector with NA replaced by value</p>
+    <p>GRanges</p>
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
+    <p><a href='https://doi.org/10.1101/2020.02.20.958579'>BiorXiv</a></p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Serizay et al. 2020, 
+"Tissue-specific profiling reveals distinctive regulatory 
+architectures for ubiquitous, germline and somatic genes", BiorXiv.
+(<a href='https://doi.org/10.1101/2020.02.20.958579'>DOI</a>)</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_all_REs</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>ce11_all_REs</span>$<span class='no'>regulatory_class</span>)</div><div class='output co'>#&gt; 
+#&gt;        fwd-promoter        rev-promoter   bidirect-promoter   putative_enhancer 
+#&gt;                6616                6480                4362               40542 
+#&gt; unassigned_promoter pseudogene_promoter      non-coding_RNA       other_element 
+#&gt;                4488                 652                1662               17130 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>ce11_all_REs</span>$<span class='no'>which.tissues</span>)</div><div class='output co'>#&gt; 
+#&gt;                               Germline                                Neurons 
+#&gt;                                   3638                                   4651 
+#&gt;                                 Muscle                                 Hypod. 
+#&gt;                                   5098                                   5712 
+#&gt;                                Intest.                       Germline_Neurons 
+#&gt;                                   4518                                    175 
+#&gt;                        Germline_Muscle                        Germline_Hypod. 
+#&gt;                                    303                                    106 
+#&gt;                       Germline_Intest.                         Neurons_Muscle 
+#&gt;                                     87                                   1928 
+#&gt;                         Neurons_Hypod.                        Neurons_Intest. 
+#&gt;                                    165                                    124 
+#&gt;                          Muscle_Hypod.                         Muscle_Intest. 
+#&gt;                                    672                                    286 
+#&gt;                         Hypod._Intest.                Germline_Neurons_Muscle 
+#&gt;                                   1252                                     95 
+#&gt;                Germline_Neurons_Hypod.               Germline_Neurons_Intest. 
+#&gt;                                     11                                     23 
+#&gt;                 Germline_Muscle_Hypod.                Germline_Muscle_Intest. 
+#&gt;                                     46                                    119 
+#&gt;                Germline_Hypod._Intest.                  Neurons_Muscle_Hypod. 
+#&gt;                                     41                                    303 
+#&gt;                 Neurons_Muscle_Intest.                 Neurons_Hypod._Intest. 
+#&gt;                                    329                                    101 
+#&gt;                  Muscle_Hypod._Intest.         Germline_Neurons_Muscle_Hypod. 
+#&gt;                                    810                                    139 
+#&gt;        Germline_Neurons_Muscle_Intest.        Germline_Neurons_Hypod._Intest. 
+#&gt;                                    120                                     38 
+#&gt;         Germline_Muscle_Hypod._Intest.          Neurons_Muscle_Hypod._Intest. 
+#&gt;                                    330                                      0 
+#&gt; Germline_Neurons_Muscle_Hypod._Intest.                                   Soma 
+#&gt;                                      0                                   1466 
+#&gt;                                  Ubiq.                           Ubiq.-Biased 
+#&gt;                                   4917                                   4123 
+#&gt;                           Unclassified                                    Low 
+#&gt;                                  36862                                   3344 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

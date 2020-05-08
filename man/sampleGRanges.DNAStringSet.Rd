@@ -19,7 +19,7 @@ A function to sample GRanges within DNAStringSet
 }
 \examples{
 \dontrun{
-    data(ce_proms)
-    sampleGRanges(ce_proms, 100)
+    data(ce11_proms)
+    sampleGRanges(ce11_proms, 100)
 }
 }

@@ -41,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
       </span>
     </div>
 
@@ -129,9 +129,9 @@
 <div id="getperiodicity-function" class="section level3">
 <h3 class="hasAnchor">
 <a href="#getperiodicity-function" class="anchor"></a><code>getPeriodicity()</code> function</h3>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">proms</span>)
+<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce11_proms</span>)
 <span class="no">PSDs</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/getPeriodicity.html">getPeriodicity</a></span>(
-    <span class="no">proms</span>,
+    <span class="no">ce11_proms</span>,
     <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'ce11'</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
     <span class="kw">cores</span> <span class="kw">=</span> <span class="fl">4</span>
@@ -143,7 +143,7 @@
 <a href="#getperiodicitytrack-function" class="anchor"></a><code>getPeriodicityTrack()</code> function</h3>
 <div class="sourceCode" id="cb3"><pre class="r"><span class="no">WW_10bp</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/getPeriodicityTrack.html">getPeriodicityTrack</a></span>(
     <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'ce11'</span>,
-    <span class="kw">granges</span> <span class="kw">=</span> <span class="no">proms</span>,
+    <span class="kw">granges</span> <span class="kw">=</span> <span class="no">ce11_proms</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'WW'</span>,
     <span class="kw">period</span> <span class="kw">=</span> <span class="fl">10</span>,
     <span class="kw">cores</span> <span class="kw">=</span> <span class="fl">12</span>,
@@ -157,11 +157,10 @@
     <span class="kw pkg">BSgenome.Celegans.UCSC.ce11</span><span class="kw ns">::</span><span class="no"><a href="https://rdrr.io/pkg/BSgenome.Celegans.UCSC.ce11/man/package.html">BSgenome.Celegans.UCSC.ce11</a></span>
 )
 <span class="no">FPI</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/getFPI.html">getFPI</a></span>(
-    <span class="no">ce_seq</span>[<span class="no">proms</span>],
+    <span class="no">ce_seq</span>[<span class="no">ce11_proms</span>],
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
     <span class="kw">cores_shuffling</span> <span class="kw">=</span> <span class="fl">10</span>,
-    <span class="kw">n_shuffling</span> <span class="kw">=</span> <span class="fl">10</span>,
-    <span class="kw">FUN</span> <span class="kw">=</span> <span class="kw pkg">stats</span><span class="kw ns">::</span><span class="no"><a href="https://rdrr.io/r/stats/spectrum.html">spectrum</a></span>
+    <span class="kw">n_shuffling</span> <span class="kw">=</span> <span class="fl">10</span>
 )
 <span class="fu"><a href="reference/plotFPI.html">plotFPI</a></span>(<span class="no">FPI</span>)</pre></div>
 </div>

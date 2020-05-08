@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A tidyverse-compatible function 
-    to replace NAs in a vector by a given value — na.replace • periodicDNA</title>
+<title>ce11_proms_seqs — ce11_proms_seqs • periodicDNA</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,10 +46,11 @@
 
 
 
-<meta property="og:title" content="A tidyverse-compatible function 
-    to replace NAs in a vector by a given value — na.replace" />
-<meta property="og:description" content="A tidyverse-compatible function 
-    to replace NAs in a vector by a given value" />
+<meta property="og:title" content="ce11_proms_seqs — ce11_proms_seqs" />
+<meta property="og:description" content="Sample of sequences of promoters annotated in C. elegans (ce11) according to
+Serizay et al. 2020, &quot;Tissue-specific profiling reveals distinctive 
+regulatory architectures for ubiquitous, germline and somatic genes&quot;, 
+BiorXiv." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -137,36 +137,44 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A tidyverse-compatible function 
-    to replace NAs in a vector by a given value</h1>
-    <small class="dont-index">Source: <a href='https://github.com/js2264/periodicDNA/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>na.replace.Rd</code></div>
+    <h1>ce11_proms_seqs</h1>
+    <small class="dont-index">Source: <a href='https://github.com/js2264/periodicDNA/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>ce11_proms_seqs.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A tidyverse-compatible function 
-    to replace NAs in a vector by a given value</p>
+    <p>Sample of sequences of promoters annotated in C. elegans (ce11) according to
+Serizay et al. 2020, "Tissue-specific profiling reveals distinctive 
+regulatory architectures for ubiquitous, germline and somatic genes", 
+BiorXiv.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>na.replace</span>(<span class='no'>x</span>, <span class='no'>value</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_proms_seqs</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>vector</p></td>
-    </tr>
-    <tr>
-      <th>value</th>
-      <td><p>Replace NAs by this variable</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A vector with NA replaced by value</p>
+    <p>DNAStringSet</p>
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
+    <p><a href='https://doi.org/10.1101/2020.02.20.958579'>BiorXiv</a></p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Serizay et al. 2020, 
+"Tissue-specific profiling reveals distinctive regulatory 
+architectures for ubiquitous, germline and somatic genes", BiorXiv.
+(<a href='https://doi.org/10.1101/2020.02.20.958579'>DOI</a>)</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_proms_seqs</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>ce11_proms_seqs</span>)</div><div class='output co'>#&gt;   A DNAStringSet instance of length 6
+#&gt;     width seq                                               names               
+#&gt; [1]   300 CACCATTTCAGATTTTTCGGGCT...AAAGATTACAACAAAAAAGAAGA Y74C9A.1_chrI_432...
+#&gt; [2]   300 AGCTTGTATTTTAATTTTTTGTT...ATTTAATTTACACATTTTTCCAA W04C9.4_chrI_4616...
+#&gt; [3]   300 CACTCATTTTTGTGTTTTATTGG...CAAAAACATGAAAATCCAATCTA icd-2_chrI_535376...
+#&gt; [4]   300 GAAAATAATATTGGAGTAATTTT...ATTTACAGGTAGCAATGTATGGG Y95B8A.8_chrI_853...
+#&gt; [5]   300 AAAACTGCTGTCCCTGCGAAACA...GTCTTCTCCTCCTTCTTGAGCTG Y34D9A.3_chrI_103...
+#&gt; [6]   300 TTGAAAACTCAAATAATTCACCA...GCGATGCGTTTAATTAAGTTTTG smo-1_chrI_134009...</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
