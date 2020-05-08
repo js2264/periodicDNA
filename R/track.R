@@ -137,7 +137,7 @@ getPeriodicityTrack <- function(
     cleanUpDirectory()
     
     # Return track
-    return(bw_file)
+    return(res)
 }
 
 #' Internal function

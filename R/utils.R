@@ -92,8 +92,8 @@ shuffleSeq <- function(dna) {
 #' 
 #' @examples
 #' \dontrun{
-#'     data(ce_proms)
-#'     sampleGRanges(ce_proms, 100)
+#'     data(ce11_proms)
+#'     sampleGRanges(ce11_proms, 100)
 #'     #
 #'     yeast_seq <- getSeq(
 #'         BSgenome.Scerevisiae.UCSC.sacCer3::BSgenome.Scerevisiae.UCSC.sacCer3
@@ -130,8 +130,8 @@ sampleGRanges <- function(
 #' 
 #' @examples
 #' \dontrun{
-#'     data(ce_proms)
-#'     sampleGRanges(ce_proms)
+#'     data(ce11_proms)
+#'     sampleGRanges(ce11_proms)
 #' }
 
 sampleGRanges.GRanges <- function(
@@ -258,8 +258,8 @@ sampleGRanges.GRanges <- function(
 #' 
 #' @examples
 #' \dontrun{
-#'     data(ce_proms)
-#'     sampleGRanges(ce_proms, 100)
+#'     data(ce11_proms)
+#'     sampleGRanges(ce11_proms, 100)
 #' }
 
 sampleGRanges.DNAStringSet <- function(
@@ -370,7 +370,10 @@ sampleGenome <- sampleGRanges.character
 #' }
 
 DNAStringSet2GRanges <- function(seqs) {
-    if (length(names(seqs)) == 0) {
+    if (
+        length(names(seqs)) == 0 | 
+        length(unique(names(seqs))) != length(names(seqs))
+    ) {
         names(seqs) <- paste0('seq_', seq_len(length(seqs)))
     }
     g <- GenomicRanges::GRanges(

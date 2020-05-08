@@ -1,32 +1,50 @@
 context("test-getPeriodicityTrack")
 
-test_that("getPeriodicityTrack works", {
+test_that("getPeriodicityTrack and plotAggregateCoverage works", {
     expect_equal({
-        data(ce_proms)
+        data(ce11_proms)
         track <- getPeriodicityTrack(
             Biostrings::getSeq(
                 BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
             ),
-            granges = ce_proms[1], 
+            granges = ce11_proms[1], 
             motif = 'TT',
             period = 10,
+            extension = 400, 
+            genome_sliding_sliding = 5, 
             cores = 1, 
             bw_file = 'TT-10-bp-periodicity_over-proms.bw'
         )
-        track <- rtracklayer::import(
-            'TT-10-bp-periodicity_over-proms.bw', as = 'Rle'
-        )
         scaled_track <- scaleBigWigs(list('test' = track))
-        scaled_track <- scaleBigWigs(track)
+        scaled_track2 <- scaleBigWigs(track)
         vec <- na.replace(scaled_track, 0)
         vec <- na.remove(scaled_track)
         p <- plotAggregateCoverage(
             track, 
-            ce_proms
+            ce11_proms
         )
-        p <- plotAggregateCoverage(
-            list('test' = track), 
-            ce_proms
+        q <- plotAggregateCoverage(
+            list('test' = track, 'test2' = track), 
+            list('g1' = ce11_proms, 'g2' = ce11_proms), 
+            split_by_granges = TRUE, split_by_track = TRUE
+        )
+        r <- plotAggregateCoverage(
+            list('test' = track, 'test2' = track), 
+            list(ce11_proms, ce11_proms), 
+            split_by_granges = FALSE, split_by_track = TRUE, 
+            free_scales = FALSE
+        )
+        s <- plotAggregateCoverage(
+            list('test' = track, 'test2' = track), 
+            list('g1' = ce11_proms, 'g2' = ce11_proms), 
+            split_by_granges = TRUE, split_by_track = FALSE, 
+            free_scales = TRUE
+        )
+        t <- plotAggregateCoverage(
+            list('test' = track, 'test2' = track), 
+            list(ce11_proms, ce11_proms), 
+            split_by_granges = FALSE, split_by_track = FALSE, 
+            free_scales = FALSE
         )
         unlink('TT-10-bp-periodicity_over-proms.bw')
         methods::is(p, "gg")
@@ -95,11 +113,11 @@ test_that("getPeriodicityTrack works", {
         vec <- na.remove(scaled_track)
         p <- plotAggregateCoverage(
             track, 
-            ce_proms
+            ce11_proms
         )
         p <- plotAggregateCoverage(
             list('test' = track), 
-            ce_proms
+            ce11_proms
         )
         unlink('TT-10-bp-periodicity_over-proms.bw')
         methods::is(p, "gg")

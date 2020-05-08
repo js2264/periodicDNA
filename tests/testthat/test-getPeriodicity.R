@@ -1,35 +1,48 @@
 context("test-getPeriodicity")
 
-test_that("getPeriodicity works", {
+test_that("getPeriodicity and plotPeriodicityResults works", {
     expect_equal({
-        data(ce_proms_seqs)
+        data(ce11_proms_seqs)
         periodicity_result <- getPeriodicity(
-            ce_proms_seqs[[1]],
+            ce11_proms_seqs[[1]],
             motif = 'TT', 
             cores = 1
         )
         #
-        data(ce_proms)
+        data(ce11_proms)
         periodicity_result <- getPeriodicity(
-            ce_proms[seq_len(2)],
+            ce11_proms[seq_len(2)],
             genome = 'ce11',
             motif = 'TT', 
             cores = 1
         )
-        list_plots <- plotPeriodicityResults(periodicity_result)
+        #
+        list_plots <- plotPeriodicityResults(
+            periodicity_result, skip_shuffling = FALSE, filter_periods = FALSE, 
+            grid = FALSE, axis = TRUE, ticks = TRUE, border = FALSE
+        )
+        list_plots <- plotPeriodicityResults(
+            periodicity_result, skip_shuffling = TRUE, filter_periods = FALSE
+        )
+        list_plots <- plotPeriodicityResults(
+            periodicity_result, skip_shuffling = FALSE, filter_periods = TRUE
+        )
+        list_plots <- plotPeriodicityResults(
+            periodicity_result, skip_shuffling = TRUE, filter_periods = TRUE
+        )
         methods::is(list_plots, "gg")
     }, TRUE)
 })
 
 test_that("getPeriodicity works with shuffling", {
     expect_equal({
-        data(ce_proms)
+        data(ce11_proms)
         periodicity_result <- getPeriodicity(
-            ce_proms[seq_len(50)],
+            ce11_proms[seq_len(50)],
             genome = 'ce11',
             motif = 'TT', 
             cores = 1, 
-            skip_shuffling = FALSE, 
+            skip_shuffling = TRUE, 
             doZscore = TRUE
         )
         list_plots <- plotPeriodicityResults(periodicity_result)
@@ -37,15 +50,15 @@ test_that("getPeriodicity works with shuffling", {
     }, TRUE)
 })
 
-test_that("getPeriodicity on lists of proms", {
+test_that("getPeriodicity on lists of proms and mutlitple dinucleotides", {
     skip('skip')
     expect_equal({
-        data(ce_proms)
+        data(ce11_proms)
         dinucs <- c('WW', 'SS', 'RR', 'YY', 'KK')
         periodicity_results <- mclapply(mc.cores = length(dinucs), dinucs, function(MOTIF) {
             mclapply(mc.cores = 6, c('Ubiq.', 'Germline', 'Muscle'), function(TISSUE) {
                 message(MOTIF, ' -- ', TISSUE)
-                granges <- alignToTSS(ce_proms[ce_proms$which.tissues == TISSUE], 30, 170)
+                granges <- alignToTSS(ce11_proms[ce11_proms$which.tissues == TISSUE], 30, 170)
                 r <- getPeriodicity(
                     granges, 
                     genome = 'ce11', 
@@ -78,7 +91,7 @@ test_that("getPeriodicity for sacCer3", {
     skip('figure_paper_20200507')
     expect_equal({
         sacCer3_random_regions <- sampleGenome(
-            'sacCer3', n = 6000, w = 2000
+            'sacCer3', n = 10000, w = 1000
         )
         # 
         PSDs_yeast <- getPeriodicity(
@@ -86,10 +99,10 @@ test_that("getPeriodicity for sacCer3", {
             motif = 'WW', 
             period = 10, 
             cores = 100, 
-            skip_shuffling = TRUE
+            skip_shuffling = FALSE
         )
-        p <- plotPeriodicityResults(PSDs_yeast)
-        ggsave('PSDs_yeast_WW_2000long.pdf', width = 32, height = 8, unit = 'cm')
+        p <- plotPeriodicityResults(PSDs_yeast, xlim = 150)
+        ggsave('PSDs_yeast_WW_1000longT.pdf', width = 32, height = 8, unit = 'cm')
         TRUE
     }, TRUE)
 })
@@ -98,7 +111,9 @@ test_that("getPeriodicity for ce11 proms/enhancers", {
     skip('figure_paper_20200507')
     expect_equal({
         load('~/shared/data/classification_tissue-spe-genes-REs_REs-GRanges.RData')
-        ce_seq <- getSeq(BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11)
+        ce_seq <- getSeq(
+            BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
+        )
         list_params <- mclapply(
             c('Ubiq.', 'Germline', 'Neurons', 'Muscle', 'Hypod.', 'Intest.'), 
             mc.cores = 6, 
@@ -173,7 +188,9 @@ test_that("getPeriodicity for ce11 proms/enhancers", {
             mutate(tissue = factor(tissue, levels = names(list_params))) %>% 
             mutate(Loc = factor(Loc, levels = c('proms_center', 'proms_flanking', 'proms_distal', 'enhs_center', 'enhs_flanking', 'enhs_extended')))
         p <- ggplot(PSDs, aes(x = Loc, y = psd)) + 
-            geom_col(position = "dodge", aes(col = Type, alpha = Class), size = 0.25) + 
+            geom_col(
+                position = "dodge", aes(col = Type, alpha = Class), size = 0.25
+            ) + 
             theme_ggplot2() + 
             facet_wrap(~tissue, nrow = 1) + 
             labs(
@@ -181,10 +198,14 @@ test_that("getPeriodicity for ce11 proms/enhancers", {
                 y = 'TT PSD @ 10-bp'
             ) + 
             scale_x_discrete(labels = c('', 'Proms', '', '', 'Enhs', '')) + 
-            theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) + 
+            theme(
+                axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)
+            ) + 
             scale_color_manual(values = c(NA, 'black'), guide = "none") + 
             scale_alpha_manual(values = c(1, 0.6, 0.3), name = '')
-        ggsave('PSDs_ce11_TT_proms-enhs.pdf', width = 21, height = 8, unit = 'cm')
+        ggsave(
+            'PSDs_ce11_TT_proms-enhs.pdf', width = 21, height = 8, unit = 'cm'
+        )
         #
         FPIs <- mclapply(names(list_params), mc.cores = 6, function(TISSUE) {
             list_res <- mclapply(mc.cores = 6, list_params[[TISSUE]], function(seqs) {
@@ -222,7 +243,9 @@ test_that("getPeriodicity for ce11 proms/enhancers", {
             theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) + 
             scale_color_manual(values = c(NA, 'black'), guide = "none") + 
             scale_alpha_manual(values = c(1, 0.6, 0.3), name = '')
-        ggsave('FPIs_ce11_TT_proms-enhs.pdf', width = 21, height = 8, unit = 'cm')
+        ggsave(
+            'FPIs_ce11_TT_proms-enhs.pdf', width = 21, height = 8, unit = 'cm'
+        )
         #
         TRUE
     }, TRUE)

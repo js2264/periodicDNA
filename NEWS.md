@@ -1,3 +1,11 @@
+# periodicDNA 0.3.2 (dev)  
+
+* IMPORTANT: 
+  - Implemented data-raw for reproducibility
+
+* MINOR: 
+  - Changed xlim of norm. distr. plot in plotPeriodicityResults()
+
 # periodicDNA 0.3.1 (2020-05-05)  
 
 * IMPORTANT: 
@@ -5,7 +13,7 @@
       on the raw distribution vector
   - plotPeriodicityResults() output returns one single plot (with cowplot)
   - getPeriodicityTrack() now returns the Rle
-  - Improved plotting functions (now show shuffled for plotPeriodicityResults())
+  - Improved plotting functions -now show shuffled for plotPeriodicityResults()
   - Added ggplot2 theming
 
 * MINOR:

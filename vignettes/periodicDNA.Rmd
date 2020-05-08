@@ -17,8 +17,8 @@ knitr::opts_chunk$set(
 )
 suppressPackageStartupMessages({
     library(GenomicRanges)
-    library(magrittr)
     library(ggplot2)
+    library(magrittr)
     library(periodicDNA)
 })
 ```
@@ -31,9 +31,9 @@ In the following example, `getPeriodicity()` is usually ran using
 a GRanges object, specifying from which genome this GRanges comes from. 
 
 ```{r, eval = TRUE}
-data(proms)
+data(ce11_proms)
 periodicity_result <- getPeriodicity(
-    proms,
+    ce11_proms[ce11_proms$which.tissues == 'Ubiq.'][1:500],
     genome = 'ce11',
     motif = 'TT', 
     cores = 1
@@ -46,6 +46,8 @@ indicates a high periodicity of the k-mer of interest.
 
 ```{r, eval = TRUE}
 head(periodicity_result$PSD)
+periodicity_result$PSD %>% 
+    dplyr::filter(period == 10)
 ```
 
 Graphical output of `getPeriodicity()` can be obtained using the 
@@ -67,9 +69,9 @@ of the 'TT' k-mer, measured from the normalised distribution.
 as follows: 
 
 ```{r, eval = FALSE}
-data(ce_proms_seqs)
+data(ce11_proms_seqs)
 periodicity_result <- getPeriodicity(
-    ce_proms_seqs,
+    ce11_proms_seqs,
     motif = 'TT', 
     cores = 4
 )
@@ -87,7 +89,7 @@ WW_10bp_track <- getPeriodicityTrack(
     Biostrings::getSeq(
         BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
     ),
-    granges = proms, 
+    granges = ce11_proms, 
     motif = 'WW',
     period = 10,
     cores = 12, 

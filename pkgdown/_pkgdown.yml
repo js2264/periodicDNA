@@ -46,9 +46,9 @@ reference:
   - theme_ggplot2
 - title: Data
 - contents:
-  - proms
-  - ce_proms
-  - ce_proms_seqs
+  - ce11_all_REs
+  - ce11_proms
+  - ce11_proms_seqs
   - ce11_TSSs
 - title: Internal functions
 - contents: 

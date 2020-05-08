@@ -340,7 +340,7 @@ plotAggregateCoverage.SimpleRleList <- function(
     ))
     p <- p + ggplot2::geom_line()
     p <- p + ggplot2::geom_ribbon(alpha = 0.2, col = NA)
-    p <- p + ggplot2::theme_bw()
+    p <- p + theme_ggplot2()
     p <- p + ggplot2::scale_x_continuous(
         limits = xlim, 
         expand = c(0, 0)
@@ -606,7 +606,7 @@ plotAggregateCoverage.list <- function(
     }
     p <- p + ggplot2::geom_line()
     p <- p + ggplot2::geom_ribbon(alpha = 0.2, col = NA)
-    p <- p + ggplot2::theme_bw()
+    p <- p + theme_ggplot2()
     p <- p + ggplot2::scale_x_continuous(
         limits = xlim, 
         expand = c(0, 0)

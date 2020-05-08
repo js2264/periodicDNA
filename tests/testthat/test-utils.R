@@ -2,24 +2,24 @@ context("test-utils")
 
 test_that("shuffleSeq works", {
     expect_true({
-        data(ce_proms_seqs)
-        shuffleSeq(ce_proms_seqs)
-        shuffleSeq(ce_proms_seqs[[1]])
+        data(ce11_proms_seqs)
+        shuffleSeq(ce11_proms_seqs)
+        shuffleSeq(ce11_proms_seqs[[1]])
         TRUE
     })
 })
 
 test_that("namedListToLongFormat", {
     expect_true({
-        data(ce_proms)
-        ce_proms <- alignToTSS(deconvolveBidirectionalPromoters(
-            ce_proms
+        data(ce11_proms)
+        ce11_proms <- alignToTSS(deconvolveBidirectionalPromoters(
+            ce11_proms
         ), 0, 200)
         l <- lapply(
             c('Ubiq.', 'Germline'), 
             function(TISSUE) {
                 data.frame(
-                    n = names(ce_proms[ce_proms$which.tissues == TISSUE]), 
+                    n = names(ce11_proms[ce11_proms$which.tissues == TISSUE]), 
                     t = 1
                 )
             }
@@ -32,13 +32,13 @@ test_that("namedListToLongFormat", {
 
 test_that("sampleGRanges works", {
     expect_true({
-        data(ce_proms)
+        data(ce11_proms)
         g <- sampleGRanges(
-            ce_proms, 
+            ce11_proms, 
             100
         )
         g <- sampleGRanges(
-            ce_proms, 
+            ce11_proms, 
             width = 10, 
             n = 10
         )
@@ -50,9 +50,9 @@ test_that("sampleGRanges works", {
             exclude = FALSE
         )
         #
-        data(ce_proms_seqs)
+        data(ce11_proms_seqs)
         g <- sampleGRanges(
-            ce_proms_seqs,
+            ce11_proms_seqs,
             n = 10, 
             width = 10, 
             exclude = FALSE
