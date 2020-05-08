@@ -28,7 +28,8 @@ Imports:
     zoo,
     ggplot2, 
     methods,
-    parallel
+    parallel,
+    cowplot
 Suggests:
     BSgenome.Scerevisiae.UCSC.sacCer3, 
     BSgenome.Celegans.UCSC.ce11,

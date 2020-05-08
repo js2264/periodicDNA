@@ -1,8 +1,7 @@
 #' Core function to generate a track of periodicity strenght of a given 
 #' dinucleotide at a given frequency, over a set of chosen GRanges.
 #'
-#' @param genome DNAStringSet object obtained from
-#'     \code{Biostrings::getSeq(BSgenome.xxx)}.
+#' @param genome DNAStringSet, BSgenome or genome ID
 #' @param granges GRanges object (with seqnames overlapping 
 #'     the names of genome).
 #' @param motif String Oligonucleotide of interest. 
@@ -42,7 +41,7 @@ getPeriodicityTrack <- function(
     genome_sliding_sliding = 2, 
     window_sliding_size = 100, 
     window_sliding_bin = 5, 
-    range_spectrum = seq_len(50), 
+    range_spectrum = seq(5, 50), 
     period = 10, 
     cores = 12, 
     bw_file = NULL
@@ -57,21 +56,7 @@ getPeriodicityTrack <- function(
         if (genome %in% c(
             'sacCer3', 'ce11', 'dm6', 'mm10', 'hg38', 'danRer10'
         )) {
-            genome <- switch(
-                genome, 
-                'sacCer3' = (BSgenome.Scerevisiae.UCSC.sacCer3::
-                    BSgenome.Scerevisiae.UCSC.sacCer3), 
-                'ce11' = (BSgenome.Celegans.UCSC.ce11::
-                    BSgenome.Celegans.UCSC.ce11), 
-                'dm6' = (BSgenome.Dmelanogaster.UCSC.dm6::
-                    BSgenome.Dmelanogaster.UCSC.dm6), 
-                'danRer10' = (BSgenome.Drerio.UCSC.danRer10::
-                    BSgenome.Drerio.UCSC.danRer10), 
-                'mm10' = (BSgenome.Mmusculus.UCSC.mm10::
-                    BSgenome.Mmusculus.UCSC.mm10), 
-                'hg38' = (BSgenome.Hsapiens.UCSC.hg38::
-                    BSgenome.Hsapiens.UCSC.hg38)
-            )
+            genome <- char2BSgenome(genome)
         }
         else {
             return(stop(
@@ -150,6 +135,9 @@ getPeriodicityTrack <- function(
     )
     # Remove tmp files
     cleanUpDirectory()
+    
+    # Return track
+    return(bw_file)
 }
 
 #' Internal function

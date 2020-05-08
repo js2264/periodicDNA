@@ -14,15 +14,14 @@ getPeriodicityTrack(
   genome_sliding_sliding = 2,
   window_sliding_size = 100,
   window_sliding_bin = 5,
-  range_spectrum = seq_len(50),
+  range_spectrum = seq(5, 50),
   period = 10,
   cores = 12,
   bw_file = NULL
 )
 }
 \arguments{
-\item{genome}{DNAStringSet object obtained from
-\code{Biostrings::getSeq(BSgenome.xxx)}.}
+\item{genome}{DNAStringSet, BSgenome or genome ID}
 
 \item{granges}{GRanges object (with seqnames overlapping 
 the names of genome).}

@@ -20,6 +20,7 @@ reference:
 - title: Main functions
 - contents:
   - getPeriodicity
+  - getPeriodicity.DNAString
   - getPeriodicity.DNAStringSet
   - getPeriodicity.GRanges
   - getPeriodicityTrack
@@ -29,6 +30,7 @@ reference:
   - starts_with("plot")
 - title: Utilities
 - contents:
+  - sampleGenome
   - sampleGRanges
   - sampleGRanges.BSgenome
   - sampleGRanges.DNAStringSet
@@ -40,6 +42,8 @@ reference:
   - alignToTSS
   - scaleBigWigs
   - DNAStringSet2GRanges
+  - char2BSgenome
+  - theme_ggplot2
 - title: Data
 - contents:
   - proms

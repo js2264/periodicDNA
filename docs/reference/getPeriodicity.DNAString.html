@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A function to sample GRanges within DNAStringSet — sampleGRanges.DNAStringSet • periodicDNA</title>
+<title>Core function — getPeriodicity.DNAString • periodicDNA</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="A function to sample GRanges within DNAStringSet — sampleGRanges.DNAStringSet" />
-<meta property="og:description" content="A function to sample GRanges within DNAStringSet" />
+<meta property="og:title" content="Core function — getPeriodicity.DNAString" />
+<meta property="og:description" content="Core function" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -134,40 +134,42 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A function to sample GRanges within DNAStringSet</h1>
-    <small class="dont-index">Source: <a href='https://github.com/js2264/periodicDNA/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>sampleGRanges.DNAStringSet.Rd</code></div>
+    <h1>Core function</h1>
+    <small class="dont-index">Source: <a href='https://github.com/js2264/periodicDNA/blob/master/R/periodicity.R'><code>R/periodicity.R</code></a></small>
+    <div class="hidden name"><code>getPeriodicity.DNAString.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A function to sample GRanges within DNAStringSet</p>
+    <p>Core function</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for DNAStringSet</span>
-<span class='fu'><a href='sampleGRanges.html'>sampleGRanges</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for DNAString</span>
+<span class='fu'><a href='getPeriodicity.html'>getPeriodicity</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>a DNAStringSet object</p></td>
+      <td><p>a DNAString</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional parameters</p></td>
+      <td><p>other parameters forwarded to getPeriodicity.DNAStringSet()</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A GRanges object of length n</p>
+    <p>List a list containing the results of getPeriodicity function. 
+    The dists vector is the raw vector of all distances between any 
+    possible dinucleotide. The hist data.frame is the distribution of 
+    distances over range_spectrum. The normalized_hist is the raw 
+    hist, normalized for  decay over increasing distances. The spectra 
+    object is the output of the FFT applied over normalized_hist. 
+    The PSD data frame is the power spectral density scores over given 
+    frequencies. The motif object is the dinucleotide being analysed.</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-    <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce_proms</span>)
-    <span class='fu'><a href='sampleGRanges.html'>sampleGRanges</a></span>(<span class='no'>ce_proms</span>, <span class='fl'>100</span>)
-}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

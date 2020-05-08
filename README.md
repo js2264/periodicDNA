@@ -60,7 +60,7 @@ plotPeriodicityResults(PSDs)
 ### `getPeriodicityTrack()` function
 
 ```r
-getPeriodicityTrack(
+WW_10bp <- getPeriodicityTrack(
     genome = 'ce11',
     granges = proms, 
     motif = 'WW',
@@ -77,10 +77,11 @@ ce_seq <- Biostrings::getSeq(
     BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
 )
 FPI <- getFPI(
-    proms[ce_seq], 
+    ce_seq[proms], 
     motif = 'TT', 
-    parallel_shuffling = 10, 
-    n_shuffle = 10
+    cores_shuffling = 10, 
+    n_shuffling = 10, 
+    FUN = stats::spectrum
 )
 plotFPI(FPI)
 ```

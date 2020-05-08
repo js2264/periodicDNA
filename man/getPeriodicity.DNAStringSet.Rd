@@ -8,9 +8,7 @@
 \method{getPeriodicity}{DNAStringSet}(
   x,
   motif = "WW",
-  RANGE_FOR_SPECTRUM = seq_len(200),
-  period = seq(2, 20, 1),
-  plot = FALSE,
+  range_spectrum = seq(1, 200),
   cores = 1,
   roll = 3,
   verbose = TRUE,
@@ -25,12 +23,8 @@
 
 \item{motif}{a dinucleotide of interest}
 
-\item{RANGE_FOR_SPECTRUM}{Numeric vector The distances between nucleotides
+\item{range_spectrum}{Numeric vector The distances between nucleotides
 to take into consideration when performing Fast Fourier Transform.}
-
-\item{period}{Vector a numerical vector of periods to extract.}
-
-\item{plot}{Boolean Should the FFT results be plotted?}
 
 \item{cores}{Integer How many processors should be used to parallelize
 the mapping?}
@@ -56,7 +50,7 @@ genomes will have different GC percent}
 List a list containing the results of getPeriodicity function. 
     The dists vector is the raw vector of all distances between any 
     possible dinucleotide. The hist data.frame is the distribution of 
-    distances over RANGE_FOR_SPECTRUM. The normalized_hist is the raw 
+    distances over range_spectrum. The normalized_hist is the raw 
     hist, normalized for  decay over increasing distances. The spectra 
     object is the output of the FFT applied over normalized_hist. 
     The PSD data frame is the power spectral density scores over given 

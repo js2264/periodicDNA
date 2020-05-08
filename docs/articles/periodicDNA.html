@@ -95,7 +95,7 @@
       <h1 data-toc-skip>periodicDNA</h1>
                         <h4 class="author">Jacques Serizay</h4>
             
-            <h4 class="date">2020-05-05</h4>
+            <h4 class="date">2020-05-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/js2264/periodicDNA/blob/master/vignettes/periodicDNA.Rmd"><code>vignettes/periodicDNA.Rmd</code></a></small>
       <div class="hidden name"><code>periodicDNA.Rmd</code></div>
@@ -107,37 +107,35 @@
 <div id="dinucleotide-periodicity-over-a-set-of-genomic-ranges" class="section level3">
 <h3 class="hasAnchor">
 <a href="#dinucleotide-periodicity-over-a-set-of-genomic-ranges" class="anchor"></a>Dinucleotide periodicity over a set of Genomic Ranges</h3>
-<p>The main goal of periodicDNA is to quantify periodicity of a given k-mer in a set of sequences. <code>getPeriodicity()</code> can be used to achieve this. In the following example, <code>getPeriodicity()</code> is usually ran using a GRanges object, specifying from which genome this GRanges comes from.</p>
+<p>The main goal of periodicDNA is to quantify periodicity of a given k-mer in a set of sequences. <code><a href="../reference/getPeriodicity.html">getPeriodicity()</a></code> can be used to achieve this. In the following example, <code><a href="../reference/getPeriodicity.html">getPeriodicity()</a></code> is usually ran using a GRanges object, specifying from which genome this GRanges comes from.</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">proms</span>)
-<span class="no">periodicity_result</span> <span class="kw">&lt;-</span> <span class="fu">getPeriodicity</span>(
+<span class="no">periodicity_result</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/getPeriodicity.html">getPeriodicity</a></span>(
     <span class="no">proms</span>,
     <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'ce11'</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
     <span class="kw">cores</span> <span class="kw">=</span> <span class="fl">1</span>
 )
 <span class="co">#&gt; - Mapping k-mers.</span>
-<span class="co">#&gt; - 554700 k-mers found.</span>
-<span class="co">#&gt; - Calculating pairwise distances.</span>
+<span class="co">#&gt; - 554700 pairwise distances measured.</span>
+<span class="co">#&gt; - Calculating pairwise distance distribution.</span>
 <span class="co">#&gt; - Normalizing histogram vector.</span>
 <span class="co">#&gt; - Applying Fast Fourier Transform to the vector of distances.</span></pre></body></html></div>
-<p>The output of <code>getPeriodicity()</code> is an object containing the PSD scores associated with each period. For a given period, a high PSD score indicates a high periodicity of the k-mer of interest.</p>
+<p>The output of <code><a href="../reference/getPeriodicity.html">getPeriodicity()</a></code> is an object containing the PSD scores associated with each period. For a given period, a high PSD score indicates a high periodicity of the k-mer of interest.</p>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">periodicity_result</span>$<span class="no">PSD</span>)
 <span class="co">#&gt;    freq    period          PSD</span>
-<span class="co">#&gt; 1 0.005 200.00000 2.559759e-07</span>
-<span class="co">#&gt; 2 0.010 100.00000 6.976725e-09</span>
-<span class="co">#&gt; 3 0.015  66.66667 2.199845e-08</span>
-<span class="co">#&gt; 4 0.020  50.00000 1.868792e-08</span>
-<span class="co">#&gt; 5 0.025  40.00000 4.660834e-08</span>
-<span class="co">#&gt; 6 0.030  33.33333 7.065561e-09</span></pre></body></html></div>
-<p>Graphical output of <code>getPeriodicity()</code> can be obtained using the <code>plotPeriodicityResults()</code> function:</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu">plotPeriodicityResults</span>(<span class="no">periodicity_result</span>)</pre></body></html></div>
-<div class="figure">
-<img src="https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/ubiquitous-promoters_TT-periodicity.png" alt="TT-periodicity"><p class="caption">TT-periodicity</p>
-</div>
+<span class="co">#&gt; 1 0.005 200.00000 2.679545e-07</span>
+<span class="co">#&gt; 2 0.010 100.00000 7.303205e-09</span>
+<span class="co">#&gt; 3 0.015  66.66667 2.302789e-08</span>
+<span class="co">#&gt; 4 0.020  50.00000 1.956243e-08</span>
+<span class="co">#&gt; 5 0.025  40.00000 4.878941e-08</span>
+<span class="co">#&gt; 6 0.030  33.33333 7.396199e-09</span></pre></body></html></div>
+<p>Graphical output of <code><a href="../reference/getPeriodicity.html">getPeriodicity()</a></code> can be obtained using the <code><a href="../reference/plotPeriodicityResults.html">plotPeriodicityResults()</a></code> function:</p>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="../reference/plotPeriodicityResults.html">plotPeriodicityResults</a></span>(<span class="no">periodicity_result</span>)</pre></body></html></div>
+<p><img src="https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/ubiquitous-promoters_TT-periodicity.png"></p>
 <p>The first plot shows the raw distribution of distances between pairs of ‘TT’ in the sequences of the provided GRanges. The second plot shows the decay-normalised distribution. Finally, the third plot shows the PSD scores of the ‘TT’ k-mer, measured from the normalised distribution.</p>
-<p><strong>Note:</strong><br><code>getPeriodicity()</code> can also be ran directly on a set of sequences of interest as follows:</p>
+<p><strong>Note:</strong><br><code><a href="../reference/getPeriodicity.html">getPeriodicity()</a></code> can also be ran directly on a set of sequences of interest as follows:</p>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce_proms_seqs</span>)
-<span class="no">periodicity_result</span> <span class="kw">&lt;-</span> <span class="fu">getPeriodicity</span>(
+<span class="no">periodicity_result</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/getPeriodicity.html">getPeriodicity</a></span>(
     <span class="no">ce_proms_seqs</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
     <span class="kw">cores</span> <span class="kw">=</span> <span class="fl">4</span>
@@ -146,8 +144,8 @@
 <div id="track-of-periodicity-over-a-set-of-genomic-ranges" class="section level3">
 <h3 class="hasAnchor">
 <a href="#track-of-periodicity-over-a-set-of-genomic-ranges" class="anchor"></a>Track of periodicity over a set of Genomic Ranges</h3>
-<p>Another major aim of periodicDNA is to generate continuous linear tracks of k-mer periodicity strength over genomic loci of interest. <code>getPeriodicityTrack()</code> can be used to generate suck genomic tracks. In the following example,</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu">getPeriodicityTrack</span>(
+<p>Another major aim of periodicDNA is to generate continuous linear tracks of k-mer periodicity strength over genomic loci of interest. <code><a href="../reference/getPeriodicityTrack.html">getPeriodicityTrack()</a></code> can be used to generate suck genomic tracks. In the following example,</p>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">WW_10bp_track</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/getPeriodicityTrack.html">getPeriodicityTrack</a></span>(
     <span class="kw pkg">Biostrings</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/getSeq.html">getSeq</a></span>(
         <span class="kw pkg">BSgenome.Celegans.UCSC.ce11</span><span class="kw ns">::</span><span class="no"><a href="https://rdrr.io/pkg/BSgenome.Celegans.UCSC.ce11/man/package.html">BSgenome.Celegans.UCSC.ce11</a></span>
     ),
@@ -158,12 +156,8 @@
     <span class="kw">bw_file</span> <span class="kw">=</span> <span class="st">'WW-10-bp-periodicity_over-proms.bw'</span>
 )</pre></body></html></div>
 <p>When plotted over sets of ubiquitous, germline or somatic TSSs, the resulting track clearly shows increase of WW 10-bp periodicity above the ubiquitous and germline TSSs, whereas somatic TSSs do not show such increase.</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">WW_10bp_track</span> <span class="kw">&lt;-</span> <span class="kw pkg">rtracklayer</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/rtracklayer/man/export.html">import</a></span>(
-    <span class="st">'WW-10-bp-periodicity_over-proms.bw'</span>,
-    <span class="kw">as</span> <span class="kw">=</span> <span class="st">'Rle'</span>
-)
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce11_TSSs</span>)
-<span class="fu">plotAggregateCoverage</span>(
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce11_TSSs</span>)
+<span class="fu"><a href="../reference/plotAggregateCoverage.html">plotAggregateCoverage</a></span>(
     <span class="no">WW_10bp_track</span>,
     <span class="no">ce11_TSSs</span>,
     <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">'TSS'</span>,
@@ -176,24 +170,24 @@
 <div id="fold-power-increase" class="section level3">
 <h3 class="hasAnchor">
 <a href="#fold-power-increase" class="anchor"></a>Fold Power Increase</h3>
-<p>Fold Power Increase (FPI) is a metric introduced by Pich et al., Cell 2018. It can be computed using the <code>getFPI()</code> function. In the following example, the FPI of TT dinucleotides at a 10-bp periodicity is computed over 200-bp long sequences randomly sampled in ce11 genome.</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">ce11_random_regions</span> <span class="kw">&lt;-</span> <span class="fu">sampleGenome</span>(
+<p>Fold Power Increase (FPI) is a metric introduced by Pich et al., Cell 2018. It can be computed using the <code><a href="../reference/getFPI.html">getFPI()</a></code> function. In the following example, the FPI of TT dinucleotides at a 10-bp periodicity is computed over 200-bp long sequences randomly sampled in ce11 genome.</p>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">ce11_random_regions</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/sampleGRanges.character.html">sampleGenome</a></span>(
     <span class="st">'ce11'</span>,
     <span class="kw">n</span> <span class="kw">=</span> <span class="fl">200</span>, <span class="kw">w</span> <span class="kw">=</span> <span class="fl">1000</span>
 )
-<span class="no">fpi</span> <span class="kw">&lt;-</span> <span class="fu">getFPI</span>(
+<span class="no">fpi</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/getFPI.html">getFPI</a></span>(
     <span class="no">ce11_random_regions</span>$<span class="no">seq</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
-    <span class="kw">parallel_shuffling</span> <span class="kw">=</span> <span class="fl">1</span>,
-    <span class="kw">n_shuffle</span> <span class="kw">=</span> <span class="fl">10</span>
+    <span class="kw">cores_shuffling</span> <span class="kw">=</span> <span class="fl">1</span>,
+    <span class="kw">n_shuffling</span> <span class="kw">=</span> <span class="fl">10</span>
 )
 <span class="co">#&gt; - Calculating observed PSD</span>
 <span class="co">#&gt; - Mapping k-mers.</span>
-<span class="co">#&gt; - 1998180 k-mers found.</span>
-<span class="co">#&gt; - Calculating pairwise distances.</span>
+<span class="co">#&gt; - 1890591 pairwise distances measured.</span>
+<span class="co">#&gt; - Calculating pairwise distance distribution.</span>
 <span class="co">#&gt; - Normalizing histogram vector.</span>
 <span class="co">#&gt; - Applying Fast Fourier Transform to the vector of distances.</span>
-<span class="co">#&gt; &gt;&gt; Measured PSD @ 10bp is: 2.36221402852559e-08</span>
+<span class="co">#&gt; &gt;&gt; Measured PSD @ 10bp is: 1.34473155215725e-08</span>
 <span class="co">#&gt; - Shuffling 1/10</span>
 <span class="co">#&gt; - Shuffling 2/10</span>
 <span class="co">#&gt; - Shuffling 3/10</span>
@@ -204,7 +198,12 @@
 <span class="co">#&gt; - Shuffling 8/10</span>
 <span class="co">#&gt; - Shuffling 9/10</span>
 <span class="co">#&gt; - Shuffling 10/10</span>
-<span class="fu">plotFPI</span>(<span class="no">fpi</span>)</pre></body></html></div>
+<span class="co">#&gt; &gt;&gt; Calculated FPI @ 10bp is: 6.49511662764729</span>
+<span class="fu"><a href="../reference/plotFPI.html">plotFPI</a></span>(<span class="no">fpi</span>)
+<span class="co">#&gt; `geom_smooth()` using formula 'y ~ x'</span>
+<span class="co">#&gt; `geom_smooth()` using formula 'y ~ x'</span>
+<span class="co">#&gt; Warning in max(ids, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span></pre></body></html></div>
 <p><img src="man/figures/periodicDNA-unnamed-chunk-8-1.png" width="700"></p>
 </div>
 <div id="session-info" class="section level2">
@@ -233,40 +232,41 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
 <span class="co">#&gt;  [1] periodicDNA_0.3.1    Biostrings_2.50.2    XVector_0.22.0      </span>
-<span class="co">#&gt;  [4] ggplot2_3.1.1        magrittr_1.5         GenomicRanges_1.34.0</span>
+<span class="co">#&gt;  [4] ggplot2_3.3.0        magrittr_1.5         GenomicRanges_1.34.0</span>
 <span class="co">#&gt;  [7] GenomeInfoDb_1.18.2  IRanges_2.16.0       S4Vectors_0.20.1    </span>
 <span class="co">#&gt; [10] BiocGenerics_0.28.0 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
 <span class="co">#&gt;  [1] SummarizedExperiment_1.12.0       zoo_1.8-5                        </span>
 <span class="co">#&gt;  [3] tidyselect_0.2.5                  xfun_0.5                         </span>
-<span class="co">#&gt;  [5] purrr_0.3.4                       lattice_0.20-38                  </span>
-<span class="co">#&gt;  [7] colorspace_1.4-1                  htmltools_0.3.6                  </span>
-<span class="co">#&gt;  [9] rtracklayer_1.42.2                yaml_2.2.0                       </span>
-<span class="co">#&gt; [11] XML_3.98-1.19                     rlang_0.4.6                      </span>
-<span class="co">#&gt; [13] pkgdown_1.5.1                     pillar_1.3.1                     </span>
-<span class="co">#&gt; [15] glue_1.4.0                        withr_2.2.0                      </span>
-<span class="co">#&gt; [17] BiocParallel_1.16.6               matrixStats_0.54.0               </span>
-<span class="co">#&gt; [19] GenomeInfoDbData_1.2.0            plyr_1.8.4                       </span>
-<span class="co">#&gt; [21] stringr_1.4.0                     zlibbioc_1.28.0                  </span>
-<span class="co">#&gt; [23] munsell_0.5.0                     gtable_0.3.0                     </span>
-<span class="co">#&gt; [25] memoise_1.1.0                     evaluate_0.13                    </span>
-<span class="co">#&gt; [27] labeling_0.3                      Biobase_2.42.0                   </span>
-<span class="co">#&gt; [29] knitr_1.22                        Rcpp_1.0.1                       </span>
-<span class="co">#&gt; [31] BSgenome_1.50.0                   scales_1.0.0                     </span>
-<span class="co">#&gt; [33] backports_1.1.3                   DelayedArray_0.8.0               </span>
-<span class="co">#&gt; [35] desc_1.2.0                        fs_1.3.1                         </span>
-<span class="co">#&gt; [37] Rsamtools_1.34.1                  digest_0.6.18                    </span>
-<span class="co">#&gt; [39] stringi_1.3.1                     dplyr_0.8.0.1                    </span>
-<span class="co">#&gt; [41] grid_3.5.2                        rprojroot_1.3-2                  </span>
-<span class="co">#&gt; [43] tools_3.5.2                       bitops_1.0-6                     </span>
-<span class="co">#&gt; [45] lazyeval_0.2.2                    RCurl_1.95-4.12                  </span>
-<span class="co">#&gt; [47] tibble_2.1.1                      crayon_1.3.4                     </span>
-<span class="co">#&gt; [49] pkgconfig_2.0.2                   BSgenome.Celegans.UCSC.ce11_1.4.2</span>
-<span class="co">#&gt; [51] Matrix_1.2-17                     MASS_7.3-51.1                    </span>
-<span class="co">#&gt; [53] assertthat_0.2.1                  rmarkdown_1.12.6                 </span>
-<span class="co">#&gt; [55] R6_2.4.0                          GenomicAlignments_1.18.1         </span>
-<span class="co">#&gt; [57] compiler_3.5.2</span></pre></body></html></div>
+<span class="co">#&gt;  [5] purrr_0.3.4                       splines_3.5.2                    </span>
+<span class="co">#&gt;  [7] lattice_0.20-38                   colorspace_1.4-1                 </span>
+<span class="co">#&gt;  [9] htmltools_0.3.6                   mgcv_1.8-28                      </span>
+<span class="co">#&gt; [11] rtracklayer_1.42.2                yaml_2.2.0                       </span>
+<span class="co">#&gt; [13] XML_3.98-1.19                     rlang_0.4.6                      </span>
+<span class="co">#&gt; [15] pkgdown_1.5.1                     pillar_1.3.1                     </span>
+<span class="co">#&gt; [17] glue_1.4.0                        withr_2.2.0                      </span>
+<span class="co">#&gt; [19] BiocParallel_1.16.6               matrixStats_0.54.0               </span>
+<span class="co">#&gt; [21] GenomeInfoDbData_1.2.0            stringr_1.4.0                    </span>
+<span class="co">#&gt; [23] zlibbioc_1.28.0                   munsell_0.5.0                    </span>
+<span class="co">#&gt; [25] gtable_0.3.0                      memoise_1.1.0                    </span>
+<span class="co">#&gt; [27] evaluate_0.13                     labeling_0.3                     </span>
+<span class="co">#&gt; [29] Biobase_2.42.0                    knitr_1.22                       </span>
+<span class="co">#&gt; [31] Rcpp_1.0.1                        BSgenome_1.50.0                  </span>
+<span class="co">#&gt; [33] scales_1.0.0                      backports_1.1.3                  </span>
+<span class="co">#&gt; [35] DelayedArray_0.8.0                desc_1.2.0                       </span>
+<span class="co">#&gt; [37] fs_1.3.1                          Rsamtools_1.34.1                 </span>
+<span class="co">#&gt; [39] digest_0.6.18                     stringi_1.3.1                    </span>
+<span class="co">#&gt; [41] dplyr_0.8.0.1                     grid_3.5.2                       </span>
+<span class="co">#&gt; [43] rprojroot_1.3-2                   cowplot_0.9.4                    </span>
+<span class="co">#&gt; [45] tools_3.5.2                       bitops_1.0-6                     </span>
+<span class="co">#&gt; [47] RCurl_1.95-4.12                   tibble_2.1.1                     </span>
+<span class="co">#&gt; [49] crayon_1.3.4                      pkgconfig_2.0.2                  </span>
+<span class="co">#&gt; [51] BSgenome.Celegans.UCSC.ce11_1.4.2 MASS_7.3-51.1                    </span>
+<span class="co">#&gt; [53] Matrix_1.2-17                     assertthat_0.2.1                 </span>
+<span class="co">#&gt; [55] rmarkdown_1.12.6                  R6_2.4.0                         </span>
+<span class="co">#&gt; [57] nlme_3.1-137                      GenomicAlignments_1.18.1         </span>
+<span class="co">#&gt; [59] compiler_3.5.2</span></pre></body></html></div>
 </div>
   </div>
 

@@ -7,7 +7,7 @@
 #' @return List a list containing the results of getPeriodicity function. 
 #'     The dists vector is the raw vector of all distances between any 
 #'     possible dinucleotide. The hist data.frame is the distribution of 
-#'     distances over RANGE_FOR_SPECTRUM. The normalized_hist is the raw 
+#'     distances over range_spectrum. The normalized_hist is the raw 
 #'     hist, normalized for  decay over increasing distances. The spectra 
 #'     object is the output of the FFT applied over normalized_hist. 
 #'     The PSD data frame is the power spectral density scores over given 
@@ -24,10 +24,8 @@ getPeriodicity <- function(x, ...) {
 #' 
 #' @param x a DNAStringSet
 #' @param motif a dinucleotide of interest
-#' @param RANGE_FOR_SPECTRUM Numeric vector The distances between nucleotides
+#' @param range_spectrum Numeric vector The distances between nucleotides
 #'     to take into consideration when performing Fast Fourier Transform.
-#' @param period Vector a numerical vector of periods to extract.
-#' @param plot Boolean Should the FFT results be plotted? 
 #' @param cores Integer How many processors should be used to parallelize
 #'     the mapping? 
 #' @param roll Integer Window to smooth the distribution of pairwise distances
@@ -45,7 +43,7 @@ getPeriodicity <- function(x, ...) {
 #' @return List a list containing the results of getPeriodicity function. 
 #'     The dists vector is the raw vector of all distances between any 
 #'     possible dinucleotide. The hist data.frame is the distribution of 
-#'     distances over RANGE_FOR_SPECTRUM. The normalized_hist is the raw 
+#'     distances over range_spectrum. The normalized_hist is the raw 
 #'     hist, normalized for  decay over increasing distances. The spectra 
 #'     object is the output of the FFT applied over normalized_hist. 
 #'     The PSD data frame is the power spectral density scores over given 
@@ -62,15 +60,13 @@ getPeriodicity <- function(x, ...) {
 getPeriodicity.DNAStringSet <- function(
     x, 
     motif = 'WW', 
-    RANGE_FOR_SPECTRUM = seq_len(200),
-    period = seq(2, 20, 1),
-    plot = FALSE,
+    range_spectrum = seq(1, 200),
     cores = 1, 
     roll = 3,
     verbose = TRUE, 
     sample = 0, 
     doZscore = FALSE,
-    skip_shuffling = TRUE, 
+    skip_shuffling = TRUE,
     ...
 )
 {
@@ -79,10 +75,9 @@ getPeriodicity.DNAStringSet <- function(
     # Get pairwise distances --------------------------------------------------
     if (verbose) message("- Mapping k-mers.")
     dists <- parallel::mclapply(seq_len(length(seqs)), function(k) {
-        seq <- seqs[k]
         Biostrings::vmatchPattern(
             motif, 
-            seq, 
+            seqs[k], 
             max.mismatch = 0, 
             fixed = FALSE
         )[[1]] %>% 
@@ -90,6 +85,7 @@ getPeriodicity.DNAStringSet <- function(
             dist() %>% 
             c()
     }, mc.cores = cores) %>% unlist()
+    max_dist <- max(dists)
     if (length(dists) < 10) {
         if (verbose) message("- Only ", length(dists), 
         " pairs of k-mers found. Returning null results")
@@ -102,16 +98,19 @@ getPeriodicity.DNAStringSet <- function(
             motif = motif
         ))
     }
-    if (verbose) message("- ", length(dists), " k-mers found.")
+    if (verbose) message("- ", length(dists), " pairwise distances measured.")
     if (sample < length(dists) & sample > 0) {
-        if (verbose) message("- Sampling ", sample, " k-mers.")
+        if (verbose) message("- Subsampling ", sample, " k-mers.")
         dists <- dists[sample(seq_len(dists), sample)]
     }
-    if (verbose) message("- Calculating pairwise distances.")
-    hist <- hist(dists, breaks = seq(1, max(dists)+1, 1), plot = FALSE)$counts
+    if (verbose) message("- Calculating pairwise distance distribution.")
+    hist <- hist(dists, breaks = seq(1, max_dist+1, 1), plot = FALSE)$counts
+    hist <- zoo::rollmean(
+        hist, k = roll, na.pad = TRUE, align = 'center'
+    )
     if (verbose) message("- Normalizing histogram vector.")
     if (length(hist) > 10) {
-        norm_hist <- normalizeHistogram(hist, roll, doZscore)
+        norm_hist <- normalizeHistogram(hist, roll = 1, doZscore)
     } 
     else {
         norm_hist <- hist
@@ -120,38 +119,35 @@ getPeriodicity.DNAStringSet <- function(
     if (verbose) message(
         "- Applying Fast Fourier Transform to the vector of distances."
     )
-    if (max(dists) < tail(RANGE_FOR_SPECTRUM, 1)) {
+    if (max_dist < tail(range_spectrum, 1)) {
         if (verbose) message(
             'Range (', 
-            head(RANGE_FOR_SPECTRUM, 1), ':', tail(RANGE_FOR_SPECTRUM, 1), 
+            head(range_spectrum, 1), ':', tail(range_spectrum, 1), 
             ') is wider than any range in the current 
             distances vector. Shortening the range from ', 
-            head(RANGE_FOR_SPECTRUM, 1), ' to ', max(dists), '...'
+            head(range_spectrum, 1), ' to ', max_dist, '...'
         )
-        RANGE_FOR_SPECTRUM <- head(RANGE_FOR_SPECTRUM, 1):max(dists)
+        range_spectrum <- head(range_spectrum, 1):max_dist
     }
-    spectra <- norm_hist %>%
-            '['(RANGE_FOR_SPECTRUM) %>% 
-            stats::spectrum(plot = FALSE)
+    spectra <- do.call(
+        stats::spectrum, 
+        list(norm_hist[range_spectrum], plot = FALSE)
+    )
     PSD <- data.frame(
         freq = spectra$freq, 
         period = 1/spectra$freq, 
         PSD = spectra$spec
     )
-    if (plot) {
-        if (verbose) message("- Plotting results.")
-        plot(spectra)
-    }
-    # Return all results ------------------------------------------------------
+    # Return all results if skip_shuffling ------------------------------------
     if (skip_shuffling) {
         return(list(
             dists = dists, 
             hist = data.frame(
-                distance = seq(1, max(dists), 1), 
+                distance = seq(1, max_dist, 1), 
                 counts = hist
             ), 
             normalized_hist = data.frame(
-                distance = seq(1, max(dists), 1), 
+                distance = seq(1, max_dist, 1), 
                 norm_counts = norm_hist
             ),
             spectra = spectra, 
@@ -177,6 +173,7 @@ getPeriodicity.DNAStringSet <- function(
                 dist() %>% 
                 c()
         }, mc.cores = cores) %>% unlist()
+        max_dists_shuffled <- max(dists_shuffled)
         if (length(dists_shuffled) < 10) {
             if (verbose) message(
                 "- Only ", 
@@ -204,7 +201,7 @@ getPeriodicity.DNAStringSet <- function(
         if (verbose) message("- SHUFFLING: Calculating pairwise distances.")
         hist_shuffled <- hist(
             dists_shuffled, 
-            breaks = seq(1, max(dists_shuffled)+1, 1), 
+            breaks = seq(1, max_dists_shuffled+1, 1), 
             plot = FALSE
         )$counts
         if (verbose) message("- SHUFFLING: Normalizing histogram vector.")
@@ -221,19 +218,19 @@ getPeriodicity.DNAStringSet <- function(
             "- SHUFFLING: Applying Fast Fourier Transform 
             to the vector of distances."
         )
-        if (max(dists_shuffled) < tail(RANGE_FOR_SPECTRUM, 1)) {
+        if (max_dists_shuffled < tail(range_spectrum, 1)) {
             if (verbose) message(
                 'Range (', 
-                head(RANGE_FOR_SPECTRUM, 1), ':', tail(RANGE_FOR_SPECTRUM, 1), 
+                head(range_spectrum, 1), ':', tail(range_spectrum, 1), 
                 ') is wider than any range in the current distances vector. 
                 Shortening the range from ', 
-                head(RANGE_FOR_SPECTRUM, 1), ' to ', max(dists_shuffled), '...'
+                head(range_spectrum, 1), ' to ', max_dists_shuffled, '...'
             )
-            a <- head(RANGE_FOR_SPECTRUM, 1)
-            RANGE_FOR_SPECTRUM <- a:max(dists_shuffled)
+            a <- head(range_spectrum, 1)
+            range_spectrum <- a:max_dists_shuffled
         }
         spectra_shuffled <- norm_hist_shuffled %>%
-                '['(RANGE_FOR_SPECTRUM) %>% 
+                '['(range_spectrum) %>% 
                 stats::spectrum(plot = FALSE)
         PSD_shuffled <- data.frame(
             freq = spectra_shuffled$freq, 
@@ -243,22 +240,22 @@ getPeriodicity.DNAStringSet <- function(
     return(list(
         dists = dists, 
         hist = data.frame(
-            distance = seq(1, max(dists), 1), 
+            distance = seq(1, max_dist, 1), 
             counts = hist
         ), 
         normalized_hist = data.frame(
-            distance = seq(1, max(dists), 1), 
+            distance = seq(1, max_dist, 1), 
             norm_counts = norm_hist
         ),
         spectra = spectra, 
         PSD = PSD,
         dists_shuffled = dists_shuffled, 
         hist_shuffled = data.frame(
-            distance = seq(1, max(dists_shuffled), 1), 
+            distance = seq(1, max_dists_shuffled, 1), 
             counts = hist_shuffled
         ), 
         normalized_hist_shuffled = data.frame(
-            distance = seq(1, max(dists_shuffled), 1), 
+            distance = seq(1, max_dists_shuffled, 1), 
             norm_counts = norm_hist_shuffled
         ),
         spectra_shuffled = spectra_shuffled, 
@@ -266,49 +263,6 @@ getPeriodicity.DNAStringSet <- function(
         motif = motif
     ))
 }
-
-# #' Core function - NOT WORKING. DO NOT USE
-# #'
-# #' @param seq a DNAString
-# #' @param motif a dinucleotide of interest
-# #' @param subseq_len The length of sub-sequences
-# #' @param n_occurences The targeted number of pairs of dinucleotides
-# #' 
-# #' @export
-# #' @return List NULL
-# 
-# getPeriodicity.DNAString <- function(
-#     seq, motif = 'TT', 
-#     subseq_len = NULL,
-#     n_occurences = 200,
-#     force_use = FALSE, 
-#     ...
-# ) 
-# {
-#     # STOP ERROR ------------------------------------------------------------
-#     if (!force_use) stop('FUNCTION NOT WORKING YET. ABORTING NOW.')
-#     #
-#     if(is.null(subseq_len)) subseq_len <- nchar(seq) * 0.25
-#     n_motif <- length(Biostrings::matchPattern(motif, seq, fixed = FALSE))
-#     repets <- round(n_occurences/n_motif * 10)
-#     starts <- sample(
-#       seq_len(length(seq)-subseq_len), repets, 
-#       replace = repets > (nchar(seq) - subseq_len)
-#     )
-#     seqs <- lapply(
-#       seq_along(starts), 
-#       function(K) {seq[starts[K]:(starts[K]+subseq_len)]}
-#     ) %>% as('DNAStringSet')
-#     spectra <- getPeriodicity(seqs, ...)$spectra
-#     a <- (which.min(abs(spectra$freq - freq))-1)
-#     b <- (which.min(abs(spectra$freq - freq))+1)
-#     m <- max(
-#       spectra$spec[
-#         a:b
-#       ]
-#     )
-#     return(m)
-# }
 
 #' Core function
 #' 
@@ -323,7 +277,7 @@ getPeriodicity.DNAStringSet <- function(
 #' @return List a list containing the results of getPeriodicity function. 
 #'     The dists vector is the raw vector of all distances between any 
 #'     possible dinucleotide. The hist data.frame is the distribution of 
-#'     distances over RANGE_FOR_SPECTRUM. The normalized_hist is the raw 
+#'     distances over range_spectrum. The normalized_hist is the raw 
 #'     hist, normalized for  decay over increasing distances. The spectra 
 #'     object is the output of the FFT applied over normalized_hist. 
 #'     The PSD data frame is the power spectral density scores over given 
@@ -341,38 +295,56 @@ getPeriodicity.GRanges <- function(
 {
     granges <- x
     
-    if (methods::is(genome, 'character')) {
-        if (genome %in% c(
-            'sacCer3', 'ce11', 'dm6', 'mm10', 'hg38', 'danRer10'
-        )) {
-            genome <- switch(
-                genome, 
-                'sacCer3' = (BSgenome.Scerevisiae.UCSC.sacCer3::
-                    BSgenome.Scerevisiae.UCSC.sacCer3), 
-                'ce11' = (BSgenome.Celegans.UCSC.ce11::
-                    BSgenome.Celegans.UCSC.ce11), 
-                'dm6' = (BSgenome.Dmelanogaster.UCSC.dm6::
-                    BSgenome.Dmelanogaster.UCSC.dm6), 
-                'danRer10' = (BSgenome.Drerio.UCSC.danRer10::
-                    BSgenome.Drerio.UCSC.danRer10), 
-                'mm10' = (BSgenome.Mmusculus.UCSC.mm10::
-                    BSgenome.Mmusculus.UCSC.mm10), 
-                'hg38' = (BSgenome.Hsapiens.UCSC.hg38::
-                    BSgenome.Hsapiens.UCSC.hg38)
-            )
-        }
-        else {
-            return(stop(
-                'Only sacCer3, ce11, dm6, mm10, hg38 
-                and danRer10 are supported'
-            ))
-        }
+    if (!is.null(granges$seq)) {
+        seqs <- granges$seq
     }
-    if (methods::is(genome, 'BSgenome')) {
-        genome <- Biostrings::getSeq(genome)
+    else {
+        if (methods::is(genome, 'character')) {
+            if (genome %in% c(
+                'sacCer3', 'ce11', 'dm6', 'mm10', 'hg38', 'danRer10'
+            )) {
+                genome <- char2BSgenome(genome)
+            }
+            else {
+                return(stop(
+                    'Only sacCer3, ce11, dm6, mm10, hg38 
+                    and danRer10 are supported'
+                ))
+            }
+        }
+        if (methods::is(genome, 'BSgenome')) {
+            genome <- Biostrings::getSeq(genome)
+        }
+        seqs <- withSeq(granges, genome)$seq
     }
-    seqs <- withSeq(granges, genome)$seq
     getPeriodicity(seqs, ...)
+}
+
+#' Core function
+#' 
+#' @param x a DNAString
+#' @param ... other parameters forwarded to getPeriodicity.DNAStringSet()
+#'
+#' @return List a list containing the results of getPeriodicity function. 
+#'     The dists vector is the raw vector of all distances between any 
+#'     possible dinucleotide. The hist data.frame is the distribution of 
+#'     distances over range_spectrum. The normalized_hist is the raw 
+#'     hist, normalized for  decay over increasing distances. The spectra 
+#'     object is the output of the FFT applied over normalized_hist. 
+#'     The PSD data frame is the power spectral density scores over given 
+#'     frequencies. The motif object is the dinucleotide being analysed.
+#' 
+#' @importFrom Biostrings DNAStringSet
+#' 
+#' @export
+
+getPeriodicity.DNAString <- function(
+    x,
+    ...
+)
+{
+    seq <- Biostrings::DNAStringSet(x)
+    getPeriodicity(seq, ...)
 }
 
 #' Internal function to normalize a pairwise distance 
@@ -394,22 +366,23 @@ normalizeHistogram <- function(
 ) 
 {
     h <- hist
-    h <- h / sum(h) # Normalize to total number of pairwise distances
+    h <- h / sum(h, na.rm = TRUE) # Normalize to total number of pairwise distances
+    # Substract smoothed distribution
     smoothed.h <- c(
         zoo::rollmean(h, k = roll_smoothed.h), 
         rep(0, roll_smoothed.h-1)
-    ) # Smoothed distribution
+    ) 
+    norm.h <- h - smoothed.h
+    # Z-score
     if (doZscore) {
-        norm.h <- scale(
-            h - smoothed.h
-        ) # Substract smoothed distribution and then z-score
+        norm.h <- scale(norm.h) 
     } 
-    else {
-        norm.h <- h - smoothed.h
+    # Smooth normalized distribution 
+    if (roll > 1) {
+        norm.h <- zoo::rollmean(
+            norm.h, k = roll, na.pad = TRUE, align = 'center'
+        ) 
     }
-    norm.h <- zoo::rollmean(
-        norm.h, k = roll, na.pad = TRUE, align = 'center'
-    ) # Smooth the normalized distribution 
     norm.h[is.na(norm.h)] <- 0
     return(norm.h)
 }

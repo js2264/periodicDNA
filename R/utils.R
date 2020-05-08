@@ -337,21 +337,7 @@ sampleGRanges.character <- function(
     if (x %in% c(
         'sacCer3', 'ce11', 'dm6', 'mm10', 'hg38', 'danRer10'
     )) {
-        genome <- switch(
-            x, 
-            'sacCer3' = (BSgenome.Scerevisiae.UCSC.sacCer3::
-                BSgenome.Scerevisiae.UCSC.sacCer3), 
-            'ce11' = (BSgenome.Celegans.UCSC.ce11::
-                BSgenome.Celegans.UCSC.ce11), 
-            'dm6' = (BSgenome.Dmelanogaster.UCSC.dm6::
-                BSgenome.Dmelanogaster.UCSC.dm6), 
-            'danRer10' = (BSgenome.Drerio.UCSC.danRer10::
-                BSgenome.Drerio.UCSC.danRer10), 
-            'mm10' = (BSgenome.Mmusculus.UCSC.mm10::
-                BSgenome.Mmusculus.UCSC.mm10), 
-            'hg38' = (BSgenome.Hsapiens.UCSC.hg38::
-                BSgenome.Hsapiens.UCSC.hg38)
-        )
+        genome <- char2BSgenome(x)
     }
     else {
         return(stop(
@@ -393,4 +379,37 @@ DNAStringSet2GRanges <- function(seqs) {
     )
     GenomeInfoDb::seqlengths(g) <- lengths(seqs)
     return(g)
+}
+
+#' A function to get the BSgenome from genome ID
+#'
+#' @param ID character
+#' 
+#' @return BSgenome object
+#' 
+#' @export
+#' 
+#' @examples
+#' \dontrun{
+#'     genome <- char2BSgenome('ce11')
+#'     genome
+#' }
+
+char2BSgenome <- function(ID) {
+    genome <- switch(
+        ID, 
+        'sacCer3' = (BSgenome.Scerevisiae.UCSC.sacCer3::
+            BSgenome.Scerevisiae.UCSC.sacCer3), 
+        'ce11' = (BSgenome.Celegans.UCSC.ce11::
+            BSgenome.Celegans.UCSC.ce11), 
+        'dm6' = (BSgenome.Dmelanogaster.UCSC.dm6::
+            BSgenome.Dmelanogaster.UCSC.dm6), 
+        'danRer10' = (BSgenome.Drerio.UCSC.danRer10::
+            BSgenome.Drerio.UCSC.danRer10), 
+        'mm10' = (BSgenome.Mmusculus.UCSC.mm10::
+            BSgenome.Mmusculus.UCSC.mm10), 
+        'hg38' = (BSgenome.Hsapiens.UCSC.hg38::
+            BSgenome.Hsapiens.UCSC.hg38)
+    )
+    return(genome)
 }

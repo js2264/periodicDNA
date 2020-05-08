@@ -8,7 +8,8 @@ plotPeriodicityResults(
   results,
   periods = c(2, 20),
   filter_periods = FALSE,
-  skip_shuffling = FALSE
+  skip_shuffling = FALSE,
+  facet_control = TRUE
 )
 }
 \arguments{
@@ -21,6 +22,8 @@ x-axis limits}
 constrained to the periods?}
 
 \item{skip_shuffling}{Boolean should the shuffling sequences be done?}
+
+\item{facet_control}{Boolean should the shuffling plots be faceted?}
 }
 \value{
 list A list containing four ggplots

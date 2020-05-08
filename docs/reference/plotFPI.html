@@ -143,7 +143,7 @@
     <p>Plotting function</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plotFPI</span>(<span class='no'>fpi</span>, <span class='kw'>periods</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>20</span>))</pre>
+    <pre class="usage"><span class='fu'>plotFPI</span>(<span class='no'>fpi</span>, <span class='kw'>periods</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>20</span>), <span class='kw'>s</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,6 +156,10 @@
       <th>periods</th>
       <td><p>Vector a numerical vector of length 2, to specify the
 x-axis limits</p></td>
+    </tr>
+    <tr>
+      <th>s</th>
+      <td><p>float span parameter for loess smooth</p></td>
     </tr>
     </table>
 

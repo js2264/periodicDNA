@@ -142,8 +142,19 @@
 <a href="#periodicdna-031-2020-05-05" class="anchor"></a>periodicDNA 0.3.1 (2020-05-05)</h1>
 <ul>
 <li>Changed many variable names (all to snake_case)</li>
-<li>sampleGRanges is now full-fledged function (GRanges, DNAStringSet and BSgenome methods)</li>
+<li>rollmean(k=3) is now applied <em>before</em> normalisation <em>as well</em>, on the raw distribution vector</li>
+<li>sampleGRanges is now full-fledged function (GRanges, DNAStringSet, character and BSgenome methods)</li>
+<li>sampleGenome is an alias for sampleGRanges.character</li>
 <li>Added sacCer3 to getPeriodicity BSgenomes</li>
+<li>Added DNAString method for getPeriodicity</li>
+<li>Added a vignette describing the internal steps</li>
+<li>Clarified user-level functions in README</li>
+<li>Added ce11_TSSs data</li>
+<li>Renamed generateperiodicitytrack as getPeriodicityTrack</li>
+<li>plotPeriodicityResults() output returns one single plot (with cowplot)</li>
+<li>getPeriodicityTrack() now returns the Rle</li>
+<li>Created a utility char2BSgenome()</li>
+<li>Improved plotting functions (now show shuffled for plotPeriodicityResults())</li>
 </ul>
 </div>
     <div id="periodicdna-030-2020-05-03" class="section level1">

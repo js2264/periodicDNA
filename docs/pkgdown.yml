@@ -1,6 +1,8 @@
 pandoc: 2.7.2
 pkgdown: 1.5.1
 pkgdown_sha: ~
-articles: []
-last_built: 2020-05-05T22:21Z
+articles:
+  internal-steps: internal-steps.html
+  periodicDNA: periodicDNA.html
+last_built: 2020-05-08T08:55Z
 

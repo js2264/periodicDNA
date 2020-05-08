@@ -4,8 +4,8 @@
 #' @param seqs DNAStringSet sequences of interest
 #' @param motif character k-mer of interest
 #' @param period integer Period of interest
-#' @param n_shuffle integer Number of shuffling
-#' @param parallel_shuffling integer Number of threads to use to split
+#' @param n_shuffling integer Number of shuffling
+#' @param cores_shuffling integer Number of threads to use to split
 #'   shuffling
 #' @param verbose integer Should the function be verbose? 
 #' @param ... Additional arguments
@@ -20,8 +20,8 @@ getFPI <- function(
     seqs, 
     motif,
     period = 10, 
-    n_shuffle = 10,
-    parallel_shuffling = 10,
+    n_shuffling = 10,
+    cores_shuffling = 10,
     verbose = 1,
     ...
 ) {
@@ -38,10 +38,10 @@ getFPI <- function(
     if (verbose) message('>> Measured PSD @ ', period, 'bp is: ', obs_PSD)
     # Shuffling sequences and re-computing ---------------------------
     l_shuff <- parallel::mclapply(
-        mc.cores = parallel_shuffling, 
-        seq_len(n_shuffle), 
+        mc.cores = cores_shuffling, 
+        seq_len(n_shuffling), 
         function(k) {
-            if (verbose) message('- Shuffling ', k, '/', n_shuffle)
+            if (verbose) message('- Shuffling ', k, '/', n_shuffling)
             shuff_seqs <- shuffleSeq(seqs)
             shuff <- getPeriodicity(
                 shuff_seqs, 
@@ -58,8 +58,9 @@ getFPI <- function(
     }) %>% unlist()
     # Calculate FPI --------------------------------------------------
     fpi <- (obs_PSD - median(l_shuff_PSD)) / median(l_shuff_PSD)
+    if (verbose) message('>> Calculated FPI @ ', period, 'bp is: ', fpi)
     # Return FPI -----------------------------------------------------
-    return(list(
+    res <- list(
         FPI = fpi, 
         observed_PSD = obs_PSD, 
         observed_spectra = obs, 
@@ -67,5 +68,6 @@ getFPI <- function(
         shuffled_spectra = l_shuff, 
         motif = motif, 
         period = period
-    ))
+    )
+    return(res)
 }

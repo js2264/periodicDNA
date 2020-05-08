@@ -149,12 +149,10 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for DNAStringSet</span>
-<span class='fu'>getPeriodicity</span>(
+<span class='fu'><a href='getPeriodicity.html'>getPeriodicity</a></span>(
   <span class='no'>x</span>,
   <span class='kw'>motif</span> <span class='kw'>=</span> <span class='st'>"WW"</span>,
-  <span class='kw'>RANGE_FOR_SPECTRUM</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span>(<span class='fl'>200</span>),
-  <span class='kw'>period</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>2</span>, <span class='fl'>20</span>, <span class='fl'>1</span>),
-  <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>range_spectrum</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>1</span>, <span class='fl'>200</span>),
   <span class='kw'>cores</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>roll</span> <span class='kw'>=</span> <span class='fl'>3</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -176,17 +174,9 @@
       <td><p>a dinucleotide of interest</p></td>
     </tr>
     <tr>
-      <th>RANGE_FOR_SPECTRUM</th>
+      <th>range_spectrum</th>
       <td><p>Numeric vector The distances between nucleotides
 to take into consideration when performing Fast Fourier Transform.</p></td>
-    </tr>
-    <tr>
-      <th>period</th>
-      <td><p>Vector a numerical vector of periods to extract.</p></td>
-    </tr>
-    <tr>
-      <th>plot</th>
-      <td><p>Boolean Should the FFT results be plotted?</p></td>
     </tr>
     <tr>
       <th>cores</th>
@@ -229,7 +219,7 @@ genomes will have different GC percent</p></td>
     <p>List a list containing the results of getPeriodicity function. 
     The dists vector is the raw vector of all distances between any 
     possible dinucleotide. The hist data.frame is the distribution of 
-    distances over RANGE_FOR_SPECTRUM. The normalized_hist is the raw 
+    distances over range_spectrum. The normalized_hist is the raw 
     hist, normalized for  decay over increasing distances. The spectra 
     object is the output of the FFT applied over normalized_hist. 
     The PSD data frame is the power spectral density scores over given 

@@ -4,13 +4,15 @@
 \alias{plotFPI}
 \title{Plotting function}
 \usage{
-plotFPI(fpi, periods = c(2, 20))
+plotFPI(fpi, periods = c(2, 20), s = 0.05)
 }
 \arguments{
 \item{fpi}{The output of getFPI function.}
 
 \item{periods}{Vector a numerical vector of length 2, to specify the
 x-axis limits}
+
+\item{s}{float span parameter for loess smooth}
 }
 \value{
 ggplot A ggplot

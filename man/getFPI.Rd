@@ -9,8 +9,8 @@ getFPI(
   seqs,
   motif,
   period = 10,
-  n_shuffle = 10,
-  parallel_shuffling = 10,
+  n_shuffling = 10,
+  cores_shuffling = 10,
   verbose = 1,
   ...
 )
@@ -22,9 +22,9 @@ getFPI(
 
 \item{period}{integer Period of interest}
 
-\item{n_shuffle}{integer Number of shuffling}
+\item{n_shuffling}{integer Number of shuffling}
 
-\item{parallel_shuffling}{integer Number of threads to use to split
+\item{cores_shuffling}{integer Number of threads to use to split
 shuffling}
 
 \item{verbose}{integer Should the function be verbose?}

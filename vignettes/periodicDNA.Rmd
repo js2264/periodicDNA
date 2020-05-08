@@ -55,7 +55,7 @@ Graphical output of `getPeriodicity()` can be obtained using the
 plotPeriodicityResults(periodicity_result)
 ```
 
-![TT-periodicity](https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/ubiquitous-promoters_TT-periodicity.png)
+![](https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/ubiquitous-promoters_TT-periodicity.png)
 
 The first plot shows the raw distribution of distances between pairs of 'TT' 
 in the sequences of the provided GRanges. The second plot shows the 
@@ -83,7 +83,7 @@ k-mer periodicity strength over genomic loci of interest.
 following example,  
 
 ```{r, eval = FALSE}
-getPeriodicityTrack(
+WW_10bp_track <- getPeriodicityTrack(
     Biostrings::getSeq(
         BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
     ),
@@ -100,10 +100,6 @@ track clearly shows increase of WW 10-bp periodicity above the ubiquitous and
 germline TSSs, whereas somatic TSSs do not show such increase.
 
 ```{r, eval = FALSE, results="hide", warning=FALSE}
-WW_10bp_track <- rtracklayer::import(
-    'WW-10-bp-periodicity_over-proms.bw', 
-    as = 'Rle'
-)
 data(ce11_TSSs)
 plotAggregateCoverage(
     WW_10bp_track, 
@@ -130,8 +126,8 @@ ce11_random_regions <- sampleGenome(
 fpi <- getFPI(
     ce11_random_regions$seq, 
     motif = 'TT', 
-    parallel_shuffling = 1, 
-    n_shuffle = 10
+    cores_shuffling = 1, 
+    n_shuffling = 10
 )
 plotFPI(fpi)
 ```

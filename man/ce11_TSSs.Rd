@@ -11,7 +11,7 @@ GRanges
 \href{https://doi.org/10.1101/2020.02.20.958579}{BiorXiv}
 }
 \usage{
-data(proms)
+data(ce11_TSSs)
 }
 \description{
 Annotated TSSs in C. elegans (ce11) according to Serizay et 

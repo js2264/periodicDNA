@@ -60,7 +60,7 @@
 #'
 #' @docType data
 #'
-#' @usage data(proms)
+#' @usage data(ce11_TSSs)
 #'
 #' @format GRanges
 #'
