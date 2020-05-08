@@ -1,6 +1,6 @@
 inst/doc
 data-raw
-paper
+paper/
 giffdiff.html
 *.bw
 *.pdf
