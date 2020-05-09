@@ -7,11 +7,17 @@
 scaleBigWigs(bigWigs)
 }
 \arguments{
-\item{bigWigs}{a RleList, usually obtained by rtracklayer::import()}
+\item{bigWigs}{a RleList}
 }
 \value{
 a list of scaled Rle (z-score)
 }
 \description{
-A function to z-score a bigWig track imported by rtracklayer.
+This function takes a RleList (usually obtained by 
+rtracklayer::import(..., as = 'Rle')) and scales each chromosome
+idependently by Z-score.
+}
+\examples{
+data(ce11_WW_10bp)
+scaleBigWigs(ce11_WW_10bp)
 }

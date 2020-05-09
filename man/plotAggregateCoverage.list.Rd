@@ -2,15 +2,12 @@
 % Please edit documentation in R/GRanges.R
 \name{plotAggregateCoverage.list}
 \alias{plotAggregateCoverage.list}
-\title{A function to plot aggregated signals 
-    (from a named list of signal tracks) 
-    over sets of GRanges}
+\title{A function to plot aggregated signals over sets of GRanges}
 \usage{
 \method{plotAggregateCoverage}{list}(
   x,
   granges,
-  colors = rep(c("#991919", "#1232D9", "#3B9B46", "#D99B12", "#7e7e7e", "#D912D4",
-    "#9E7FCC", "#B0E797", "#D1B3B3", "#23A4A3", "#000000"), 5),
+  colors = NULL,
   xlab = "Center of elements",
   ylab = "Score",
   xlim = NULL,
@@ -22,7 +19,7 @@
   split_by_granges = TRUE,
   split_by_track = FALSE,
   free_scales = FALSE,
-  runInParallel = TRUE,
+  run_in_parallel = TRUE,
   norm = "none",
   ...
 )
@@ -57,7 +54,7 @@ grouped in a named list}
 
 \item{free_scales}{Boolean Should each facet have independent y-axis scales?}
 
-\item{runInParallel}{Boolean Should the plots be computed in parallel using 
+\item{run_in_parallel}{Boolean Should the plots be computed in parallel using 
 mclapply?}
 
 \item{norm}{character Should the signals be normalized 
@@ -69,7 +66,54 @@ mclapply?}
 A plot of aggregated signals
 }
 \description{
-A function to plot aggregated signals 
-    (from a named list of signal tracks) 
-    over sets of GRanges
+This function takes one or several RleList genomic tracks (imported
+by rtraklayer::import(..., as = 'Rle')) and one or several GRanges 
+objects. It computes coverage of the GRanges by the genomic tracks
+and returns an aggregate coverage plot.
+}
+\examples{
+library(GenomicRanges)
+data(ce11_ATACseq)
+data(ce11_WW_10bp)
+data(ce11_proms)
+proms <- resize(ce11_proms[1:100], fix = 'center', width = 400)
+p1 <- plotAggregateCoverage(
+    list(
+        'atac' = ce11_ATACseq, 
+        'WW_10bp' = ce11_WW_10bp
+    ), 
+    proms,
+    norm = 'zscore'
+)
+p1
+p2 <- plotAggregateCoverage(
+    list(
+        'ATAC-seq' = ce11_ATACseq, 
+        'WW 10-bp periodicity' = ce11_WW_10bp
+    ), 
+    list(
+        'Ubiq & Germline promoters' = 
+            proms[proms$which.tissues \%in\% c('Ubiq.', 'Germline')],
+        'Other promoters' = 
+            proms[!(proms$which.tissues \%in\% c('Ubiq.', 'Germline'))]
+    ), 
+    norm = 'zscore'
+)
+p2
+p3 <- plotAggregateCoverage(
+    list(
+        'ATAC-seq' = ce11_ATACseq, 
+        'WW 10-bp periodicity' = ce11_WW_10bp
+    ), 
+    list(
+        'Ubiq & Germline promoters' = 
+            proms[proms$which.tissues \%in\% c('Ubiq.', 'Germline')],
+        'Other promoters' = 
+            proms[!(proms$which.tissues \%in\% c('Ubiq.', 'Germline'))]
+), 
+split_by_granges = FALSE,
+split_by_track = TRUE,
+norm = 'zscore'
+)
+p3
 }

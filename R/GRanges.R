@@ -1,21 +1,28 @@
-#' A function to re-align a GRanges object to a 
-#'     provided set of coordinates 
-#'     (either the TSS column or the TSS.fwd 
-#'     and TSS.rev columns)
+#' A function to re-align a GRanges object to TSSs
+#' 
+#' This function re-aligns ranges (typically regulatory elements)
+#' to a set of coordinates, either the TSS column or the
+#' TSS.fwd and TSS.rev columns. If none are found, the function
+#' assumes the ranges are promoters and that the end or the ranges
+#' are the TSSs. 
 #'
 #' @param granges A stranded GRanges object with a TSS column 
-#'     or TSS.rev and TSS.fwd columns
+#' or TSS.rev and TSS.fwd columns
 #' @param upstream How many bases upstream of the TSS should the GRanges
-#'     object by extended by? [Default: 0]
+#' object by extended by? [Default: 0]
 #' @param downstream How many bases downstream of the TSS should the GRanges
-#'     object by extended by? [Default: 1]
-#' 
-#' @return GRanges aligned to the TSS column or to TSS.rev and TSS.fwd columns,
-#'     and extended by upstream/downstream bp. 
+#' object by extended by? [Default: 1]
+#' @return GRanges aligned to the TSS column or to TSS.rev 
+#' and TSS.fwd columns, and extended by upstream/downstream bp. 
 #' 
 #' @import GenomicRanges
 #' @import IRanges
 #' @export
+#' 
+#' @examples
+#' data(ce11_proms)
+#' ce11_proms
+#' alignToTSS(ce11_proms)
 
 alignToTSS <- function(granges, upstream = 0, downstream = 1) {
     if (any(GenomicRanges::strand(granges) == '*')) {
@@ -44,21 +51,43 @@ alignToTSS <- function(granges, upstream = 0, downstream = 1) {
         )
     }
     else {
-        stop("No TSS column found. Aborting.")
+        TSSs <- GenomicRanges::start(
+            GenomicRanges::resize(granges, fix = 'end', width = 1)
+        )
+        GenomicRanges::ranges(granges) <- IRanges::IRanges(
+            start = ifelse(
+                as.vector(GenomicRanges::strand(granges)) == '+', 
+                (TSSs - upstream), 
+                (TSSs - downstream + 1)
+            ),
+            width = downstream + upstream,
+            names = names(IRanges::ranges(granges))
+        )
     }
     return(granges)
 }
 
-#' A function to duplicate bi-directional GRanges into 
-#'     + and - stranded GRanges
+#' A function to duplicate bi-directional GRanges
+#' 
+#' This function splits bi-directional ranges into + and - 
+#' stranded ranges. It duplicates the ranges which are '*'.
 #'
 #' @param granges A stranded GRanges object 
-#' 
 #' @return GRanges with only '+' and '-' strands. GRanges with '*' strand 
-#'     have been duplicated and split into forward and reverse strands.
+#' have been duplicated and split into forward and reverse strands.
 #' 
 #' @import GenomicRanges
 #' @export
+#' 
+#' @examples
+#' data(ce11_all_REs)
+#' library(GenomicRanges)
+#' proms <- ce11_all_REs[grepl('prom', ce11_all_REs$regulatory_class)]
+#' proms
+#' table(strand(proms))
+#' proms <- deconvolveBidirectionalPromoters(proms)
+#' proms
+#' table(strand(proms))
 
 deconvolveBidirectionalPromoters <- function(granges) {
     filt <- GenomicRanges::strand(granges) == '+' | 
@@ -73,31 +102,59 @@ deconvolveBidirectionalPromoters <- function(granges) {
     return(granges_shifted)
 }
 
-#' Tidyverse-compatible function to add sequence to an existing GRanges
+#' A function to add sequence to an existing GRanges
+#' 
+#' This function is 'tidyverse-friendly', i.e. it adds a .$seq 
+#' columns to a GRanges of interest, according the provided BSgenome
+#' or DNAStringSet object. 
 #'
 #' @param granges A GRanges object 
-#' @param genome DNAStringSet object. Ideally, the sequence of an entire genome
-#'     obtained for instance by running 
-#' 
+#' @param genome UCSC ID, BSgenome of DNAStringSet object. 
 #' @return GRanges with a seq column containing the sequence of the GRanges.
 #' 
+#' @importFrom methods is
 #' @import GenomicRanges
 #' @import Biostrings
 #' @export
+#' 
+#' @examples
+#' data(ce11_all_REs)
+#' ce11_all_REs
+#' ce11_all_REs <- withSeq(ce11_all_REs, 'ce11')
+#' ce11_all_REs
+#' ce11_all_REs$seq
 
 withSeq <- function(granges, genome) {
+    if (methods::is(genome, 'character')) {
+        if (genome %in% c(
+            'sacCer3', 'ce11', 'dm6', 'mm10', 'hg38', 'danRer10'
+        )) {
+            genome <- char2BSgenome(genome)
+        }
+        else {
+            return(stop(
+                'Only sacCer3, ce11, dm6, mm10, hg38 
+                and danRer10 are supported'
+            ))
+        }
+    }
+    if (methods::is(genome, 'BSgenome')) {
+        genome <- Biostrings::getSeq(genome)
+    }
     granges$seq <- genome[granges]
     return(granges)
 }
 
 #' Internal function
+#' 
+#' Used to compute the stranded coverage of a RleList over a 
+#' GRanges as a square matrix.
 #'
 #' @param g GRanges to map a track onto
-#' @param bw RleList a track from rtraklayer::import
-#' @param norm character Should the signal be normalized 
-#'     ('none', 'zscore' or 'log2')?
-#' @param verbose Boolean Should the function be verbose?
-#' 
+#' @param bw RleList, a track from rtraklayer::import(..., as = 'Rle')
+#' @param norm character, should the signal be normalized 
+#' ('none', 'zscore' or 'log2')?
+#' @param verbose Boolean, should the function be verbose?
 #' @return A square numerical matrix of signal values over the GRanges
 #' 
 #' @import magrittr
@@ -155,29 +212,54 @@ getCovMatrix <- function(g, bw, norm = 'none', verbose = FALSE) {
 
 #' A function to plot aggregated signals over sets of GRanges
 #'
+#' This function takes one or several RleList genomic tracks (imported
+#' by rtraklayer::import(..., as = 'Rle')) and one or several GRanges 
+#' objects. It computes coverage of the GRanges by the genomic tracks
+#' and returns an aggregate coverage plot. 
+#'
 #' @param x CompressedRleList or SimpleRleList (in lists or single)
 #' @param ... additional parameters
-#' 
-#' @return A plot of aggregated signals
+#' @return An aggregate coverage plot. 
 #' 
 #' @export
+#' 
+#' @examples
+#' data(ce11_ATACseq)
+#' data(ce11_proms)
+#' p <- plotAggregateCoverage(
+#'     ce11_ATACseq, 
+#'     resize(ce11_proms[1:100], fix = 'center', width = 1000)
+#' )
+#' p
 
 plotAggregateCoverage <- function(x, ...) {
     UseMethod("plotAggregateCoverage")
 }
 
-#' A function to plot aggregated signals (from a CompressedRleList) 
-#'     over sets of GRanges
+#' A function to plot aggregated signals over sets of GRanges
+#'
+#' This function takes one or several RleList genomic tracks (imported
+#' by rtraklayer::import(..., as = 'Rle')) and one or several GRanges 
+#' objects. It computes coverage of the GRanges by the genomic tracks
+#' and returns an aggregate coverage plot. 
 #'
 #' @param x a single signal track (CompressedRleList class)
 #' @param granges a GRanges object or a list of GRanges
 #' @param ... additional parameters
-#' 
-#' @return A plot of aggregated signals
+#' @return An aggregate coverage plot. 
 #' 
 #' @importFrom methods as
-#' 
 #' @export
+#' 
+#' @examples
+#' data(ce11_ATACseq)
+#' data(ce11_proms)
+#' class(ce11_ATACseq)
+#' p <- plotAggregateCoverage(
+#'     ce11_ATACseq, 
+#'     resize(ce11_proms[1:100], fix = 'center', width = 1000)
+#' )
+#' p
 
 plotAggregateCoverage.CompressedRleList <- function(
     x,
@@ -189,9 +271,12 @@ plotAggregateCoverage.CompressedRleList <- function(
     plotAggregateCoverage(bw, granges, ...)
 }
 
-#' A function to plot aggregated signals 
-#'     (from a SimpleRleList) 
-#'     over sets of GRanges
+#' A function to plot aggregated signals over sets of GRanges
+#'
+#' This function takes one or several RleList genomic tracks (imported
+#' by rtraklayer::import(..., as = 'Rle')) and one or several GRanges 
+#' objects. It computes coverage of the GRanges by the genomic tracks
+#' and returns an aggregate coverage plot. 
 #'
 #' @param x a single signal track (SimpleRleList class)
 #' @param granges a GRanges object or a list of GRanges
@@ -203,15 +288,14 @@ plotAggregateCoverage.CompressedRleList <- function(
 #' @param quartiles Which quantiles to use to determine y scale automatically?
 #' @param verbose Boolean
 #' @param bin Integer Width of the window to use to smooth values 
-#'     by zoo::rollMean
+#' by zoo::rollMean
 #' @param plot_central Boolean Draw a vertical line at 0
-#' @param runInParallel Boolean Should the plots be computed in parallel using 
-#'     mclapply?
+#' @param run_in_parallel Boolean Should the plots be computed in parallel using 
+#' mclapply?
 #' @param split_by_granges Boolean Facet plots over the sets of GRanges
 #' @param norm character Should the signal be normalized 
-#'     ('none', 'zscore' or 'log2')?
+#' ('none', 'zscore' or 'log2')?
 #' @param ... additional parameters
-#' 
 #' @return A plot of aggregated signals
 #' 
 #' @import GenomicRanges
@@ -220,19 +304,33 @@ plotAggregateCoverage.CompressedRleList <- function(
 #' @importFrom parallel mclapply
 #' @importFrom stats qt
 #' @importFrom methods is
-#' 
 #' @export
+#' 
+#' @examples
+#' data(ce11_ATACseq)
+#' data(ce11_proms)
+#' class(ce11_ATACseq)
+#' p1 <- plotAggregateCoverage(
+#'     ce11_ATACseq, 
+#'     resize(ce11_proms[1:100], fix = 'center', width = 1000)
+#' )
+#' p1
+#' proms <- resize(ce11_proms[1:100], fix = 'center', width = 500)
+#' p2 <- plotAggregateCoverage(
+#'     ce11_ATACseq, 
+#'     list(
+#'         'Ubiq & Germline promoters' = 
+#'             proms[proms$which.tissues %in% c('Ubiq.', 'Germline')],
+#'         'Other promoters' = 
+#'             proms[!(proms$which.tissues %in% c('Ubiq.', 'Germline'))]
+#'     )
+#' )
+#' p2
 
 plotAggregateCoverage.SimpleRleList <- function(
     x, 
     granges, 
-    colors = rep(
-        c(
-            '#991919', '#1232D9', '#3B9B46', '#D99B12', '#7e7e7e',
-            '#D912D4', '#9E7FCC', '#B0E797', '#D1B3B3', '#23A4A3', '#000000'
-        ),
-        5
-    ), 
+    colors = NULL, 
     xlab = 'Center of elements',
     ylab = 'Score', 
     xlim = NULL, 
@@ -241,13 +339,28 @@ plotAggregateCoverage.SimpleRleList <- function(
     verbose = FALSE,
     bin = 1,
     plot_central = TRUE,
-    runInParallel = TRUE,
+    run_in_parallel = TRUE,
     split_by_granges = FALSE,
     norm = 'none',
     ...
 ) 
 {
     bw <- x
+    if (is.null(colors)) {
+        colors <- rep(c(
+            '#991919', 
+            '#1232D9', 
+            '#3B9B46', 
+            '#D99B12', 
+            '#7e7e7e', 
+            '#D912D4', 
+            '#9E7FCC', 
+            '#B0E797', 
+            '#D1B3B3', 
+            '#23A4A3', 
+            '#000000'
+        ), 5)
+    }
     
     if (methods::is(granges, 'GRanges')) granges <- list('granges' = granges)
     # Compute scores
@@ -312,7 +425,7 @@ plotAggregateCoverage.SimpleRleList <- function(
             stringsAsFactors = FALSE
         )
         return(EE)
-    }, mc.cores = ifelse(runInParallel, length(granges), 1)) 
+    }, mc.cores = ifelse(run_in_parallel, length(granges), 1)) 
     EEs <- do.call(rbind, lists)
     if (!is.null(names(granges))) {
         EEs$grange <- factor(EEs$grange, levels = names(granges))
@@ -364,9 +477,12 @@ plotAggregateCoverage.SimpleRleList <- function(
     return(p)
 }
 
-#' A function to plot aggregated signals 
-#'     (from a named list of signal tracks) 
-#'     over sets of GRanges
+#' A function to plot aggregated signals over sets of GRanges
+#'
+#' This function takes one or several RleList genomic tracks (imported
+#' by rtraklayer::import(..., as = 'Rle')) and one or several GRanges 
+#' objects. It computes coverage of the GRanges by the genomic tracks
+#' and returns an aggregate coverage plot. 
 #'
 #' @param x several signal tracks (SimpleRleList or CompressedRleList class) 
 #' grouped in a named list
@@ -383,11 +499,12 @@ plotAggregateCoverage.SimpleRleList <- function(
 #' @param split_by_granges Boolean Facet plots by the sets of GRanges
 #' @param split_by_track Boolean Facet plots by the sets of signal tracks
 #' @param free_scales Boolean Should each facet have independent y-axis scales?
-#' @param runInParallel Boolean Should the plots be computed in parallel using 
-#'     mclapply?
+#' @param run_in_parallel Boolean Should the plots be computed in parallel using 
+#' mclapply?
 #' @param norm character Should the signals be normalized 
-#'     ('none', 'zscore' or 'log2')?
+#' ('none', 'zscore' or 'log2')?
 #' @param ... additional parameters
+#' @return A plot of aggregated signals
 #' 
 #' @import GenomicRanges
 #' @import ggplot2
@@ -395,30 +512,58 @@ plotAggregateCoverage.SimpleRleList <- function(
 #' @importFrom parallel mclapply
 #' @importFrom stats qt
 #' @importFrom methods is
-#' 
-#' @return A plot of aggregated signals
-#' 
 #' @export
+#' 
+#' @examples
+#' library(GenomicRanges)
+#' data(ce11_ATACseq)
+#' data(ce11_WW_10bp)
+#' data(ce11_proms)
+#' proms <- resize(ce11_proms[1:100], fix = 'center', width = 400)
+#' p1 <- plotAggregateCoverage(
+#'     list(
+#'         'atac' = ce11_ATACseq, 
+#'         'WW_10bp' = ce11_WW_10bp
+#'     ), 
+#'     proms,
+#'     norm = 'zscore'
+#' )
+#' p1
+#' p2 <- plotAggregateCoverage(
+#'     list(
+#'         'ATAC-seq' = ce11_ATACseq, 
+#'         'WW 10-bp periodicity' = ce11_WW_10bp
+#'     ), 
+#'     list(
+#'         'Ubiq & Germline promoters' = 
+#'             proms[proms$which.tissues %in% c('Ubiq.', 'Germline')],
+#'         'Other promoters' = 
+#'             proms[!(proms$which.tissues %in% c('Ubiq.', 'Germline'))]
+#'     ), 
+#'     norm = 'zscore'
+#' )
+#' p2
+#' p3 <- plotAggregateCoverage(
+#'     list(
+#'         'ATAC-seq' = ce11_ATACseq, 
+#'         'WW 10-bp periodicity' = ce11_WW_10bp
+#'     ), 
+#'     list(
+#'         'Ubiq & Germline promoters' = 
+#'             proms[proms$which.tissues %in% c('Ubiq.', 'Germline')],
+#'         'Other promoters' = 
+#'             proms[!(proms$which.tissues %in% c('Ubiq.', 'Germline'))]
+#' ), 
+#' split_by_granges = FALSE,
+#' split_by_track = TRUE,
+#' norm = 'zscore'
+#' )
+#' p3
 
 plotAggregateCoverage.list <- function(
     x, 
     granges, 
-    colors = rep(
-        c(
-            '#991919', 
-            '#1232D9', 
-            '#3B9B46', 
-            '#D99B12', 
-            '#7e7e7e', 
-            '#D912D4', 
-            '#9E7FCC', 
-            '#B0E797', 
-            '#D1B3B3', 
-            '#23A4A3', 
-            '#000000'
-        ),
-        5
-    ), 
+    colors = NULL, 
     xlab = 'Center of elements',
     ylab = 'Score', 
     xlim = NULL, 
@@ -430,13 +575,28 @@ plotAggregateCoverage.list <- function(
     split_by_granges = TRUE,
     split_by_track = FALSE,
     free_scales = FALSE,
-    runInParallel = TRUE,
+    run_in_parallel = TRUE,
     norm = 'none',
     ...
 ) 
 {
     bw_list <- x
     
+    if (is.null(colors)) {
+        colors <- rep(c(
+            '#991919', 
+            '#1232D9', 
+            '#3B9B46', 
+            '#D99B12', 
+            '#7e7e7e', 
+            '#D912D4', 
+            '#9E7FCC', 
+            '#B0E797', 
+            '#D1B3B3', 
+            '#23A4A3', 
+            '#000000'
+        ), 5)
+    }
     if (!all(unlist(
         lapply(
             bw_list, 
@@ -466,7 +626,9 @@ plotAggregateCoverage.list <- function(
                 rep('', (ncol(mat) - 2)/2), 
                 paste0('+', unique(GenomicRanges::width(g))/2)
             )
-            row.names(mat) <- paste0('locus_', as.character(seq_len(nrow(mat))))
+            row.names(mat) <- paste0(
+                'locus_', as.character(seq_len(nrow(mat)))
+            )
             means <- c(
                 rep(NA, bin/2), 
                 zoo::rollmean(apply(mat, 2, mean), bin), rep(NA, bin/2)
@@ -521,7 +683,7 @@ plotAggregateCoverage.list <- function(
             )
             return(EE)
         }) 
-    }, mc.cores = ifelse(runInParallel, length(granges), 1)) 
+    }, mc.cores = ifelse(run_in_parallel, length(granges), 1)) 
     EEs <- do.call(rbind, do.call(rbind, llists))
     if (!is.null(names(granges))) {
         EEs$grange <- factor(EEs$grange, levels = names(granges))
@@ -630,7 +792,6 @@ plotAggregateCoverage.list <- function(
     # Return plot
     return(p)
 }
-
 
 ###### ------- EXPERIMENTAL - DO NOT RUN ------- ######
 # 

@@ -2,8 +2,8 @@
 % Please edit documentation in R/plot.R
 \name{theme_ggplot2}
 \alias{theme_ggplot2}
-\title{Own ggplot2 theming function, adapted from 
-    https://github.com/hrbrmstr/hrbrthemes/blob/master/R/roboto-condensed.r}
+\title{Personal ggplot2 theming function, adapted from roboto-condensed 
+at https://github.com/hrbrmstr/hrbrthemes/}
 \usage{
 theme_ggplot2(
   grid = TRUE,
@@ -44,7 +44,9 @@ theme_ggplot2(
 
 \item{base_family, base_size}{base font family and size}
 
-\item{plot_title_family, plot_title_face, plot_title_size, plot_title_margin}{plot tilte family, face, size and margin}
+\item{plot_title_family, plot_title_face, }{plot title family, face}
+
+\item{plot_title_size, plot_title_margin, }{plot title size and margin}
 
 \item{subtitle_face, subtitle_size}{plot subtitle family, 
 face and size}
@@ -80,21 +82,15 @@ family, face and size}
 theme A ggplot theme
 }
 \description{
-Own ggplot2 theming function, adapted from 
-    https://github.com/hrbrmstr/hrbrthemes/blob/master/R/roboto-condensed.r
+Personal ggplot2 theming function, adapted from roboto-condensed 
+at https://github.com/hrbrmstr/hrbrthemes/
 }
 \examples{
-\dontrun{
 library(ggplot2)
-library(dplyr)
 
-# seminal scatterplot
 ggplot(mtcars, aes(mpg, wt)) +
   geom_point() +
   labs(x="Fuel effiency (mpg)", y="Weight (tons)",
-       title="Seminal ggplot2 scatterplot example",
-       subtitle="A plot that is only useful for demonstration purposes") +
+       title="Seminal ggplot2 scatterplot example") +
   theme_ggplot2()
-}
-
 }

@@ -2,8 +2,7 @@
 % Please edit documentation in R/periodicity.R
 \name{getPeriodicity}
 \alias{getPeriodicity}
-\title{Function to compute the overall periodicity of a 
-    motif over sequence(s).}
+\title{Function to compute k-mer periodicity in sequence(s).}
 \usage{
 getPeriodicity(x, ...)
 }
@@ -13,16 +12,44 @@ getPeriodicity(x, ...)
 \item{...}{additional parameters}
 }
 \value{
-List a list containing the results of getPeriodicity function. 
-    The dists vector is the raw vector of all distances between any 
-    possible dinucleotide. The hist data.frame is the distribution of 
-    distances over range_spectrum. The normalized_hist is the raw 
-    hist, normalized for  decay over increasing distances. The spectra 
-    object is the output of the FFT applied over normalized_hist. 
-    The PSD data frame is the power spectral density scores over given 
-    frequencies. The motif object is the dinucleotide being analysed.
+A list containing the results of getPeriodicity function.  
+\itemize{
+    \item The dists vector is the raw vector of all distances between 
+    any possible dinucleotide. 
+    \item The hist data.frame is the distribution of distances
+    over range_spectrum. 
+    \item The normalized_hist is the raw hist, 
+    normalized for decay over increasing distances. 
+    \item The spectra object is the output of 
+    the FFT applied over normalized_hist. 
+    \item The PSD data frame is the power 
+    spectral density scores over given  frequencies. 
+    \item The motif object is the dinucleotide being analysed.
+}
 }
 \description{
-Function to compute the overall periodicity of a 
-    motif over sequence(s).
+This function takes a set of sequences and a k-mer of interest, 
+map a k-mer of interest in these sequences, computes all the 
+pairwise distances (distogram), normalize it for distance decay, 
+and computes the resulting power spectral density of the 
+normalized distogram.
+}
+\examples{
+data(ce11_proms_seqs)
+periodicity_result <- getPeriodicity(
+    ce11_proms_seqs[1:100],
+    motif = 'TT', 
+    cores = 1
+)
+plotPeriodicityResults(periodicity_result)
+#
+data(ce11_proms)
+periodicity_result <- getPeriodicity(
+    ce11_proms[1:100],
+    genome = 'ce11',
+    motif = 'TT', 
+    cores = 1
+)
+head(periodicity_result$PSD)
+plotPeriodicityResults(periodicity_result)
 }

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Tidyverse-compatible function to add sequence to an existing GRanges — withSeq • periodicDNA</title>
+<title>A function to add sequence to an existing GRanges — withSeq • periodicDNA</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,10 @@
 
 
 
-<meta property="og:title" content="Tidyverse-compatible function to add sequence to an existing GRanges — withSeq" />
-<meta property="og:description" content="Tidyverse-compatible function to add sequence to an existing GRanges" />
+<meta property="og:title" content="A function to add sequence to an existing GRanges — withSeq" />
+<meta property="og:description" content="This function is 'tidyverse-friendly', i.e. it adds a .$seq 
+columns to a GRanges of interest, according the provided BSgenome
+or DNAStringSet object." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -134,13 +136,15 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Tidyverse-compatible function to add sequence to an existing GRanges</h1>
+    <h1>A function to add sequence to an existing GRanges</h1>
     <small class="dont-index">Source: <a href='https://github.com/js2264/periodicDNA/blob/master/R/GRanges.R'><code>R/GRanges.R</code></a></small>
     <div class="hidden name"><code>withSeq.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Tidyverse-compatible function to add sequence to an existing GRanges</p>
+    <p>This function is 'tidyverse-friendly', i.e. it adds a .$seq 
+columns to a GRanges of interest, according the provided BSgenome
+or DNAStringSet object.</p>
     </div>
 
     <pre class="usage"><span class='fu'>withSeq</span>(<span class='no'>granges</span>, <span class='no'>genome</span>)</pre>
@@ -154,8 +158,7 @@
     </tr>
     <tr>
       <th>genome</th>
-      <td><p>DNAStringSet object. Ideally, the sequence of an entire genome
-obtained for instance by running</p></td>
+      <td><p>UCSC ID, BSgenome of DNAStringSet object.</p></td>
     </tr>
     </table>
 
@@ -163,6 +166,91 @@ obtained for instance by running</p></td>
 
     <p>GRanges with a seq column containing the sequence of the GRanges.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_all_REs</span>)
+<span class='no'>ce11_all_REs</span></div><div class='output co'>#&gt; GRanges object with 47514 ranges and 2 metadata columns:
+#&gt;                                    seqnames            ranges strand |
+#&gt;                                       &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; |
+#&gt;                     ._chrI_328_478     chrI           328-478      * |
+#&gt;                    ._chrI_864_1014     chrI          864-1014      * |
+#&gt;                   ._chrI_1901_2051     chrI         1901-2051      * |
+#&gt;            Y74C9A.6_chrI_3827_3977     chrI         3827-3977      * |
+#&gt;              homt-1_chrI_4277_4427     chrI         4277-4427      * |
+#&gt;                                ...      ...               ...    ... .
+#&gt;           ._chrX_17702756_17702906     chrX 17702756-17702906      * |
+#&gt;    H11L12.1_chrX_17711839_17711989     chrX 17711839-17711989      - |
+#&gt;      6R55.2_chrX_17714483_17714633     chrX 17714483-17714633      * |
+#&gt;   cTel55X.1_chrX_17714955_17715105     chrX 17714955-17715105      * |
+#&gt;   cTel55X.1_chrX_17718452_17718602     chrX 17718452-17718602      * |
+#&gt;                                       regulatory_class           which.tissues
+#&gt;                                               &lt;factor&gt;                &lt;factor&gt;
+#&gt;                     ._chrI_328_478       other_element                Germline
+#&gt;                    ._chrI_864_1014       other_element                Germline
+#&gt;                   ._chrI_1901_2051   putative_enhancer                Germline
+#&gt;            Y74C9A.6_chrI_3827_3977      non-coding_RNA Germline_Muscle_Intest.
+#&gt;              homt-1_chrI_4277_4427   putative_enhancer            Unclassified
+#&gt;                                ...                 ...                     ...
+#&gt;           ._chrX_17702756_17702906 unassigned_promoter            Unclassified
+#&gt;    H11L12.1_chrX_17711839_17711989        rev-promoter                Germline
+#&gt;      6R55.2_chrX_17714483_17714633   putative_enhancer            Ubiq.-Biased
+#&gt;   cTel55X.1_chrX_17714955_17715105   putative_enhancer            Unclassified
+#&gt;   cTel55X.1_chrX_17718452_17718602       other_element                Germline
+#&gt;   -------
+#&gt;   seqinfo: 6 sequences from an unspecified genome; no seqlengths</div><div class='input'><span class='no'>ce11_all_REs</span> <span class='kw'>&lt;-</span> <span class='fu'>withSeq</span>(<span class='no'>ce11_all_REs</span>, <span class='st'>'ce11'</span>)
+<span class='no'>ce11_all_REs</span></div><div class='output co'>#&gt; GRanges object with 47514 ranges and 3 metadata columns:
+#&gt;                                    seqnames            ranges strand |
+#&gt;                                       &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; |
+#&gt;                     ._chrI_328_478     chrI           328-478      * |
+#&gt;                    ._chrI_864_1014     chrI          864-1014      * |
+#&gt;                   ._chrI_1901_2051     chrI         1901-2051      * |
+#&gt;            Y74C9A.6_chrI_3827_3977     chrI         3827-3977      * |
+#&gt;              homt-1_chrI_4277_4427     chrI         4277-4427      * |
+#&gt;                                ...      ...               ...    ... .
+#&gt;           ._chrX_17702756_17702906     chrX 17702756-17702906      * |
+#&gt;    H11L12.1_chrX_17711839_17711989     chrX 17711839-17711989      - |
+#&gt;      6R55.2_chrX_17714483_17714633     chrX 17714483-17714633      * |
+#&gt;   cTel55X.1_chrX_17714955_17715105     chrX 17714955-17715105      * |
+#&gt;   cTel55X.1_chrX_17718452_17718602     chrX 17718452-17718602      * |
+#&gt;                                       regulatory_class           which.tissues
+#&gt;                                               &lt;factor&gt;                &lt;factor&gt;
+#&gt;                     ._chrI_328_478       other_element                Germline
+#&gt;                    ._chrI_864_1014       other_element                Germline
+#&gt;                   ._chrI_1901_2051   putative_enhancer                Germline
+#&gt;            Y74C9A.6_chrI_3827_3977      non-coding_RNA Germline_Muscle_Intest.
+#&gt;              homt-1_chrI_4277_4427   putative_enhancer            Unclassified
+#&gt;                                ...                 ...                     ...
+#&gt;           ._chrX_17702756_17702906 unassigned_promoter            Unclassified
+#&gt;    H11L12.1_chrX_17711839_17711989        rev-promoter                Germline
+#&gt;      6R55.2_chrX_17714483_17714633   putative_enhancer            Ubiq.-Biased
+#&gt;   cTel55X.1_chrX_17714955_17715105   putative_enhancer            Unclassified
+#&gt;   cTel55X.1_chrX_17718452_17718602       other_element                Germline
+#&gt;                                                        seq
+#&gt;                                             &lt;DNAStringSet&gt;
+#&gt;                     ._chrI_328_478 TAAGCCTAAG...TTGTTTTCAT
+#&gt;                    ._chrI_864_1014 AGAAACGGTA...TCGGGTTTTT
+#&gt;                   ._chrI_1901_2051 ACCAATTCTT...CTTTGCTTTG
+#&gt;            Y74C9A.6_chrI_3827_3977 CCTTAATGCC...TTCCGTCGAT
+#&gt;              homt-1_chrI_4277_4427 AAATCTCCTT...TTCGATATTA
+#&gt;                                ...                     ...
+#&gt;           ._chrX_17702756_17702906 CAAATGTAGA...CTACATTTAA
+#&gt;    H11L12.1_chrX_17711839_17711989 ACAAAATCCA...CCCAAAATCT
+#&gt;      6R55.2_chrX_17714483_17714633 TCTCAAACGT...CACTCTCAAT
+#&gt;   cTel55X.1_chrX_17714955_17715105 CAATAATTTG...GACTATTATT
+#&gt;   cTel55X.1_chrX_17718452_17718602 ACACTTCTGG...AGAAACCAAA
+#&gt;   -------
+#&gt;   seqinfo: 6 sequences from an unspecified genome; no seqlengths</div><div class='input'><span class='no'>ce11_all_REs</span>$<span class='no'>seq</span></div><div class='output co'>#&gt;   A DNAStringSet instance of length 47514
+#&gt;         width seq                                           names               
+#&gt;     [1]   151 TAAGCCTAAGCCTAAGCCTAA...CTTTTTCAAAATTGTTTTCAT ._chrI_328_478
+#&gt;     [2]   151 AGAAACGGTAGTACACTCTTC...AAAAACATTTTTCGGGTTTTT ._chrI_864_1014
+#&gt;     [3]   151 ACCAATTCTTTCTGTCAGGTT...TGAGTATCGCTCTTTGCTTTG ._chrI_1901_2051
+#&gt;     [4]   151 CCTTAATGCCTCAAATGCGAA...CACCTCCCGGGTTCCGTCGAT Y74C9A.6_chrI_382...
+#&gt;     [5]   151 AAATCTCCTTTGGGAATCCGG...TGCAAATTGTCTTCGATATTA homt-1_chrI_4277_...
+#&gt;     ...   ... ...
+#&gt; [47510]   151 CAAATGTAGAAATTTTAATTT...TCCAAGTTGAACTACATTTAA ._chrX_17702756_1...
+#&gt; [47511]   151 ACAAAATCCACTGAATCACCT...CGAAATCGAATCCCAAAATCT H11L12.1_chrX_177...
+#&gt; [47512]   151 TCTCAAACGTGATGCCTACAC...GCACACTACCTCACTCTCAAT 6R55.2_chrX_17714...
+#&gt; [47513]   151 CAATAATTTGTAGATGATCAA...TTTGTATGGCTGACTATTATT cTel55X.1_chrX_17...
+#&gt; [47514]   151 ACACTTCTGGCTTCTGGGCGT...GCACGGAGTCGAGAAACCAAA cTel55X.1_chrX_17...</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

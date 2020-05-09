@@ -1,27 +1,33 @@
-#' Core function to generate a track of periodicity strenght of a given 
-#' dinucleotide at a given frequency, over a set of chosen GRanges.
+#' Function to generate a k-mer periodicity track
+#' 
+#' This function takes a set of GRanges in a genome, recover 
+#' the corresponding sequences and divides them using a sliding window. 
+#' For each sub-sequence, it then computes the PSD value of a k-mer 
+#' of interest at a chosen period, and generates a linear .bigWig
+#' track from these values. 
 #'
 #' @param genome DNAStringSet, BSgenome or genome ID
-#' @param granges GRanges object (with seqnames overlapping 
-#'     the names of genome).
-#' @param motif String Oligonucleotide of interest. 
-#' @param extension Integer The width the GRanges are going to 
-#'     be extended to (default 1000).
-#' @param genome_sliding_size Integer The width of the bins to split the GRanges
-#'     objects in (default 100).
-#' @param genome_sliding_sliding Integer The increment between bins over GRanges
-#'     (default 2).
-#' @param window_sliding_size Integer The width of the bins to split each primary 
-#'     bin in (default 60).
-#' @param window_sliding_bin Integer The increment between secondary bins
-#'     (default 5).
-#' @param range_spectrum Numeric vector The distances between nucleotides
-#'     to take into consideration when performing Fast Fourier Transform 
-#'     (default seq_len(50)).
-#' @param period Integer The period of the dinucleotide to study (default=10).
-#' @param cores Integer Split the workload over several processors 
-#'     (default 12).
-#' @param bw_file String. The name of the output bigWig track
+#' @param granges GRanges object
+#' @param motif character, k-mer of interest. 
+#' @param extension Integer, the width the GRanges are going to 
+#' be extended to (default 1000).
+#' @param genome_sliding_size Integer, the width of the bins to split 
+#' the GRanges objects in (default 100).
+#' @param genome_sliding_sliding Integer, the increment between bins 
+#' over GRanges (default 2).
+#' @param window_sliding_size Integer, the width of the bins to split
+#' each primary bin in (default 60).
+#' @param window_sliding_bin Integer, the increment between secondary bins
+#' (default 5).
+#' @param range_spectrum Numeric vector, the distances between nucleotides
+#' to take into consideration when performing Fast Fourier Transform 
+#' (default seq_len(50)).
+#' @param period Integer, the period of the dinucleotide to study 
+#' (default=10).
+#' @param cores Integer, split the workload over several processors 
+#' (default 12).
+#' @param bw_file character, the name of the output bigWig track
+#' @return Rlelist and a bigWig track in the working directory. 
 #' 
 #' @import Biostrings
 #' @import GenomicRanges
@@ -30,20 +36,29 @@
 #' @importFrom rtracklayer export.bw
 #' @importFrom methods is
 #' @export
-#' @return NULL A bigWig track in the working directory. 
+#' 
+#' @examples
+#' data(ce11_proms)
+#' getPeriodicityTrack(
+#'     genome = 'ce11', 
+#'     ce11_proms[1], 
+#'     motif = 'WW',
+#'     period = 10,
+#'     cores = 1
+#' )
 
 getPeriodicityTrack <- function(
     genome = NULL, 
     granges, 
     motif = 'WW', 
+    period = 10, 
+    cores = 12, 
     extension = 1000, 
     genome_sliding_size = 100, 
     genome_sliding_sliding = 2, 
     window_sliding_size = 100, 
     window_sliding_bin = 5, 
     range_spectrum = seq(5, 50), 
-    period = 10, 
-    cores = 12, 
     bw_file = NULL
 )
 {
@@ -142,26 +157,19 @@ getPeriodicityTrack <- function(
 
 #' Internal function
 #'
-#' @param genome A DNAStringSet object. Ideally, the sequence of an 
-#'     entire genome, obtained for instance by running 
-#'     \code{Biostrings::getSeq(
-#'       BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
-#'     )}.
+#' @param genome DNAStringSet, BSgenome or genome ID
 #' @param granges.extended_large A GRanges object.
 #' @param granges.extended A GRanges object.
-#'     \code{Biostrings::getSeq(
-#'       BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
-#'     )}.
 #' @param genome_sliding_size An integer. The width of the bins to split 
-#'     the GRanges objects in (default 100).
+#' the GRanges objects in (default 100).
 #' @param genome_sliding_sliding An integer. The increment between bins 
-#'     over GRanges (default 2).
+#' over GRanges (default 2).
+#' @return granges.partionned A Granges object corresponding to the binned 
+#' genome. 
 #' 
 #' @import GenomeInfoDb
 #' @import GenomicRanges
 #' @import IRanges
-#' @return granges.partionned A Granges object corresponding to the binned 
-#'   genome. 
 
 partitionGenome <- function(
     genome, 
@@ -200,10 +208,9 @@ partitionGenome <- function(
 #' Internal function
 #'
 #' @param genome.partionned.filtered Output from partitionGenome() filtered 
-#'     over GRanges of interest. 
+#' over GRanges of interest. 
 #' @param cores An integer Split the workload over several processors 
-#'     (default 12).
-#' 
+#' (default 12).
 #' @return list Chunks list of primary bins to measure.
 
 getChunks <- function(genome.partionned.filtered, cores) {
@@ -225,27 +232,24 @@ getChunks <- function(genome.partionned.filtered, cores) {
 #' Internal function
 #'
 #' @param chunk A GRanges from the output list obtained with getChunks
-#' @param genome A DNAStringSet object. Ideally, the sequence of an 
-#'     entire genome, obtained for instance by running 
-#'     \code{Biostrings::getSeq(
-#'       BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
-#'     )}.
+#' @param genome DNAStringSet, BSgenome or genome ID
 #' @param motif String Oligonucleotide of interest. 
-#' @param genome_sliding_sliding Integer The increment between bins over GRanges
-#'     (default 2).
-#' @param window_sliding_size Integer The width of the bins to split each primary 
-#'     bin in (default 60).
+#' @param genome_sliding_sliding Integer The increment between 
+#' bins over GRanges (default 2).
+#' @param window_sliding_size Integer The width of the bins to split 
+#' each primary bin in (default 60).
 #' @param window_sliding_bin Integer The increment between secondary bins
-#'     (default 5).
+#' (default 5).
 #' @param range_spectrum Numeric vector The distances between nucleotides
-#'     to take into consideration when performing Fast Fourier Transform 
-#'     (default seq_len(50)).
-#' @param freq Float The frequence of the dinucleotide to study (default 1/10).
+#' to take into consideration when performing Fast Fourier Transform 
+#' (default seq_len(50)).
+#' @param freq Float The frequence of the dinucleotide to study 
+#' (default 1/10).
+#' @return GRanges a GRanges object with a score column containing 
+#' estimated periodicity
 #' 
 #' @import GenomicRanges
 #' @importFrom rtracklayer export.bw
-#' @return GRanges a GRanges object with a score column containing estimated
-#'     periodicity
 
 chunkWrapper <- function(
     chunk, 
@@ -283,17 +287,18 @@ chunkWrapper <- function(
 #' Internal function
 #'
 #' @param grange A GRanges object of length 1
-#' @param genome A DNAStringSet object. Ideally, the sequence of an entire 
-#'     genome
+#' @param genome DNAStringSet, BSgenome or genome ID
 #' @param motif String Oligonucleotide of interest. 
-#' @param window_sliding_size Integer The width of the bins to split each primary
-#'     bin in (default 60).
+#' @param window_sliding_size Integer The width of the bins to 
+#' split each primary bin in (default 60).
 #' @param window_sliding_bin Integer The increment between secondary bins
-#'     (default 5).
+#' (default 5).
 #' @param range_spectrum Numeric vector The distances between nucleotides
-#'     to take into consideration when performing Fast Fourier Transform 
-#'     (default seq_len(50)).
-#' @param freq Float The frequence of the dinucleotide to study (default 1/10).
+#' to take into consideration when performing Fast Fourier Transform 
+#' (default seq_len(50)).
+#' @param freq Float The frequence of the dinucleotide to study
+#' (default 1/10).
+#' @return Float The estimated periodicity score of the input GRanges
 #' 
 #' @import magrittr
 #' @importFrom stats dist
@@ -301,7 +306,6 @@ chunkWrapper <- function(
 #' @import GenomicRanges
 #' @import IRanges
 #' @importFrom stats spectrum
-#' @return Float The estimated periodicity score of the input GRanges
 
 binWrapper <- function(
     grange, 
@@ -336,19 +340,24 @@ binWrapper <- function(
 #' Internal function
 #'
 #' @param grange A GRanges object of length 1
-#' @param genome A DNAStringSet object. Ideally, the sequence of an entire 
-#'     genome
-#' @param window_sliding_size Integer The width of the bins to split each primary
-#'     bin in (default 60).
+#' @param genome DNAStringSet, BSgenome or genome ID
+#' @param window_sliding_size Integer The width of the bins
+#' to split each primary bin in (default 60).
 #' @param window_sliding_bin Integer The increment between secondary bins
-#'     (default 5).
+#' (default 5).
+#' @return list A GRanges object
 #' 
 #' @import GenomeInfoDb
 #' @import GenomicRanges
 #' @import IRanges
-#' @return list A GRanges object
 
-partitionBin <- function(grange, genome, window_sliding_size, window_sliding_bin) {
+partitionBin <- function(
+    grange, 
+    genome,
+    window_sliding_size, 
+    window_sliding_bin
+) 
+{
     genome.Seqinfo <- GenomeInfoDb::Seqinfo(
         seqnames = names(genome), 
         seqlengths = lengths(genome), 
@@ -363,9 +372,12 @@ partitionBin <- function(grange, genome, window_sliding_size, window_sliding_bin
         )
     )
     GenomeInfoDb::seqinfo(genome.granges) <- genome.Seqinfo
+    w <- IRanges::start(grange)+
+        GenomicRanges::width(grange)-
+        window_sliding_size
     starts <- seq(
         IRanges::start(grange), 
-        IRanges::start(grange)+GenomicRanges::width(grange)-window_sliding_size, 
+        w,
         window_sliding_bin
     )
     granges <- GenomicRanges::GRanges(
@@ -378,7 +390,6 @@ partitionBin <- function(grange, genome, window_sliding_size, window_sliding_bin
 #' Internal function
 #'
 #' @param list.results List 
-#' 
 #' @return GRanges
 
 unlistResults <- function(list.results) {
@@ -391,9 +402,10 @@ unlistResults <- function(list.results) {
 
 #' Internal function
 #' 
-#' @import magrittr
 #' @return NULL Clean-up temporary files generated when running 
-#'     getPeriodicityTrack.
+#' getPeriodicityTrack.
+#' 
+#' @import magrittr
 
 cleanUpDirectory <- function() {
     list.files(pattern = '.*tmp.*') %>% file.remove()

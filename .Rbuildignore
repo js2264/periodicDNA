@@ -1,10 +1,10 @@
 ^data-raw$
 ^README\.Rmd$
 ^LICENSE\.md$
-^docs/
-^paper/
-^pkgdown/
-^\.git/
+^docs$
+^paper$
+^pkgdown$
+^\.git$
 ^\.travis\.yml$
 ^codecov\.yml$
 ^README\.md$

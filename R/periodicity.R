@@ -1,61 +1,109 @@
-#' Function to compute the overall periodicity of a 
-#'     motif over sequence(s). 
+#' Function to compute k-mer periodicity in sequence(s). 
+#'
+#' This function takes a set of sequences and a k-mer of interest, 
+#' map a k-mer of interest in these sequences, computes all the 
+#' pairwise distances (distogram), normalize it for distance decay, 
+#' and computes the resulting power spectral density of the 
+#' normalized distogram.
 #'
 #' @param x a DNAStringSet, or a GRanges
 #' @param ... additional parameters
-#' 
-#' @return List a list containing the results of getPeriodicity function. 
-#'     The dists vector is the raw vector of all distances between any 
-#'     possible dinucleotide. The hist data.frame is the distribution of 
-#'     distances over range_spectrum. The normalized_hist is the raw 
-#'     hist, normalized for  decay over increasing distances. The spectra 
-#'     object is the output of the FFT applied over normalized_hist. 
-#'     The PSD data frame is the power spectral density scores over given 
-#'     frequencies. The motif object is the dinucleotide being analysed.
+#' @return A list containing the results of getPeriodicity function.  
+#' \itemize{
+#'     \item The dists vector is the raw vector of all distances between 
+#'     any possible dinucleotide. 
+#'     \item The hist data.frame is the distribution of distances
+#'     over range_spectrum. 
+#'     \item The normalized_hist is the raw hist, 
+#'     normalized for decay over increasing distances. 
+#'     \item The spectra object is the output of 
+#'     the FFT applied over normalized_hist. 
+#'     \item The PSD data frame is the power 
+#'     spectral density scores over given  frequencies. 
+#'     \item The motif object is the dinucleotide being analysed.
+#' }
 #' 
 #' @export
+#' 
+#' @examples
+#' data(ce11_proms_seqs)
+#' periodicity_result <- getPeriodicity(
+#'     ce11_proms_seqs[1:100],
+#'     motif = 'TT', 
+#'     cores = 1
+#' )
+#' plotPeriodicityResults(periodicity_result)
+#' #
+#' data(ce11_proms)
+#' periodicity_result <- getPeriodicity(
+#'     ce11_proms[1:100],
+#'     genome = 'ce11',
+#'     motif = 'TT', 
+#'     cores = 1
+#' )
+#' head(periodicity_result$PSD)
+#' plotPeriodicityResults(periodicity_result)
 
 getPeriodicity <- function(x, ...) {
     UseMethod("getPeriodicity")
 }
 
-#' Function to compute the overall periodicity of a motif over a set of 
-#'     sequences.
+#' Function to compute k-mer periodicity in sequence(s). 
+#'
+#' This function takes a set of sequences and a k-mer of interest, 
+#' map a k-mer of interest in these sequences, computes all the 
+#' pairwise distances (distogram), normalize it for distance decay, 
+#' and computes the resulting power spectral density of the 
+#' normalized distogram.
 #' 
 #' @param x a DNAStringSet
 #' @param motif a dinucleotide of interest
 #' @param range_spectrum Numeric vector The distances between nucleotides
-#'     to take into consideration when performing Fast Fourier Transform.
+#' to take into consideration when performing Fast Fourier Transform.
 #' @param cores Integer How many processors should be used to parallelize
-#'     the mapping? 
+#' the mapping? 
 #' @param roll Integer Window to smooth the distribution of pairwise distances
-#'     (default: 3, to discard the 3-bp periodicity of dinucleotides which 
-#'     can be very strong in vertebrate genomes)
+#' (default: 3, to discard the 3-bp periodicity of dinucleotides which 
+#' can be very strong in vertebrate genomes)
 #' @param verbose Boolean
 #' @param sample Integer if > 0, will randomly sample this many integers
-#'     from the dists vector before normalization. This ensures consistency 
-#'     when looking at periodicity in different genomes, since different
-#'     genomes will have different GC percent
+#' from the dists vector before normalization. This ensures consistency 
+#' when looking at periodicity in different genomes, since different
+#' genomes will have different GC percent
 #' @param doZscore Boolean should the normalized dampened signal be z-scored?
 #' @param skip_shuffling Boolean should the shuffling sequences be done?
 #' @param ... additional parameters
-#' 
-#' @return List a list containing the results of getPeriodicity function. 
-#'     The dists vector is the raw vector of all distances between any 
-#'     possible dinucleotide. The hist data.frame is the distribution of 
-#'     distances over range_spectrum. The normalized_hist is the raw 
-#'     hist, normalized for  decay over increasing distances. The spectra 
-#'     object is the output of the FFT applied over normalized_hist. 
-#'     The PSD data frame is the power spectral density scores over given 
-#'     frequencies. The motif object is the dinucleotide being analysed.
+#' @return A list containing the results of getPeriodicity function.  
+#' \itemize{
+#'     \item The dists vector is the raw vector of all distances between 
+#'     any possible dinucleotide. 
+#'     \item The hist data.frame is the distribution of distances
+#'     over range_spectrum. 
+#'     \item The normalized_hist is the raw hist, 
+#'     normalized for decay over increasing distances. 
+#'     \item The spectra object is the output of 
+#'     the FFT applied over normalized_hist. 
+#'     \item The PSD data frame is the power 
+#'     spectral density scores over given  frequencies. 
+#'     \item The motif object is the dinucleotide being analysed.
+#' }
 #' 
 #' @importFrom parallel mclapply
 #' @import Biostrings
 #' @import IRanges
 #' @import magrittr
 #' @importFrom stats spectrum
-#' 
 #' @export
+#' 
+#' @examples
+#' data(ce11_proms_seqs)
+#' periodicity_result <- getPeriodicity(
+#'     ce11_proms_seqs[1:10],
+#'     motif = 'TT', 
+#'     cores = 1
+#' )
+#' head(periodicity_result$PSD)
+#' plotPeriodicityResults(periodicity_result)
 
 getPeriodicity.DNAStringSet <- function(
     x, 
@@ -161,18 +209,22 @@ getPeriodicity.DNAStringSet <- function(
         if (verbose) message("- SHUFFLING: suffling sequences.")
         seqs <- shuffleSeq(seqs)
         if (verbose) message("- SHUFFLING: Mapping k-mers.")
-        dists_shuffled <- parallel::mclapply(seq_len(length(seqs)), function(k) {
-            seq <- seqs[k]
-            Biostrings::vmatchPattern(
-                motif, 
-                seq, 
-                max.mismatch = 0, 
-                fixed = FALSE
-            )[[1]] %>% 
-                IRanges::start() %>% 
-                dist() %>% 
-                c()
-        }, mc.cores = cores) %>% unlist()
+        dists_shuffled <- parallel::mclapply(
+            seq_len(length(seqs)), 
+            function(k) {
+                seq <- seqs[k]
+                Biostrings::vmatchPattern(
+                    motif, 
+                    seq, 
+                    max.mismatch = 0, 
+                    fixed = FALSE
+                )[[1]] %>% 
+                    IRanges::start() %>% 
+                    dist() %>% 
+                    c()
+            }, 
+            mc.cores = cores
+        ) %>% unlist()
         max_dists_shuffled <- max(dists_shuffled)
         if (length(dists_shuffled) < 10) {
             if (verbose) message(
@@ -264,28 +316,45 @@ getPeriodicity.DNAStringSet <- function(
     ))
 }
 
-#' Core function
+#' Function to compute k-mer periodicity in GRanges.
+#'
+#' This function takes a GRanges object and its genome, 
+#' map a k-mer of interest in the corresponding sequences, computes all the 
+#' pairwise distances (distogram), normalize it for distance decay, 
+#' and computes the resulting power spectral density of the 
+#' normalized distogram.
 #' 
 #' @param x a GRanges
-#' @param genome DNAStringSet object. The sequence of an entire genome, 
-#'     obtained for instance by running 
-#'     \code{Biostrings::getSeq(
-#'         BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
-#'     )}.
+#' @param genome genome ID, BSgenome o rDNAStringSet object.
 #' @param ... other parameters forwarded to getPeriodicity.DNAStringSet()
-#'
-#' @return List a list containing the results of getPeriodicity function. 
-#'     The dists vector is the raw vector of all distances between any 
-#'     possible dinucleotide. The hist data.frame is the distribution of 
-#'     distances over range_spectrum. The normalized_hist is the raw 
-#'     hist, normalized for  decay over increasing distances. The spectra 
-#'     object is the output of the FFT applied over normalized_hist. 
-#'     The PSD data frame is the power spectral density scores over given 
-#'     frequencies. The motif object is the dinucleotide being analysed.
+#' @return A list containing the results of getPeriodicity function.  
+#' \itemize{
+#'     \item The dists vector is the raw vector of all distances between 
+#'     any possible dinucleotide. 
+#'     \item The hist data.frame is the distribution of distances
+#'     over range_spectrum. 
+#'     \item The normalized_hist is the raw hist, 
+#'     normalized for decay over increasing distances. 
+#'     \item The spectra object is the output of 
+#'     the FFT applied over normalized_hist. 
+#'     \item The PSD data frame is the power 
+#'     spectral density scores over given  frequencies. 
+#'     \item The motif object is the dinucleotide being analysed.
+#' }
 #' 
 #' @importFrom methods is
-#' 
 #' @export
+#' 
+#' @examples
+#' data(ce11_proms)
+#' periodicity_result <- getPeriodicity(
+#'     ce11_proms[1:10],
+#'     genome = 'ce11',
+#'     motif = 'TT', 
+#'     cores = 1
+#' )
+#' head(periodicity_result$PSD)
+#' plotPeriodicityResults(periodicity_result)
 
 getPeriodicity.GRanges <- function(
     x,
@@ -320,23 +389,43 @@ getPeriodicity.GRanges <- function(
     getPeriodicity(seqs, ...)
 }
 
-#' Core function
+#' Function to compute k-mer periodicity in a sequence.
+#'
+#' This function takes a single sequence and a k-mer of interest, 
+#' map a k-mer of interest in the sequence, computes all the 
+#' pairwise distances (distogram), normalize it for distance decay, 
+#' and computes the resulting power spectral density of the 
+#' normalized distogram.
 #' 
 #' @param x a DNAString
 #' @param ... other parameters forwarded to getPeriodicity.DNAStringSet()
-#'
-#' @return List a list containing the results of getPeriodicity function. 
-#'     The dists vector is the raw vector of all distances between any 
-#'     possible dinucleotide. The hist data.frame is the distribution of 
-#'     distances over range_spectrum. The normalized_hist is the raw 
-#'     hist, normalized for  decay over increasing distances. The spectra 
-#'     object is the output of the FFT applied over normalized_hist. 
-#'     The PSD data frame is the power spectral density scores over given 
-#'     frequencies. The motif object is the dinucleotide being analysed.
+#' @return A list containing the results of getPeriodicity function.  
+#' \itemize{
+#'     \item The dists vector is the raw vector of all distances between 
+#'     any possible dinucleotide. 
+#'     \item The hist data.frame is the distribution of distances
+#'     over range_spectrum. 
+#'     \item The normalized_hist is the raw hist, 
+#'     normalized for decay over increasing distances. 
+#'     \item The spectra object is the output of 
+#'     the FFT applied over normalized_hist. 
+#'     \item The PSD data frame is the power 
+#'     spectral density scores over given  frequencies. 
+#'     \item The motif object is the dinucleotide being analysed.
+#' }
 #' 
 #' @importFrom Biostrings DNAStringSet
-#' 
 #' @export
+#' 
+#' @examples
+#' data(ce11_proms_seqs)
+#' periodicity_result <- getPeriodicity(
+#'     ce11_proms_seqs[[8]],
+#'     motif = 'TT', 
+#'     cores = 1
+#' )
+#' head(periodicity_result$PSD)
+#' plotPeriodicityResults(periodicity_result)
 
 getPeriodicity.DNAString <- function(
     x,
@@ -347,13 +436,14 @@ getPeriodicity.DNAString <- function(
     getPeriodicity(seq, ...)
 }
 
-#' Internal function to normalize a pairwise distance 
+#' Internal function 
+#' 
+#' This function normalize a distogram for distance decay
 #'
 #' @param hist Vector a numeric vector
 #' @param roll Integer window used to roll the flatten histogram
 #' @param doZscore Boolean should the normalized dampened signal be z-scored?
 #' @param roll_smoothed.h Integer window used to flatten the histogram
-#' 
 #' @return a normalized vector
 #' 
 #' @importFrom zoo rollmean
@@ -366,7 +456,8 @@ normalizeHistogram <- function(
 ) 
 {
     h <- hist
-    h <- h / sum(h, na.rm = TRUE) # Normalize to total number of pairwise distances
+    # Normalize to total number of pairwise distances
+    h <- h / sum(h, na.rm = TRUE) 
     # Substract smoothed distribution
     smoothed.h <- c(
         zoo::rollmean(h, k = roll_smoothed.h), 

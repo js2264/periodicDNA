@@ -1,7 +1,11 @@
 #' A function to easily coerce a named list into a long data.frame
-#'
-#' @param x A named list of vectors or data.frames
 #' 
+#' This function takes a named list of data.frames. For each data.frame, 
+#' the name of the data.frame is added in a new column, and the resulting
+#' data.frames are all bound together using rbind.
+#' to 
+#' 
+#' @param x A named list of vectors or data.frames
 #' @return A long data frame
 
 namedListToLongFormat <- function(x) {
@@ -18,12 +22,14 @@ namedListToLongFormat <- function(x) {
     return(res)
 }
 
-#' A tidyverse-compatible function 
-#'     to replace NAs in a vector by a given value
+#' A function to replace NAs in a vector by a given value
+#' 
+#' This function is 'tidyverse-friendly', i.e. it takes a vector and
+#' returns the same vector with the NA values replaced by a chosen 
+#' value
 #'
 #' @param x vector
 #' @param value Replace NAs by this variable
-#' 
 #' @return A vector with NA replaced by value
 
 na.replace <- function(x, value) {
@@ -32,10 +38,12 @@ na.replace <- function(x, value) {
     return(x)
 }
 
-#' A tidyverse-compatible function to remove NAs from a vector
+#' A function to remove NAs from a vector
 #'
-#' @param x vector
+#' This function is 'tidyverse-friendly', i.e. it takes a vector and
+#' returns the same vector minus the NA values
 #' 
+#' @param x vector
 #' @return A vector without NAs
 
 na.remove <- function(x) {
@@ -43,19 +51,19 @@ na.remove <- function(x) {
     return(x[!which.na])
 }
 
-#' A function to quickly shuffle sequence(s)
+#' A function to shuffle sequence(s)
+#' 
+#' This function takes a DNAString or DNAStringSet object and simply 
+#' shuffles the order individual nucleotides. 
 #'
 #' @param dna DNAString or DNAStringSet
-#' 
 #' @return A DNAString or DNAStringSet
 #' 
 #' @import Biostrings
 #' @export
 #' 
 #' @examples
-#' \dontrun{
-#'     shuffleSeq('ACGTGGGCTATTAGCTACTGTACGTG')
-#' }
+#' shuffleSeq('ACGTGGGCTATTAGCTACTGTACGTG')
 
 shuffleSeq <- function(dna) {
     if (is(dna, 'DNAString')) {
@@ -80,26 +88,23 @@ shuffleSeq <- function(dna) {
 
 #' A function to sample GRanges from GRanges/DNAStringSet
 #'
-#' @param x a GRanges or DNAStringSet object
-#' @param n Integer number of sampled GRanges
-#' @param width Integer width of sampled GRanges
-#' @param exclude Boolean should the original GRanges be excluded?
-#' @param avoid_overlap Boolean should the sampled GRanges not be overlapping?
-#' 
+#' This function takes a given GRanges and returns another GRanges 
+#' object. The new GRanges has the same number of ranges and the same
+#' chromosome, width and strand distributions than the original 
+#' GRanges. 
+#'
+#' @param x GRanges or DNAStringSet object
+#' @param n Integer, number of sampled GRanges
+#' @param width Integer, width of sampled GRanges
+#' @param exclude Boolean, should the original GRanges be excluded?
+#' @param avoid_overlap Boolean, should the sampled GRanges not be overlapping?
 #' @return A GRanges object of length n
 #' 
 #' @export
 #' 
 #' @examples
-#' \dontrun{
-#'     data(ce11_proms)
-#'     sampleGRanges(ce11_proms, 100)
-#'     #
-#'     yeast_seq <- getSeq(
-#'         BSgenome.Scerevisiae.UCSC.sacCer3::BSgenome.Scerevisiae.UCSC.sacCer3
-#'     )
-#'     sacCer3_random_regions <- sampleGRanges(yeast_seq, n = 10000, w = 200)
-#' }
+#' data(ce11_proms)
+#' sampleGRanges(ce11_proms, 100)
 
 sampleGRanges <- function(
     x, 
@@ -114,12 +119,16 @@ sampleGRanges <- function(
 
 #' A function to sample GRanges within GRanges
 #'
-#' @param x a GRanges object
-#' @param n Integer number of sampled GRanges
-#' @param width Integer width of sampled GRanges
-#' @param exclude Boolean should the original GRanges be excluded?
-#' @param avoid_overlap Boolean should the sampled GRanges not be overlapping?
-#' 
+#' This function takes a given GRanges and returns another GRanges 
+#' object. The new GRanges has the same number of ranges and the same
+#' chromosome, width and strand distributions than the original 
+#' GRanges. 
+#'
+#' @param x GRanges object
+#' @param n Integer, number of sampled GRanges
+#' @param width Integer, width of sampled GRanges
+#' @param exclude Boolean, should the original GRanges be excluded?
+#' @param avoid_overlap Boolean, should the sampled GRanges not be overlapping?
 #' @return A GRanges object of length n
 #' 
 #' @importFrom methods as
@@ -129,10 +138,8 @@ sampleGRanges <- function(
 #' @export
 #' 
 #' @examples
-#' \dontrun{
-#'     data(ce11_proms)
-#'     sampleGRanges(ce11_proms)
-#' }
+#' data(ce11_proms)
+#' sampleGRanges(ce11_proms, 100)
 
 sampleGRanges.GRanges <- function(
     x, 
@@ -247,20 +254,25 @@ sampleGRanges.GRanges <- function(
 
 #' A function to sample GRanges within DNAStringSet
 #'
+#' This function takes a DNAStringSet (for instance a set of sequences
+#' obtained from a BSgenome object) and returns a GRanges object. 
+#' The ranges are contained within the DNAStringSet object. This function
+#' is useful to sample sequences from a full genome. 
+#'
 #' @param x a DNAStringSet object
 #' @param ... Additional parameters
-#' 
 #' @return A GRanges object of length n
 #' 
 #' @import GenomicRanges
 #' @import IRanges
 #' @import GenomeInfoDb
+#' @export
 #' 
 #' @examples
-#' \dontrun{
-#'     data(ce11_proms)
-#'     sampleGRanges(ce11_proms, 100)
-#' }
+#' library(Biostrings)
+#' seqs <- getSeq(BSgenome.Scerevisiae.UCSC.sacCer3::
+#'     BSgenome.Scerevisiae.UCSC.sacCer3)
+#' sampleGRanges(seqs, n = 100, w = 100)
 
 sampleGRanges.DNAStringSet <- function(
     x, 
@@ -269,29 +281,33 @@ sampleGRanges.DNAStringSet <- function(
 {
     seqs <- x
     granges <- DNAStringSet2GRanges(seqs)
-    sampleGRanges(granges, ...)
+    g <- sampleGRanges(granges, ...)
+    g$seq <- seqs[g]
+    return(g)
 }
 
 #' A function to sample GRanges from BSgenome
 #'
+#' This function takes a BSgenome and returns a GRanges object. 
+#' This function is useful to sample sequences from a full genome. 
+#'
 #' @param x a BSgenome object
 #' @param ... Additional parameters
-#' 
 #' @return A GRanges object of length n
 #' 
 #' @import Biostrings
 #' @import GenomicRanges
 #' @import IRanges
 #' @import GenomeInfoDb
+#' @export
 #' 
 #' @examples
-#' \dontrun{
-#'     sampleGRanges(
-#'         (BSgenome.Scerevisiae.UCSC.sacCer3::
-#'             BSgenome.Scerevisiae.UCSC.sacCer3), 
-#'         100
-#'     )
-#' }
+#' g <- sampleGRanges(
+#'     BSgenome.Scerevisiae.UCSC.sacCer3::BSgenome.Scerevisiae.UCSC.sacCer3, 
+#'     w = 150, n = 100
+#' )
+#' g
+#' g$seq
 
 sampleGRanges.BSgenome <- function(
     x, 
@@ -311,23 +327,23 @@ sampleGRanges.BSgenome <- function(
 
 #' A function to sample GRanges from genome IDs
 #'
+#' This function takes a BSgenome UCSC ID and returns a GRanges object. 
+#' This function is useful to sample sequences from a full genome. 
+#' Currently, sacCer3, ce11, dm6, danRer10, mm10 and hg38 are 
+#' supported.
+#'
 #' @param x a genome ID ()
 #' @param ... Additional parameters
-#' 
 #' @return A GRanges object of length n
 #' 
 #' @import Biostrings
 #' @import GenomicRanges
 #' @import IRanges
 #' @import GenomeInfoDb
+#' @export
 #' 
 #' @examples
-#' \dontrun{
-#'     sampleGRanges(
-#'         'ce11', 
-#'         100
-#'     )
-#' }
+#' sampleGRanges('sacCer3', width = 150, n = 100)
 
 sampleGRanges.character <- function(
     x, 
@@ -347,15 +363,28 @@ sampleGRanges.character <- function(
     sampleGRanges(genome, ...)
 }
 
+#' A function to sample GRanges from genome IDs
+#'
+#' This function is an alias for the sampleGRanges.character method.
+#' It takes a BSgenome ID and returns a GRanges object. 
+#' This function is useful to sample sequences from a full genome. 
+#' Currently, sacCer3, ce11, dm6, danRer10, mm10 and hg38 are 
+#' supported. 
+#'
 #' @rdname sampleGRanges.character
 #' @export
+#' @examples
+#' sampleGenome('sacCer3', w = 150, n = 100)
 
 sampleGenome <- sampleGRanges.character
 
 #' A function to generate a GRanges from a DNAStringSet
 #'
+#' This function takes a DNAStringSet (for instance a set of sequences
+#' obtained from a BSgenome object) and converts it into 
+#' a GRanges object. 
+#'
 #' @param seqs A DNAStringSet
-#' 
 #' @return A GRanges object
 #' 
 #' @import GenomicRanges
@@ -364,10 +393,9 @@ sampleGenome <- sampleGRanges.character
 #' @export
 #' 
 #' @examples
-#' \dontrun{
-#'     seq <- BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
-#'     DNAStringSet2GRanges(seq)
-#' }
+#' DNAStringSet2GRanges(
+#'     BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
+#' )
 
 DNAStringSet2GRanges <- function(seqs) {
     if (
@@ -386,17 +414,17 @@ DNAStringSet2GRanges <- function(seqs) {
 
 #' A function to get the BSgenome from genome ID
 #'
-#' @param ID character
+#' This function switches a UCSC genome ID to the actual BSgenome
+#' object. Currently, sacCer3, ce11, dm6, danRer10, mm10 and hg38 are 
+#' supported. 
 #' 
+#' @param ID character
 #' @return BSgenome object
 #' 
 #' @export
 #' 
 #' @examples
-#' \dontrun{
-#'     genome <- char2BSgenome('ce11')
-#'     genome
-#' }
+#' char2BSgenome('ce11')
 
 char2BSgenome <- function(ID) {
     genome <- switch(

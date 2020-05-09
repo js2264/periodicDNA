@@ -47,7 +47,9 @@
 
 
 <meta property="og:title" content="A function to generate a GRanges from a DNAStringSet — DNAStringSet2GRanges" />
-<meta property="og:description" content="A function to generate a GRanges from a DNAStringSet" />
+<meta property="og:description" content="This function takes a DNAStringSet (for instance a set of sequences
+obtained from a BSgenome object) and converts it into 
+a GRanges object." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -140,7 +142,9 @@
     </div>
 
     <div class="ref-description">
-    <p>A function to generate a GRanges from a DNAStringSet</p>
+    <p>This function takes a DNAStringSet (for instance a set of sequences
+obtained from a BSgenome object) and converts it into 
+a GRanges object.</p>
     </div>
 
     <pre class="usage"><span class='fu'>DNAStringSet2GRanges</span>(<span class='no'>seqs</span>)</pre>
@@ -159,10 +163,20 @@
     <p>A GRanges object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-    <span class='no'>seq</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>BSgenome.Celegans.UCSC.ce11</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/BSgenome.Celegans.UCSC.ce11/man/package.html'>BSgenome.Celegans.UCSC.ce11</a></span>
-    <span class='fu'>DNAStringSet2GRanges</span>(<span class='no'>seq</span>)
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>DNAStringSet2GRanges</span>(
+    <span class='kw pkg'>BSgenome.Celegans.UCSC.ce11</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/BSgenome.Celegans.UCSC.ce11/man/package.html'>BSgenome.Celegans.UCSC.ce11</a></span>
+)</div><div class='output co'>#&gt; GRanges object with 7 ranges and 0 metadata columns:
+#&gt;       seqnames     ranges strand
+#&gt;          &lt;Rle&gt;  &lt;IRanges&gt;  &lt;Rle&gt;
+#&gt;   [1]     chrI 1-15072434      *
+#&gt;   [2]    chrII 1-15279421      *
+#&gt;   [3]   chrIII 1-13783801      *
+#&gt;   [4]    chrIV 1-17493829      *
+#&gt;   [5]     chrV 1-20924180      *
+#&gt;   [6]     chrX 1-17718942      *
+#&gt;   [7]     chrM    1-13794      *
+#&gt;   -------
+#&gt;   seqinfo: 7 sequences from an unspecified genome</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

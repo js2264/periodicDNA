@@ -17,13 +17,12 @@ binWrapper(
 \arguments{
 \item{grange}{A GRanges object of length 1}
 
-\item{genome}{A DNAStringSet object. Ideally, the sequence of an entire 
-genome}
+\item{genome}{DNAStringSet, BSgenome or genome ID}
 
 \item{motif}{String Oligonucleotide of interest.}
 
-\item{window_sliding_size}{Integer The width of the bins to split each primary
-bin in (default 60).}
+\item{window_sliding_size}{Integer The width of the bins to 
+split each primary bin in (default 60).}
 
 \item{window_sliding_bin}{Integer The increment between secondary bins
 (default 5).}
@@ -32,7 +31,8 @@ bin in (default 60).}
 to take into consideration when performing Fast Fourier Transform 
 (default seq_len(50)).}
 
-\item{freq}{Float The frequence of the dinucleotide to study (default 1/10).}
+\item{freq}{Float The frequence of the dinucleotide to study
+(default 1/10).}
 }
 \value{
 Float The estimated periodicity score of the input GRanges

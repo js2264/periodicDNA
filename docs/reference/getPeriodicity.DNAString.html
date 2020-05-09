@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Core function — getPeriodicity.DNAString • periodicDNA</title>
+<title>Function to compute k-mer periodicity in a sequence. — getPeriodicity.DNAString • periodicDNA</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,12 @@
 
 
 
-<meta property="og:title" content="Core function — getPeriodicity.DNAString" />
-<meta property="og:description" content="Core function" />
+<meta property="og:title" content="Function to compute k-mer periodicity in a sequence. — getPeriodicity.DNAString" />
+<meta property="og:description" content="This function takes a single sequence and a k-mer of interest, 
+map a k-mer of interest in the sequence, computes all the 
+pairwise distances (distogram), normalize it for distance decay, 
+and computes the resulting power spectral density of the 
+normalized distogram." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -134,13 +138,17 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Core function</h1>
+    <h1>Function to compute k-mer periodicity in a sequence.</h1>
     <small class="dont-index">Source: <a href='https://github.com/js2264/periodicDNA/blob/master/R/periodicity.R'><code>R/periodicity.R</code></a></small>
     <div class="hidden name"><code>getPeriodicity.DNAString.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Core function</p>
+    <p>This function takes a single sequence and a k-mer of interest, 
+map a k-mer of interest in the sequence, computes all the 
+pairwise distances (distogram), normalize it for distance decay, 
+and computes the resulting power spectral density of the 
+normalized distogram.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for DNAString</span>
@@ -161,15 +169,34 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>List a list containing the results of getPeriodicity function. 
-    The dists vector is the raw vector of all distances between any 
-    possible dinucleotide. The hist data.frame is the distribution of 
-    distances over range_spectrum. The normalized_hist is the raw 
-    hist, normalized for  decay over increasing distances. The spectra 
-    object is the output of the FFT applied over normalized_hist. 
-    The PSD data frame is the power spectral density scores over given 
-    frequencies. The motif object is the dinucleotide being analysed.</p>
+    <p>A list containing the results of getPeriodicity function.</p><ul>
+<li><p>The dists vector is the raw vector of all distances between 
+    any possible dinucleotide.</p></li>
+<li><p>The hist data.frame is the distribution of distances
+    over range_spectrum.</p></li>
+<li><p>The normalized_hist is the raw hist, 
+    normalized for decay over increasing distances.</p></li>
+<li><p>The spectra object is the output of 
+    the FFT applied over normalized_hist.</p></li>
+<li><p>The PSD data frame is the power 
+    spectral density scores over given  frequencies.</p></li>
+<li><p>The motif object is the dinucleotide being analysed.</p></li>
+</ul>
 
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_proms_seqs</span>)
+<span class='no'>periodicity_result</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='getPeriodicity.html'>getPeriodicity</a></span>(
+    <span class='no'>ce11_proms_seqs</span><span class='kw'>[[</span><span class='fl'>8</span>]],
+    <span class='kw'>motif</span> <span class='kw'>=</span> <span class='st'>'TT'</span>,
+    <span class='kw'>cores</span> <span class='kw'>=</span> <span class='fl'>1</span>
+)</div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 2080 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing histogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the vector of distances.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>periodicity_result</span>$<span class='no'>PSD</span>)</div><div class='output co'>#&gt;    freq    period          PSD
+#&gt; 1 0.005 200.00000 1.735797e-07
+#&gt; 2 0.010 100.00000 6.109290e-07
+#&gt; 3 0.015  66.66667 7.353931e-07
+#&gt; 4 0.020  50.00000 1.265422e-06
+#&gt; 5 0.025  40.00000 7.962998e-07
+#&gt; 6 0.030  33.33333 1.527813e-06</div><div class='input'><span class='fu'><a href='plotPeriodicityResults.html'>plotPeriodicityResults</a></span>(<span class='no'>periodicity_result</span>)</div><div class='img'><img src='getPeriodicity.DNAString-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

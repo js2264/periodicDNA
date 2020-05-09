@@ -13,5 +13,8 @@ namedListToLongFormat(x)
 A long data frame
 }
 \description{
-A function to easily coerce a named list into a long data.frame
+This function takes a named list of data.frames. For each data.frame, 
+the name of the data.frame is added in a new column, and the resulting
+data.frames are all bound together using rbind.
+to
 }

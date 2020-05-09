@@ -2,39 +2,37 @@
 % Please edit documentation in R/FPI.R
 \name{getFPI}
 \alias{getFPI}
-\title{A function to compute the fold power increase, as introduced by 
-  Pich et al., Cell 2018.}
+\title{A function to compute fold power increase (FPI)}
 \usage{
-getFPI(
-  seqs,
-  motif,
-  period = 10,
-  n_shuffling = 10,
-  cores_shuffling = 10,
-  verbose = 1,
-  ...
-)
+getFPI(x, ...)
 }
 \arguments{
-\item{seqs}{DNAStringSet sequences of interest}
-
-\item{motif}{character k-mer of interest}
-
-\item{period}{integer Period of interest}
-
-\item{n_shuffling}{integer Number of shuffling}
-
-\item{cores_shuffling}{integer Number of threads to use to split
-shuffling}
-
-\item{verbose}{integer Should the function be verbose?}
+\item{x}{DNAStringSet, sequences of interest}
 
 \item{...}{Additional arguments}
 }
-\value{
-list Several metrics included (FPI, observed PSD, etc...)
-}
 \description{
-A function to compute the fold power increase, as introduced by 
-  Pich et al., Cell 2018.
+This function takes a set of sequences and a k-mer of interest, 
+along with a given period. It calculates the FPI, as introduced
+by Pich et al., Cell 2018.
+}
+\details{
+The FPI is calculated as the ratio of the observed k-mer PSD 
+at the chosen perdiod subtracted by the median k-mer PSD
+in shuffled sequences, divided by the median k-mer PSD 
+in shuffled sequences. The number of shufflings is specified 
+by the n_shuffling argument.
+}
+\examples{
+data(ce11_proms_seqs)
+fpi <- getFPI(
+    ce11_proms_seqs[1:10], 
+    genome = 'ce11', 
+    motif = 'TT', 
+    cores_shuffling = 1
+)
+fpi$FPI
+fpi$observed_PSD
+fpi$shuffled_PSD
+plotFPI(fpi)
 }

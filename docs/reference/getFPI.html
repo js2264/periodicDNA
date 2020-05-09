@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A function to compute the fold power increase, as introduced by 
-  Pich et al., Cell 2018. — getFPI • periodicDNA</title>
+<title>A function to compute fold power increase (FPI) — getFPI • periodicDNA</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,10 +46,10 @@
 
 
 
-<meta property="og:title" content="A function to compute the fold power increase, as introduced by 
-  Pich et al., Cell 2018. — getFPI" />
-<meta property="og:description" content="A function to compute the fold power increase, as introduced by 
-  Pich et al., Cell 2018." />
+<meta property="og:title" content="A function to compute fold power increase (FPI) — getFPI" />
+<meta property="og:description" content="This function takes a set of sequences and a k-mer of interest, 
+along with a given period. It calculates the FPI, as introduced
+by Pich et al., Cell 2018." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -137,65 +136,45 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A function to compute the fold power increase, as introduced by 
-  Pich et al., Cell 2018.</h1>
+    <h1>A function to compute fold power increase (FPI)</h1>
     <small class="dont-index">Source: <a href='https://github.com/js2264/periodicDNA/blob/master/R/FPI.R'><code>R/FPI.R</code></a></small>
     <div class="hidden name"><code>getFPI.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A function to compute the fold power increase, as introduced by 
-  Pich et al., Cell 2018.</p>
+    <p>This function takes a set of sequences and a k-mer of interest, 
+along with a given period. It calculates the FPI, as introduced
+by Pich et al., Cell 2018.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>getFPI</span>(
-  <span class='no'>seqs</span>,
-  <span class='no'>motif</span>,
-  <span class='kw'>period</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>n_shuffling</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>cores_shuffling</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>getFPI</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>seqs</th>
-      <td><p>DNAStringSet sequences of interest</p></td>
-    </tr>
-    <tr>
-      <th>motif</th>
-      <td><p>character k-mer of interest</p></td>
-    </tr>
-    <tr>
-      <th>period</th>
-      <td><p>integer Period of interest</p></td>
-    </tr>
-    <tr>
-      <th>n_shuffling</th>
-      <td><p>integer Number of shuffling</p></td>
-    </tr>
-    <tr>
-      <th>cores_shuffling</th>
-      <td><p>integer Number of threads to use to split
-shuffling</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>integer Should the function be verbose?</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Additional arguments</p></td>
+      <th>x</th>
+      <td><p>DNAStringSet, sequences of interest</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>list Several metrics included (FPI, observed PSD, etc...)</p>
+    <p>The FPI is calculated as the ratio of the observed k-mer PSD 
+at the chosen perdiod subtracted by the median k-mer PSD
+in shuffled sequences, divided by the median k-mer PSD 
+in shuffled sequences. The number of shufflings is specified 
+by the n_shuffling argument.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_proms_seqs</span>)
+<span class='no'>fpi</span> <span class='kw'>&lt;-</span> <span class='fu'>getFPI</span>(
+    <span class='no'>ce11_proms_seqs</span>[<span class='fl'>1</span>:<span class='fl'>10</span>],
+    <span class='kw'>genome</span> <span class='kw'>=</span> <span class='st'>'ce11'</span>,
+    <span class='kw'>motif</span> <span class='kw'>=</span> <span class='st'>'TT'</span>,
+    <span class='kw'>cores_shuffling</span> <span class='kw'>=</span> <span class='fl'>1</span>
+)</div><div class='output co'>#&gt; <span class='message'>- Calculating observed PSD</span></div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 12945 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing histogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the vector of distances.</span></div><div class='output co'>#&gt; <span class='message'>&gt;&gt; Measured PSD @ 10bp is: 4.78946534620361e-06</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 1/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 2/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 3/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 4/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 5/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 6/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 7/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 8/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 9/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 10/10</span></div><div class='output co'>#&gt; <span class='message'>&gt;&gt; Calculated FPI @ 10bp is: 2.10193118358899</span></div><div class='input'><span class='no'>fpi</span>$<span class='no'>FPI</span></div><div class='output co'>#&gt; [1] 2.101931</div><div class='input'><span class='no'>fpi</span>$<span class='no'>observed_PSD</span></div><div class='output co'>#&gt; [1] 4.789465e-06</div><div class='input'><span class='no'>fpi</span>$<span class='no'>shuffled_PSD</span></div><div class='output co'>#&gt;  [1] 9.618502e-08 1.467486e-06 2.891615e-06 3.062152e-06 5.309420e-07
+#&gt;  [6] 1.620568e-06 2.355390e-06 3.896163e-07 1.054048e-06 2.234458e-06</div><div class='input'><span class='fu'><a href='plotFPI.html'>plotFPI</a></span>(<span class='no'>fpi</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='img'><img src='getFPI-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

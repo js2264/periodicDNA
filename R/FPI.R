@@ -1,23 +1,77 @@
-#' A function to compute the fold power increase, as introduced by 
-#'   Pich et al., Cell 2018.
-#'
-#' @param seqs DNAStringSet sequences of interest
-#' @param motif character k-mer of interest
-#' @param period integer Period of interest
-#' @param n_shuffling integer Number of shuffling
-#' @param cores_shuffling integer Number of threads to use to split
-#'   shuffling
-#' @param verbose integer Should the function be verbose? 
-#' @param ... Additional arguments
+#' A function to compute fold power increase (FPI)
 #' 
-#' @return list Several metrics included (FPI, observed PSD, etc...)
+#' This function takes a set of sequences and a k-mer of interest, 
+#' along with a given period. It calculates the FPI, as introduced
+#' by Pich et al., Cell 2018.
+#' 
+#' The FPI is calculated as the ratio of the observed k-mer PSD 
+#' at the chosen perdiod subtracted by the median k-mer PSD
+#' in shuffled sequences, divided by the median k-mer PSD 
+#' in shuffled sequences. The number of shufflings is specified 
+#' by the n_shuffling argument. 
+#'
+#' @param x DNAStringSet, sequences of interest
+#' @param ... Additional arguments
+#' @export
+#' 
+#' @examples
+#' data(ce11_proms_seqs)
+#' fpi <- getFPI(
+#'     ce11_proms_seqs[1:10], 
+#'     genome = 'ce11', 
+#'     motif = 'TT', 
+#'     cores_shuffling = 1
+#' )
+#' fpi$FPI
+#' fpi$observed_PSD
+#' fpi$shuffled_PSD
+#' plotFPI(fpi)
+
+getFPI <- function(x, ...) {
+    UseMethod("getFPI")
+}
+
+#' A function to compute fold power increase (FPI)
+#' 
+#' This function takes a set of sequences and a k-mer of interest, 
+#' along with a given period. It calculates the FPI, as introduced
+#' by Pich et al., Cell 2018.
+#' 
+#' The FPI is calculated as the ratio of the observed k-mer PSD 
+#' at the chosen perdiod subtracted by the median k-mer PSD
+#' in shuffled sequences, divided by the median k-mer PSD 
+#' in shuffled sequences. The number of shufflings is specified 
+#' by the n_shuffling argument. 
+#'
+#' @param x DNAStringSet, sequences of interest
+#' @param motif character, k-mer of interest
+#' @param period integer, Period of interest
+#' @param n_shuffling integer, Number of shuffling
+#' @param cores_shuffling integer, Number of threads to use to split
+#' shuffling
+#' @param verbose integer, Should the function be verbose? 
+#' @param ... Additional arguments
+#' @return Several metrics including FPI, observed PSD, etc...
 #' 
 #' @import GenomicRanges
 #' @import IRanges
 #' @export
+#' 
+#' @examples
+#' data(ce11_proms_seqs)
+#' fpi <- getFPI(
+#'     ce11_proms_seqs[1:10], 
+#'     motif = 'TT', 
+#'     cores_shuffling = 1, 
+#'     cores = 1
+#' )
+#' fpi$FPI
+#' fpi$observed_PSD
+#' fpi$shuffled_PSD
+#' plotFPI(fpi)
 
-getFPI <- function(
-    seqs, 
+getFPI.DNAStringSet <- function(
+    x, 
     motif,
     period = 10, 
     n_shuffling = 10,
@@ -25,6 +79,8 @@ getFPI <- function(
     verbose = 1,
     ...
 ) {
+    seqs <- x
+    
     # Calculating observed PSD ---------------------------------------
     if (verbose) message('- Calculating observed PSD')
     obs <- getPeriodicity(
@@ -71,3 +127,65 @@ getFPI <- function(
     )
     return(res)
 }
+
+#' A function to compute fold power increase (FPI)
+#' 
+#' This function takes a GRanges and a k-mer of interest, 
+#' along with a given period. It calculates the FPI, as introduced
+#' by Pich et al., Cell 2018.
+#' 
+#' The FPI is calculated as the ratio of the observed k-mer PSD 
+#' at the chosen perdiod subtracted by the median k-mer PSD
+#' in shuffled sequences, divided by the median k-mer PSD 
+#' in shuffled sequences. The number of shufflings is specified 
+#' by the n_shuffling argument. 
+#'
+#' @param x GRanges, GRanges of interest
+#' @param genome Genome ID or BSgenome
+#' @param ... Additional arguments
+#' @return Several metrics including FPI, observed PSD, etc...
+#' 
+#' @import GenomicRanges
+#' @import IRanges
+#' @export
+#' 
+#' @examples
+#' data(ce11_TSSs)
+#' fpi <- getFPI(
+#'     ce11_TSSs[['Ubiq.']][1:10], 
+#'     genome = 'ce11', 
+#'     motif = 'TT', 
+#'     cores_shuffling = 1
+#' )
+#' fpi$FPI
+#' fpi$observed_PSD
+#' fpi$shuffled_PSD
+#' p1 <- plotFPI(fpi)
+#' fpi <- getFPI(
+#'     ce11_TSSs[['Muscle']][1:10], 
+#'     genome = 'ce11', 
+#'     motif = 'TT', 
+#'     cores_shuffling = 1
+#' )
+#' fpi$FPI
+#' fpi$observed_PSD
+#' fpi$shuffled_PSD
+#' p2 <- plotFPI(fpi)
+#' cowplot::plot_grid(p1, p2)
+
+getFPI.GRanges <- function(
+    x,
+    genome, 
+    ...
+) {
+    granges <- x
+    
+    if (!is.null(granges$seq)) {
+        seqs <- granges$seq
+    }
+    else {
+        seqs <- withSeq(granges, genome)$seq
+    }
+    getFPI(seqs, ...)
+}
+

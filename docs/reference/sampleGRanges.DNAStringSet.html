@@ -47,7 +47,10 @@
 
 
 <meta property="og:title" content="A function to sample GRanges within DNAStringSet — sampleGRanges.DNAStringSet" />
-<meta property="og:description" content="A function to sample GRanges within DNAStringSet" />
+<meta property="og:description" content="This function takes a DNAStringSet (for instance a set of sequences
+obtained from a BSgenome object) and returns a GRanges object. 
+The ranges are contained within the DNAStringSet object. This function
+is useful to sample sequences from a full genome." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -140,7 +143,10 @@
     </div>
 
     <div class="ref-description">
-    <p>A function to sample GRanges within DNAStringSet</p>
+    <p>This function takes a DNAStringSet (for instance a set of sequences
+obtained from a BSgenome object) and returns a GRanges object. 
+The ranges are contained within the DNAStringSet object. This function
+is useful to sample sequences from a full genome.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for DNAStringSet</span>
@@ -164,10 +170,25 @@
     <p>A GRanges object of length n</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-    <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_proms</span>)
-    <span class='fu'><a href='sampleGRanges.html'>sampleGRanges</a></span>(<span class='no'>ce11_proms</span>, <span class='fl'>100</span>)
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>Biostrings</span>)
+<span class='no'>seqs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/Biostrings/man/getSeq.html'>getSeq</a></span>(<span class='kw pkg'>BSgenome.Scerevisiae.UCSC.sacCer3</span><span class='kw ns'>::</span>
+    <span class='no'><a href='https://rdrr.io/pkg/BSgenome.Scerevisiae.UCSC.sacCer3/man/package.html'>BSgenome.Scerevisiae.UCSC.sacCer3</a></span>)
+<span class='fu'><a href='sampleGRanges.html'>sampleGRanges</a></span>(<span class='no'>seqs</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; GRanges object with 100 ranges and 1 metadata column:
+#&gt;         seqnames        ranges strand |                     seq
+#&gt;            &lt;Rle&gt;     &lt;IRanges&gt;  &lt;Rle&gt; |          &lt;DNAStringSet&gt;
+#&gt;     [1]     chrI   25667-25766      * | CACTAGTTGG...TAAAAGTGTC
+#&gt;     [2]     chrI   31605-31704      * | GATCGTTTCT...CATTCAATTC
+#&gt;     [3]     chrI 136954-137053      * | ATTTGAATGT...TAGGGTTAGG
+#&gt;     [4]     chrI 218433-218532      * | GCTTATGGAA...CTATCCCAAA
+#&gt;     [5]    chrII 618189-618288      * | GGAGGAATTG...GCTCTCAGCA
+#&gt;     ...      ...           ...    ... .                     ...
+#&gt;    [96]   chrXVI 287601-287700      * | ATGCTTTAAC...TATGTCTAGT
+#&gt;    [97]   chrXVI 431848-431947      * | AGGTCAGGAA...AAGCAACCAG
+#&gt;    [98]   chrXVI 529193-529292      * | CTCTTGGTCA...ATATTATAGA
+#&gt;    [99]   chrXVI 651409-651508      * | TAGGTAAAGT...AAGTGATAGT
+#&gt;   [100]     chrM     8965-9064      * | TATATCTTTT...GCCGGAACCC
+#&gt;   -------
+#&gt;   seqinfo: 17 sequences from an unspecified genome</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

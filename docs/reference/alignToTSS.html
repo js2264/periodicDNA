@@ -6,10 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A function to re-align a GRanges object to a 
-    provided set of coordinates 
-    (either the TSS column or the TSS.fwd 
-    and TSS.rev columns) — alignToTSS • periodicDNA</title>
+<title>A function to re-align a GRanges object to TSSs — alignToTSS • periodicDNA</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,14 +46,12 @@
 
 
 
-<meta property="og:title" content="A function to re-align a GRanges object to a 
-    provided set of coordinates 
-    (either the TSS column or the TSS.fwd 
-    and TSS.rev columns) — alignToTSS" />
-<meta property="og:description" content="A function to re-align a GRanges object to a 
-    provided set of coordinates 
-    (either the TSS column or the TSS.fwd 
-    and TSS.rev columns)" />
+<meta property="og:title" content="A function to re-align a GRanges object to TSSs — alignToTSS" />
+<meta property="og:description" content="This function re-aligns ranges (typically regulatory elements)
+to a set of coordinates, either the TSS column or the
+TSS.fwd and TSS.rev columns. If none are found, the function
+assumes the ranges are promoters and that the end or the ranges
+are the TSSs." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -143,19 +138,17 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A function to re-align a GRanges object to a 
-    provided set of coordinates 
-    (either the TSS column or the TSS.fwd 
-    and TSS.rev columns)</h1>
+    <h1>A function to re-align a GRanges object to TSSs</h1>
     <small class="dont-index">Source: <a href='https://github.com/js2264/periodicDNA/blob/master/R/GRanges.R'><code>R/GRanges.R</code></a></small>
     <div class="hidden name"><code>alignToTSS.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A function to re-align a GRanges object to a 
-    provided set of coordinates 
-    (either the TSS column or the TSS.fwd 
-    and TSS.rev columns)</p>
+    <p>This function re-aligns ranges (typically regulatory elements)
+to a set of coordinates, either the TSS column or the
+TSS.fwd and TSS.rev columns. If none are found, the function
+assumes the ranges are promoters and that the end or the ranges
+are the TSSs.</p>
     </div>
 
     <pre class="usage"><span class='fu'>alignToTSS</span>(<span class='no'>granges</span>, <span class='kw'>upstream</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>downstream</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
@@ -182,9 +175,68 @@ object by extended by? [Default: 1]</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>GRanges aligned to the TSS column or to TSS.rev and TSS.fwd columns,
-    and extended by upstream/downstream bp.</p>
+    <p>GRanges aligned to the TSS column or to TSS.rev 
+and TSS.fwd columns, and extended by upstream/downstream bp.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_proms</span>)
+<span class='no'>ce11_proms</span></div><div class='output co'>#&gt; GRanges object with 17458 ranges and 3 metadata columns:
+#&gt;                                   seqnames            ranges strand |   TSS.fwd
+#&gt;                                      &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt;
+#&gt;    nlp-40,homt-1_chrI_11273_11423     chrI       11273-11423      + |     11294
+#&gt;    nlp-40,homt-1_chrI_11273_11423     chrI       11273-11423      - |     11294
+#&gt;           rcor-1_chrI_26903_27053     chrI       26903-27053      - |     27038
+#&gt;           sesn-1_chrI_36019_36169     chrI       36019-36169      - |     36112
+#&gt;           sesn-1_chrI_42127_42277     chrI       42127-42277      - |     42216
+#&gt;                               ...      ...               ...    ... .       ...
+#&gt;    T23E7.2_chrX_17670496_17670646     chrX 17670496-17670646      + |  17670678
+#&gt;    T23E7.6_chrX_17684894_17685044     chrX 17684894-17685044      - |  17684919
+#&gt;    T23E7.6_chrX_17686030_17686180     chrX 17686030-17686180      - |  17686189
+#&gt;      cgt-2_chrX_17694789_17694939     chrX 17694789-17694939      + |  17694962
+#&gt;   H11L12.1_chrX_17711839_17711989     chrX 17711839-17711989      - |  17711974
+#&gt;                                     TSS.rev which.tissues
+#&gt;                                   &lt;numeric&gt;      &lt;factor&gt;
+#&gt;    nlp-40,homt-1_chrI_11273_11423     11416       Intest.
+#&gt;    nlp-40,homt-1_chrI_11273_11423     11416       Intest.
+#&gt;           rcor-1_chrI_26903_27053     26901         Ubiq.
+#&gt;           sesn-1_chrI_36019_36169     36028       Intest.
+#&gt;           sesn-1_chrI_42127_42277     42119          Soma
+#&gt;                               ...       ...           ...
+#&gt;    T23E7.2_chrX_17670496_17670646  17670478        Muscle
+#&gt;    T23E7.6_chrX_17684894_17685044  17684932        Hypod.
+#&gt;    T23E7.6_chrX_17686030_17686180  17686064  Unclassified
+#&gt;      cgt-2_chrX_17694789_17694939  17694934       Intest.
+#&gt;   H11L12.1_chrX_17711839_17711989  17711854      Germline
+#&gt;   -------
+#&gt;   seqinfo: 6 sequences from an unspecified genome; no seqlengths</div><div class='input'><span class='fu'>alignToTSS</span>(<span class='no'>ce11_proms</span>)</div><div class='output co'>#&gt; GRanges object with 17458 ranges and 3 metadata columns:
+#&gt;                                   seqnames    ranges strand |   TSS.fwd
+#&gt;                                      &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt;
+#&gt;    nlp-40,homt-1_chrI_11273_11423     chrI     11294      + |     11294
+#&gt;    nlp-40,homt-1_chrI_11273_11423     chrI     11416      - |     11294
+#&gt;           rcor-1_chrI_26903_27053     chrI     26901      - |     27038
+#&gt;           sesn-1_chrI_36019_36169     chrI     36028      - |     36112
+#&gt;           sesn-1_chrI_42127_42277     chrI     42119      - |     42216
+#&gt;                               ...      ...       ...    ... .       ...
+#&gt;    T23E7.2_chrX_17670496_17670646     chrX  17670678      + |  17670678
+#&gt;    T23E7.6_chrX_17684894_17685044     chrX  17684932      - |  17684919
+#&gt;    T23E7.6_chrX_17686030_17686180     chrX  17686064      - |  17686189
+#&gt;      cgt-2_chrX_17694789_17694939     chrX  17694962      + |  17694962
+#&gt;   H11L12.1_chrX_17711839_17711989     chrX  17711854      - |  17711974
+#&gt;                                     TSS.rev which.tissues
+#&gt;                                   &lt;numeric&gt;      &lt;factor&gt;
+#&gt;    nlp-40,homt-1_chrI_11273_11423     11416       Intest.
+#&gt;    nlp-40,homt-1_chrI_11273_11423     11416       Intest.
+#&gt;           rcor-1_chrI_26903_27053     26901         Ubiq.
+#&gt;           sesn-1_chrI_36019_36169     36028       Intest.
+#&gt;           sesn-1_chrI_42127_42277     42119          Soma
+#&gt;                               ...       ...           ...
+#&gt;    T23E7.2_chrX_17670496_17670646  17670478        Muscle
+#&gt;    T23E7.6_chrX_17684894_17685044  17684932        Hypod.
+#&gt;    T23E7.6_chrX_17686030_17686180  17686064  Unclassified
+#&gt;      cgt-2_chrX_17694789_17694939  17694934       Intest.
+#&gt;   H11L12.1_chrX_17711839_17711989  17711854      Germline
+#&gt;   -------
+#&gt;   seqinfo: 6 sequences from an unspecified genome; no seqlengths</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -13,11 +13,12 @@ DNAStringSet2GRanges(seqs)
 A GRanges object
 }
 \description{
-A function to generate a GRanges from a DNAStringSet
+This function takes a DNAStringSet (for instance a set of sequences
+obtained from a BSgenome object) and converts it into 
+a GRanges object.
 }
 \examples{
-\dontrun{
-    seq <- BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
-    DNAStringSet2GRanges(seq)
-}
+DNAStringSet2GRanges(
+    BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
+)
 }

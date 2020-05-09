@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.R
 \name{plotPeriodicityResults}
 \alias{plotPeriodicityResults}
-\title{Plotting function}
+\title{Plot the output of getPeriodicity()}
 \usage{
 plotPeriodicityResults(
   results,
@@ -35,5 +35,27 @@ constrained to the periods?}
 list A list containing four ggplots
 }
 \description{
-Plotting function
+This function plots some results from the result of getPeriodicity(). 
+It plots the raw distogram, the distance-decay normalized 
+distogram and the resulting PSD values. If a shuffled control has
+been performed by getPeriodicity(), it also displays it.
+}
+\examples{
+data(ce11_proms)
+periodicity_result <- getPeriodicity(
+    ce11_proms[1:100],
+    genome = 'ce11',
+    motif = 'TT', 
+    cores = 1, 
+    skip_shuffling = FALSE
+)
+head(periodicity_result$PSD)
+plotPeriodicityResults(periodicity_result)
+plotPeriodicityResults(periodicity_result, xlim = 150)
+plotPeriodicityResults(
+    periodicity_result, xlim = 150, filter_periods = FALSE
+)
+plotPeriodicityResults(
+    periodicity_result, xlim = 150, facet_control = FALSE
+)
 }

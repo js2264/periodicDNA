@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Core function to generate a track of periodicity strenght of a given 
-dinucleotide at a given frequency, over a set of chosen GRanges. — getPeriodicityTrack • periodicDNA</title>
+<title>Function to generate a k-mer periodicity track — getPeriodicityTrack • periodicDNA</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,10 +46,12 @@ dinucleotide at a given frequency, over a set of chosen GRanges. — getPeriodic
 
 
 
-<meta property="og:title" content="Core function to generate a track of periodicity strenght of a given 
-dinucleotide at a given frequency, over a set of chosen GRanges. — getPeriodicityTrack" />
-<meta property="og:description" content="Core function to generate a track of periodicity strenght of a given 
-dinucleotide at a given frequency, over a set of chosen GRanges." />
+<meta property="og:title" content="Function to generate a k-mer periodicity track — getPeriodicityTrack" />
+<meta property="og:description" content="This function takes a set of GRanges in a genome, recover 
+the corresponding sequences and divides them using a sliding window. 
+For each sub-sequence, it then computes the PSD value of a k-mer 
+of interest at a chosen period, and generates a linear .bigWig
+track from these values." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -137,29 +138,31 @@ dinucleotide at a given frequency, over a set of chosen GRanges." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Core function to generate a track of periodicity strenght of a given 
-dinucleotide at a given frequency, over a set of chosen GRanges.</h1>
+    <h1>Function to generate a k-mer periodicity track</h1>
     <small class="dont-index">Source: <a href='https://github.com/js2264/periodicDNA/blob/master/R/track.R'><code>R/track.R</code></a></small>
     <div class="hidden name"><code>getPeriodicityTrack.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Core function to generate a track of periodicity strenght of a given 
-dinucleotide at a given frequency, over a set of chosen GRanges.</p>
+    <p>This function takes a set of GRanges in a genome, recover 
+the corresponding sequences and divides them using a sliding window. 
+For each sub-sequence, it then computes the PSD value of a k-mer 
+of interest at a chosen period, and generates a linear .bigWig
+track from these values.</p>
     </div>
 
     <pre class="usage"><span class='fu'>getPeriodicityTrack</span>(
   <span class='kw'>genome</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='no'>granges</span>,
   <span class='kw'>motif</span> <span class='kw'>=</span> <span class='st'>"WW"</span>,
+  <span class='kw'>period</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>cores</span> <span class='kw'>=</span> <span class='fl'>12</span>,
   <span class='kw'>extension</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
   <span class='kw'>genome_sliding_size</span> <span class='kw'>=</span> <span class='fl'>100</span>,
   <span class='kw'>genome_sliding_sliding</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='kw'>window_sliding_size</span> <span class='kw'>=</span> <span class='fl'>100</span>,
   <span class='kw'>window_sliding_bin</span> <span class='kw'>=</span> <span class='fl'>5</span>,
   <span class='kw'>range_spectrum</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>5</span>, <span class='fl'>50</span>),
-  <span class='kw'>period</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>cores</span> <span class='kw'>=</span> <span class='fl'>12</span>,
   <span class='kw'>bw_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre>
 
@@ -172,63 +175,90 @@ dinucleotide at a given frequency, over a set of chosen GRanges.</p>
     </tr>
     <tr>
       <th>granges</th>
-      <td><p>GRanges object (with seqnames overlapping 
-the names of genome).</p></td>
+      <td><p>GRanges object</p></td>
     </tr>
     <tr>
       <th>motif</th>
-      <td><p>String Oligonucleotide of interest.</p></td>
+      <td><p>character, k-mer of interest.</p></td>
+    </tr>
+    <tr>
+      <th>period</th>
+      <td><p>Integer, the period of the dinucleotide to study 
+(default=10).</p></td>
+    </tr>
+    <tr>
+      <th>cores</th>
+      <td><p>Integer, split the workload over several processors 
+(default 12).</p></td>
     </tr>
     <tr>
       <th>extension</th>
-      <td><p>Integer The width the GRanges are going to 
+      <td><p>Integer, the width the GRanges are going to 
 be extended to (default 1000).</p></td>
     </tr>
     <tr>
       <th>genome_sliding_size</th>
-      <td><p>Integer The width of the bins to split the GRanges
-objects in (default 100).</p></td>
+      <td><p>Integer, the width of the bins to split 
+the GRanges objects in (default 100).</p></td>
     </tr>
     <tr>
       <th>genome_sliding_sliding</th>
-      <td><p>Integer The increment between bins over GRanges
-(default 2).</p></td>
+      <td><p>Integer, the increment between bins 
+over GRanges (default 2).</p></td>
     </tr>
     <tr>
       <th>window_sliding_size</th>
-      <td><p>Integer The width of the bins to split each primary 
-bin in (default 60).</p></td>
+      <td><p>Integer, the width of the bins to split
+each primary bin in (default 60).</p></td>
     </tr>
     <tr>
       <th>window_sliding_bin</th>
-      <td><p>Integer The increment between secondary bins
+      <td><p>Integer, the increment between secondary bins
 (default 5).</p></td>
     </tr>
     <tr>
       <th>range_spectrum</th>
-      <td><p>Numeric vector The distances between nucleotides
+      <td><p>Numeric vector, the distances between nucleotides
 to take into consideration when performing Fast Fourier Transform 
 (default seq_len(50)).</p></td>
     </tr>
     <tr>
-      <th>period</th>
-      <td><p>Integer The period of the dinucleotide to study (default=10).</p></td>
-    </tr>
-    <tr>
-      <th>cores</th>
-      <td><p>Integer Split the workload over several processors 
-(default 12).</p></td>
-    </tr>
-    <tr>
       <th>bw_file</th>
-      <td><p>String. The name of the output bigWig track</p></td>
+      <td><p>character, the name of the output bigWig track</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>NULL A bigWig track in the working directory.</p>
+    <p>Rlelist and a bigWig track in the working directory.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_proms</span>)
+<span class='fu'>getPeriodicityTrack</span>(
+    <span class='kw'>genome</span> <span class='kw'>=</span> <span class='st'>'ce11'</span>,
+    <span class='no'>ce11_proms</span>[<span class='fl'>1</span>],
+    <span class='kw'>motif</span> <span class='kw'>=</span> <span class='st'>'WW'</span>,
+    <span class='kw'>period</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+    <span class='kw'>cores</span> <span class='kw'>=</span> <span class='fl'>1</span>
+)</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>    The genome has been divided in 100-bp bins</span>
+#&gt; <span class='message'>    with a sliding window of 2-bp.</span>
+#&gt; <span class='message'>    </span>
+#&gt; <span class='message'>    549 windows overlap the input </span>
+#&gt; <span class='message'>    loci (extended to 1000-bp).</span>
+#&gt; <span class='message'>    </span>
+#&gt; <span class='message'>    The mapping will be split among 1 jobs.</span>
+#&gt; <span class='message'>    </span>
+#&gt; <span class='message'>    Each job will analyse 549 bins.</span>
+#&gt; <span class='message'>    </span>
+#&gt; <span class='message'>    Now starting...</span>
+#&gt; <span class='message'>    </span></div><div class='output co'>#&gt; <span class='message'>&gt;&gt; 1 bins computed /// TIME: 2020-05-09 20:50:11</span></div><div class='output co'>#&gt; <span class='message'>&gt;&gt; 549 bins computed /// TIME: 2020-05-09 20:50:34</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>   SUCCESS: WW-periodicity_g-100^2_b-100^5.bw has been created!</span></div><div class='output co'>#&gt; <span class='message'>   1098 bases covered by the generated track.</span></div><div class='output co'>#&gt; RleList of length 1
+#&gt; $chrI
+#&gt; numeric-Rle of length 15072434 with 412 runs
+#&gt;   Lengths:             10798                 2 ...          15060538
+#&gt;   Values :                 0  9.14210033416748 ...                 0
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

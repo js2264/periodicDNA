@@ -2,8 +2,7 @@
 % Please edit documentation in R/GRanges.R
 \name{deconvolveBidirectionalPromoters}
 \alias{deconvolveBidirectionalPromoters}
-\title{A function to duplicate bi-directional GRanges into 
-    + and - stranded GRanges}
+\title{A function to duplicate bi-directional GRanges}
 \usage{
 deconvolveBidirectionalPromoters(granges)
 }
@@ -12,9 +11,19 @@ deconvolveBidirectionalPromoters(granges)
 }
 \value{
 GRanges with only '+' and '-' strands. GRanges with '*' strand 
-    have been duplicated and split into forward and reverse strands.
+have been duplicated and split into forward and reverse strands.
 }
 \description{
-A function to duplicate bi-directional GRanges into 
-    + and - stranded GRanges
+This function splits bi-directional ranges into + and - 
+stranded ranges. It duplicates the ranges which are '*'.
+}
+\examples{
+data(ce11_all_REs)
+library(GenomicRanges)
+proms <- ce11_all_REs[grepl('prom', ce11_all_REs$regulatory_class)]
+proms
+table(strand(proms))
+proms <- deconvolveBidirectionalPromoters(proms)
+proms
+table(strand(proms))
 }

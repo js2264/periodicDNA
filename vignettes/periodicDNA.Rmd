@@ -111,7 +111,7 @@ plotAggregateCoverage(
 )
 ```
 
-![TT-periodicity](https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/TT-10bp-periodicity_tissue-spe-TSSs.png)
+![](https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/TT-10bp-periodicity_tissue-spe-TSSs.png)
 
 ### Fold Power Increase
 

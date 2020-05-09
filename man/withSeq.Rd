@@ -2,19 +2,27 @@
 % Please edit documentation in R/GRanges.R
 \name{withSeq}
 \alias{withSeq}
-\title{Tidyverse-compatible function to add sequence to an existing GRanges}
+\title{A function to add sequence to an existing GRanges}
 \usage{
 withSeq(granges, genome)
 }
 \arguments{
 \item{granges}{A GRanges object}
 
-\item{genome}{DNAStringSet object. Ideally, the sequence of an entire genome
-obtained for instance by running}
+\item{genome}{UCSC ID, BSgenome of DNAStringSet object.}
 }
 \value{
 GRanges with a seq column containing the sequence of the GRanges.
 }
 \description{
-Tidyverse-compatible function to add sequence to an existing GRanges
+This function is 'tidyverse-friendly', i.e. it adds a .$seq 
+columns to a GRanges of interest, according the provided BSgenome
+or DNAStringSet object.
+}
+\examples{
+data(ce11_all_REs)
+ce11_all_REs
+ce11_all_REs <- withSeq(ce11_all_REs, 'ce11')
+ce11_all_REs
+ce11_all_REs$seq
 }

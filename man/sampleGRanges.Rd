@@ -13,30 +13,26 @@ sampleGRanges(
 )
 }
 \arguments{
-\item{x}{a GRanges or DNAStringSet object}
+\item{x}{GRanges or DNAStringSet object}
 
-\item{n}{Integer number of sampled GRanges}
+\item{n}{Integer, number of sampled GRanges}
 
-\item{width}{Integer width of sampled GRanges}
+\item{width}{Integer, width of sampled GRanges}
 
-\item{exclude}{Boolean should the original GRanges be excluded?}
+\item{exclude}{Boolean, should the original GRanges be excluded?}
 
-\item{avoid_overlap}{Boolean should the sampled GRanges not be overlapping?}
+\item{avoid_overlap}{Boolean, should the sampled GRanges not be overlapping?}
 }
 \value{
 A GRanges object of length n
 }
 \description{
-A function to sample GRanges from GRanges/DNAStringSet
+This function takes a given GRanges and returns another GRanges 
+object. The new GRanges has the same number of ranges and the same
+chromosome, width and strand distributions than the original 
+GRanges.
 }
 \examples{
-\dontrun{
-    data(ce11_proms)
-    sampleGRanges(ce11_proms, 100)
-    #
-    yeast_seq <- getSeq(
-        BSgenome.Scerevisiae.UCSC.sacCer3::BSgenome.Scerevisiae.UCSC.sacCer3
-    )
-    sacCer3_random_regions <- sampleGRanges(yeast_seq, n = 10000, w = 200)
-}
+data(ce11_proms)
+sampleGRanges(ce11_proms, 100)
 }

@@ -47,7 +47,9 @@
 
 
 <meta property="og:title" content="A function to z-score a bigWig track imported by rtracklayer. — scaleBigWigs" />
-<meta property="og:description" content="A function to z-score a bigWig track imported by rtracklayer." />
+<meta property="og:description" content="This function takes a RleList (usually obtained by 
+rtracklayer::import(..., as = 'Rle')) and scales each chromosome
+idependently by Z-score." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -140,7 +142,9 @@
     </div>
 
     <div class="ref-description">
-    <p>A function to z-score a bigWig track imported by rtracklayer.</p>
+    <p>This function takes a RleList (usually obtained by 
+rtracklayer::import(..., as = 'Rle')) and scales each chromosome
+idependently by Z-score.</p>
     </div>
 
     <pre class="usage"><span class='fu'>scaleBigWigs</span>(<span class='no'>bigWigs</span>)</pre>
@@ -150,7 +154,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>bigWigs</th>
-      <td><p>a RleList, usually obtained by rtracklayer::import()</p></td>
+      <td><p>a RleList</p></td>
     </tr>
     </table>
 
@@ -158,6 +162,36 @@
 
     <p>a list of scaled Rle (z-score)</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_WW_10bp</span>)
+<span class='fu'>scaleBigWigs</span>(<span class='no'>ce11_WW_10bp</span>)</div><div class='output co'>#&gt; RleList of length 6
+#&gt; $chrI
+#&gt; numeric-Rle of length 15072434 with 46149 runs
+#&gt;   Lengths:               10847                   2 ...            14308409
+#&gt;   Values : -0.0123277860952156    4.32287511239439 ... -0.0123277860952156
+#&gt; 
+#&gt; $chrII
+#&gt; numeric-Rle of length 15279421 with 1 run
+#&gt;   Lengths:            15279421
+#&gt;   Values : -0.0123277860952156
+#&gt; 
+#&gt; $chrIII
+#&gt; numeric-Rle of length 13783801 with 1 run
+#&gt;   Lengths:            13783801
+#&gt;   Values : -0.0123277860952156
+#&gt; 
+#&gt; $chrIV
+#&gt; numeric-Rle of length 17493829 with 1 run
+#&gt;   Lengths:            17493829
+#&gt;   Values : -0.0123277860952156
+#&gt; 
+#&gt; $chrV
+#&gt; numeric-Rle of length 20924180 with 1 run
+#&gt;   Lengths:            20924180
+#&gt;   Values : -0.0123277860952156
+#&gt; 
+#&gt; ...
+#&gt; &lt;1 more element&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

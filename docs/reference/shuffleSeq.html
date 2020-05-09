@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A function to quickly shuffle sequence(s) — shuffleSeq • periodicDNA</title>
+<title>A function to shuffle sequence(s) — shuffleSeq • periodicDNA</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,9 @@
 
 
 
-<meta property="og:title" content="A function to quickly shuffle sequence(s) — shuffleSeq" />
-<meta property="og:description" content="A function to quickly shuffle sequence(s)" />
+<meta property="og:title" content="A function to shuffle sequence(s) — shuffleSeq" />
+<meta property="og:description" content="This function takes a DNAString or DNAStringSet object and simply 
+shuffles the order individual nucleotides." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -134,13 +135,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A function to quickly shuffle sequence(s)</h1>
+    <h1>A function to shuffle sequence(s)</h1>
     <small class="dont-index">Source: <a href='https://github.com/js2264/periodicDNA/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
     <div class="hidden name"><code>shuffleSeq.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A function to quickly shuffle sequence(s)</p>
+    <p>This function takes a DNAString or DNAStringSet object and simply 
+shuffles the order individual nucleotides.</p>
     </div>
 
     <pre class="usage"><span class='fu'>shuffleSeq</span>(<span class='no'>dna</span>)</pre>
@@ -159,9 +161,8 @@
     <p>A DNAString or DNAStringSet</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-    <span class='fu'>shuffleSeq</span>(<span class='st'>'ACGTGGGCTATTAGCTACTGTACGTG'</span>)
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>shuffleSeq</span>(<span class='st'>'ACGTGGGCTATTAGCTACTGTACGTG'</span>)</div><div class='output co'>#&gt;   26-letter "DNAString" instance
+#&gt; seq: GGACAGCTGCAAATGCGGTCTGTTTT</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -2,7 +2,7 @@
 % Please edit documentation in R/periodicity.R
 \name{normalizeHistogram}
 \alias{normalizeHistogram}
-\title{Internal function to normalize a pairwise distance}
+\title{Internal function}
 \usage{
 normalizeHistogram(hist, roll = 1, doZscore = TRUE, roll_smoothed.h = 10)
 }
@@ -19,5 +19,5 @@ normalizeHistogram(hist, roll = 1, doZscore = TRUE, roll_smoothed.h = 10)
 a normalized vector
 }
 \description{
-Internal function to normalize a pairwise distance
+This function normalize a distogram for distance decay
 }

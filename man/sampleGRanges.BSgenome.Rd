@@ -15,14 +15,14 @@
 A GRanges object of length n
 }
 \description{
-A function to sample GRanges from BSgenome
+This function takes a BSgenome and returns a GRanges object. 
+This function is useful to sample sequences from a full genome.
 }
 \examples{
-\dontrun{
-    sampleGRanges(
-        (BSgenome.Scerevisiae.UCSC.sacCer3::
-            BSgenome.Scerevisiae.UCSC.sacCer3), 
-        100
-    )
-}
+g <- sampleGRanges(
+    BSgenome.Scerevisiae.UCSC.sacCer3::BSgenome.Scerevisiae.UCSC.sacCer3, 
+    w = 150, n = 100
+)
+g
+g$seq
 }

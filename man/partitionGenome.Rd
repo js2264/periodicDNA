@@ -13,18 +13,11 @@ partitionGenome(
 )
 }
 \arguments{
-\item{genome}{A DNAStringSet object. Ideally, the sequence of an 
-entire genome, obtained for instance by running 
-\code{Biostrings::getSeq(
-  BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
-)}.}
+\item{genome}{DNAStringSet, BSgenome or genome ID}
 
 \item{granges.extended_large}{A GRanges object.}
 
-\item{granges.extended}{A GRanges object.
-\code{Biostrings::getSeq(
-  BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
-)}.}
+\item{granges.extended}{A GRanges object.}
 
 \item{genome_sliding_size}{An integer. The width of the bins to split 
 the GRanges objects in (default 100).}
@@ -34,7 +27,7 @@ over GRanges (default 2).}
 }
 \value{
 granges.partionned A Granges object corresponding to the binned 
-  genome.
+genome.
 }
 \description{
 Internal function

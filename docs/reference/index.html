@@ -161,41 +161,49 @@
         <td>
           <p><code><a href="getPeriodicity.html">getPeriodicity()</a></code> </p>
         </td>
-        <td><p>Function to compute the overall periodicity of a 
-    motif over sequence(s).</p></td>
+        <td><p>Function to compute k-mer periodicity in sequence(s).</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="getPeriodicity.DNAString.html">getPeriodicity(<i>&lt;DNAString&gt;</i>)</a></code> </p>
         </td>
-        <td><p>Core function</p></td>
+        <td><p>Function to compute k-mer periodicity in a sequence.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="getPeriodicity.DNAStringSet.html">getPeriodicity(<i>&lt;DNAStringSet&gt;</i>)</a></code> </p>
         </td>
-        <td><p>Function to compute the overall periodicity of a motif over a set of 
-    sequences.</p></td>
+        <td><p>Function to compute k-mer periodicity in sequence(s).</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="getPeriodicity.GRanges.html">getPeriodicity(<i>&lt;GRanges&gt;</i>)</a></code> </p>
         </td>
-        <td><p>Core function</p></td>
+        <td><p>Function to compute k-mer periodicity in GRanges.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="getPeriodicityTrack.html">getPeriodicityTrack()</a></code> </p>
         </td>
-        <td><p>Core function to generate a track of periodicity strenght of a given 
-dinucleotide at a given frequency, over a set of chosen GRanges.</p></td>
+        <td><p>Function to generate a k-mer periodicity track</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="getFPI.DNAStringSet.html">getFPI(<i>&lt;DNAStringSet&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>A function to compute fold power increase (FPI)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="getFPI.GRanges.html">getFPI(<i>&lt;GRanges&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>A function to compute fold power increase (FPI)</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="getFPI.html">getFPI()</a></code> </p>
         </td>
-        <td><p>A function to compute the fold power increase, as introduced by 
-  Pich et al., Cell 2018.</p></td>
+        <td><p>A function to compute fold power increase (FPI)</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -214,8 +222,7 @@ dinucleotide at a given frequency, over a set of chosen GRanges.</p></td>
         <td>
           <p><code><a href="plotAggregateCoverage.CompressedRleList.html">plotAggregateCoverage(<i>&lt;CompressedRleList&gt;</i>)</a></code> </p>
         </td>
-        <td><p>A function to plot aggregated signals (from a CompressedRleList) 
-    over sets of GRanges</p></td>
+        <td><p>A function to plot aggregated signals over sets of GRanges</p></td>
       </tr><tr>
         
         <td>
@@ -227,29 +234,25 @@ dinucleotide at a given frequency, over a set of chosen GRanges.</p></td>
         <td>
           <p><code><a href="plotAggregateCoverage.SimpleRleList.html">plotAggregateCoverage(<i>&lt;SimpleRleList&gt;</i>)</a></code> </p>
         </td>
-        <td><p>A function to plot aggregated signals 
-    (from a SimpleRleList) 
-    over sets of GRanges</p></td>
+        <td><p>A function to plot aggregated signals over sets of GRanges</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="plotAggregateCoverage.list.html">plotAggregateCoverage(<i>&lt;list&gt;</i>)</a></code> </p>
         </td>
-        <td><p>A function to plot aggregated signals 
-    (from a named list of signal tracks) 
-    over sets of GRanges</p></td>
+        <td><p>A function to plot aggregated signals over sets of GRanges</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="plotFPI.html">plotFPI()</a></code> </p>
         </td>
-        <td><p>Plotting function</p></td>
+        <td><p>Plot the output of getFPI()</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="plotPeriodicityResults.html">plotPeriodicityResults()</a></code> </p>
         </td>
-        <td><p>Plotting function</p></td>
+        <td><p>Plot the output of getPeriodicity()</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -298,29 +301,25 @@ dinucleotide at a given frequency, over a set of chosen GRanges.</p></td>
         <td>
           <p><code><a href="withSeq.html">withSeq()</a></code> </p>
         </td>
-        <td><p>Tidyverse-compatible function to add sequence to an existing GRanges</p></td>
+        <td><p>A function to add sequence to an existing GRanges</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="shuffleSeq.html">shuffleSeq()</a></code> </p>
         </td>
-        <td><p>A function to quickly shuffle sequence(s)</p></td>
+        <td><p>A function to shuffle sequence(s)</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="deconvolveBidirectionalPromoters.html">deconvolveBidirectionalPromoters()</a></code> </p>
         </td>
-        <td><p>A function to duplicate bi-directional GRanges into 
-    + and - stranded GRanges</p></td>
+        <td><p>A function to duplicate bi-directional GRanges</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="alignToTSS.html">alignToTSS()</a></code> </p>
         </td>
-        <td><p>A function to re-align a GRanges object to a 
-    provided set of coordinates 
-    (either the TSS column or the TSS.fwd 
-    and TSS.rev columns)</p></td>
+        <td><p>A function to re-align a GRanges object to TSSs</p></td>
       </tr><tr>
         
         <td>
@@ -344,8 +343,8 @@ dinucleotide at a given frequency, over a set of chosen GRanges.</p></td>
         <td>
           <p><code><a href="theme_ggplot2.html">theme_ggplot2()</a></code> </p>
         </td>
-        <td><p>Own ggplot2 theming function, adapted from 
-    https://github.com/hrbrmstr/hrbrthemes/blob/master/R/roboto-condensed.r</p></td>
+        <td><p>Personal ggplot2 theming function, adapted from roboto-condensed 
+at https://github.com/hrbrmstr/hrbrthemes/</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -383,6 +382,18 @@ dinucleotide at a given frequency, over a set of chosen GRanges.</p></td>
           <p><code><a href="ce11_TSSs.html">ce11_TSSs</a></code> </p>
         </td>
         <td><p>ce11_TSSs</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ce11_WW_10bp.html">ce11_WW_10bp</a></code> </p>
+        </td>
+        <td><p>ce11_WW_10bp</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ce11_ATACseq.html">ce11_ATACseq</a></code> </p>
+        </td>
+        <td><p>ce11_ATACseq</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -431,14 +442,13 @@ dinucleotide at a given frequency, over a set of chosen GRanges.</p></td>
         <td>
           <p><code><a href="na.remove.html">na.remove()</a></code> </p>
         </td>
-        <td><p>A tidyverse-compatible function to remove NAs from a vector</p></td>
+        <td><p>A function to remove NAs from a vector</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="na.replace.html">na.replace()</a></code> </p>
         </td>
-        <td><p>A tidyverse-compatible function 
-    to replace NAs in a vector by a given value</p></td>
+        <td><p>A function to replace NAs in a vector by a given value</p></td>
       </tr><tr>
         
         <td>
@@ -450,7 +460,7 @@ dinucleotide at a given frequency, over a set of chosen GRanges.</p></td>
         <td>
           <p><code><a href="normalizeHistogram.html">normalizeHistogram()</a></code> </p>
         </td>
-        <td><p>Internal function to normalize a pairwise distance</p></td>
+        <td><p>Internal function</p></td>
       </tr><tr>
         
         <td>

@@ -18,13 +18,18 @@ sampleGenome(x, ...)
 A GRanges object of length n
 }
 \description{
-A function to sample GRanges from genome IDs
+This function takes a BSgenome UCSC ID and returns a GRanges object. 
+This function is useful to sample sequences from a full genome. 
+Currently, sacCer3, ce11, dm6, danRer10, mm10 and hg38 are 
+supported.
+
+This function is an alias for the sampleGRanges.character method.
+It takes a BSgenome ID and returns a GRanges object. 
+This function is useful to sample sequences from a full genome. 
+Currently, sacCer3, ce11, dm6, danRer10, mm10 and hg38 are 
+supported.
 }
 \examples{
-\dontrun{
-    sampleGRanges(
-        'ce11', 
-        100
-    )
-}
+sampleGRanges('sacCer3', width = 150, n = 100)
+sampleGenome('sacCer3', w = 150, n = 100)
 }

@@ -15,11 +15,14 @@
 A GRanges object of length n
 }
 \description{
-A function to sample GRanges within DNAStringSet
+This function takes a DNAStringSet (for instance a set of sequences
+obtained from a BSgenome object) and returns a GRanges object. 
+The ranges are contained within the DNAStringSet object. This function
+is useful to sample sequences from a full genome.
 }
 \examples{
-\dontrun{
-    data(ce11_proms)
-    sampleGRanges(ce11_proms, 100)
-}
+library(Biostrings)
+seqs <- getSeq(BSgenome.Scerevisiae.UCSC.sacCer3::
+    BSgenome.Scerevisiae.UCSC.sacCer3)
+sampleGRanges(seqs, n = 100, w = 100)
 }

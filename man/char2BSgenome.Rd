@@ -13,11 +13,10 @@ char2BSgenome(ID)
 BSgenome object
 }
 \description{
-A function to get the BSgenome from genome ID
+This function switches a UCSC genome ID to the actual BSgenome
+object. Currently, sacCer3, ce11, dm6, danRer10, mm10 and hg38 are 
+supported.
 }
 \examples{
-\dontrun{
-    genome <- char2BSgenome('ce11')
-    genome
-}
+char2BSgenome('ce11')
 }

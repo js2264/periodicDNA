@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{shuffleSeq}
 \alias{shuffleSeq}
-\title{A function to quickly shuffle sequence(s)}
+\title{A function to shuffle sequence(s)}
 \usage{
 shuffleSeq(dna)
 }
@@ -13,10 +13,9 @@ shuffleSeq(dna)
 A DNAString or DNAStringSet
 }
 \description{
-A function to quickly shuffle sequence(s)
+This function takes a DNAString or DNAStringSet object and simply 
+shuffles the order individual nucleotides.
 }
 \examples{
-\dontrun{
-    shuffleSeq('ACGTGGGCTATTAGCTACTGTACGTG')
-}
+shuffleSeq('ACGTGGGCTATTAGCTACTGTACGTG')
 }

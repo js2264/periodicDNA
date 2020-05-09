@@ -47,7 +47,15 @@
 
 
 <meta property="og:title" content="A function to sample GRanges from genome IDs — sampleGRanges.character" />
-<meta property="og:description" content="A function to sample GRanges from genome IDs" />
+<meta property="og:description" content="This function takes a BSgenome UCSC ID and returns a GRanges object. 
+This function is useful to sample sequences from a full genome. 
+Currently, sacCer3, ce11, dm6, danRer10, mm10 and hg38 are 
+supported.
+This function is an alias for the sampleGRanges.character method.
+It takes a BSgenome ID and returns a GRanges object. 
+This function is useful to sample sequences from a full genome. 
+Currently, sacCer3, ce11, dm6, danRer10, mm10 and hg38 are 
+supported." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -140,7 +148,15 @@
     </div>
 
     <div class="ref-description">
-    <p>A function to sample GRanges from genome IDs</p>
+    <p>This function takes a BSgenome UCSC ID and returns a GRanges object. 
+This function is useful to sample sequences from a full genome. 
+Currently, sacCer3, ce11, dm6, danRer10, mm10 and hg38 are 
+supported.</p>
+<p>This function is an alias for the sampleGRanges.character method.
+It takes a BSgenome ID and returns a GRanges object. 
+This function is useful to sample sequences from a full genome. 
+Currently, sacCer3, ce11, dm6, danRer10, mm10 and hg38 are 
+supported.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for character</span>
@@ -166,12 +182,37 @@
     <p>A GRanges object of length n</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-    <span class='fu'><a href='sampleGRanges.html'>sampleGRanges</a></span>(
-        <span class='st'>'ce11'</span>,
-        <span class='fl'>100</span>
-    )
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='sampleGRanges.html'>sampleGRanges</a></span>(<span class='st'>'sacCer3'</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>150</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; GRanges object with 100 ranges and 1 metadata column:
+#&gt;         seqnames        ranges strand |                     seq
+#&gt;            &lt;Rle&gt;     &lt;IRanges&gt;  &lt;Rle&gt; |          &lt;DNAStringSet&gt;
+#&gt;     [1]     chrI 108560-108709      * | GACCACGGTT...TCTTTCCGTA
+#&gt;     [2]    chrII 165593-165742      * | GTTTTTCGTT...ATTCCCCTTC
+#&gt;     [3]    chrII 215531-215680      * | TTTATCTTGT...CTCTTCATCG
+#&gt;     [4]    chrII 261846-261995      * | AAATTCATAC...GTCGCGAGGA
+#&gt;     [5]    chrII 355934-356083      * | ATAAGGGGAT...CTACTGCCAT
+#&gt;     ...      ...           ...    ... .                     ...
+#&gt;    [96]   chrXVI 615406-615555      * | AATGCGGAGG...GCTATTTTTA
+#&gt;    [97]   chrXVI 678687-678836      * | GTATGCAGTT...TATCTCCTTT
+#&gt;    [98]   chrXVI 839599-839748      * | CCCATGTCCT...GTCTGAATTA
+#&gt;    [99]   chrXVI 879789-879938      * | ACAGTGAATT...GAACCCCTCT
+#&gt;   [100]     chrM   73211-73360      * | GCCCCGGCGG...TATATTATAA
+#&gt;   -------
+#&gt;   seqinfo: 17 sequences from an unspecified genome</div><div class='input'><span class='fu'>sampleGenome</span>(<span class='st'>'sacCer3'</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>150</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; GRanges object with 100 ranges and 1 metadata column:
+#&gt;         seqnames        ranges strand |                     seq
+#&gt;            &lt;Rle&gt;     &lt;IRanges&gt;  &lt;Rle&gt; |          &lt;DNAStringSet&gt;
+#&gt;     [1]     chrI   53649-53798      * | TTACGACAGT...AATCTGTAGC
+#&gt;     [2]     chrI 102285-102434      * | CAGGGAATCG...CTATTTTTTC
+#&gt;     [3]     chrI 127963-128112      * | ACGGGTTGAG...ATTTTTTTTT
+#&gt;     [4]    chrII   57054-57203      * | TTTGCATCCT...GGAATAGTTA
+#&gt;     [5]    chrII 160053-160202      * | CCCGAGCATA...TTCTTCGAAG
+#&gt;     ...      ...           ...    ... .                     ...
+#&gt;    [96]   chrXVI 354154-354303      * | AGTTCTGCCT...CTCTTTCTCG
+#&gt;    [97]   chrXVI 404555-404704      * | CTAAATATTT...AAAAAGGCTG
+#&gt;    [98]   chrXVI 444888-445037      * | ATTCCACAGT...TTGATTTTGT
+#&gt;    [99]   chrXVI 571742-571891      * | TAGTACATTA...TATAGTTGTT
+#&gt;   [100]     chrM   84536-84685      * | AAATATAATA...TAACAATAAA
+#&gt;   -------
+#&gt;   seqinfo: 17 sequences from an unspecified genome</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

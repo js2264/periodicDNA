@@ -12,8 +12,20 @@ plotAggregateCoverage(x, ...)
 \item{...}{additional parameters}
 }
 \value{
-A plot of aggregated signals
+An aggregate coverage plot.
 }
 \description{
-A function to plot aggregated signals over sets of GRanges
+This function takes one or several RleList genomic tracks (imported
+by rtraklayer::import(..., as = 'Rle')) and one or several GRanges 
+objects. It computes coverage of the GRanges by the genomic tracks
+and returns an aggregate coverage plot.
+}
+\examples{
+data(ce11_ATACseq)
+data(ce11_proms)
+p <- plotAggregateCoverage(
+    ce11_ATACseq, 
+    resize(ce11_proms[1:100], fix = 'center', width = 1000)
+)
+p
 }

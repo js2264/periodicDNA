@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{na.remove}
 \alias{na.remove}
-\title{A tidyverse-compatible function to remove NAs from a vector}
+\title{A function to remove NAs from a vector}
 \usage{
 na.remove(x)
 }
@@ -13,5 +13,6 @@ na.remove(x)
 A vector without NAs
 }
 \description{
-A tidyverse-compatible function to remove NAs from a vector
+This function is 'tidyverse-friendly', i.e. it takes a vector and
+returns the same vector minus the NA values
 }

@@ -2,62 +2,74 @@
 % Please edit documentation in R/track.R
 \name{getPeriodicityTrack}
 \alias{getPeriodicityTrack}
-\title{Core function to generate a track of periodicity strenght of a given 
-dinucleotide at a given frequency, over a set of chosen GRanges.}
+\title{Function to generate a k-mer periodicity track}
 \usage{
 getPeriodicityTrack(
   genome = NULL,
   granges,
   motif = "WW",
+  period = 10,
+  cores = 12,
   extension = 1000,
   genome_sliding_size = 100,
   genome_sliding_sliding = 2,
   window_sliding_size = 100,
   window_sliding_bin = 5,
   range_spectrum = seq(5, 50),
-  period = 10,
-  cores = 12,
   bw_file = NULL
 )
 }
 \arguments{
 \item{genome}{DNAStringSet, BSgenome or genome ID}
 
-\item{granges}{GRanges object (with seqnames overlapping 
-the names of genome).}
+\item{granges}{GRanges object}
 
-\item{motif}{String Oligonucleotide of interest.}
+\item{motif}{character, k-mer of interest.}
 
-\item{extension}{Integer The width the GRanges are going to 
+\item{period}{Integer, the period of the dinucleotide to study 
+(default=10).}
+
+\item{cores}{Integer, split the workload over several processors 
+(default 12).}
+
+\item{extension}{Integer, the width the GRanges are going to 
 be extended to (default 1000).}
 
-\item{genome_sliding_size}{Integer The width of the bins to split the GRanges
-objects in (default 100).}
+\item{genome_sliding_size}{Integer, the width of the bins to split 
+the GRanges objects in (default 100).}
 
-\item{genome_sliding_sliding}{Integer The increment between bins over GRanges
-(default 2).}
+\item{genome_sliding_sliding}{Integer, the increment between bins 
+over GRanges (default 2).}
 
-\item{window_sliding_size}{Integer The width of the bins to split each primary 
-bin in (default 60).}
+\item{window_sliding_size}{Integer, the width of the bins to split
+each primary bin in (default 60).}
 
-\item{window_sliding_bin}{Integer The increment between secondary bins
+\item{window_sliding_bin}{Integer, the increment between secondary bins
 (default 5).}
 
-\item{range_spectrum}{Numeric vector The distances between nucleotides
+\item{range_spectrum}{Numeric vector, the distances between nucleotides
 to take into consideration when performing Fast Fourier Transform 
 (default seq_len(50)).}
 
-\item{period}{Integer The period of the dinucleotide to study (default=10).}
-
-\item{cores}{Integer Split the workload over several processors 
-(default 12).}
-
-\item{bw_file}{String. The name of the output bigWig track}
+\item{bw_file}{character, the name of the output bigWig track}
 }
 \value{
-NULL A bigWig track in the working directory.
+Rlelist and a bigWig track in the working directory.
 }
 \description{
-Core function to generate a track of periodicity strenght of a given 
-dinucleotide at a given frequency, over a set of chosen GRanges.
+This function takes a set of GRanges in a genome, recover 
+the corresponding sequences and divides them using a sliding window. 
+For each sub-sequence, it then computes the PSD value of a k-mer 
+of interest at a chosen period, and generates a linear .bigWig
+track from these values.
+}
+\examples{
+data(ce11_proms)
+getPeriodicityTrack(
+    genome = 'ce11', 
+    ce11_proms[1], 
+    motif = 'WW',
+    period = 10,
+    cores = 1
+)
 }

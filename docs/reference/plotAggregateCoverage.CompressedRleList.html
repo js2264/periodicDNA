@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A function to plot aggregated signals (from a CompressedRleList) 
-    over sets of GRanges — plotAggregateCoverage.CompressedRleList • periodicDNA</title>
+<title>A function to plot aggregated signals over sets of GRanges — plotAggregateCoverage.CompressedRleList • periodicDNA</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -47,10 +46,11 @@
 
 
 
-<meta property="og:title" content="A function to plot aggregated signals (from a CompressedRleList) 
-    over sets of GRanges — plotAggregateCoverage.CompressedRleList" />
-<meta property="og:description" content="A function to plot aggregated signals (from a CompressedRleList) 
-    over sets of GRanges" />
+<meta property="og:title" content="A function to plot aggregated signals over sets of GRanges — plotAggregateCoverage.CompressedRleList" />
+<meta property="og:description" content="This function takes one or several RleList genomic tracks (imported
+by rtraklayer::import(..., as = 'Rle')) and one or several GRanges 
+objects. It computes coverage of the GRanges by the genomic tracks
+and returns an aggregate coverage plot." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -137,15 +137,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A function to plot aggregated signals (from a CompressedRleList) 
-    over sets of GRanges</h1>
+    <h1>A function to plot aggregated signals over sets of GRanges</h1>
     <small class="dont-index">Source: <a href='https://github.com/js2264/periodicDNA/blob/master/R/GRanges.R'><code>R/GRanges.R</code></a></small>
     <div class="hidden name"><code>plotAggregateCoverage.CompressedRleList.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A function to plot aggregated signals (from a CompressedRleList) 
-    over sets of GRanges</p>
+    <p>This function takes one or several RleList genomic tracks (imported
+by rtraklayer::import(..., as = 'Rle')) and one or several GRanges 
+objects. It computes coverage of the GRanges by the genomic tracks
+and returns an aggregate coverage plot.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for CompressedRleList</span>
@@ -170,8 +171,18 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A plot of aggregated signals</p>
+    <p>An aggregate coverage plot.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_ATACseq</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_proms</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='no'>ce11_ATACseq</span>)</div><div class='output co'>#&gt; [1] "SimpleRleList"
+#&gt; attr(,"package")
+#&gt; [1] "IRanges"</div><div class='input'><span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='plotAggregateCoverage.html'>plotAggregateCoverage</a></span>(
+    <span class='no'>ce11_ATACseq</span>,
+    <span class='fu'>resize</span>(<span class='no'>ce11_proms</span>[<span class='fl'>1</span>:<span class='fl'>100</span>], <span class='kw'>fix</span> <span class='kw'>=</span> <span class='st'>'center'</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
+)
+<span class='no'>p</span></div><div class='img'><img src='plotAggregateCoverage.CompressedRleList-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

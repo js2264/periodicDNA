@@ -9,16 +9,17 @@ getCovMatrix(g, bw, norm = "none", verbose = FALSE)
 \arguments{
 \item{g}{GRanges to map a track onto}
 
-\item{bw}{RleList a track from rtraklayer::import}
+\item{bw}{RleList, a track from rtraklayer::import(..., as = 'Rle')}
 
-\item{norm}{character Should the signal be normalized 
+\item{norm}{character, should the signal be normalized 
 ('none', 'zscore' or 'log2')?}
 
-\item{verbose}{Boolean Should the function be verbose?}
+\item{verbose}{Boolean, should the function be verbose?}
 }
 \value{
 A square numerical matrix of signal values over the GRanges
 }
 \description{
-Internal function
+Used to compute the stranded coverage of a RleList over a 
+GRanges as a square matrix.
 }

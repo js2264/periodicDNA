@@ -2,15 +2,12 @@
 % Please edit documentation in R/GRanges.R
 \name{plotAggregateCoverage.SimpleRleList}
 \alias{plotAggregateCoverage.SimpleRleList}
-\title{A function to plot aggregated signals 
-    (from a SimpleRleList) 
-    over sets of GRanges}
+\title{A function to plot aggregated signals over sets of GRanges}
 \usage{
 \method{plotAggregateCoverage}{SimpleRleList}(
   x,
   granges,
-  colors = rep(c("#991919", "#1232D9", "#3B9B46", "#D99B12", "#7e7e7e", "#D912D4",
-    "#9E7FCC", "#B0E797", "#D1B3B3", "#23A4A3", "#000000"), 5),
+  colors = NULL,
   xlab = "Center of elements",
   ylab = "Score",
   xlim = NULL,
@@ -19,7 +16,7 @@
   verbose = FALSE,
   bin = 1,
   plot_central = TRUE,
-  runInParallel = TRUE,
+  run_in_parallel = TRUE,
   split_by_granges = FALSE,
   norm = "none",
   ...
@@ -49,7 +46,7 @@ by zoo::rollMean}
 
 \item{plot_central}{Boolean Draw a vertical line at 0}
 
-\item{runInParallel}{Boolean Should the plots be computed in parallel using 
+\item{run_in_parallel}{Boolean Should the plots be computed in parallel using 
 mclapply?}
 
 \item{split_by_granges}{Boolean Facet plots over the sets of GRanges}
@@ -63,7 +60,29 @@ mclapply?}
 A plot of aggregated signals
 }
 \description{
-A function to plot aggregated signals 
-    (from a SimpleRleList) 
-    over sets of GRanges
+This function takes one or several RleList genomic tracks (imported
+by rtraklayer::import(..., as = 'Rle')) and one or several GRanges 
+objects. It computes coverage of the GRanges by the genomic tracks
+and returns an aggregate coverage plot.
+}
+\examples{
+data(ce11_ATACseq)
+data(ce11_proms)
+class(ce11_ATACseq)
+p1 <- plotAggregateCoverage(
+    ce11_ATACseq, 
+    resize(ce11_proms[1:100], fix = 'center', width = 1000)
+)
+p1
+proms <- resize(ce11_proms[1:100], fix = 'center', width = 500)
+p2 <- plotAggregateCoverage(
+    ce11_ATACseq, 
+    list(
+        'Ubiq & Germline promoters' = 
+            proms[proms$which.tissues \%in\% c('Ubiq.', 'Germline')],
+        'Other promoters' = 
+            proms[!(proms$which.tissues \%in\% c('Ubiq.', 'Germline'))]
+    )
+)
+p2
 }

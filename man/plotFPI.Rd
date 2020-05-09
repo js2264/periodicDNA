@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.R
 \name{plotFPI}
 \alias{plotFPI}
-\title{Plotting function}
+\title{Plot the output of getFPI()}
 \usage{
 plotFPI(fpi, periods = c(2, 20), s = 0.05)
 }
@@ -18,5 +18,17 @@ x-axis limits}
 ggplot A ggplot
 }
 \description{
-Plotting function
+This function plots some results from the result of getFPI(). 
+It plots the observed PSD values in red and all the shuffled 
+runs in grey.
+}
+\examples{
+data(ce11_proms_seqs)
+fpi <- getFPI(
+    ce11_proms_seqs[1:10], 
+    genome = 'ce11', 
+    motif = 'TT', 
+    cores_shuffling = 1
+)
+plotFPI(fpi)
 }

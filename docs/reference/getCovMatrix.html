@@ -47,7 +47,8 @@
 
 
 <meta property="og:title" content="Internal function — getCovMatrix" />
-<meta property="og:description" content="Internal function" />
+<meta property="og:description" content="Used to compute the stranded coverage of a RleList over a 
+GRanges as a square matrix." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -140,7 +141,8 @@
     </div>
 
     <div class="ref-description">
-    <p>Internal function</p>
+    <p>Used to compute the stranded coverage of a RleList over a 
+GRanges as a square matrix.</p>
     </div>
 
     <pre class="usage"><span class='fu'>getCovMatrix</span>(<span class='no'>g</span>, <span class='no'>bw</span>, <span class='kw'>norm</span> <span class='kw'>=</span> <span class='st'>"none"</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
@@ -154,16 +156,16 @@
     </tr>
     <tr>
       <th>bw</th>
-      <td><p>RleList a track from rtraklayer::import</p></td>
+      <td><p>RleList, a track from rtraklayer::import(..., as = 'Rle')</p></td>
     </tr>
     <tr>
       <th>norm</th>
-      <td><p>character Should the signal be normalized 
+      <td><p>character, should the signal be normalized 
 ('none', 'zscore' or 'log2')?</p></td>
     </tr>
     <tr>
       <th>verbose</th>
-      <td><p>Boolean Should the function be verbose?</p></td>
+      <td><p>Boolean, should the function be verbose?</p></td>
     </tr>
     </table>
 
