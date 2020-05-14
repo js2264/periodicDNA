@@ -70,10 +70,3 @@ reference:
 toc:
   depth: 3
 
-# navbar:
-#   components:
-#     articles:
-#       text: Articles
-#       menu:
-#       - text: 'In-depth use'
-#         href: articles/advanced.html

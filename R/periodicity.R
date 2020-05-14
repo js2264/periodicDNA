@@ -1,4 +1,4 @@
-#' Function to compute k-mer periodicity in sequence(s). 
+#' A function to compute k-mer periodicity in sequence(s). 
 #'
 #' This function takes a set of sequences and a k-mer of interest, 
 #' map a k-mer of interest in these sequences, computes all the 
@@ -48,7 +48,7 @@ getPeriodicity <- function(x, ...) {
     UseMethod("getPeriodicity")
 }
 
-#' Function to compute k-mer periodicity in sequence(s). 
+#' A function to compute k-mer periodicity in sequence(s). 
 #'
 #' This function takes a set of sequences and a k-mer of interest, 
 #' map a k-mer of interest in these sequences, computes all the 
@@ -316,7 +316,7 @@ getPeriodicity.DNAStringSet <- function(
     ))
 }
 
-#' Function to compute k-mer periodicity in GRanges.
+#' A function to compute k-mer periodicity in GRanges.
 #'
 #' This function takes a GRanges object and its genome, 
 #' map a k-mer of interest in the corresponding sequences, computes all the 
@@ -389,7 +389,7 @@ getPeriodicity.GRanges <- function(
     getPeriodicity(seqs, ...)
 }
 
-#' Function to compute k-mer periodicity in a sequence.
+#' A function to compute k-mer periodicity in a sequence.
 #'
 #' This function takes a single sequence and a k-mer of interest, 
 #' map a k-mer of interest in the sequence, computes all the 

@@ -12,8 +12,7 @@ vignette: >
 ```{r, eval = TRUE, echo=FALSE, results="hide", warning=FALSE}
 knitr::opts_chunk$set(
     collapse = TRUE,
-    comment = "#>", 
-    fig.path = "man/figures/periodicDNA-"
+    comment = "#>"
 )
 suppressPackageStartupMessages({
     library(GenomicRanges)
@@ -46,8 +45,7 @@ indicates a high periodicity of the k-mer of interest.
 
 ```{r, eval = TRUE}
 head(periodicity_result$PSD)
-periodicity_result$PSD %>% 
-    .$PSD[.$period == 10]
+periodicity_result$PSD %$% PSD[.$period == 10]
 ```
 
 Graphical output of `getPeriodicity()` can be obtained using the 
@@ -121,14 +119,15 @@ following example, the FPI of TT dinucleotides at a 10-bp periodicity is
 computed over 200-bp long sequences randomly sampled in ce11 genome. 
 
 ```{r, eval = TRUE}
+set.seed(42)
 ce11_random_regions <- sampleGenome(
     'ce11',
-    n = 200, w = 1000
+    n = 300, w = 500
 )
 fpi <- getFPI(
     ce11_random_regions$seq, 
-    motif = 'TT', 
-    cores_shuffling = 1, 
+    motif = 'WW', 
+    cores_shuffling = 10, 
     n_shuffling = 10
 )
 plotFPI(fpi)

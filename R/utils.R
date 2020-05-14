@@ -97,7 +97,8 @@ shuffleSeq <- function(dna) {
 #' @param n Integer, number of sampled GRanges
 #' @param width Integer, width of sampled GRanges
 #' @param exclude Boolean, should the original GRanges be excluded?
-#' @param avoid_overlap Boolean, should the sampled GRanges not be overlapping?
+#' @param avoid_overlap Boolean, should the sampled GRanges not 
+#' be overlapping?
 #' @return A GRanges object of length n
 #' 
 #' @export
@@ -128,7 +129,8 @@ sampleGRanges <- function(
 #' @param n Integer, number of sampled GRanges
 #' @param width Integer, width of sampled GRanges
 #' @param exclude Boolean, should the original GRanges be excluded?
-#' @param avoid_overlap Boolean, should the sampled GRanges not be overlapping?
+#' @param avoid_overlap Boolean, should the sampled GRanges not 
+#' be overlapping?
 #' @return A GRanges object of length n
 #' 
 #' @importFrom methods as

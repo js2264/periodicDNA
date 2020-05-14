@@ -87,7 +87,7 @@ test_that("getPeriodicity on lists of proms and mutlitple dinucleotides", {
     }, TRUE)
 })
 
-test_that("getPeriodicity for sacCer3", {
+test_that("getPeriodicity for sacCer3 random loci", {
     skip('figure_paper_20200507')
     expect_equal({
         sacCer3_random_regions <- sampleGenome(
@@ -103,6 +103,30 @@ test_that("getPeriodicity for sacCer3", {
         )
         p <- plotPeriodicityResults(PSDs_yeast, xlim = 150)
         ggsave('PSDs_yeast_WW_1000longT.pdf', width = 32, height = 8, unit = 'cm')
+        TRUE
+    }, TRUE)
+})
+
+test_that("getPeriodicity for sacCer3 MNase", {
+    skip('figure_paper_20200507')
+    expect_equal({
+        bam_MNase_sacCer3 <- readRDS(
+            url('http://ahringerlab.com/VplotR/MNase_sacCer3_Henikoff2011.rds')
+        )
+        bam_MNase_sacCer3 <- unlist(GRangesList(bam_MNase_sacCer3))
+        ws <- width(bam_MNase_sacCer3)
+        frags <- bam_MNase_sacCer3[ws >= 147 & ws <= 152]
+        # 
+        PSDs_yeast <- getPeriodicity(
+            frags[1:1000000], 
+            genome = 'sacCer3',
+            motif = 'TT', 
+            period = 10, 
+            cores = 20, 
+            skip_shuffling = FALSE
+        )
+        p <- plotPeriodicityResults(PSDs_yeast, xlim = 150)
+        ggsave('PSDs_yeast_MNase_TTs.pdf', width = 32, height = 8, unit = 'cm')
         TRUE
     }, TRUE)
 })

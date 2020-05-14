@@ -95,7 +95,7 @@
       <h1 data-toc-skip>periodicDNA</h1>
                         <h4 class="author">Jacques Serizay</h4>
             
-            <h4 class="date">2020-05-09</h4>
+            <h4 class="date">2020-05-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/js2264/periodicDNA/blob/master/vignettes/periodicDNA.Rmd"><code>vignettes/periodicDNA.Rmd</code></a></small>
       <div class="hidden name"><code>periodicDNA.Rmd</code></div>
@@ -131,9 +131,8 @@
 <span class="co">#&gt; 4 0.026666667   37.5 3.592715e-07</span>
 <span class="co">#&gt; 5 0.033333333   30.0 6.171229e-07</span>
 <span class="co">#&gt; 6 0.040000000   25.0 2.413387e-07</span>
-<span class="no">periodicity_result</span>$<span class="no">PSD</span> <span class="kw">%&gt;%</span>
-    <span class="no">.</span>$<span class="no">PSD</span>[<span class="no">.</span>$<span class="no">period</span> <span class="kw">==</span> <span class="fl">10</span>]
-<span class="co">#&gt; NULL</span></pre></body></html></div>
+<span class="no">periodicity_result</span>$<span class="no">PSD</span> <span class="kw">%$%</span> <span class="no">PSD</span>[<span class="no">.</span>$<span class="no">period</span> <span class="kw">==</span> <span class="fl">10</span>]
+<span class="co">#&gt; [1] 1.424552e-06</span></pre></body></html></div>
 <p>Graphical output of <code><a href="../reference/getPeriodicity.html">getPeriodicity()</a></code> can be obtained using the <code><a href="../reference/plotPeriodicityResults.html">plotPeriodicityResults()</a></code> function:</p>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="../reference/plotPeriodicityResults.html">plotPeriodicityResults</a></span>(<span class="no">periodicity_result</span>)</pre></body></html></div>
 <p><img src="https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/ubiquitous-promoters_TT-periodicity.png"></p>
@@ -174,40 +173,31 @@
 <h3 class="hasAnchor">
 <a href="#fold-power-increase" class="anchor"></a>Fold Power Increase</h3>
 <p>Fold Power Increase (FPI) is a metric introduced by Pich et al., Cell 2018. It can be computed using the <code><a href="../reference/getFPI.html">getFPI()</a></code> function. In the following example, the FPI of TT dinucleotides at a 10-bp periodicity is computed over 200-bp long sequences randomly sampled in ce11 genome.</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">ce11_random_regions</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/sampleGRanges.character.html">sampleGenome</a></span>(
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
+<span class="no">ce11_random_regions</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/sampleGRanges.character.html">sampleGenome</a></span>(
     <span class="st">'ce11'</span>,
-    <span class="kw">n</span> <span class="kw">=</span> <span class="fl">200</span>, <span class="kw">w</span> <span class="kw">=</span> <span class="fl">1000</span>
+    <span class="kw">n</span> <span class="kw">=</span> <span class="fl">300</span>, <span class="kw">w</span> <span class="kw">=</span> <span class="fl">500</span>
 )
 <span class="no">fpi</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/getFPI.html">getFPI</a></span>(
     <span class="no">ce11_random_regions</span>$<span class="no">seq</span>,
-    <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
-    <span class="kw">cores_shuffling</span> <span class="kw">=</span> <span class="fl">1</span>,
+    <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'WW'</span>,
+    <span class="kw">cores_shuffling</span> <span class="kw">=</span> <span class="fl">10</span>,
     <span class="kw">n_shuffling</span> <span class="kw">=</span> <span class="fl">10</span>
 )
 <span class="co">#&gt; - Calculating observed PSD</span>
 <span class="co">#&gt; - Mapping k-mers.</span>
-<span class="co">#&gt; - 1916098 pairwise distances measured.</span>
+<span class="co">#&gt; - 7039094 pairwise distances measured.</span>
 <span class="co">#&gt; - Calculating pairwise distance distribution.</span>
 <span class="co">#&gt; - Normalizing histogram vector.</span>
 <span class="co">#&gt; - Applying Fast Fourier Transform to the vector of distances.</span>
-<span class="co">#&gt; &gt;&gt; Measured PSD @ 10bp is: 8.29555557390689e-08</span>
-<span class="co">#&gt; - Shuffling 1/10</span>
-<span class="co">#&gt; - Shuffling 2/10</span>
-<span class="co">#&gt; - Shuffling 3/10</span>
-<span class="co">#&gt; - Shuffling 4/10</span>
-<span class="co">#&gt; - Shuffling 5/10</span>
-<span class="co">#&gt; - Shuffling 6/10</span>
-<span class="co">#&gt; - Shuffling 7/10</span>
-<span class="co">#&gt; - Shuffling 8/10</span>
-<span class="co">#&gt; - Shuffling 9/10</span>
-<span class="co">#&gt; - Shuffling 10/10</span>
-<span class="co">#&gt; &gt;&gt; Calculated FPI @ 10bp is: 142.131913683365</span>
+<span class="co">#&gt; &gt;&gt; Measured PSD @ 10bp is: 1.38566883204698e-08</span>
+<span class="co">#&gt; &gt;&gt; Calculated FPI @ 10bp is: 110.282501147354</span>
 <span class="fu"><a href="../reference/plotFPI.html">plotFPI</a></span>(<span class="no">fpi</span>)
 <span class="co">#&gt; `geom_smooth()` using formula 'y ~ x'</span>
 <span class="co">#&gt; `geom_smooth()` using formula 'y ~ x'</span>
 <span class="co">#&gt; Warning in max(ids, na.rm = TRUE): no non-missing arguments to max;</span>
 <span class="co">#&gt; returning -Inf</span></pre></body></html></div>
-<p><img src="man/figures/periodicDNA-unnamed-chunk-8-1.png" width="700"></p>
+<p><img src="periodicDNA_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 </div>
 <div id="session-info" class="section level2">
 <h2 class="hasAnchor">
