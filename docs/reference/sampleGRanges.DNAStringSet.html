@@ -150,7 +150,7 @@ is useful to sample sequences from a full genome.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for DNAStringSet</span>
-<span class='fu'><a href='sampleGRanges.html'>sampleGRanges</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>sampleGRanges</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -173,7 +173,7 @@ is useful to sample sequences from a full genome.</p>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>Biostrings</span>)
 <span class='no'>seqs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/Biostrings/man/getSeq.html'>getSeq</a></span>(<span class='kw pkg'>BSgenome.Scerevisiae.UCSC.sacCer3</span><span class='kw ns'>::</span>
     <span class='no'><a href='https://rdrr.io/pkg/BSgenome.Scerevisiae.UCSC.sacCer3/man/package.html'>BSgenome.Scerevisiae.UCSC.sacCer3</a></span>)
-<span class='fu'><a href='sampleGRanges.html'>sampleGRanges</a></span>(<span class='no'>seqs</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; GRanges object with 100 ranges and 1 metadata column:
+<span class='fu'>sampleGRanges</span>(<span class='no'>seqs</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; GRanges object with 100 ranges and 1 metadata column:
 #&gt;         seqnames        ranges strand |                     seq
 #&gt;            &lt;Rle&gt;     &lt;IRanges&gt;  &lt;Rle&gt; |          &lt;DNAStringSet&gt;
 #&gt;     [1]     chrI   25667-25766      * | CACTAGTTGG...TAAAAGTGTC

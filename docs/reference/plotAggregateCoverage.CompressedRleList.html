@@ -150,7 +150,7 @@ and returns an aggregate coverage plot.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for CompressedRleList</span>
-<span class='fu'><a href='plotAggregateCoverage.html'>plotAggregateCoverage</a></span>(<span class='no'>x</span>, <span class='no'>granges</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>plotAggregateCoverage</span>(<span class='no'>x</span>, <span class='no'>granges</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -178,7 +178,7 @@ and returns an aggregate coverage plot.</p>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_proms</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='no'>ce11_ATACseq</span>)</div><div class='output co'>#&gt; [1] "SimpleRleList"
 #&gt; attr(,"package")
-#&gt; [1] "IRanges"</div><div class='input'><span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='plotAggregateCoverage.html'>plotAggregateCoverage</a></span>(
+#&gt; [1] "IRanges"</div><div class='input'><span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'>plotAggregateCoverage</span>(
     <span class='no'>ce11_ATACseq</span>,
     <span class='fu'>resize</span>(<span class='no'>ce11_proms</span>[<span class='fl'>1</span>:<span class='fl'>100</span>], <span class='kw'>fix</span> <span class='kw'>=</span> <span class='st'>'center'</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
 )

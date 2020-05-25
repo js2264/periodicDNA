@@ -152,7 +152,7 @@ normalized distogram.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for DNAStringSet</span>
-<span class='fu'><a href='getPeriodicity.html'>getPeriodicity</a></span>(
+<span class='fu'>getPeriodicity</span>(
   <span class='no'>x</span>,
   <span class='kw'>motif</span> <span class='kw'>=</span> <span class='st'>"WW"</span>,
   <span class='kw'>range_spectrum</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>1</span>, <span class='fl'>200</span>),
@@ -236,7 +236,7 @@ genomes will have different GC percent</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_proms_seqs</span>)
-<span class='no'>periodicity_result</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='getPeriodicity.html'>getPeriodicity</a></span>(
+<span class='no'>periodicity_result</span> <span class='kw'>&lt;-</span> <span class='fu'>getPeriodicity</span>(
     <span class='no'>ce11_proms_seqs</span>[<span class='fl'>1</span>:<span class='fl'>10</span>],
     <span class='kw'>motif</span> <span class='kw'>=</span> <span class='st'>'TT'</span>,
     <span class='kw'>cores</span> <span class='kw'>=</span> <span class='fl'>1</span>
@@ -246,7 +246,7 @@ genomes will have different GC percent</p></td>
 #&gt; 3 0.015  66.66667 3.592383e-07
 #&gt; 4 0.020  50.00000 5.015015e-07
 #&gt; 5 0.025  40.00000 1.432032e-08
-#&gt; 6 0.030  33.33333 1.439312e-07</div><div class='input'><span class='fu'><a href='plotPeriodicityResults.html'>plotPeriodicityResults</a></span>(<span class='no'>periodicity_result</span>)</div><div class='img'><img src='getPeriodicity.DNAStringSet-1.png' alt='' width='700' height='433' /></div></pre>
+#&gt; 6 0.030  33.33333 1.439312e-07</div><div class='input'><span class='fu'>plotPeriodicityResults</span>(<span class='no'>periodicity_result</span>)</div><div class='img'><img src='getPeriodicity.DNAStringSet-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -150,7 +150,7 @@ and returns an aggregate coverage plot.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for list</span>
-<span class='fu'><a href='plotAggregateCoverage.html'>plotAggregateCoverage</a></span>(
+<span class='fu'>plotAggregateCoverage</span>(
   <span class='no'>x</span>,
   <span class='no'>granges</span>,
   <span class='kw'>colors</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -256,7 +256,7 @@ mclapply?</p></td>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_WW_10bp</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_proms</span>)
 <span class='no'>proms</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/GenomicRanges/man/intra-range-methods.html'>resize</a></span>(<span class='no'>ce11_proms</span>[<span class='fl'>1</span>:<span class='fl'>100</span>], <span class='kw'>fix</span> <span class='kw'>=</span> <span class='st'>'center'</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>400</span>)
-<span class='no'>p1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='plotAggregateCoverage.html'>plotAggregateCoverage</a></span>(
+<span class='no'>p1</span> <span class='kw'>&lt;-</span> <span class='fu'>plotAggregateCoverage</span>(
     <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
         <span class='st'>'atac'</span> <span class='kw'>=</span> <span class='no'>ce11_ATACseq</span>,
         <span class='st'>'WW_10bp'</span> <span class='kw'>=</span> <span class='no'>ce11_WW_10bp</span>
@@ -264,7 +264,7 @@ mclapply?</p></td>
     <span class='no'>proms</span>,
     <span class='kw'>norm</span> <span class='kw'>=</span> <span class='st'>'zscore'</span>
 )
-<span class='no'>p1</span></div><div class='img'><img src='plotAggregateCoverage.list-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>p2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='plotAggregateCoverage.html'>plotAggregateCoverage</a></span>(
+<span class='no'>p1</span></div><div class='img'><img src='plotAggregateCoverage.list-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>p2</span> <span class='kw'>&lt;-</span> <span class='fu'>plotAggregateCoverage</span>(
     <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
         <span class='st'>'ATAC-seq'</span> <span class='kw'>=</span> <span class='no'>ce11_ATACseq</span>,
         <span class='st'>'WW 10-bp periodicity'</span> <span class='kw'>=</span> <span class='no'>ce11_WW_10bp</span>
@@ -277,7 +277,7 @@ mclapply?</p></td>
     ),
     <span class='kw'>norm</span> <span class='kw'>=</span> <span class='st'>'zscore'</span>
 )
-<span class='no'>p2</span></div><div class='img'><img src='plotAggregateCoverage.list-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>p3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='plotAggregateCoverage.html'>plotAggregateCoverage</a></span>(
+<span class='no'>p2</span></div><div class='img'><img src='plotAggregateCoverage.list-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>p3</span> <span class='kw'>&lt;-</span> <span class='fu'>plotAggregateCoverage</span>(
     <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
         <span class='st'>'ATAC-seq'</span> <span class='kw'>=</span> <span class='no'>ce11_ATACseq</span>,
         <span class='st'>'WW 10-bp periodicity'</span> <span class='kw'>=</span> <span class='no'>ce11_WW_10bp</span>

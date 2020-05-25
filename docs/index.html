@@ -117,31 +117,29 @@
 <div id="main-functions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#main-functions" class="anchor"></a>Main functions</h2>
-<p>The three main user-level functions of periodicDNA are <code><a href="reference/getPeriodicity.html">getPeriodicity()</a></code>, <code><a href="reference/getFPI.html">getFPI()</a></code> and <code><a href="reference/getPeriodicityTrack.html">getPeriodicityTrack()</a></code>.</p>
+<p>The two main user-level functions of periodicDNA are <code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicity.html">getPeriodicity()</a></code> and <code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicityTrack.html">getPeriodicityTrack()</a></code>.</p>
 <ul>
 <li>
-<code><a href="reference/getPeriodicity.html">getPeriodicity()</a></code> is used to compute the power spectral density (PSD) of a chosen k-mer (i.e. <code>TT</code>) in a set of sequences. The PSD score at a given period indicates the strength of the k-mer at this period.</li>
+<code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicity.html">getPeriodicity()</a></code> is used to compute the power spectral density (PSD) of a chosen k-mer (i.e. <code>TT</code>) in a set of sequences. The PSD score at a given period indicates the strength of the k-mer at this period.</li>
 <li>
-<code><a href="reference/getPeriodicityTrack.html">getPeriodicityTrack()</a></code> can be used to generate linear tracks representing the periodicity strength of a given k-mer at a chosen period, over genomic loci of interest.</li>
-<li>
-<code><a href="reference/getFPI.html">getFPI()</a></code> is used to compute the Fold Power Increase, a more sophisticated metric derived from the PSD. It was initially developed by Pich et al., Cell 2018. It takes into account the background periodicity of the k-mer of interest in the provided sequences.</li>
+<code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicityTrack.html">getPeriodicityTrack()</a></code> can be used to generate linear tracks representing the periodicity strength of a given k-mer at a chosen period, over genomic loci of interest.</li>
 </ul>
 <div id="getperiodicity-function" class="section level3">
 <h3 class="hasAnchor">
 <a href="#getperiodicity-function" class="anchor"></a><code>getPeriodicity()</code> function</h3>
 <div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce11_proms</span>)
-<span class="no">PSDs</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/getPeriodicity.html">getPeriodicity</a></span>(
+<span class="no">PSDs</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicity.html">getPeriodicity</a></span>(
     <span class="no">ce11_proms</span>,
     <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'ce11'</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
     <span class="kw">cores</span> <span class="kw">=</span> <span class="fl">4</span>
 )
-<span class="fu"><a href="reference/plotPeriodicityResults.html">plotPeriodicityResults</a></span>(<span class="no">PSDs</span>)</pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/plotPeriodicityResults.html">plotPeriodicityResults</a></span>(<span class="no">PSDs</span>)</pre></div>
 </div>
 <div id="getperiodicitytrack-function" class="section level3">
 <h3 class="hasAnchor">
 <a href="#getperiodicitytrack-function" class="anchor"></a><code>getPeriodicityTrack()</code> function</h3>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="no">WW_10bp</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/getPeriodicityTrack.html">getPeriodicityTrack</a></span>(
+<div class="sourceCode" id="cb3"><pre class="r"><span class="no">WW_10bp</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicityTrack.html">getPeriodicityTrack</a></span>(
     <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'ce11'</span>,
     <span class="kw">granges</span> <span class="kw">=</span> <span class="no">ce11_proms</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'WW'</span>,
@@ -149,20 +147,6 @@
     <span class="kw">cores</span> <span class="kw">=</span> <span class="fl">12</span>,
     <span class="kw">bw_file</span> <span class="kw">=</span> <span class="st">'WW-10-bp-periodicity_over-proms.bw'</span>
 )</pre></div>
-</div>
-<div id="getfpi-function" class="section level3">
-<h3 class="hasAnchor">
-<a href="#getfpi-function" class="anchor"></a><code>getFPI()</code> function</h3>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="no">ce_seq</span> <span class="kw">&lt;-</span> <span class="kw pkg">Biostrings</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/getSeq.html">getSeq</a></span>(
-    <span class="kw pkg">BSgenome.Celegans.UCSC.ce11</span><span class="kw ns">::</span><span class="no"><a href="https://rdrr.io/pkg/BSgenome.Celegans.UCSC.ce11/man/package.html">BSgenome.Celegans.UCSC.ce11</a></span>
-)
-<span class="no">FPI</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/getFPI.html">getFPI</a></span>(
-    <span class="no">ce_seq</span>[<span class="no">ce11_proms</span>],
-    <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
-    <span class="kw">cores_shuffling</span> <span class="kw">=</span> <span class="fl">10</span>,
-    <span class="kw">n_shuffling</span> <span class="kw">=</span> <span class="fl">10</span>
-)
-<span class="fu"><a href="reference/plotFPI.html">plotFPI</a></span>(<span class="no">FPI</span>)</pre></div>
 </div>
 </div>
 <div id="contributions" class="section level2">

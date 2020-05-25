@@ -152,7 +152,7 @@ normalized distogram.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for DNAString</span>
-<span class='fu'><a href='getPeriodicity.html'>getPeriodicity</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>getPeriodicity</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -186,7 +186,7 @@ normalized distogram.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_proms_seqs</span>)
-<span class='no'>periodicity_result</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='getPeriodicity.html'>getPeriodicity</a></span>(
+<span class='no'>periodicity_result</span> <span class='kw'>&lt;-</span> <span class='fu'>getPeriodicity</span>(
     <span class='no'>ce11_proms_seqs</span><span class='kw'>[[</span><span class='fl'>8</span>]],
     <span class='kw'>motif</span> <span class='kw'>=</span> <span class='st'>'TT'</span>,
     <span class='kw'>cores</span> <span class='kw'>=</span> <span class='fl'>1</span>
@@ -196,7 +196,7 @@ normalized distogram.</p>
 #&gt; 3 0.015  66.66667 7.353931e-07
 #&gt; 4 0.020  50.00000 1.265422e-06
 #&gt; 5 0.025  40.00000 7.962998e-07
-#&gt; 6 0.030  33.33333 1.527813e-06</div><div class='input'><span class='fu'><a href='plotPeriodicityResults.html'>plotPeriodicityResults</a></span>(<span class='no'>periodicity_result</span>)</div><div class='img'><img src='getPeriodicity.DNAString-1.png' alt='' width='700' height='433' /></div></pre>
+#&gt; 6 0.030  33.33333 1.527813e-06</div><div class='input'><span class='fu'>plotPeriodicityResults</span>(<span class='no'>periodicity_result</span>)</div><div class='img'><img src='getPeriodicity.DNAString-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

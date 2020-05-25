@@ -95,7 +95,7 @@
       <h1 data-toc-skip>periodicDNA</h1>
                         <h4 class="author">Jacques Serizay</h4>
             
-            <h4 class="date">2020-05-14</h4>
+            <h4 class="date">2020-05-25</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/js2264/periodicDNA/blob/master/vignettes/periodicDNA.Rmd"><code>vignettes/periodicDNA.Rmd</code></a></small>
       <div class="hidden name"><code>periodicDNA.Rmd</code></div>
@@ -107,9 +107,9 @@
 <div id="dinucleotide-periodicity-over-a-set-of-genomic-ranges" class="section level3">
 <h3 class="hasAnchor">
 <a href="#dinucleotide-periodicity-over-a-set-of-genomic-ranges" class="anchor"></a>Dinucleotide periodicity over a set of Genomic Ranges</h3>
-<p>The main goal of periodicDNA is to quantify periodicity of a given k-mer in a set of sequences. <code><a href="../reference/getPeriodicity.html">getPeriodicity()</a></code> can be used to achieve this. In the following example, <code><a href="../reference/getPeriodicity.html">getPeriodicity()</a></code> is usually ran using a GRanges object, specifying from which genome this GRanges comes from.</p>
+<p>The main goal of periodicDNA is to quantify periodicity of a given k-mer in a set of sequences. <code>getPeriodicity()</code> can be used to achieve this. In the following example, <code>getPeriodicity()</code> is usually ran using a GRanges object, specifying from which genome this GRanges comes from.</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce11_proms</span>)
-<span class="no">periodicity_result</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/getPeriodicity.html">getPeriodicity</a></span>(
+<span class="no">periodicity_result</span> <span class="kw">&lt;-</span> <span class="fu">getPeriodicity</span>(
     <span class="no">ce11_proms</span>[<span class="no">ce11_proms</span>$<span class="no">which.tissues</span> <span class="kw">==</span> <span class="st">'Ubiq.'</span>][<span class="fl">1</span>:<span class="fl">500</span>],
     <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'ce11'</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
@@ -122,7 +122,7 @@
 <span class="co">#&gt; - Applying Fast Fourier Transform to the vector of distances.</span>
 <span class="co">#&gt; Range (1:200) is wider than any range in the current </span>
 <span class="co">#&gt;             distances vector. Shortening the range from 1 to 149...</span></pre></body></html></div>
-<p>The output of <code><a href="../reference/getPeriodicity.html">getPeriodicity()</a></code> is an object containing the PSD scores associated with each period. For a given period, a high PSD score indicates a high periodicity of the k-mer of interest.</p>
+<p>The output of <code>getPeriodicity()</code> is an object containing the PSD scores associated with each period. For a given period, a high PSD score indicates a high periodicity of the k-mer of interest.</p>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">periodicity_result</span>$<span class="no">PSD</span>)
 <span class="co">#&gt;          freq period          PSD</span>
 <span class="co">#&gt; 1 0.006666667  150.0 1.092855e-05</span>
@@ -133,13 +133,13 @@
 <span class="co">#&gt; 6 0.040000000   25.0 2.413387e-07</span>
 <span class="no">periodicity_result</span>$<span class="no">PSD</span> <span class="kw">%$%</span> <span class="no">PSD</span>[<span class="no">.</span>$<span class="no">period</span> <span class="kw">==</span> <span class="fl">10</span>]
 <span class="co">#&gt; [1] 1.424552e-06</span></pre></body></html></div>
-<p>Graphical output of <code><a href="../reference/getPeriodicity.html">getPeriodicity()</a></code> can be obtained using the <code><a href="../reference/plotPeriodicityResults.html">plotPeriodicityResults()</a></code> function:</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="../reference/plotPeriodicityResults.html">plotPeriodicityResults</a></span>(<span class="no">periodicity_result</span>)</pre></body></html></div>
+<p>Graphical output of <code>getPeriodicity()</code> can be obtained using the <code>plotPeriodicityResults()</code> function:</p>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu">plotPeriodicityResults</span>(<span class="no">periodicity_result</span>)</pre></body></html></div>
 <p><img src="https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/ubiquitous-promoters_TT-periodicity.png"></p>
 <p>The first plot shows the raw distribution of distances between pairs of ‘TT’ in the sequences of the provided GRanges. The second plot shows the decay-normalised distribution. Finally, the third plot shows the PSD scores of the ‘TT’ k-mer, measured from the normalised distribution.</p>
-<p><strong>Note:</strong><br><code><a href="../reference/getPeriodicity.html">getPeriodicity()</a></code> can also be ran directly on a set of sequences of interest as follows:</p>
+<p><strong>Note:</strong><br><code>getPeriodicity()</code> can also be ran directly on a set of sequences of interest as follows:</p>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce11_proms_seqs</span>)
-<span class="no">periodicity_result</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/getPeriodicity.html">getPeriodicity</a></span>(
+<span class="no">periodicity_result</span> <span class="kw">&lt;-</span> <span class="fu">getPeriodicity</span>(
     <span class="no">ce11_proms_seqs</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
     <span class="kw">cores</span> <span class="kw">=</span> <span class="fl">4</span>
@@ -148,8 +148,8 @@
 <div id="track-of-periodicity-over-a-set-of-genomic-ranges" class="section level3">
 <h3 class="hasAnchor">
 <a href="#track-of-periodicity-over-a-set-of-genomic-ranges" class="anchor"></a>Track of periodicity over a set of Genomic Ranges</h3>
-<p>Another major aim of periodicDNA is to generate continuous linear tracks of k-mer periodicity strength over genomic loci of interest. <code><a href="../reference/getPeriodicityTrack.html">getPeriodicityTrack()</a></code> can be used to generate suck genomic tracks. In the following example,</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">WW_10bp_track</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/getPeriodicityTrack.html">getPeriodicityTrack</a></span>(
+<p>Another major aim of periodicDNA is to generate continuous linear tracks of k-mer periodicity strength over genomic loci of interest. <code>getPeriodicityTrack()</code> can be used to generate suck genomic tracks. In the following example,</p>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">WW_10bp_track</span> <span class="kw">&lt;-</span> <span class="fu">getPeriodicityTrack</span>(
     <span class="kw pkg">Biostrings</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/getSeq.html">getSeq</a></span>(
         <span class="kw pkg">BSgenome.Celegans.UCSC.ce11</span><span class="kw ns">::</span><span class="no"><a href="https://rdrr.io/pkg/BSgenome.Celegans.UCSC.ce11/man/package.html">BSgenome.Celegans.UCSC.ce11</a></span>
     ),
@@ -161,7 +161,7 @@
 )</pre></body></html></div>
 <p>When plotted over sets of ubiquitous, germline or somatic TSSs, the resulting track clearly shows increase of WW 10-bp periodicity above the ubiquitous and germline TSSs, whereas somatic TSSs do not show such increase.</p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce11_TSSs</span>)
-<span class="fu"><a href="../reference/plotAggregateCoverage.html">plotAggregateCoverage</a></span>(
+<span class="fu">plotAggregateCoverage</span>(
     <span class="no">WW_10bp_track</span>,
     <span class="no">ce11_TSSs</span>,
     <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">'TSS'</span>,
@@ -172,13 +172,13 @@
 <div id="fold-power-increase" class="section level3">
 <h3 class="hasAnchor">
 <a href="#fold-power-increase" class="anchor"></a>Fold Power Increase</h3>
-<p>Fold Power Increase (FPI) is a metric introduced by Pich et al., Cell 2018. It can be computed using the <code><a href="../reference/getFPI.html">getFPI()</a></code> function. In the following example, the FPI of TT dinucleotides at a 10-bp periodicity is computed over 200-bp long sequences randomly sampled in ce11 genome.</p>
+<p>Fold Power Increase (FPI) is a metric introduced by Pich et al., Cell 2018. It can be computed using the <code>getFPI()</code> function. In the following example, the FPI of TT dinucleotides at a 10-bp periodicity is computed over 200-bp long sequences randomly sampled in ce11 genome.</p>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
-<span class="no">ce11_random_regions</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/sampleGRanges.character.html">sampleGenome</a></span>(
+<span class="no">ce11_random_regions</span> <span class="kw">&lt;-</span> <span class="fu">sampleGenome</span>(
     <span class="st">'ce11'</span>,
     <span class="kw">n</span> <span class="kw">=</span> <span class="fl">300</span>, <span class="kw">w</span> <span class="kw">=</span> <span class="fl">500</span>
 )
-<span class="no">fpi</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/getFPI.html">getFPI</a></span>(
+<span class="no">fpi</span> <span class="kw">&lt;-</span> <span class="fu">getFPI</span>(
     <span class="no">ce11_random_regions</span>$<span class="no">seq</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'WW'</span>,
     <span class="kw">cores_shuffling</span> <span class="kw">=</span> <span class="fl">10</span>,
@@ -191,8 +191,8 @@
 <span class="co">#&gt; - Normalizing histogram vector.</span>
 <span class="co">#&gt; - Applying Fast Fourier Transform to the vector of distances.</span>
 <span class="co">#&gt; &gt;&gt; Measured PSD @ 10bp is: 1.38566883204698e-08</span>
-<span class="co">#&gt; &gt;&gt; Calculated FPI @ 10bp is: 110.282501147354</span>
-<span class="fu"><a href="../reference/plotFPI.html">plotFPI</a></span>(<span class="no">fpi</span>)
+<span class="co">#&gt; &gt;&gt; Calculated FPI @ 10bp is: 113.796705810943</span>
+<span class="fu">plotFPI</span>(<span class="no">fpi</span>)
 <span class="co">#&gt; `geom_smooth()` using formula 'y ~ x'</span>
 <span class="co">#&gt; `geom_smooth()` using formula 'y ~ x'</span>
 <span class="co">#&gt; Warning in max(ids, na.rm = TRUE): no non-missing arguments to max;</span>
