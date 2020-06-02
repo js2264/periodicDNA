@@ -12,6 +12,8 @@
 #'
 #' @param x DNAStringSet, sequences of interest
 #' @param ... Additional arguments
+#' @return Several metrics including FPI, observed PSD, etc...
+#' 
 #' @export
 #' 
 #' @examples

@@ -2,7 +2,7 @@
 % Please edit documentation in R/periodicity.R
 \name{getPeriodicity}
 \alias{getPeriodicity}
-\title{Function to compute k-mer periodicity in sequence(s).}
+\title{A function to compute k-mer periodicity in sequence(s).}
 \usage{
 getPeriodicity(x, ...)
 }

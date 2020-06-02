@@ -95,7 +95,7 @@
       <h1 data-toc-skip>periodicDNA</h1>
                         <h4 class="author">Jacques Serizay</h4>
             
-            <h4 class="date">2020-05-25</h4>
+            <h4 class="date">2020-05-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/js2264/periodicDNA/blob/master/vignettes/periodicDNA.Rmd"><code>vignettes/periodicDNA.Rmd</code></a></small>
       <div class="hidden name"><code>periodicDNA.Rmd</code></div>
@@ -181,7 +181,7 @@
 <span class="no">fpi</span> <span class="kw">&lt;-</span> <span class="fu">getFPI</span>(
     <span class="no">ce11_random_regions</span>$<span class="no">seq</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'WW'</span>,
-    <span class="kw">cores_shuffling</span> <span class="kw">=</span> <span class="fl">10</span>,
+    <span class="kw">cores_shuffling</span> <span class="kw">=</span> <span class="fl">1</span>,
     <span class="kw">n_shuffling</span> <span class="kw">=</span> <span class="fl">10</span>
 )
 <span class="co">#&gt; - Calculating observed PSD</span>
@@ -191,7 +191,17 @@
 <span class="co">#&gt; - Normalizing histogram vector.</span>
 <span class="co">#&gt; - Applying Fast Fourier Transform to the vector of distances.</span>
 <span class="co">#&gt; &gt;&gt; Measured PSD @ 10bp is: 1.38566883204698e-08</span>
-<span class="co">#&gt; &gt;&gt; Calculated FPI @ 10bp is: 113.796705810943</span>
+<span class="co">#&gt; - Shuffling 1/10</span>
+<span class="co">#&gt; - Shuffling 2/10</span>
+<span class="co">#&gt; - Shuffling 3/10</span>
+<span class="co">#&gt; - Shuffling 4/10</span>
+<span class="co">#&gt; - Shuffling 5/10</span>
+<span class="co">#&gt; - Shuffling 6/10</span>
+<span class="co">#&gt; - Shuffling 7/10</span>
+<span class="co">#&gt; - Shuffling 8/10</span>
+<span class="co">#&gt; - Shuffling 9/10</span>
+<span class="co">#&gt; - Shuffling 10/10</span>
+<span class="co">#&gt; &gt;&gt; Calculated FPI @ 10bp is: 109.118833154402</span>
 <span class="fu">plotFPI</span>(<span class="no">fpi</span>)
 <span class="co">#&gt; `geom_smooth()` using formula 'y ~ x'</span>
 <span class="co">#&gt; `geom_smooth()` using formula 'y ~ x'</span>

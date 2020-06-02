@@ -2,7 +2,7 @@
 % Please edit documentation in R/periodicity.R
 \name{getPeriodicity.DNAString}
 \alias{getPeriodicity.DNAString}
-\title{Function to compute k-mer periodicity in a sequence.}
+\title{A function to compute k-mer periodicity in a sequence.}
 \usage{
 \method{getPeriodicity}{DNAString}(x, ...)
 }

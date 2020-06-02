@@ -11,6 +11,9 @@ getFPI(x, ...)
 
 \item{...}{Additional arguments}
 }
+\value{
+Several metrics including FPI, observed PSD, etc...
+}
 \description{
 This function takes a set of sequences and a k-mer of interest, 
 along with a given period. It calculates the FPI, as introduced

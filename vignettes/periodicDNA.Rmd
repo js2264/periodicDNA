@@ -32,7 +32,8 @@ a GRanges object, specifying from which genome this GRanges comes from.
 ```{r, eval = TRUE}
 data(ce11_proms)
 periodicity_result <- getPeriodicity(
-    ce11_proms[ce11_proms$which.tissues == 'Ubiq.'][1:500],
+    ce11_proms[ce11_proms$which.tissues == 'Ubiq.'][1:500] %>% 
+        alignToTSS(upstream = 0, downstream = 150),
     genome = 'ce11',
     motif = 'TT', 
     cores = 1
@@ -51,11 +52,9 @@ periodicity_result$PSD %$% PSD[.$period == 10]
 Graphical output of `getPeriodicity()` can be obtained using the 
 `plotPeriodicityResults()` function: 
 
-```{r, eval = FALSE}
+```{r, eval = TRUE}
 plotPeriodicityResults(periodicity_result)
 ```
-
-![](https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/ubiquitous-promoters_TT-periodicity.png)
 
 The first plot shows the raw distribution of distances between pairs of 'TT' 
 in the sequences of the provided GRanges. The second plot shows the 
@@ -66,12 +65,12 @@ of the 'TT' k-mer, measured from the normalised distribution.
 `getPeriodicity()` can also be ran directly on a set of sequences of interest 
 as follows: 
 
-```{r, eval = FALSE}
+```{r, eval = TRUE}
 data(ce11_proms_seqs)
 periodicity_result <- getPeriodicity(
     ce11_proms_seqs,
     motif = 'TT', 
-    cores = 4
+    cores = 1
 )
 ```
 
@@ -90,7 +89,7 @@ WW_10bp_track <- getPeriodicityTrack(
     granges = ce11_proms, 
     motif = 'WW',
     period = 10,
-    cores = 12, 
+    cores = 1, 
     bw_file = 'WW-10-bp-periodicity_over-proms.bw'
 )
 ```
@@ -104,34 +103,12 @@ data(ce11_TSSs)
 plotAggregateCoverage(
     WW_10bp_track, 
     ce11_TSSs, 
-    xlab = 'TSS',
-    ylab = 'WW 10-bp PSD score'
+    xlab = 'Distance from TSS',
+    ylab = '10-bp periodicity strength (forward proms.)'
 )
 ```
 
 ![](https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/TT-10bp-periodicity_tissue-spe-TSSs.png)
-
-### Fold Power Increase
-
-Fold Power Increase (FPI) is a metric introduced by Pich et al., 
-Cell 2018. It can be computed using the `getFPI()` function. In the 
-following example, the FPI of TT dinucleotides at a 10-bp periodicity is 
-computed over 200-bp long sequences randomly sampled in ce11 genome. 
-
-```{r, eval = TRUE}
-set.seed(42)
-ce11_random_regions <- sampleGenome(
-    'ce11',
-    n = 300, w = 500
-)
-fpi <- getFPI(
-    ce11_random_regions$seq, 
-    motif = 'WW', 
-    cores_shuffling = 10, 
-    n_shuffling = 10
-)
-plotFPI(fpi)
-```
 
 ## Session info
 

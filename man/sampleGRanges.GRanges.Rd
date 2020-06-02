@@ -21,7 +21,8 @@
 
 \item{exclude}{Boolean, should the original GRanges be excluded?}
 
-\item{avoid_overlap}{Boolean, should the sampled GRanges not be overlapping?}
+\item{avoid_overlap}{Boolean, should the sampled GRanges not 
+be overlapping?}
 }
 \value{
 A GRanges object of length n

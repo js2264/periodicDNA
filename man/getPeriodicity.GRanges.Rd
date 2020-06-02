@@ -2,7 +2,7 @@
 % Please edit documentation in R/periodicity.R
 \name{getPeriodicity.GRanges}
 \alias{getPeriodicity.GRanges}
-\title{Function to compute k-mer periodicity in GRanges.}
+\title{A function to compute k-mer periodicity in GRanges.}
 \usage{
 \method{getPeriodicity}{GRanges}(x, genome = "ce11", ...)
 }
