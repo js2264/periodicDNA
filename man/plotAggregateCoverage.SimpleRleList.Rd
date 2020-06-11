@@ -16,7 +16,7 @@
   verbose = FALSE,
   bin = 1,
   plot_central = TRUE,
-  run_in_parallel = TRUE,
+  run_in_parallel = FALSE,
   split_by_granges = FALSE,
   norm = "none",
   ...
@@ -46,8 +46,8 @@ by zoo::rollMean}
 
 \item{plot_central}{Boolean Draw a vertical line at 0}
 
-\item{run_in_parallel}{Boolean Should the plots be computed in parallel using 
-mclapply?}
+\item{run_in_parallel}{Boolean Should the plots be computed in parallel
+using mclapply?}
 
 \item{split_by_granges}{Boolean Facet plots over the sets of GRanges}
 

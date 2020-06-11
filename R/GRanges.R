@@ -290,8 +290,8 @@ plotAggregateCoverage.CompressedRleList <- function(
 #' @param bin Integer Width of the window to use to smooth values 
 #' by zoo::rollMean
 #' @param plot_central Boolean Draw a vertical line at 0
-#' @param run_in_parallel Boolean Should the plots be computed in parallel using 
-#' mclapply?
+#' @param run_in_parallel Boolean Should the plots be computed in parallel
+#' using mclapply?
 #' @param split_by_granges Boolean Facet plots over the sets of GRanges
 #' @param norm character Should the signal be normalized 
 #' ('none', 'zscore' or 'log2')?
@@ -339,7 +339,7 @@ plotAggregateCoverage.SimpleRleList <- function(
     verbose = FALSE,
     bin = 1,
     plot_central = TRUE,
-    run_in_parallel = TRUE,
+    run_in_parallel = FALSE,
     split_by_granges = FALSE,
     norm = 'none',
     ...
@@ -499,8 +499,8 @@ plotAggregateCoverage.SimpleRleList <- function(
 #' @param split_by_granges Boolean Facet plots by the sets of GRanges
 #' @param split_by_track Boolean Facet plots by the sets of signal tracks
 #' @param free_scales Boolean Should each facet have independent y-axis scales?
-#' @param run_in_parallel Boolean Should the plots be computed in parallel using 
-#' mclapply?
+#' @param run_in_parallel Boolean Should the plots be computed in parallel 
+#' using mclapply?
 #' @param norm character Should the signals be normalized 
 #' ('none', 'zscore' or 'log2')?
 #' @param ... additional parameters
@@ -575,7 +575,7 @@ plotAggregateCoverage.list <- function(
     split_by_granges = TRUE,
     split_by_track = FALSE,
     free_scales = FALSE,
-    run_in_parallel = TRUE,
+    run_in_parallel = FALSE,
     norm = 'none',
     ...
 ) 

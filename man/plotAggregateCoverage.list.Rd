@@ -19,7 +19,7 @@
   split_by_granges = TRUE,
   split_by_track = FALSE,
   free_scales = FALSE,
-  run_in_parallel = TRUE,
+  run_in_parallel = FALSE,
   norm = "none",
   ...
 )
@@ -54,8 +54,8 @@ grouped in a named list}
 
 \item{free_scales}{Boolean Should each facet have independent y-axis scales?}
 
-\item{run_in_parallel}{Boolean Should the plots be computed in parallel using 
-mclapply?}
+\item{run_in_parallel}{Boolean Should the plots be computed in parallel 
+using mclapply?}
 
 \item{norm}{character Should the signals be normalized 
 ('none', 'zscore' or 'log2')?}
