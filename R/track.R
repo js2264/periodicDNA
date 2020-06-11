@@ -33,6 +33,7 @@
 #' @import GenomicRanges
 #' @import IRanges
 #' @importFrom parallel mclapply
+#' @importFrom rtracklayer import
 #' @importFrom rtracklayer export.bw
 #' @importFrom methods is
 #' @export
@@ -130,7 +131,8 @@ getPeriodicityTrack <- function(
     
     # Merge all the chunks
     list.results.2 <- unlist(
-        GRangesList(lapply(list.files(pattern = 'FULL'), rtracklayer::import))
+        # GRangesList(lapply(list.files(pattern = 'FULL'), rtracklayer::import))
+        GRangesList(list.results)
     )
     
     # Generate final track
