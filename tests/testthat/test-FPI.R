@@ -75,7 +75,8 @@ test_that("FPI TSSs of several organisms", {
                 range_spectrum = 1:75
             )
             return(list(r1, r2))
-        }) %>% purrr::flatten()
+        })
+        # fpis_genomes <- purrr::flatten(fpis_genomes)
         p <- cowplot::plot_grid(plotlist = lapply(fpis_genomes, plotFPI, s = 0.1), nrow = 3)
         ggsave('TSSs_TT-periodicity_1to75.pdf', width = 15, height = 10)
     }, TRUE)

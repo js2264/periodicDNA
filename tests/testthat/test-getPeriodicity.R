@@ -66,9 +66,9 @@ test_that("getPeriodicity on lists of proms and mutlitple dinucleotides", {
                     range_spectrum = 1:100,
                     verbose = FALSE
                 )
-                res <- r$PSD %>% 
-                    dplyr::slice(which.min(abs(period - 10))) %$% 
-                    PSD
+                # res <- r$PSD %>% 
+                #     dplyr::slice(which.min(abs(period - 10))) %$% 
+                #     PSD
                 d <- data.frame(
                     PSD = res, 
                     tissue = TISSUE, 
