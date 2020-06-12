@@ -34,7 +34,7 @@ fpi <- getFPI(
     ce11_TSSs[['Ubiq.']][1:10], 
     genome = 'ce11', 
     motif = 'TT', 
-    cores_shuffling = 1
+    BPPARAM = BiocParallel::SnowParam(workers = 1)
 )
 fpi$FPI
 fpi$observed_PSD
@@ -44,7 +44,7 @@ fpi <- getFPI(
     ce11_TSSs[['Muscle']][1:10], 
     genome = 'ce11', 
     motif = 'TT', 
-    cores_shuffling = 1
+    BPPARAM = BiocParallel::SnowParam(workers = 1)
 )
 fpi$FPI
 fpi$observed_PSD

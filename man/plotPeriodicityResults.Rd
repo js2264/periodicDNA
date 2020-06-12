@@ -46,8 +46,8 @@ periodicity_result <- getPeriodicity(
     ce11_proms[1:100],
     genome = 'ce11',
     motif = 'TT', 
-    cores = 1, 
-    skip_shuffling = FALSE
+    skip_shuffling = FALSE,
+    BPPARAM = BiocParallel::SnowParam(workers = 1)
 )
 head(periodicity_result$PSD)
 plotPeriodicityResults(periodicity_result)

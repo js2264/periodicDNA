@@ -9,10 +9,10 @@ getPeriodicityTrack(
   granges,
   motif = "WW",
   period = 10,
-  cores = 12,
+  BPPARAM = bpparam(),
   extension = 1000,
   genome_sliding_size = 100,
-  genome_sliding_sliding = 2,
+  genome_sliding_shift = 2,
   window_sliding_size = 100,
   window_sliding_bin = 5,
   range_spectrum = seq(5, 50),
@@ -29,8 +29,8 @@ getPeriodicityTrack(
 \item{period}{Integer, the period of the dinucleotide to study 
 (default=10).}
 
-\item{cores}{Integer, split the workload over several processors 
-(default 12).}
+\item{BPPARAM}{split the workload over several processors using 
+BiocParallel}
 
 \item{extension}{Integer, the width the GRanges are going to 
 be extended to (default 1000).}
@@ -38,7 +38,7 @@ be extended to (default 1000).}
 \item{genome_sliding_size}{Integer, the width of the bins to split 
 the GRanges objects in (default 100).}
 
-\item{genome_sliding_sliding}{Integer, the increment between bins 
+\item{genome_sliding_shift}{Integer, the increment between bins 
 over GRanges (default 2).}
 
 \item{window_sliding_size}{Integer, the width of the bins to split
@@ -70,6 +70,6 @@ getPeriodicityTrack(
     ce11_proms[1], 
     motif = 'WW',
     period = 10,
-    cores = 1
+    BPPARAM = BiocParallel::SnowParam(workers = 1)
 )
 }

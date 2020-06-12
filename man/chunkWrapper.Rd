@@ -8,7 +8,7 @@ chunkWrapper(
   chunk,
   genome,
   motif,
-  genome_sliding_sliding,
+  genome_sliding_shift,
   window_sliding_size,
   window_sliding_bin,
   range_spectrum,
@@ -22,7 +22,7 @@ chunkWrapper(
 
 \item{motif}{String Oligonucleotide of interest.}
 
-\item{genome_sliding_sliding}{Integer The increment between 
+\item{genome_sliding_shift}{Integer The increment between 
 bins over GRanges (default 2).}
 
 \item{window_sliding_size}{Integer The width of the bins to split 

@@ -4,10 +4,10 @@
 \alias{getChunks}
 \title{Internal function}
 \usage{
-getChunks(genome.partionned.filtered, cores)
+getChunks(genome_partionned_filtered, cores)
 }
 \arguments{
-\item{genome.partionned.filtered}{Output from partitionGenome() filtered 
+\item{genome_partionned_filtered}{Output from partitionGenome() filtered 
 over GRanges of interest.}
 
 \item{cores}{An integer Split the workload over several processors 

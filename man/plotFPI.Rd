@@ -28,7 +28,7 @@ fpi <- getFPI(
     ce11_proms_seqs[1:10], 
     genome = 'ce11', 
     motif = 'TT', 
-    cores_shuffling = 1
+    BPPARAM = BiocParallel::SnowParam(workers = 1)
 )
 plotFPI(fpi)
 }

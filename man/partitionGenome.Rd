@@ -6,27 +6,27 @@
 \usage{
 partitionGenome(
   genome,
-  granges.extended_large,
-  granges.extended,
+  granges_extended_large,
+  granges_extended,
   genome_sliding_size,
-  genome_sliding_sliding
+  genome_sliding_shift
 )
 }
 \arguments{
 \item{genome}{DNAStringSet, BSgenome or genome ID}
 
-\item{granges.extended_large}{A GRanges object.}
+\item{granges_extended_large}{A GRanges object.}
 
-\item{granges.extended}{A GRanges object.}
+\item{granges_extended}{A GRanges object.}
 
 \item{genome_sliding_size}{An integer. The width of the bins to split 
 the GRanges objects in (default 100).}
 
-\item{genome_sliding_sliding}{An integer. The increment between bins 
+\item{genome_sliding_shift}{An integer. The increment between bins 
 over GRanges (default 2).}
 }
 \value{
-granges.partionned A Granges object corresponding to the binned 
+granges_partionned A Granges object corresponding to the binned 
 genome.
 }
 \description{

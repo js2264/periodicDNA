@@ -9,7 +9,7 @@
   motif,
   period = 10,
   n_shuffling = 10,
-  cores_shuffling = 10,
+  BPPARAM = bpparam(),
   verbose = 1,
   ...
 )
@@ -23,8 +23,8 @@
 
 \item{n_shuffling}{integer, Number of shuffling}
 
-\item{cores_shuffling}{integer, Number of threads to use to split
-shuffling}
+\item{BPPARAM}{integer, Number of threads to use to split
+shuffling of sequences}
 
 \item{verbose}{integer, Should the function be verbose?}
 
@@ -47,11 +47,10 @@ by the n_shuffling argument.
 }
 \examples{
 data(ce11_proms_seqs)
+BiocParallel::register(BiocParallel::SnowParam(workers = 1))
 fpi <- getFPI(
     ce11_proms_seqs[1:10], 
-    motif = 'TT', 
-    cores_shuffling = 1, 
-    cores = 1
+    motif = 'TT'
 )
 fpi$FPI
 fpi$observed_PSD

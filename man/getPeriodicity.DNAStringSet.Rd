@@ -8,7 +8,7 @@
   x,
   motif = "WW",
   range_spectrum = seq(1, 200),
-  cores = 1,
+  BPPARAM = bpparam(),
   roll = 3,
   verbose = TRUE,
   sample = 0,
@@ -25,8 +25,8 @@
 \item{range_spectrum}{Numeric vector The distances between nucleotides
 to take into consideration when performing Fast Fourier Transform.}
 
-\item{cores}{Integer How many processors should be used to parallelize
-the mapping?}
+\item{BPPARAM}{split the workload over several processors using 
+BiocParallel}
 
 \item{roll}{Integer Window to smooth the distribution of pairwise distances
 (default: 3, to discard the 3-bp periodicity of dinucleotides which 
@@ -72,8 +72,7 @@ normalized distogram.
 data(ce11_proms_seqs)
 periodicity_result <- getPeriodicity(
     ce11_proms_seqs[1:10],
-    motif = 'TT', 
-    cores = 1
+    motif = 'TT'
 )
 head(periodicity_result$PSD)
 plotPeriodicityResults(periodicity_result)

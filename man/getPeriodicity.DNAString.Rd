@@ -38,8 +38,7 @@ normalized distogram.
 data(ce11_proms_seqs)
 periodicity_result <- getPeriodicity(
     ce11_proms_seqs[[8]],
-    motif = 'TT', 
-    cores = 1
+    motif = 'TT'
 )
 head(periodicity_result$PSD)
 plotPeriodicityResults(periodicity_result)

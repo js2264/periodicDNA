@@ -4,10 +4,10 @@
 \alias{unlistResults}
 \title{Internal function}
 \usage{
-unlistResults(list.results)
+unlistResults(list_results)
 }
 \arguments{
-\item{list.results}{List}
+\item{list_results}{List}
 }
 \value{
 GRanges

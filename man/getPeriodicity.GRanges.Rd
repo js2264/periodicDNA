@@ -41,8 +41,7 @@ data(ce11_proms)
 periodicity_result <- getPeriodicity(
     ce11_proms[1:10],
     genome = 'ce11',
-    motif = 'TT', 
-    cores = 1
+    motif = 'TT'
 )
 head(periodicity_result$PSD)
 plotPeriodicityResults(periodicity_result)
