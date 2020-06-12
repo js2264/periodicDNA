@@ -84,7 +84,7 @@ track from these values." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.4</span>
       </span>
     </div>
 
@@ -241,18 +241,16 @@ to take into consideration when performing Fast Fourier Transform
     <span class='kw'>period</span> <span class='kw'>=</span> <span class='fl'>10</span>,
     <span class='kw'>cores</span> <span class='kw'>=</span> <span class='fl'>1</span>
 )</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>    The genome has been divided in 100-bp bins</span>
+#&gt; <span class='message'>    The genome has been divided in 100-bp long windows </span>
 #&gt; <span class='message'>    with a sliding window of 2-bp.</span>
 #&gt; <span class='message'>    </span>
-#&gt; <span class='message'>    549 windows overlap the input </span>
-#&gt; <span class='message'>    loci (extended to 1000-bp).</span>
+#&gt; <span class='message'>    549 windows overlap the 1 input loci (extended to 1000-bp).</span>
 #&gt; <span class='message'>    </span>
-#&gt; <span class='message'>    The mapping will be split among 1 jobs.</span>
-#&gt; <span class='message'>    </span>
-#&gt; <span class='message'>    Each job will analyse 549 bins.</span>
+#&gt; <span class='message'>    The mapping will be split among 1 jobs. Each job will </span>
+#&gt; <span class='message'>    analyse 549 windows.</span>
 #&gt; <span class='message'>    </span>
 #&gt; <span class='message'>    Now starting...</span>
-#&gt; <span class='message'>    </span></div><div class='output co'>#&gt; <span class='message'>&gt;&gt; 1 bins computed /// TIME: 2020-06-12 12:55:26</span></div><div class='output co'>#&gt; <span class='message'>&gt;&gt; 549 bins computed /// TIME: 2020-06-12 12:56:03</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>    </span></div><div class='output co'>#&gt; <span class='message'>&gt;&gt; 1 bins computed /// TIME: 2020-06-12 15:59:52</span></div><div class='output co'>#&gt; <span class='message'>&gt;&gt; 549 bins computed /// TIME: 2020-06-12 16:00:32</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>   SUCCESS: WW-periodicity_g-100^2_b-100^5.bw has been created!</span></div><div class='output co'>#&gt; <span class='message'>   1098 bases covered by the generated track.</span></div><div class='output co'>#&gt; RleList of length 7
 #&gt; $chrI
 #&gt; numeric-Rle of length 15072434 with 412 runs
