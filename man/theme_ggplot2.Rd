@@ -8,23 +8,19 @@ at https://github.com/hrbrmstr/hrbrthemes/}
 theme_ggplot2(
   grid = TRUE,
   border = TRUE,
-  base_family = NULL,
   base_size = 8,
-  plot_title_family = base_family,
   plot_title_size = 12,
   plot_title_face = "plain",
   plot_title_margin = 5,
   subtitle_size = 11,
   subtitle_face = "plain",
   subtitle_margin = 5,
-  strip_text_family = base_family,
   strip_text_size = 10,
   strip_text_face = "bold",
   caption_size = 9,
   caption_face = "plain",
   caption_margin = 3,
   axis_text_size = base_size,
-  axis_title_family = base_family,
   axis_title_size = 9,
   axis_title_face = "plain",
   axis_title_just = "rt",
@@ -42,27 +38,24 @@ theme_ggplot2(
 
 \item{border}{border if `TRUE` add border}
 
-\item{base_family, base_size}{base font family and size}
-
-\item{plot_title_family, plot_title_face, }{plot title family, face}
+\item{base_size}{base font size}
 
 \item{plot_title_size, plot_title_margin, }{plot title size and margin}
 
-\item{subtitle_face, subtitle_size}{plot subtitle family, 
-face and size}
+\item{plot_title_face, }{plot title face}
+
+\item{subtitle_face, subtitle_size}{plot subtitle face and size}
 
 \item{subtitle_margin}{plot subtitle margin bottom (single numeric value)}
 
-\item{strip_text_family, strip_text_face, strip_text_size}{facet label font 
-family, face and size}
+\item{strip_text_face, strip_text_size}{facet label font face and size}
 
-\item{caption_face, caption_size, caption_margin}{plot caption
-family, face, size and margin}
+\item{caption_face, caption_size, caption_margin}{plot caption face, size 
+and margin}
 
 \item{axis_text_size}{font size of axis text}
 
-\item{axis_title_family, axis_title_face, axis_title_size}{axis title font 
-family, face and size}
+\item{axis_title_face, axis_title_size}{axis title font face and size}
 
 \item{axis_title_just}{axis title font justificationk one of `[blmcrt]`}
 

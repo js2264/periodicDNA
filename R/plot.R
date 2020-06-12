@@ -346,18 +346,15 @@ plotFPI <- function(fpi, periods = c(2, 20), s = 0.05) {
 #' Personal ggplot2 theming function, adapted from roboto-condensed 
 #' at https://github.com/hrbrmstr/hrbrthemes/
 #'
-#' @param base_family,base_size base font family and size
-#' @param plot_title_family,plot_title_face, plot title family, face
+#' @param base_size base font size
+#' @param plot_title_face, plot title face
 #' @param plot_title_size,plot_title_margin, plot title size and margin
-#' @param subtitle_face,subtitle_size plot subtitle family, 
-#' face and size
+#' @param subtitle_face,subtitle_size plot subtitle face and size
 #' @param subtitle_margin plot subtitle margin bottom (single numeric value)
-#' @param strip_text_family,strip_text_face,strip_text_size facet label font 
-#' family, face and size
-#' @param caption_face,caption_size,caption_margin plot caption
-#' family, face, size and margin
-#' @param axis_title_family,axis_title_face,axis_title_size axis title font 
-#' family, face and size
+#' @param strip_text_face,strip_text_size facet label font face and size
+#' @param caption_face,caption_size,caption_margin plot caption face, size 
+#' and margin
+#' @param axis_title_face,axis_title_size axis title font face and size
 #' @param axis_title_just axis title font justificationk one of `[blmcrt]`
 #' @param axis_text_size font size of axis text
 #' @param plot_margin plot margin (specify with [ggplot2::margin])
@@ -386,17 +383,16 @@ plotFPI <- function(fpi, periods = c(2, 20), s = 0.05) {
 theme_ggplot2 <- function(
     grid = TRUE,
     border = TRUE, 
-    base_family = NULL, base_size = 8,
-    plot_title_family = base_family, plot_title_size = 12,
+    base_size = 8,
+    plot_title_size = 12,
     plot_title_face = "plain", plot_title_margin = 5,
     subtitle_size = 11,
     subtitle_face = "plain", subtitle_margin = 5,
-    strip_text_family = base_family, strip_text_size = 10,
+    strip_text_size = 10,
     strip_text_face = "bold",
     caption_size = 9,
     caption_face = "plain", caption_margin = 3,
     axis_text_size = base_size,
-    axis_title_family = base_family,
     axis_title_size = 9,
     axis_title_face = "plain",
     axis_title_just = "rt",
@@ -410,7 +406,7 @@ theme_ggplot2 <- function(
 {
     
     ret <- ggplot2::theme_minimal(
-        base_family = base_family, base_size = base_size
+        base_size = base_size
     )
     
     ret <- ret + theme(legend.background = element_blank())
@@ -519,33 +515,33 @@ theme_ggplot2 <- function(
     ))
     
     ret <- ret + theme(axis.title = element_text(
-        size = axis_title_size, family = axis_title_family)
+        size = axis_title_size)
     )
     ret <- ret + theme(axis.title.x = element_text(
         # hjust = xj, 
         size = axis_title_size,
-        family = axis_title_family, face = axis_title_face
+        face = axis_title_face
     ))
     ret <- ret + theme(axis.title.y = element_text(
         # hjust = yj, 
         size = axis_title_size,
-        family = axis_title_family, face = axis_title_face
+        face = axis_title_face
     ))
     ret <- ret + theme(axis.title.y.right = element_text(
         # hjust = yj, 
         size = axis_title_size, angle = 90,
-        family = axis_title_family, face = axis_title_face
+        face = axis_title_face
     ))
     
     ret <- ret + theme(strip.text = element_text(
         hjust = 0, size = strip_text_size,
-        face = strip_text_face, family = strip_text_family
+        face = strip_text_face
     ))
     
     ret <- ret + theme(plot.title = element_text(
         hjust = 0, size = plot_title_size,
         margin = margin(b = plot_title_margin),
-        family = plot_title_family, face = plot_title_face
+        face = plot_title_face
     ))
     ret <- ret + theme(plot.subtitle = element_text(
         hjust = 0, size = subtitle_size,
