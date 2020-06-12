@@ -7,7 +7,7 @@ test_that("getPeriodicityTrack and plotAggregateCoverage works", {
             Biostrings::getSeq(
                 BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
             ),
-            granges = ce11_proms[1], 
+            granges = ce11_proms[1:3], 
             motif = 'TT',
             period = 10,
             extension = 400, 

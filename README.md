@@ -91,6 +91,12 @@ WW_10bp <- getPeriodicityTrack(
 )
 ```
 
+**Warning**: It is recommended to run this command across many processors 
+use the `cores` argument. This command typically takes one day to produce 
+a periodicity track over 15,000 GRanges of 150 bp (with default parameters) 
+using `cores = 12`. It is highly recommended to run this command in a 
+new `screen` session.
+
 ## Contributions
 Code contributions, bug reports, fixes and feature requests are most welcome.
 Please make any pull requests against the master branch at 
