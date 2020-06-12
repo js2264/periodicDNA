@@ -46,7 +46,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.5</span>
       </span>
     </div>
 
@@ -59,22 +59,7 @@
   </a>
 </li>
 <li>
-  <a href="articles/periodicDNA.html">Get started</a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="articles/internal-steps.html">How periodicDNA works</a>
-    </li>
-  </ul>
 </li>
 <li>
   <a href="news/index.html">Changelog</a>
@@ -149,7 +134,7 @@
     <span class="no">ce11_proms</span>,
     <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'ce11'</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
-    <span class="kw">cores</span> <span class="kw">=</span> <span class="fl">4</span>
+    <span class="kw">BPPARAM</span> <span class="kw">=</span> <span class="kw pkg">BiocParallel</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/SnowParam-class.html">SnowParam</a></span>(<span class="kw">workers</span> <span class="kw">=</span> <span class="fl">4</span>)
 )
 <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/plotPeriodicityResults.html">plotPeriodicityResults</a></span>(<span class="no">PSDs</span>)</pre></div>
 </div>
@@ -161,10 +146,10 @@
     <span class="kw">granges</span> <span class="kw">=</span> <span class="no">ce11_proms</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'WW'</span>,
     <span class="kw">period</span> <span class="kw">=</span> <span class="fl">10</span>,
-    <span class="kw">cores</span> <span class="kw">=</span> <span class="fl">12</span>,
-    <span class="kw">bw_file</span> <span class="kw">=</span> <span class="st">'WW-10-bp-periodicity_over-proms.bw'</span>
+    <span class="kw">bw_file</span> <span class="kw">=</span> <span class="st">'WW-10-bp-periodicity_over-proms.bw'</span>,
+    <span class="kw">BPPARAM</span> <span class="kw">=</span> <span class="kw pkg">BiocParallel</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/SnowParam-class.html">SnowParam</a></span>(<span class="kw">workers</span> <span class="kw">=</span> <span class="fl">12</span>)
 )</pre></div>
-<p><strong>Warning</strong>: It is recommended to run this command across many processors use the <code>cores</code> argument. This command typically takes one day to produce a periodicity track over 15,000 GRanges of 150 bp (with default parameters) using <code>cores = 12</code>. It is highly recommended to run this command in a new <code>screen</code> session.</p>
+<p><strong>Warning</strong>: It is recommended to run this command across many processors using BiocParallel. This command typically takes one day to produce a periodicity track over 15,000 GRanges of 150 bp (with default parameters) using <code>BPPARAM = BiocParallel::SnowParam(workers = 12)</code>. It is highly recommended to run this command in a new <code>screen</code> session.</p>
 </div>
 </div>
 <div id="contributions" class="section level2">

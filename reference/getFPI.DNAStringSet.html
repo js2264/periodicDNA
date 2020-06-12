@@ -82,7 +82,7 @@ by Pich et al., Cell 2018." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.5</span>
       </span>
     </div>
 
@@ -95,22 +95,7 @@ by Pich et al., Cell 2018." />
   </a>
 </li>
 <li>
-  <a href="../articles/periodicDNA.html">Get started</a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/internal-steps.html">How periodicDNA works</a>
-    </li>
-  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -153,7 +138,7 @@ by Pich et al., Cell 2018.</p>
   <span class='no'>motif</span>,
   <span class='kw'>period</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>n_shuffling</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>cores_shuffling</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>bpparam</span>(),
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='no'>...</span>
 )</pre>
@@ -178,9 +163,9 @@ by Pich et al., Cell 2018.</p>
       <td><p>integer, Number of shuffling</p></td>
     </tr>
     <tr>
-      <th>cores_shuffling</th>
+      <th>BPPARAM</th>
       <td><p>integer, Number of threads to use to split
-shuffling</p></td>
+shuffling of sequences</p></td>
     </tr>
     <tr>
       <th>verbose</th>
@@ -205,11 +190,10 @@ by the n_shuffling argument.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_proms_seqs</span>)
+<span class='kw pkg'>BiocParallel</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/BiocParallel/man/register.html'>register</a></span>(<span class='kw pkg'>BiocParallel</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/BiocParallel/man/SnowParam-class.html'>SnowParam</a></span>(<span class='kw'>workers</span> <span class='kw'>=</span> <span class='fl'>1</span>))
 <span class='no'>fpi</span> <span class='kw'>&lt;-</span> <span class='fu'>getFPI</span>(
     <span class='no'>ce11_proms_seqs</span>[<span class='fl'>1</span>:<span class='fl'>10</span>],
-    <span class='kw'>motif</span> <span class='kw'>=</span> <span class='st'>'TT'</span>,
-    <span class='kw'>cores_shuffling</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-    <span class='kw'>cores</span> <span class='kw'>=</span> <span class='fl'>1</span>
+    <span class='kw'>motif</span> <span class='kw'>=</span> <span class='st'>'TT'</span>
 )</div><div class='output co'>#&gt; <span class='message'>- Calculating observed PSD</span></div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 12945 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing histogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the vector of distances.</span></div><div class='output co'>#&gt; <span class='message'>&gt;&gt; Measured PSD @ 10bp is: 4.78946534620361e-06</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 1/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 2/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 3/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 4/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 5/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 6/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 7/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 8/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 9/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 10/10</span></div><div class='output co'>#&gt; <span class='message'>&gt;&gt; Calculated FPI @ 10bp is: 6.75227346511369</span></div><div class='input'><span class='no'>fpi</span>$<span class='no'>FPI</span></div><div class='output co'>#&gt; [1] 6.752273</div><div class='input'><span class='no'>fpi</span>$<span class='no'>observed_PSD</span></div><div class='output co'>#&gt; [1] 4.789465e-06</div><div class='input'><span class='no'>fpi</span>$<span class='no'>shuffled_PSD</span></div><div class='output co'>#&gt;  [1] 1.318074e-06 1.940373e-08 7.934358e-07 2.434129e-08 7.056279e-07
 #&gt;  [6] 4.067809e-07 1.214519e-06 9.477562e-07 5.300007e-07 2.852541e-07</div><div class='input'><span class='fu'>plotFPI</span>(<span class='no'>fpi</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1001 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='img'><img src='getFPI.DNAStringSet-1.png' alt='' width='700' height='433' /></div></pre>
   </div>

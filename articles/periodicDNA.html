@@ -12,7 +12,7 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
       </span>
     </div>
 
@@ -95,7 +95,7 @@
       <h1 data-toc-skip>periodicDNA</h1>
                         <h4 class="author">Jacques Serizay</h4>
             
-            <h4 class="date">2020-06-12</h4>
+            <h4 class="date">2020-05-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/js2264/periodicDNA/blob/master/vignettes/periodicDNA.Rmd"><code>vignettes/periodicDNA.Rmd</code></a></small>
       <div class="hidden name"><code>periodicDNA.Rmd</code></div>
@@ -107,138 +107,169 @@
 <div id="dinucleotide-periodicity-over-a-set-of-genomic-ranges" class="section level3">
 <h3 class="hasAnchor">
 <a href="#dinucleotide-periodicity-over-a-set-of-genomic-ranges" class="anchor"></a>Dinucleotide periodicity over a set of Genomic Ranges</h3>
-<p>The main goal of periodicDNA is to quantify periodicity of a given k-mer in a set of sequences. <code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicity.html">getPeriodicity()</a></code> can be used to achieve this. In the following example, <code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicity.html">getPeriodicity()</a></code> is usually ran using a GRanges object, specifying from which genome this GRanges comes from.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">magrittr</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">periodicDNA</span>)
-<span class="co">#</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce11_proms</span>)
-<span class="no">periodicity_result</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicity.html">getPeriodicity</a></span>(
-    <span class="no">ce11_proms</span>[<span class="no">ce11_proms</span>$<span class="no">which.tissues</span> <span class="kw">==</span> <span class="st">'Ubiq.'</span>][<span class="fl">1</span>:<span class="fl">500</span>] <span class="kw">%&gt;%</span>
-        <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/alignToTSS.html">alignToTSS</a></span>(<span class="kw">upstream</span> <span class="kw">=</span> <span class="fl">0</span>, <span class="kw">downstream</span> <span class="kw">=</span> <span class="fl">150</span>),
+<p>The main goal of periodicDNA is to quantify periodicity of a given k-mer in a set of sequences. <code>getPeriodicity()</code> can be used to achieve this. In the following example, <code>getPeriodicity()</code> is usually ran using a GRanges object, specifying from which genome this GRanges comes from.</p>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce11_proms</span>)
+<span class="no">periodicity_result</span> <span class="kw">&lt;-</span> <span class="fu">getPeriodicity</span>(
+    <span class="no">ce11_proms</span>[<span class="no">ce11_proms</span>$<span class="no">which.tissues</span> <span class="kw">==</span> <span class="st">'Ubiq.'</span>][<span class="fl">1</span>:<span class="fl">500</span>],
     <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'ce11'</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
     <span class="kw">cores</span> <span class="kw">=</span> <span class="fl">1</span>
 )
 <span class="co">#&gt; - Mapping k-mers.</span>
-<span class="co">#&gt; - 205270 pairwise distances measured.</span>
+<span class="co">#&gt; - 90162 pairwise distances measured.</span>
 <span class="co">#&gt; - Calculating pairwise distance distribution.</span>
 <span class="co">#&gt; - Normalizing histogram vector.</span>
 <span class="co">#&gt; - Applying Fast Fourier Transform to the vector of distances.</span>
 <span class="co">#&gt; Range (1:200) is wider than any range in the current </span>
-<span class="co">#&gt;             distances vector. Shortening the range from 1 to 147...</span></pre></body></html></div>
-<p>The output of <code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicity.html">getPeriodicity()</a></code> is an object containing the PSD scores associated with each period. For a given period, a high PSD score indicates a high periodicity of the k-mer of interest.</p>
+<span class="co">#&gt;             distances vector. Shortening the range from 1 to 149...</span></pre></body></html></div>
+<p>The output of <code>getPeriodicity()</code> is an object containing the PSD scores associated with each period. For a given period, a high PSD score indicates a high periodicity of the k-mer of interest.</p>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">periodicity_result</span>$<span class="no">PSD</span>)
 <span class="co">#&gt;          freq period          PSD</span>
-<span class="co">#&gt; 1 0.006666667  150.0 4.999419e-08</span>
-<span class="co">#&gt; 2 0.013333333   75.0 1.445428e-07</span>
-<span class="co">#&gt; 3 0.020000000   50.0 2.323660e-07</span>
-<span class="co">#&gt; 4 0.026666667   37.5 4.823838e-08</span>
-<span class="co">#&gt; 5 0.033333333   30.0 6.238815e-08</span>
-<span class="co">#&gt; 6 0.040000000   25.0 2.397383e-08</span>
+<span class="co">#&gt; 1 0.006666667  150.0 1.092855e-05</span>
+<span class="co">#&gt; 2 0.013333333   75.0 7.141434e-08</span>
+<span class="co">#&gt; 3 0.020000000   50.0 7.359122e-07</span>
+<span class="co">#&gt; 4 0.026666667   37.5 3.592715e-07</span>
+<span class="co">#&gt; 5 0.033333333   30.0 6.171229e-07</span>
+<span class="co">#&gt; 6 0.040000000   25.0 2.413387e-07</span>
 <span class="no">periodicity_result</span>$<span class="no">PSD</span> <span class="kw">%$%</span> <span class="no">PSD</span>[<span class="no">.</span>$<span class="no">period</span> <span class="kw">==</span> <span class="fl">10</span>]
-<span class="co">#&gt; [1] 2.565402e-05</span></pre></body></html></div>
-<p>Graphical output of <code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicity.html">getPeriodicity()</a></code> can be obtained using the <code><a href="https://rdrr.io/pkg/periodicDNA/man/plotPeriodicityResults.html">plotPeriodicityResults()</a></code> function:</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/plotPeriodicityResults.html">plotPeriodicityResults</a></span>(<span class="no">periodicity_result</span>)</pre></body></html></div>
-<p><img src="periodicDNA_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
+<span class="co">#&gt; [1] 1.424552e-06</span></pre></body></html></div>
+<p>Graphical output of <code>getPeriodicity()</code> can be obtained using the <code>plotPeriodicityResults()</code> function:</p>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu">plotPeriodicityResults</span>(<span class="no">periodicity_result</span>)</pre></body></html></div>
+<p><img src="https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/ubiquitous-promoters_TT-periodicity.png"></p>
 <p>The first plot shows the raw distribution of distances between pairs of ‘TT’ in the sequences of the provided GRanges. The second plot shows the decay-normalised distribution. Finally, the third plot shows the PSD scores of the ‘TT’ k-mer, measured from the normalised distribution.</p>
-<p><strong>Note:</strong><br><code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicity.html">getPeriodicity()</a></code> can also be ran directly on a set of sequences of interest as follows:</p>
+<p><strong>Note:</strong><br><code>getPeriodicity()</code> can also be ran directly on a set of sequences of interest as follows:</p>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce11_proms_seqs</span>)
-<span class="no">periodicity_result</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicity.html">getPeriodicity</a></span>(
+<span class="no">periodicity_result</span> <span class="kw">&lt;-</span> <span class="fu">getPeriodicity</span>(
     <span class="no">ce11_proms_seqs</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
-    <span class="kw">cores</span> <span class="kw">=</span> <span class="fl">1</span>
-)
-<span class="co">#&gt; - Mapping k-mers.</span>
-<span class="co">#&gt; - 117630 pairwise distances measured.</span>
-<span class="co">#&gt; - Calculating pairwise distance distribution.</span>
-<span class="co">#&gt; - Normalizing histogram vector.</span>
-<span class="co">#&gt; - Applying Fast Fourier Transform to the vector of distances.</span></pre></body></html></div>
+    <span class="kw">cores</span> <span class="kw">=</span> <span class="fl">4</span>
+)</pre></body></html></div>
 </div>
 <div id="track-of-periodicity-over-a-set-of-genomic-ranges" class="section level3">
 <h3 class="hasAnchor">
 <a href="#track-of-periodicity-over-a-set-of-genomic-ranges" class="anchor"></a>Track of periodicity over a set of Genomic Ranges</h3>
-<p>Another major aim of periodicDNA is to generate continuous linear tracks of k-mer periodicity strength over genomic loci of interest. <code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicityTrack.html">getPeriodicityTrack()</a></code> can be used to generate suck genomic tracks. In the following example,</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">WW_10bp_track</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicityTrack.html">getPeriodicityTrack</a></span>(
+<p>Another major aim of periodicDNA is to generate continuous linear tracks of k-mer periodicity strength over genomic loci of interest. <code>getPeriodicityTrack()</code> can be used to generate suck genomic tracks. In the following example,</p>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">WW_10bp_track</span> <span class="kw">&lt;-</span> <span class="fu">getPeriodicityTrack</span>(
     <span class="kw pkg">Biostrings</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/getSeq.html">getSeq</a></span>(
         <span class="kw pkg">BSgenome.Celegans.UCSC.ce11</span><span class="kw ns">::</span><span class="no"><a href="https://rdrr.io/pkg/BSgenome.Celegans.UCSC.ce11/man/package.html">BSgenome.Celegans.UCSC.ce11</a></span>
     ),
     <span class="kw">granges</span> <span class="kw">=</span> <span class="no">ce11_proms</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'WW'</span>,
     <span class="kw">period</span> <span class="kw">=</span> <span class="fl">10</span>,
-    <span class="kw">cores</span> <span class="kw">=</span> <span class="fl">1</span>,
+    <span class="kw">cores</span> <span class="kw">=</span> <span class="fl">12</span>,
     <span class="kw">bw_file</span> <span class="kw">=</span> <span class="st">'WW-10-bp-periodicity_over-proms.bw'</span>
 )</pre></body></html></div>
 <p>When plotted over sets of ubiquitous, germline or somatic TSSs, the resulting track clearly shows increase of WW 10-bp periodicity above the ubiquitous and germline TSSs, whereas somatic TSSs do not show such increase.</p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce11_TSSs</span>)
-<span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/plotAggregateCoverage.html">plotAggregateCoverage</a></span>(
+<span class="fu">plotAggregateCoverage</span>(
     <span class="no">WW_10bp_track</span>,
     <span class="no">ce11_TSSs</span>,
-    <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">'Distance from TSS'</span>,
-    <span class="kw">ylab</span> <span class="kw">=</span> <span class="st">'10-bp periodicity strength (forward proms.)'</span>
+    <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">'TSS'</span>,
+    <span class="kw">ylab</span> <span class="kw">=</span> <span class="st">'WW 10-bp PSD score'</span>
 )</pre></body></html></div>
-<p><img src="https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/TT-10bp-periodicity_tissue-spe-TSSs.png" width="100%"></p>
+<p><img src="https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/TT-10bp-periodicity_tissue-spe-TSSs.png"></p>
+</div>
+<div id="fold-power-increase" class="section level3">
+<h3 class="hasAnchor">
+<a href="#fold-power-increase" class="anchor"></a>Fold Power Increase</h3>
+<p>Fold Power Increase (FPI) is a metric introduced by Pich et al., Cell 2018. It can be computed using the <code>getFPI()</code> function. In the following example, the FPI of TT dinucleotides at a 10-bp periodicity is computed over 200-bp long sequences randomly sampled in ce11 genome.</p>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
+<span class="no">ce11_random_regions</span> <span class="kw">&lt;-</span> <span class="fu">sampleGenome</span>(
+    <span class="st">'ce11'</span>,
+    <span class="kw">n</span> <span class="kw">=</span> <span class="fl">300</span>, <span class="kw">w</span> <span class="kw">=</span> <span class="fl">500</span>
+)
+<span class="no">fpi</span> <span class="kw">&lt;-</span> <span class="fu">getFPI</span>(
+    <span class="no">ce11_random_regions</span>$<span class="no">seq</span>,
+    <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'WW'</span>,
+    <span class="kw">cores_shuffling</span> <span class="kw">=</span> <span class="fl">1</span>,
+    <span class="kw">n_shuffling</span> <span class="kw">=</span> <span class="fl">10</span>
+)
+<span class="co">#&gt; - Calculating observed PSD</span>
+<span class="co">#&gt; - Mapping k-mers.</span>
+<span class="co">#&gt; - 7039094 pairwise distances measured.</span>
+<span class="co">#&gt; - Calculating pairwise distance distribution.</span>
+<span class="co">#&gt; - Normalizing histogram vector.</span>
+<span class="co">#&gt; - Applying Fast Fourier Transform to the vector of distances.</span>
+<span class="co">#&gt; &gt;&gt; Measured PSD @ 10bp is: 1.38566883204698e-08</span>
+<span class="co">#&gt; - Shuffling 1/10</span>
+<span class="co">#&gt; - Shuffling 2/10</span>
+<span class="co">#&gt; - Shuffling 3/10</span>
+<span class="co">#&gt; - Shuffling 4/10</span>
+<span class="co">#&gt; - Shuffling 5/10</span>
+<span class="co">#&gt; - Shuffling 6/10</span>
+<span class="co">#&gt; - Shuffling 7/10</span>
+<span class="co">#&gt; - Shuffling 8/10</span>
+<span class="co">#&gt; - Shuffling 9/10</span>
+<span class="co">#&gt; - Shuffling 10/10</span>
+<span class="co">#&gt; &gt;&gt; Calculated FPI @ 10bp is: 109.118833154402</span>
+<span class="fu">plotFPI</span>(<span class="no">fpi</span>)
+<span class="co">#&gt; `geom_smooth()` using formula 'y ~ x'</span>
+<span class="co">#&gt; `geom_smooth()` using formula 'y ~ x'</span>
+<span class="co">#&gt; Warning in max(ids, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span></pre></body></html></div>
+<p><img src="periodicDNA_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 </div>
 <div id="session-info" class="section level2">
 <h2 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session info</h2>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()
-<span class="co">#&gt; R Under development (unstable) (2020-06-12 r78687)</span>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()
+<span class="co">#&gt; R version 3.5.2 (2018-12-20)</span>
 <span class="co">#&gt; Platform: x86_64-pc-linux-gnu (64-bit)</span>
-<span class="co">#&gt; Running under: Ubuntu 14.04.5 LTS</span>
+<span class="co">#&gt; Running under: Ubuntu 18.04.2 LTS</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Matrix products: default</span>
-<span class="co">#&gt; BLAS:   /home/travis/R-bin/lib/R/lib/libRblas.so</span>
-<span class="co">#&gt; LAPACK: /home/travis/R-bin/lib/R/lib/libRlapack.so</span>
+<span class="co">#&gt; BLAS: /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.7.1</span>
+<span class="co">#&gt; LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.7.1</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; locale:</span>
-<span class="co">#&gt;  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span>
-<span class="co">#&gt;  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    </span>
-<span class="co">#&gt;  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   </span>
-<span class="co">#&gt;  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 </span>
+<span class="co">#&gt;  [1] LC_CTYPE=en_GB.UTF-8       LC_NUMERIC=C              </span>
+<span class="co">#&gt;  [3] LC_TIME=en_GB.UTF-8        LC_COLLATE=en_GB.UTF-8    </span>
+<span class="co">#&gt;  [5] LC_MONETARY=en_GB.UTF-8    LC_MESSAGES=en_GB.UTF-8   </span>
+<span class="co">#&gt;  [7] LC_PAPER=en_GB.UTF-8       LC_NAME=C                 </span>
 <span class="co">#&gt;  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span>
-<span class="co">#&gt; [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span>
+<span class="co">#&gt; [11] LC_MEASUREMENT=en_GB.UTF-8 LC_IDENTIFICATION=C       </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; attached base packages:</span>
 <span class="co">#&gt; [1] parallel  stats4    stats     graphics  grDevices utils     datasets </span>
 <span class="co">#&gt; [8] methods   base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt;  [1] periodicDNA_0.99.4   Biostrings_2.57.2    XVector_0.29.2      </span>
-<span class="co">#&gt;  [4] magrittr_1.5         ggplot2_3.3.1        GenomicRanges_1.41.5</span>
-<span class="co">#&gt;  [7] GenomeInfoDb_1.25.1  IRanges_2.23.9       S4Vectors_0.27.12   </span>
-<span class="co">#&gt; [10] BiocGenerics_0.35.4 </span>
+<span class="co">#&gt;  [1] periodicDNA_0.3.2    Biostrings_2.50.2    XVector_0.22.0      </span>
+<span class="co">#&gt;  [4] magrittr_1.5         ggplot2_3.3.0        GenomicRanges_1.34.0</span>
+<span class="co">#&gt;  [7] GenomeInfoDb_1.18.2  IRanges_2.16.0       S4Vectors_0.20.1    </span>
+<span class="co">#&gt; [10] BiocGenerics_0.28.0 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
-<span class="co">#&gt;  [1] SummarizedExperiment_1.19.5       zoo_1.8-8                        </span>
-<span class="co">#&gt;  [3] xfun_0.14                         lattice_0.20-41                  </span>
-<span class="co">#&gt;  [5] colorspace_1.4-1                  vctrs_0.3.1                      </span>
-<span class="co">#&gt;  [7] htmltools_0.4.0                   rtracklayer_1.49.3               </span>
-<span class="co">#&gt;  [9] yaml_2.2.1                        XML_3.99-0.3                     </span>
-<span class="co">#&gt; [11] rlang_0.4.6                       pkgdown_1.5.1                    </span>
-<span class="co">#&gt; [13] pillar_1.4.4                      glue_1.4.1                       </span>
-<span class="co">#&gt; [15] withr_2.2.0                       BiocParallel_1.23.0              </span>
-<span class="co">#&gt; [17] matrixStats_0.56.0                GenomeInfoDbData_1.2.3           </span>
-<span class="co">#&gt; [19] lifecycle_0.2.0                   stringr_1.4.0                    </span>
-<span class="co">#&gt; [21] zlibbioc_1.35.0                   munsell_0.5.0                    </span>
-<span class="co">#&gt; [23] gtable_0.3.0                      memoise_1.1.0                    </span>
-<span class="co">#&gt; [25] evaluate_0.14                     labeling_0.3                     </span>
-<span class="co">#&gt; [27] Biobase_2.49.0                    knitr_1.28                       </span>
-<span class="co">#&gt; [29] Rcpp_1.0.4.6                      BSgenome_1.57.0                  </span>
-<span class="co">#&gt; [31] scales_1.1.1                      backports_1.1.7                  </span>
-<span class="co">#&gt; [33] DelayedArray_0.15.3               desc_1.2.0                       </span>
-<span class="co">#&gt; [35] farver_2.0.3                      fs_1.4.1                         </span>
-<span class="co">#&gt; [37] Rsamtools_2.5.1                   digest_0.6.25                    </span>
-<span class="co">#&gt; [39] stringi_1.4.6                     grid_4.1.0                       </span>
-<span class="co">#&gt; [41] rprojroot_1.3-2                   cowplot_1.0.0                    </span>
-<span class="co">#&gt; [43] tools_4.1.0                       bitops_1.0-6                     </span>
-<span class="co">#&gt; [45] RCurl_1.98-1.2                    tibble_3.0.1                     </span>
-<span class="co">#&gt; [47] crayon_1.3.4                      pkgconfig_2.0.3                  </span>
-<span class="co">#&gt; [49] BSgenome.Celegans.UCSC.ce11_1.4.2 MASS_7.3-51.6                    </span>
-<span class="co">#&gt; [51] ellipsis_0.3.1                    Matrix_1.2-18                    </span>
-<span class="co">#&gt; [53] assertthat_0.2.1                  rmarkdown_2.2                    </span>
-<span class="co">#&gt; [55] R6_2.4.1                          GenomicAlignments_1.25.3         </span>
-<span class="co">#&gt; [57] compiler_4.1.0</span></pre></body></html></div>
+<span class="co">#&gt;  [1] SummarizedExperiment_1.12.0       zoo_1.8-5                        </span>
+<span class="co">#&gt;  [3] tidyselect_0.2.5                  xfun_0.5                         </span>
+<span class="co">#&gt;  [5] purrr_0.3.4                       splines_3.5.2                    </span>
+<span class="co">#&gt;  [7] lattice_0.20-38                   colorspace_1.4-1                 </span>
+<span class="co">#&gt;  [9] htmltools_0.3.6                   mgcv_1.8-28                      </span>
+<span class="co">#&gt; [11] rtracklayer_1.42.2                yaml_2.2.0                       </span>
+<span class="co">#&gt; [13] XML_3.98-1.19                     rlang_0.4.6                      </span>
+<span class="co">#&gt; [15] pkgdown_1.5.1                     pillar_1.3.1                     </span>
+<span class="co">#&gt; [17] glue_1.4.0                        withr_2.2.0                      </span>
+<span class="co">#&gt; [19] BiocParallel_1.16.6               matrixStats_0.54.0               </span>
+<span class="co">#&gt; [21] GenomeInfoDbData_1.2.0            stringr_1.4.0                    </span>
+<span class="co">#&gt; [23] zlibbioc_1.28.0                   munsell_0.5.0                    </span>
+<span class="co">#&gt; [25] gtable_0.3.0                      memoise_1.1.0                    </span>
+<span class="co">#&gt; [27] evaluate_0.13                     labeling_0.3                     </span>
+<span class="co">#&gt; [29] Biobase_2.42.0                    knitr_1.22                       </span>
+<span class="co">#&gt; [31] Rcpp_1.0.1                        BSgenome_1.50.0                  </span>
+<span class="co">#&gt; [33] scales_1.0.0                      backports_1.1.3                  </span>
+<span class="co">#&gt; [35] DelayedArray_0.8.0                desc_1.2.0                       </span>
+<span class="co">#&gt; [37] fs_1.3.1                          Rsamtools_1.34.1                 </span>
+<span class="co">#&gt; [39] digest_0.6.18                     stringi_1.3.1                    </span>
+<span class="co">#&gt; [41] dplyr_0.8.0.1                     grid_3.5.2                       </span>
+<span class="co">#&gt; [43] rprojroot_1.3-2                   cowplot_0.9.4                    </span>
+<span class="co">#&gt; [45] tools_3.5.2                       bitops_1.0-6                     </span>
+<span class="co">#&gt; [47] RCurl_1.95-4.12                   tibble_2.1.1                     </span>
+<span class="co">#&gt; [49] crayon_1.3.4                      pkgconfig_2.0.2                  </span>
+<span class="co">#&gt; [51] BSgenome.Celegans.UCSC.ce11_1.4.2 MASS_7.3-51.1                    </span>
+<span class="co">#&gt; [53] Matrix_1.2-17                     assertthat_0.2.1                 </span>
+<span class="co">#&gt; [55] rmarkdown_1.12.6                  R6_2.4.0                         </span>
+<span class="co">#&gt; [57] nlme_3.1-137                      GenomicAlignments_1.18.1         </span>
+<span class="co">#&gt; [59] compiler_3.5.2</span></pre></body></html></div>
 </div>
   </div>
 
@@ -253,7 +284,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Jacques Serizay.</p>
+  <p>Developed by <a href="https://js2264.github.io/">Jacques Serizay</a>.</p>
 </div>
 
 <div class="pkgdown">

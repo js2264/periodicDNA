@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.5</span>
       </span>
     </div>
 
@@ -93,22 +93,7 @@
   </a>
 </li>
 <li>
-  <a href="../articles/periodicDNA.html">Get started</a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/internal-steps.html">How periodicDNA works</a>
-    </li>
-  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -145,10 +130,10 @@
 
     <pre class="usage"><span class='fu'>partitionGenome</span>(
   <span class='no'>genome</span>,
-  <span class='no'>granges.extended_large</span>,
-  <span class='no'>granges.extended</span>,
+  <span class='no'>granges_extended_large</span>,
+  <span class='no'>granges_extended</span>,
   <span class='no'>genome_sliding_size</span>,
-  <span class='no'>genome_sliding_sliding</span>
+  <span class='no'>genome_sliding_shift</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -159,11 +144,11 @@
       <td><p>DNAStringSet, BSgenome or genome ID</p></td>
     </tr>
     <tr>
-      <th>granges.extended_large</th>
+      <th>granges_extended_large</th>
       <td><p>A GRanges object.</p></td>
     </tr>
     <tr>
-      <th>granges.extended</th>
+      <th>granges_extended</th>
       <td><p>A GRanges object.</p></td>
     </tr>
     <tr>
@@ -172,7 +157,7 @@
 the GRanges objects in (default 100).</p></td>
     </tr>
     <tr>
-      <th>genome_sliding_sliding</th>
+      <th>genome_sliding_shift</th>
       <td><p>An integer. The increment between bins 
 over GRanges (default 2).</p></td>
     </tr>
@@ -180,7 +165,7 @@ over GRanges (default 2).</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>granges.partionned A Granges object corresponding to the binned 
+    <p>granges_partionned A Granges object corresponding to the binned 
 genome.</p>
 
   </div>

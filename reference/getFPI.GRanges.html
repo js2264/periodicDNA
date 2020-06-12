@@ -82,7 +82,7 @@ by Pich et al., Cell 2018." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.5</span>
       </span>
     </div>
 
@@ -95,22 +95,7 @@ by Pich et al., Cell 2018." />
   </a>
 </li>
 <li>
-  <a href="../articles/periodicDNA.html">Get started</a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/internal-steps.html">How periodicDNA works</a>
-    </li>
-  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -184,14 +169,14 @@ by the n_shuffling argument.</p>
     <span class='no'>ce11_TSSs</span><span class='kw'>[[</span><span class='st'>'Ubiq.'</span>]][<span class='fl'>1</span>:<span class='fl'>10</span>],
     <span class='kw'>genome</span> <span class='kw'>=</span> <span class='st'>'ce11'</span>,
     <span class='kw'>motif</span> <span class='kw'>=</span> <span class='st'>'TT'</span>,
-    <span class='kw'>cores_shuffling</span> <span class='kw'>=</span> <span class='fl'>1</span>
+    <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='kw pkg'>BiocParallel</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/BiocParallel/man/SnowParam-class.html'>SnowParam</a></span>(<span class='kw'>workers</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 )</div><div class='output co'>#&gt; <span class='message'>- Calculating observed PSD</span></div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 76459 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing histogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the vector of distances.</span></div><div class='output co'>#&gt; <span class='message'>&gt;&gt; Measured PSD @ 10bp is: 9.02565541651108e-07</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 1/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 2/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 3/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 4/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 5/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 6/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 7/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 8/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 9/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 10/10</span></div><div class='output co'>#&gt; <span class='message'>&gt;&gt; Calculated FPI @ 10bp is: 22.9749300890685</span></div><div class='input'><span class='no'>fpi</span>$<span class='no'>FPI</span></div><div class='output co'>#&gt; [1] 22.97493</div><div class='input'><span class='no'>fpi</span>$<span class='no'>observed_PSD</span></div><div class='output co'>#&gt; [1] 9.025655e-07</div><div class='input'><span class='no'>fpi</span>$<span class='no'>shuffled_PSD</span></div><div class='output co'>#&gt;  [1] 6.375603e-08 4.841936e-08 5.823182e-09 2.687309e-08 2.077292e-07
 #&gt;  [6] 7.405588e-08 7.922293e-09 8.013376e-09 2.224144e-08 7.169595e-08</div><div class='input'><span class='no'>p1</span> <span class='kw'>&lt;-</span> <span class='fu'>plotFPI</span>(<span class='no'>fpi</span>)
 <span class='no'>fpi</span> <span class='kw'>&lt;-</span> <span class='fu'>getFPI</span>(
     <span class='no'>ce11_TSSs</span><span class='kw'>[[</span><span class='st'>'Muscle'</span>]][<span class='fl'>1</span>:<span class='fl'>10</span>],
     <span class='kw'>genome</span> <span class='kw'>=</span> <span class='st'>'ce11'</span>,
     <span class='kw'>motif</span> <span class='kw'>=</span> <span class='st'>'TT'</span>,
-    <span class='kw'>cores_shuffling</span> <span class='kw'>=</span> <span class='fl'>1</span>
+    <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='kw pkg'>BiocParallel</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/BiocParallel/man/SnowParam-class.html'>SnowParam</a></span>(<span class='kw'>workers</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 )</div><div class='output co'>#&gt; <span class='message'>- Calculating observed PSD</span></div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 82811 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing histogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the vector of distances.</span></div><div class='output co'>#&gt; <span class='message'>&gt;&gt; Measured PSD @ 10bp is: 3.17668567134466e-08</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 1/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 2/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 3/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 4/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 5/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 6/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 7/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 8/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 9/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 10/10</span></div><div class='output co'>#&gt; <span class='message'>&gt;&gt; Calculated FPI @ 10bp is: 0.626411569516806</span></div><div class='input'><span class='no'>fpi</span>$<span class='no'>FPI</span></div><div class='output co'>#&gt; [1] 0.6264116</div><div class='input'><span class='no'>fpi</span>$<span class='no'>observed_PSD</span></div><div class='output co'>#&gt; [1] 3.176686e-08</div><div class='input'><span class='no'>fpi</span>$<span class='no'>shuffled_PSD</span></div><div class='output co'>#&gt;  [1] 5.661027e-08 4.791134e-09 8.936022e-08 1.220300e-08 4.487382e-08
 #&gt;  [6] 2.686074e-08 9.128840e-10 1.223240e-09 2.386138e-09 4.882938e-08</div><div class='input'><span class='no'>p2</span> <span class='kw'>&lt;-</span> <span class='fu'>plotFPI</span>(<span class='no'>fpi</span>)
 <span class='kw pkg'>cowplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/cowplot/man/plot_grid.html'>plot_grid</a></span>(<span class='no'>p1</span>, <span class='no'>p2</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1001 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1001 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='img'><img src='getFPI.GRanges-1.png' alt='' width='700' height='433' /></div></pre>
