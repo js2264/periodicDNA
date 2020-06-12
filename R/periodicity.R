@@ -29,8 +29,7 @@
 #' data(ce11_proms_seqs)
 #' periodicity_result <- getPeriodicity(
 #'     ce11_proms_seqs[1:100],
-#'     motif = 'TT', 
-#'     cores = 1
+#'     motif = 'TT'
 #' )
 #' plotPeriodicityResults(periodicity_result)
 #' #
@@ -38,8 +37,7 @@
 #' periodicity_result <- getPeriodicity(
 #'     ce11_proms[1:100],
 #'     genome = 'ce11',
-#'     motif = 'TT', 
-#'     cores = 1
+#'     motif = 'TT'
 #' )
 #' head(periodicity_result$PSD)
 #' plotPeriodicityResults(periodicity_result)
@@ -60,8 +58,8 @@ getPeriodicity <- function(x, ...) {
 #' @param motif a dinucleotide of interest
 #' @param range_spectrum Numeric vector The distances between nucleotides
 #' to take into consideration when performing Fast Fourier Transform.
-#' @param cores Integer How many processors should be used to parallelize
-#' the mapping? 
+#' @param BPPARAM split the workload over several processors using 
+#' BiocParallel
 #' @param roll Integer Window to smooth the distribution of pairwise distances
 #' (default: 3, to discard the 3-bp periodicity of dinucleotides which 
 #' can be very strong in vertebrate genomes)
@@ -88,7 +86,7 @@ getPeriodicity <- function(x, ...) {
 #'     \item The motif object is the dinucleotide being analysed.
 #' }
 #' 
-#' @importFrom parallel mclapply
+#' @import BiocParallel
 #' @import Biostrings
 #' @import IRanges
 #' @import magrittr
@@ -99,8 +97,7 @@ getPeriodicity <- function(x, ...) {
 #' data(ce11_proms_seqs)
 #' periodicity_result <- getPeriodicity(
 #'     ce11_proms_seqs[1:10],
-#'     motif = 'TT', 
-#'     cores = 1
+#'     motif = 'TT'
 #' )
 #' head(periodicity_result$PSD)
 #' plotPeriodicityResults(periodicity_result)
@@ -109,7 +106,7 @@ getPeriodicity.DNAStringSet <- function(
     x, 
     motif = 'WW', 
     range_spectrum = seq(1, 200),
-    cores = 1, 
+    BPPARAM = bpparam(), 
     roll = 3,
     verbose = TRUE, 
     sample = 0, 
@@ -122,7 +119,7 @@ getPeriodicity.DNAStringSet <- function(
     
     # Get pairwise distances --------------------------------------------------
     if (verbose) message("- Mapping k-mers.")
-    dists <- parallel::mclapply(seq_len(length(seqs)), function(k) {
+    dists <- BiocParallel::bplapply(seq_len(length(seqs)), function(k) {
         Biostrings::vmatchPattern(
             motif, 
             seqs[k], 
@@ -132,7 +129,7 @@ getPeriodicity.DNAStringSet <- function(
             IRanges::start() %>% 
             dist() %>% 
             c()
-    }, mc.cores = cores) %>% unlist()
+    }, BPPARAM = BPPARAM) %>% unlist()
     max_dist <- max(dists)
     if (length(dists) < 10) {
         if (verbose) message("- Only ", length(dists), 
@@ -209,7 +206,7 @@ getPeriodicity.DNAStringSet <- function(
         if (verbose) message("- SHUFFLING: suffling sequences.")
         seqs <- shuffleSeq(seqs)
         if (verbose) message("- SHUFFLING: Mapping k-mers.")
-        dists_shuffled <- parallel::mclapply(
+        dists_shuffled <- BiocParallel::bplapply(
             seq_len(length(seqs)), 
             function(k) {
                 seq <- seqs[k]
@@ -223,7 +220,7 @@ getPeriodicity.DNAStringSet <- function(
                     dist() %>% 
                     c()
             }, 
-            mc.cores = cores
+            BPPARAM = BPPARAM
         ) %>% unlist()
         max_dists_shuffled <- max(dists_shuffled)
         if (length(dists_shuffled) < 10) {
@@ -350,8 +347,7 @@ getPeriodicity.DNAStringSet <- function(
 #' periodicity_result <- getPeriodicity(
 #'     ce11_proms[1:10],
 #'     genome = 'ce11',
-#'     motif = 'TT', 
-#'     cores = 1
+#'     motif = 'TT'
 #' )
 #' head(periodicity_result$PSD)
 #' plotPeriodicityResults(periodicity_result)
@@ -421,8 +417,7 @@ getPeriodicity.GRanges <- function(
 #' data(ce11_proms_seqs)
 #' periodicity_result <- getPeriodicity(
 #'     ce11_proms_seqs[[8]],
-#'     motif = 'TT', 
-#'     cores = 1
+#'     motif = 'TT'
 #' )
 #' head(periodicity_result$PSD)
 #' plotPeriodicityResults(periodicity_result)

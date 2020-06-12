@@ -73,7 +73,7 @@ PSDs <- getPeriodicity(
     ce11_proms,
     genome = 'ce11',
     motif = 'TT', 
-    cores = 4
+    BPPARAM = BiocParallel::SnowParam(workers = 4)
 )
 plotPeriodicityResults(PSDs)
 ```
@@ -86,16 +86,16 @@ WW_10bp <- getPeriodicityTrack(
     granges = ce11_proms, 
     motif = 'WW',
     period = 10,
-    cores = 12, 
-    bw_file = 'WW-10-bp-periodicity_over-proms.bw'
+    bw_file = 'WW-10-bp-periodicity_over-proms.bw', 
+    BPPARAM = BiocParallel::SnowParam(workers = 12)
 )
 ```
 
 **Warning**: It is recommended to run this command across many processors 
-use the `cores` argument. This command typically takes one day to produce 
+using BiocParallel. This command typically takes one day to produce 
 a periodicity track over 15,000 GRanges of 150 bp (with default parameters) 
-using `cores = 12`. It is highly recommended to run this command in a 
-new `screen` session.
+using `BPPARAM = BiocParallel::SnowParam(workers = 12)`. 
+It is highly recommended to run this command in a new `screen` session.
 
 ## Contributions
 Code contributions, bug reports, fixes and feature requests are most welcome.

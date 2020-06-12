@@ -26,8 +26,8 @@
 #'     ce11_proms[1:100],
 #'     genome = 'ce11',
 #'     motif = 'TT', 
-#'     cores = 1, 
-#'     skip_shuffling = FALSE
+#'     skip_shuffling = FALSE,
+#'     BPPARAM = BiocParallel::SnowParam(workers = 1)
 #' )
 #' head(periodicity_result$PSD)
 #' plotPeriodicityResults(periodicity_result)
@@ -275,7 +275,7 @@ plotPeriodicityResults <- function(
 #'     ce11_proms_seqs[1:10], 
 #'     genome = 'ce11', 
 #'     motif = 'TT', 
-#'     cores_shuffling = 1
+#'     BPPARAM = BiocParallel::SnowParam(workers = 1)
 #' )
 #' plotFPI(fpi)
 

@@ -22,7 +22,7 @@
 #'     ce11_proms_seqs[1:10], 
 #'     genome = 'ce11', 
 #'     motif = 'TT', 
-#'     cores_shuffling = 1
+#'     BPPARAM = BiocParallel::SnowParam(workers = 1)
 #' )
 #' fpi$FPI
 #' fpi$observed_PSD
@@ -49,8 +49,8 @@ getFPI <- function(x, ...) {
 #' @param motif character, k-mer of interest
 #' @param period integer, Period of interest
 #' @param n_shuffling integer, Number of shuffling
-#' @param cores_shuffling integer, Number of threads to use to split
-#' shuffling
+#' @param BPPARAM integer, Number of threads to use to split
+#' shuffling of sequences
 #' @param verbose integer, Should the function be verbose? 
 #' @param ... Additional arguments
 #' @return Several metrics including FPI, observed PSD, etc...
@@ -61,11 +61,10 @@ getFPI <- function(x, ...) {
 #' 
 #' @examples
 #' data(ce11_proms_seqs)
+#' BiocParallel::register(BiocParallel::SnowParam(workers = 1))
 #' fpi <- getFPI(
 #'     ce11_proms_seqs[1:10], 
-#'     motif = 'TT', 
-#'     cores_shuffling = 1, 
-#'     cores = 1
+#'     motif = 'TT'
 #' )
 #' fpi$FPI
 #' fpi$observed_PSD
@@ -77,7 +76,7 @@ getFPI.DNAStringSet <- function(
     motif,
     period = 10, 
     n_shuffling = 10,
-    cores_shuffling = 10,
+    BPPARAM = bpparam(),
     verbose = 1,
     ...
 )
@@ -96,8 +95,8 @@ getFPI.DNAStringSet <- function(
     obs_PSD <- obs$PSD$PSD[which.min(abs(1/obs$PSD$freq - period))]
     if (verbose) message('>> Measured PSD @ ', period, 'bp is: ', obs_PSD)
     # Shuffling sequences and re-computing ---------------------------
-    l_shuff <- parallel::mclapply(
-        mc.cores = cores_shuffling, 
+    l_shuff <- BiocParallel::bplapply(
+        BPPARAM = BPPARAM, 
         seq_len(n_shuffling), 
         function(k) {
             if (verbose) message('- Shuffling ', k, '/', n_shuffling)
@@ -158,7 +157,7 @@ getFPI.DNAStringSet <- function(
 #'     ce11_TSSs[['Ubiq.']][1:10], 
 #'     genome = 'ce11', 
 #'     motif = 'TT', 
-#'     cores_shuffling = 1
+#'     BPPARAM = BiocParallel::SnowParam(workers = 1)
 #' )
 #' fpi$FPI
 #' fpi$observed_PSD
@@ -168,7 +167,7 @@ getFPI.DNAStringSet <- function(
 #'     ce11_TSSs[['Muscle']][1:10], 
 #'     genome = 'ce11', 
 #'     motif = 'TT', 
-#'     cores_shuffling = 1
+#'     BPPARAM = BiocParallel::SnowParam(workers = 1)
 #' )
 #' fpi$FPI
 #' fpi$observed_PSD

@@ -13,7 +13,7 @@
 #' be extended to (default 1000).
 #' @param genome_sliding_size Integer, the width of the bins to split 
 #' the GRanges objects in (default 100).
-#' @param genome_sliding_sliding Integer, the increment between bins 
+#' @param genome_sliding_shift Integer, the increment between bins 
 #' over GRanges (default 2).
 #' @param window_sliding_size Integer, the width of the bins to split
 #' each primary bin in (default 60).
@@ -24,16 +24,15 @@
 #' (default seq_len(50)).
 #' @param period Integer, the period of the dinucleotide to study 
 #' (default=10).
-#' @param cores Integer, split the workload over several processors 
-#' (default 12).
+#' @param BPPARAM split the workload over several processors using 
+#' BiocParallel
 #' @param bw_file character, the name of the output bigWig track
 #' @return Rlelist and a bigWig track in the working directory. 
 #' 
 #' @import Biostrings
 #' @import GenomicRanges
 #' @import IRanges
-#' @importFrom parallel mclapply
-#' @importFrom rtracklayer import
+#' @import BiocParallel
 #' @importFrom rtracklayer export.bw
 #' @importFrom methods is
 #' @export
@@ -45,24 +44,25 @@
 #'     ce11_proms[1], 
 #'     motif = 'WW',
 #'     period = 10,
-#'     cores = 1
+#'     BPPARAM = BiocParallel::SnowParam(workers = 1)
 #' )
 
 getPeriodicityTrack <- function(
-    genome = NULL, 
-    granges, 
-    motif = 'WW', 
-    period = 10, 
-    cores = 12, 
-    extension = 1000, 
-    genome_sliding_size = 100, 
-    genome_sliding_sliding = 2, 
-    window_sliding_size = 100, 
-    window_sliding_bin = 5, 
-    range_spectrum = seq(5, 50), 
+    genome = NULL,
+    granges,
+    motif = 'WW',
+    period = 10,
+    BPPARAM = bpparam(),
+    extension = 1000,
+    genome_sliding_size = 100,
+    genome_sliding_shift = 2,
+    window_sliding_size = 100,
+    window_sliding_bin = 5,
+    range_spectrum = seq(5, 50),
     bw_file = NULL
 )
 {
+    cores <- BPPARAM$workers
     freq <- 1/period
     #
     if (is.null(genome)) {
@@ -95,7 +95,7 @@ getPeriodicityTrack <- function(
     )
     genome_partionned <- partitionGenome(
         genome, granges_extended_large, granges_extended, 
-        genome_sliding_size, genome_sliding_sliding
+        genome_sliding_size, genome_sliding_shift
     )
     genome_partionned_filtered <- IRanges::subsetByOverlaps(
         genome_partionned, granges_extended
@@ -104,29 +104,29 @@ getPeriodicityTrack <- function(
     
     message('
     The genome has been divided in ', genome_sliding_size, '-bp long windows 
-    with a sliding window of ', genome_sliding_sliding, '-bp.
+    with a sliding window of ', genome_sliding_shift, '-bp.
     
     ', length(genome_partionned_filtered), ' windows overlap the ', 
     length(granges), ' input loci (extended to ', extension, '-bp).
     
-    The mapping will be split among ', cores, ' jobs. Each job will 
+    The mapping will be split into ', cores, ' jobs. Each job will 
     analyse ', lengths(chunks)[1], ' windows.
     
     Now starting...
     ')
     
     # Process each chunk separately
-    list_results <- parallel::mclapply(
+    list_results <- BiocParallel::bplapply(
         chunks, 
         chunkWrapper,
         genome, 
         motif, 
-        genome_sliding_sliding,
+        genome_sliding_shift,
         window_sliding_size, 
         window_sliding_bin,
         range_spectrum, 
-        freq,
-        mc.cores = length(chunks)
+        freq, 
+        BPPARAM = BPPARAM
     )
     
     # Merge all the chunks
@@ -135,7 +135,7 @@ getPeriodicityTrack <- function(
     # Generate final track
     if (is.null(bw_file)) bw_file <- paste0(
         motif, 
-        '-periodicity_g-', genome_sliding_size, '^', genome_sliding_sliding, 
+        '-periodicity_g-', genome_sliding_size, '^', genome_sliding_shift, 
         '_b-', window_sliding_size, '^', window_sliding_bin ,'.bw'
     )
     res <- coverage(list_results_2, weight = list_results_2$score)
@@ -145,7 +145,7 @@ getPeriodicityTrack <- function(
     )
     message('\n   SUCCESS: ', bw_file, ' has been created!')
     message(
-        '   ', length(list_results_2)*genome_sliding_sliding, 
+        '   ', length(list_results_2)*genome_sliding_shift, 
         ' bases covered by the generated track.'
     )
     # Remove tmp files
@@ -162,7 +162,7 @@ getPeriodicityTrack <- function(
 #' @param granges_extended A GRanges object.
 #' @param genome_sliding_size An integer. The width of the bins to split 
 #' the GRanges objects in (default 100).
-#' @param genome_sliding_sliding An integer. The increment between bins 
+#' @param genome_sliding_shift An integer. The increment between bins 
 #' over GRanges (default 2).
 #' @return granges_partionned A Granges object corresponding to the binned 
 #' genome. 
@@ -176,7 +176,7 @@ partitionGenome <- function(
     granges_extended_large, 
     granges_extended, 
     genome_sliding_size, 
-    genome_sliding_sliding
+    genome_sliding_shift
 ) 
 {
     genome_Seqinfo <- GenomeInfoDb::Seqinfo(
@@ -193,7 +193,7 @@ partitionGenome <- function(
     granges_partionned <- GenomicRanges::slidingWindows(
         GenomicRanges::reduce(granges_extended_large), 
         genome_sliding_size, 
-        genome_sliding_sliding
+        genome_sliding_shift
     ) %>% 
         GenomicRanges::GRangesList() %>% 
         unlist()
@@ -234,7 +234,7 @@ getChunks <- function(genome_partionned_filtered, cores) {
 #' @param chunk A GRanges from the output list obtained with getChunks
 #' @param genome DNAStringSet, BSgenome or genome ID
 #' @param motif String Oligonucleotide of interest. 
-#' @param genome_sliding_sliding Integer The increment between 
+#' @param genome_sliding_shift Integer The increment between 
 #' bins over GRanges (default 2).
 #' @param window_sliding_size Integer The width of the bins to split 
 #' each primary bin in (default 60).
@@ -255,7 +255,7 @@ chunkWrapper <- function(
     chunk, 
     genome, 
     motif, 
-    genome_sliding_sliding, 
+    genome_sliding_shift, 
     window_sliding_size, 
     window_sliding_bin, 
     range_spectrum, 
@@ -265,7 +265,7 @@ chunkWrapper <- function(
     res <- chunk
     res$score <- 0
     res <- GenomicRanges::resize(
-        res, width = genome_sliding_sliding, fix = 'center'
+        res, width = genome_sliding_shift, fix = 'center'
     )
     intervals <- seq(1, length(res), length.out = 100)
     for (K in seq_len(length(chunk))) {
@@ -274,7 +274,7 @@ chunkWrapper <- function(
             window_sliding_bin, range_spectrum, freq
         )
         if (K %in% intervals) {
-            message('>> ', K, ' bins computed /// TIME: ', Sys.time())
+            # message('>> ', K, ' bins computed /// TIME: ', Sys.time())
         }
     }
     rtracklayer::export.bw(
