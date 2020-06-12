@@ -19,12 +19,37 @@ conserved distance; for this type of analysis, please visit
 
 ## Installation
 
-periodicDNA can be installed from Github as follows:
+periodicDNA is available in Bioconductor. To install the current release use:
+
+```r
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("GenomicRanges")
+```
+
+For advanced users, the most recent periodicDNA can be installed 
+from Github as follows (might be buggy):
 
 ```r
 install.packages("devtools")
 devtools::install_github("js2264/periodicDNA")
 library(periodicDNA)
+```
+
+## How to use periodicDNA
+
+periodicDNA includes a vignette where its usage is 
+illustrated. To access the vignette, please use:
+
+```r
+vignette('periodicDNA')
+```
+
+A description of the internal steps performed by periodicDNA is accessible 
+in the following vignette:
+
+```r
+vignette('internal-steps', package = 'periodicDNA')
 ```
 
 ## Main functions 

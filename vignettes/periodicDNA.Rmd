@@ -30,6 +30,10 @@ In the following example, `getPeriodicity()` is usually ran using
 a GRanges object, specifying from which genome this GRanges comes from. 
 
 ```{r, eval = TRUE}
+library(ggplot2)
+library(magrittr)
+library(periodicDNA)
+#
 data(ce11_proms)
 periodicity_result <- getPeriodicity(
     ce11_proms[ce11_proms$which.tissues == 'Ubiq.'][1:500] %>% 
@@ -52,7 +56,7 @@ periodicity_result$PSD %$% PSD[.$period == 10]
 Graphical output of `getPeriodicity()` can be obtained using the 
 `plotPeriodicityResults()` function: 
 
-```{r, eval = TRUE}
+```{r, eval = TRUE, fig.width = 9, fig.height = 3.2, out.width='100%'}
 plotPeriodicityResults(periodicity_result)
 ```
 
@@ -108,7 +112,11 @@ plotAggregateCoverage(
 )
 ```
 
-![](https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/TT-10bp-periodicity_tissue-spe-TSSs.png)
+```{r, eval = TRUE, echo=FALSE, out.width='100%'}
+knitr::include_graphics(
+    "https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/TT-10bp-periodicity_tissue-spe-TSSs.png"
+)
+```
 
 ## Session info
 

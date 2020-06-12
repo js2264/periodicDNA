@@ -22,16 +22,20 @@ suppressPackageStartupMessages({
 })
 ```
 
-## How periodicDNA works
+## Internal steps of periodicDNA
 
 To estimate the periodicity strength of a given k-mer in one or several
 sequences, periodicDNA does the following steps: 
 
 1. It first finds all the possible k-mer occurrences over the sequence(s);
 2. It then find all the possible pairwise distances and generates a 
-   normalised histogram of the pairwise distances;  
-3. It performs a Fast Fourier Transform of the normalised histogram; 
-4. Finally, it outputs the power spectral density of the k-mer in the 
-   provided sequences.
+   histogram of these pairwise distances; 
+3. It then normalizes this histogram for distance-decay and smooths 
+   the distribution to remove noise;
+4. Finally, it performs a Fast Fourier Transform of the normalised histogram.
 
-![internal-steps](https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/periodicityDNA_principle.png)
+```{r, eval = TRUE, echo=FALSE, out.width='100%'}
+knitr::include_graphics(
+   "https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/periodicityDNA_principle.png"
+)
+```
