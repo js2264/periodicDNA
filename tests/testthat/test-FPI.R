@@ -10,8 +10,7 @@ test_that("FPI works", {
         rand_regions_seq <- ce11_proms_seqs[rand_regions]
         fpi <- getFPI(
             rand_regions_seq,
-            motif = 'TT', 
-            cores_shuffling = 1
+            motif = 'TT'
         )
         p <- plotFPI(fpi)
         methods::is(p, 'gg')
@@ -32,7 +31,7 @@ test_that("FPI several organisms", {
             getFPI(
                 rand_regions_1[[genome]]$seq,
                 motif = 'TT', 
-                cores_shuffling = 20, 
+                BPPARAM = BiocParallel::SnowParam(workers = 20), 
                 n_shuffling = 20
             )
         })
@@ -62,7 +61,7 @@ test_that("FPI TSSs of several organisms", {
             r1 <- getFPI(
                 genome_seqs[[genome]][TSSs[[genome]][['lowCV']]],
                 motif = 'WW', 
-                cores_shuffling = 20, 
+                BPPARAM = BiocParallel::SnowParam(workers = 20), 
                 n_shuffling = 20, 
                 range_spectrum = 1:75
             )
@@ -70,7 +69,7 @@ test_that("FPI TSSs of several organisms", {
             r2 <- getFPI(
                 genome_seqs[[genome]][TSSs[[genome]][['highCV']]],
                 motif = 'WW', 
-                cores_shuffling = 20, 
+                BPPARAM = BiocParallel::SnowParam(workers = 20), 
                 n_shuffling = 20, 
                 range_spectrum = 1:75
             )

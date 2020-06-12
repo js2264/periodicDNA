@@ -5,16 +5,14 @@ test_that("getPeriodicity and plotPeriodicityResults works", {
         data(ce11_proms_seqs)
         periodicity_result <- getPeriodicity(
             ce11_proms_seqs[[1]],
-            motif = 'TT', 
-            cores = 1
+            motif = 'TT'
         )
         #
         data(ce11_proms)
         periodicity_result <- getPeriodicity(
             ce11_proms[seq_len(2)],
             genome = 'ce11',
-            motif = 'TT', 
-            cores = 1
+            motif = 'TT'
         )
         #
         list_plots <- plotPeriodicityResults(
@@ -40,8 +38,7 @@ test_that("getPeriodicity works with shuffling", {
         periodicity_result <- getPeriodicity(
             ce11_proms[seq_len(50)],
             genome = 'ce11',
-            motif = 'TT', 
-            cores = 1, 
+            motif = 'TT',
             skip_shuffling = TRUE, 
             doZscore = TRUE
         )
@@ -98,7 +95,7 @@ test_that("getPeriodicity for sacCer3 random loci", {
             sacCer3_random_regions, 
             motif = 'WW', 
             period = 10, 
-            cores = 100, 
+            BPPARAM = SnowParam(workers = 100), 
             skip_shuffling = FALSE
         )
         p <- plotPeriodicityResults(PSDs_yeast, xlim = 150)
@@ -122,7 +119,7 @@ test_that("getPeriodicity for sacCer3 MNase", {
             genome = 'sacCer3',
             motif = 'TT', 
             period = 10, 
-            cores = 20, 
+            BPPARAM = SnowParam(workers = 20), 
             skip_shuffling = FALSE
         )
         p <- plotPeriodicityResults(PSDs_yeast, xlim = 150)
@@ -194,7 +191,7 @@ test_that("getPeriodicity for ce11 proms/enhancers", {
                     seqs, 
                     motif = 'TT', 
                     period = 10,
-                    cores = 12
+                    BPPARAM = SnowParam(workers = 12), 
                 )
                 res <- res$PSD$PSD[which.min(abs(res$PSD$period - 10))]
             })
@@ -238,7 +235,6 @@ test_that("getPeriodicity for ce11 proms/enhancers", {
                     genome = 'ce11', 
                     motif = 'TT', 
                     period = 10, 
-                    cores_shuffling = 4, 
                     n_shuffling = 16
                 )$FPI
             })

@@ -10,9 +10,8 @@ test_that("getPeriodicityTrack and plotAggregateCoverage works", {
             granges = ce11_proms[1:3], 
             motif = 'TT',
             period = 10,
-            extension = 400, 
-            genome_sliding_sliding = 5, 
-            cores = 1, 
+            extension = 200, 
+            genome_sliding_shift = 10,
             bw_file = 'TT-10-bp-periodicity_over-proms.bw'
         )
         scaled_track <- scaleBigWigs(list('test' = track))
