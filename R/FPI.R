@@ -80,7 +80,8 @@ getFPI.DNAStringSet <- function(
     cores_shuffling = 10,
     verbose = 1,
     ...
-) {
+)
+{
     seqs <- x
     
     # Calculating observed PSD ---------------------------------------
@@ -179,7 +180,8 @@ getFPI.GRanges <- function(
     x,
     genome, 
     ...
-) {
+)
+{
     granges <- x
     
     if (!is.null(granges$seq)) {
