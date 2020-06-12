@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.3</span>
       </span>
     </div>
 
@@ -95,7 +95,7 @@
       <h1 data-toc-skip>How periodicDNA works</h1>
                         <h4 class="author">Jacques Serizay</h4>
             
-            <h4 class="date">2020-06-11</h4>
+            <h4 class="date">2020-06-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/js2264/periodicDNA/blob/master/vignettes/internal-steps.Rmd"><code>vignettes/internal-steps.Rmd</code></a></small>
       <div class="hidden name"><code>internal-steps.Rmd</code></div>
@@ -104,20 +104,17 @@
 
     
     
-<div id="how-periodicdna-works" class="section level2">
+<div id="internal-steps-of-periodicdna" class="section level2">
 <h2 class="hasAnchor">
-<a href="#how-periodicdna-works" class="anchor"></a>How periodicDNA works</h2>
+<a href="#internal-steps-of-periodicdna" class="anchor"></a>Internal steps of periodicDNA</h2>
 <p>To estimate the periodicity strength of a given k-mer in one or several sequences, periodicDNA does the following steps:</p>
 <ol style="list-style-type: decimal">
 <li>It first finds all the possible k-mer occurrences over the sequence(s);</li>
-<li>It then find all the possible pairwise distances and generates a normalised histogram of the pairwise distances;<br>
-</li>
-<li>It performs a Fast Fourier Transform of the normalised histogram;</li>
-<li>Finally, it outputs the power spectral density of the k-mer in the provided sequences.</li>
+<li>It then find all the possible pairwise distances and generates a histogram of these pairwise distances;</li>
+<li>It then normalizes this histogram for distance-decay and smooths the distribution to remove noise;</li>
+<li>Finally, it performs a Fast Fourier Transform of the normalised histogram.</li>
 </ol>
-<div class="figure">
-<img src="https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/periodicityDNA_principle.png" alt="internal-steps"><p class="caption">internal-steps</p>
-</div>
+<p><img src="https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/periodicityDNA_principle.png" width="100%"></p>
 </div>
   </div>
 
