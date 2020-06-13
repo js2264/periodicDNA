@@ -40,7 +40,7 @@ periodicity_result <- getPeriodicity(
         alignToTSS(upstream = 0, downstream = 150),
     genome = 'ce11',
     motif = 'TT', 
-    cores = 1
+    BPPARAM = BiocParallel::SnowParam(workers = 1)
 )
 ```
 
@@ -74,7 +74,7 @@ data(ce11_proms_seqs)
 periodicity_result <- getPeriodicity(
     ce11_proms_seqs,
     motif = 'TT', 
-    cores = 1
+    BPPARAM = BiocParallel::SnowParam(workers = 1)
 )
 ```
 
@@ -93,7 +93,7 @@ WW_10bp_track <- getPeriodicityTrack(
     granges = ce11_proms, 
     motif = 'WW',
     period = 10,
-    cores = 1, 
+    BPPARAM = BiocParallel::SnowParam(workers = 1),
     bw_file = 'WW-10-bp-periodicity_over-proms.bw'
 )
 ```
