@@ -20,6 +20,7 @@ suppressPackageStartupMessages({
     library(magrittr)
     library(periodicDNA)
 })
+BiocParallel::register(BiocParallel::SnowParam(workers = 1), default = TRUE)
 ```
 
 ### Dinucleotide periodicity over a set of Genomic Ranges
