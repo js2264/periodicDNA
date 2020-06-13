@@ -27,6 +27,7 @@ Depends:
     GenomicRanges,
     IRanges
 Imports: 
+    BiocParallel,
     S4Vectors,
     rtracklayer,
     stats, 
