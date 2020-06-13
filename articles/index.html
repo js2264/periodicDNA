@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A function to generate a GRanges from a DNAStringSet — DNAStringSet2GRanges • periodicDNA</title>
+<title>Articles • periodicDNA</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,10 +46,7 @@
 
 
 
-<meta property="og:title" content="A function to generate a GRanges from a DNAStringSet — DNAStringSet2GRanges" />
-<meta property="og:description" content="This function takes a DNAStringSet (for instance a set of sequences
-obtained from a BSgenome object) and converts it into 
-a GRanges object." />
+<meta property="og:title" content="Articles" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -69,7 +66,7 @@ a GRanges object." />
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-topic">
+    <div class="container template-article-index">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -136,52 +133,20 @@ a GRanges object." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A function to generate a GRanges from a DNAStringSet</h1>
-    <small class="dont-index">Source: <a href='https://github.com/js2264/periodicDNA/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>DNAStringSet2GRanges.Rd</code></div>
+      <h1>Articles</h1>
     </div>
 
-    <div class="ref-description">
-    <p>This function takes a DNAStringSet (for instance a set of sequences
-obtained from a BSgenome object) and converts it into 
-a GRanges object.</p>
+    <div class="section ">
+      <h3>All vignettes</h3>
+      <p class="section-desc"></p>
+
+      <dl>
+        <dt><a href="internal-steps.html">How periodicDNA works</a></dt>
+        <dd></dt>
+        <dt><a href="periodicDNA.html">periodicDNA</a></dt>
+        <dd></dt>
+      </dl>
     </div>
-
-    <pre class="usage"><span class='fu'>DNAStringSet2GRanges</span>(<span class='no'>seqs</span>)</pre>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>seqs</th>
-      <td><p>A DNAStringSet</p></td>
-    </tr>
-    </table>
-
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A GRanges object</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>DNAStringSet2GRanges</span>(
-    <span class='kw pkg'>BSgenome.Celegans.UCSC.ce11</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/BSgenome.Celegans.UCSC.ce11/man/package.html'>BSgenome.Celegans.UCSC.ce11</a></span>
-)</div><div class='output co'>#&gt; GRanges object with 7 ranges and 0 metadata columns:
-#&gt;       seqnames     ranges strand
-#&gt;          &lt;Rle&gt;  &lt;IRanges&gt;  &lt;Rle&gt;
-#&gt;   [1]     chrI 1-15072434      *
-#&gt;   [2]    chrII 1-15279421      *
-#&gt;   [3]   chrIII 1-13783801      *
-#&gt;   [4]    chrIV 1-17493829      *
-#&gt;   [5]     chrV 1-20924180      *
-#&gt;   [6]     chrX 1-17718942      *
-#&gt;   [7]     chrM    1-13794      *
-#&gt;   -------
-#&gt;   seqinfo: 7 sequences from an unspecified genome</div></pre>
-  </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <nav id="toc" data-toggle="toc" class="sticky-top">
-      <h2 data-toc-skip>Contents</h2>
-    </nav>
   </div>
 </div>
 
