@@ -145,13 +145,13 @@
 
     <pre class="usage"><span class='fu'>chunkWrapper</span>(
   <span class='no'>chunk</span>,
+  <span class='no'>chunks</span>,
   <span class='no'>genome</span>,
   <span class='no'>motif</span>,
-  <span class='no'>genome_sliding_shift</span>,
-  <span class='no'>window_sliding_size</span>,
-  <span class='no'>window_sliding_bin</span>,
+  <span class='no'>step_size</span>,
   <span class='no'>range_spectrum</span>,
-  <span class='no'>freq</span>
+  <span class='no'>freq</span>,
+  <span class='no'>logfile</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -159,7 +159,11 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>chunk</th>
-      <td><p>A GRanges from the output list obtained with getChunks</p></td>
+      <td><p>A GRanges from the chunks list obtained with getChunks</p></td>
+    </tr>
+    <tr>
+      <th>chunks</th>
+      <td><p>GRanges split in a list with getChunks</p></td>
     </tr>
     <tr>
       <th>genome</th>
@@ -170,19 +174,9 @@
       <td><p>String Oligonucleotide of interest.</p></td>
     </tr>
     <tr>
-      <th>genome_sliding_shift</th>
+      <th>step_size</th>
       <td><p>Integer The increment between 
 bins over GRanges (default 2).</p></td>
-    </tr>
-    <tr>
-      <th>window_sliding_size</th>
-      <td><p>Integer The width of the bins to split 
-each primary bin in (default 60).</p></td>
-    </tr>
-    <tr>
-      <th>window_sliding_bin</th>
-      <td><p>Integer The increment between secondary bins
-(default 5).</p></td>
     </tr>
     <tr>
       <th>range_spectrum</th>
@@ -194,6 +188,10 @@ to take into consideration when performing Fast Fourier Transform
       <th>freq</th>
       <td><p>Float The frequence of the dinucleotide to study 
 (default 1/10).</p></td>
+    </tr>
+    <tr>
+      <th>logfile</th>
+      <td><p>character, name of log file</p></td>
     </tr>
     </table>
 

@@ -158,11 +158,10 @@ track from these values.</p>
   <span class='kw'>period</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>bpparam</span>(),
   <span class='kw'>extension</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>genome_sliding_size</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>genome_sliding_shift</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>window_sliding_size</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>window_sliding_bin</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+  <span class='kw'>window_size</span> <span class='kw'>=</span> <span class='fl'>100</span>,
+  <span class='kw'>step_size</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='kw'>range_spectrum</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>5</span>, <span class='fl'>50</span>),
+  <span class='kw'>smooth_track</span> <span class='kw'>=</span> <span class='fl'>20</span>,
   <span class='kw'>bw_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre>
 
@@ -197,30 +196,24 @@ BiocParallel</p></td>
 be extended to (default 1000).</p></td>
     </tr>
     <tr>
-      <th>genome_sliding_size</th>
+      <th>window_size</th>
       <td><p>Integer, the width of the bins to split 
 the GRanges objects in (default 100).</p></td>
     </tr>
     <tr>
-      <th>genome_sliding_shift</th>
+      <th>step_size</th>
       <td><p>Integer, the increment between bins 
 over GRanges (default 2).</p></td>
-    </tr>
-    <tr>
-      <th>window_sliding_size</th>
-      <td><p>Integer, the width of the bins to split
-each primary bin in (default 60).</p></td>
-    </tr>
-    <tr>
-      <th>window_sliding_bin</th>
-      <td><p>Integer, the increment between secondary bins
-(default 5).</p></td>
     </tr>
     <tr>
       <th>range_spectrum</th>
       <td><p>Numeric vector, the distances between nucleotides
 to take into consideration when performing Fast Fourier Transform 
 (default seq_len(50)).</p></td>
+    </tr>
+    <tr>
+      <th>smooth_track</th>
+      <td><p>Integer, smooth the resulting track</p></td>
     </tr>
     <tr>
       <th>bw_file</th>
@@ -243,19 +236,21 @@ to take into consideration when performing Fast Fourier Transform
 )</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>    The genome has been divided in 100-bp long windows </span>
 #&gt; <span class='message'>    with a sliding window of 2-bp.</span>
-#&gt; <span class='message'>    </span>
 #&gt; <span class='message'>    549 windows overlap the 1 input loci (extended to 1000-bp).</span>
+#&gt; <span class='message'>    The mapping will be split into 1 cores. Each core will </span>
+#&gt; <span class='message'>    process 549 windows.</span>
 #&gt; <span class='message'>    </span>
-#&gt; <span class='message'>    The mapping will be split into 1 jobs. Each job will </span>
-#&gt; <span class='message'>    analyse 549 windows.</span>
-#&gt; <span class='message'>    </span>
-#&gt; <span class='message'>    Now starting...</span>
-#&gt; <span class='message'>    </span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>   SUCCESS: WW-periodicity_g-100^2_b-100^5.bw has been created!</span></div><div class='output co'>#&gt; <span class='message'>   1098 bases covered by the generated track.</span></div><div class='output co'>#&gt; RleList of length 7
+#&gt; <span class='message'>    Now starting [2020-06-17 19:56:58]...</span>
+#&gt; <span class='message'>    </span></div><div class='output co'>#&gt; <span class='message'>    Merging the results...</span>
+#&gt; <span class='message'>    </span></div><div class='output co'>#&gt; <span class='message'>    Smoothing the track...</span>
+#&gt; <span class='message'>        </span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>   SUCCESS: WW_10-bp-periodicity_g-100^2_smooth-20.bw has been created!</span></div><div class='output co'>#&gt; <span class='message'>   1098 bases covered by the generated track.</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>    Finished without errors [2020-06-17 19:58:29]</span>
+#&gt; <span class='message'>    </span></div><div class='output co'>#&gt; RleList of length 7
 #&gt; $chrI
-#&gt; numeric-Rle of length 15072434 with 412 runs
-#&gt;   Lengths:    10798        2        4        2 ...        2        2 15060538
-#&gt;   Values :   0.0000   9.1421   7.6238   6.8686 ...   8.3510  12.0618   0.0000
+#&gt; numeric-Rle of length 15072434 with 1120 runs
+#&gt;   Lengths:       10788           1           1 ...    15060519          10
+#&gt;   Values :    0.000000    0.317675    0.635350 ... 1.16573e-16 0.00000e+00
 #&gt; 
 #&gt; $chrII
 #&gt; numeric-Rle of length 15279421 with 1 run

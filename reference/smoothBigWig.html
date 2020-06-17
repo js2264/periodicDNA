@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Internal function — unlistResults • periodicDNA</title>
+<title>Internal function — smoothBigWig • periodicDNA</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,7 @@
 
 
 
-<meta property="og:title" content="Internal function — unlistResults" />
+<meta property="og:title" content="Internal function — smoothBigWig" />
 <meta property="og:description" content="Internal function" />
 <meta property="og:image" content="/logo.png" />
 
@@ -136,27 +136,35 @@
     <div class="page-header">
     <h1>Internal function</h1>
     <small class="dont-index">Source: <a href='https://github.com/js2264/periodicDNA/blob/master/R/track.R'><code>R/track.R</code></a></small>
-    <div class="hidden name"><code>unlistResults.Rd</code></div>
+    <div class="hidden name"><code>smoothBigWig.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Internal function</p>
     </div>
 
-    <pre class="usage"><span class='fu'>unlistResults</span>(<span class='no'>list_results</span>)</pre>
+    <pre class="usage"><span class='fu'>smoothBigWig</span>(<span class='no'>bw</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='no'>BPPARAM</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>list_results</th>
-      <td><p>List</p></td>
+      <th>bw</th>
+      <td><p>A RleList object</p></td>
+    </tr>
+    <tr>
+      <th>k</th>
+      <td><p>Integer, smoothing window</p></td>
+    </tr>
+    <tr>
+      <th>BPPARAM</th>
+      <td><p>BPPARAM</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>GRanges</p>
+    <p>bw RleList smoothed (for each chromosome) using a window of k.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
