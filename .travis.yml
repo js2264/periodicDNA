@@ -11,6 +11,7 @@ matrix:
       dist: trusty
       sudo: true
       r: bioc-devel
+      bioc_check: true
       after_success: 
         - Rscript -e 'covr::codecov()'
         - Rscript -e 'pkgdown::build_site()'
