@@ -25,9 +25,9 @@ Depends:
     R (>= 3.5),
     Biostrings, 
     GenomicRanges,
-    IRanges
+    IRanges, 
+    BiocParallel
 Imports: 
-    BiocParallel,
     S4Vectors,
     rtracklayer,
     stats, 
