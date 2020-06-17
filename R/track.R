@@ -250,7 +250,8 @@ getChunks <- function(genome_partionned_filtered, cores) {
 
 #' Internal function
 #'
-#' @param chunk A GRanges from the output list obtained with getChunks
+#' @param chunk A GRanges from the chunks list obtained with getChunks
+#' @param chunks GRanges split in a list with getChunks
 #' @param genome DNAStringSet, BSgenome or genome ID
 #' @param motif String Oligonucleotide of interest. 
 #' @param step_size Integer The increment between 
@@ -368,7 +369,8 @@ binWrapper <- function(
 #' @return bw RleList smoothed (for each chromosome) using a window of k.
 #' 
 #' @import BiocParallel
-#' @import IRanges
+#' @import S4Vectors
+#' @importFrom methods as
 #' @importFrom zoo rollmean
 
 smoothBigWig <- function(bw, k = 20, BPPARAM) {
@@ -382,8 +384,8 @@ smoothBigWig <- function(bw, k = 20, BPPARAM) {
             ))
         }
     )
-    v <- IRanges::RleList(v)
     names(v) <- names(bw)
+    v <- methods::as(v, "RleList")
     return(v)
 }
 

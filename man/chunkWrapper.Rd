@@ -16,7 +16,9 @@ chunkWrapper(
 )
 }
 \arguments{
-\item{chunk}{A GRanges from the output list obtained with getChunks}
+\item{chunk}{A GRanges from the chunks list obtained with getChunks}
+
+\item{chunks}{GRanges split in a list with getChunks}
 
 \item{genome}{DNAStringSet, BSgenome or genome ID}
 
