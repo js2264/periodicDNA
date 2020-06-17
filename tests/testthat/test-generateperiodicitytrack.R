@@ -4,15 +4,13 @@ test_that("getPeriodicityTrack and plotAggregateCoverage works", {
     expect_equal({
         data(ce11_proms)
         track <- getPeriodicityTrack(
-            Biostrings::getSeq(
-                BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
-            ),
+            'ce11',
             granges = ce11_proms[1:3], 
             motif = 'TT',
             period = 10,
-            extension = 200, 
-            genome_sliding_shift = 10,
-            bw_file = 'TT-10-bp-periodicity_over-proms.bw'
+            step_size = 20,
+            bw_file = 'TT-10-bp-periodicity_over-proms.bw', 
+            MulticoreParam(workers = 3)
         )
         scaled_track <- scaleBigWigs(list('test' = track))
         scaled_track2 <- scaleBigWigs(track)

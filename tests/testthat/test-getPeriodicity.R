@@ -88,18 +88,45 @@ test_that("getPeriodicity for sacCer3 random loci", {
     skip('figure_paper_20200507')
     expect_equal({
         sacCer3_random_regions <- sampleGenome(
-            'sacCer3', n = 10000, w = 1000
+            'sacCer3', n = 1000, w = 800
         )
         # 
         PSDs_yeast <- getPeriodicity(
             sacCer3_random_regions, 
             motif = 'WW', 
             period = 10, 
-            BPPARAM = SnowParam(workers = 100), 
+            BPPARAM = SnowParam(workers = 30), 
             skip_shuffling = FALSE
         )
         p <- plotPeriodicityResults(PSDs_yeast, xlim = 150)
-        ggsave('PSDs_yeast_WW_1000longT.pdf', width = 32, height = 8, unit = 'cm')
+        ggsave('PSDs_yeast_WW_800long.pdf', width = 32, height = 8, unit = 'cm')
+        #
+        # Value for varying sequences lengths
+        g <- sampleGenome('sacCer3', n = 1000, w = 1500)
+        PSDs_yeast_1500 <- getPeriodicity(
+            g, 
+            motif = 'WW', 
+            period = 10, 
+            BPPARAM = SnowParam(workers = 12), 
+            skip_shuffling = FALSE
+        )
+        p <- plotPeriodicityResults(PSDs_yeast_1500, xlim = 150)
+        ggsave('PSDs_yeast_WW_1500long.pdf', width = 32, height = 8, unit = 'cm')
+        g_500 <- c(
+            resize(g, fix = 'start', width = 500), 
+            resize(g, fix = 'center', width = 500), 
+            resize(g, fix = 'end', width = 500)
+        )
+        PSDs_yeast_500 <- getPeriodicity(
+            g_500, 
+            motif = 'WW', 
+            period = 10, 
+            BPPARAM = SnowParam(workers = 12), 
+            skip_shuffling = FALSE
+        )
+        p <- plotPeriodicityResults(PSDs_yeast_500, xlim = 150)
+        ggsave('PSDs_yeast_WW_500long.pdf', width = 32, height = 8, unit = 'cm')
+        #
         TRUE
     }, TRUE)
 })
@@ -156,6 +183,7 @@ test_that("getPeriodicity for ce11 proms/enhancers", {
                     proms_center %>% resize(1, fix = 'center') %>% 
                         shift(-280) %>% resize(140, fix = 'center')
                 )
+                proms_full <- resize(proms_center, 700, fix = 'center')
                 enhs_center <- granges.all[
                     granges.all$regulatory_class == 'putative_enhancer' & 
                     granges.all$which.tissues == TISSUE
@@ -174,40 +202,46 @@ test_that("getPeriodicity for ce11 proms/enhancers", {
                     enhs_center %>% resize(1, fix = 'center') %>% 
                         shift(-280) %>% resize(140, fix = 'center')
                 )
+                enhs_full <- resize(enhs_center, 700, fix = 'center')
                 l <- list(
                     ce_seq[proms_center],
                     ce_seq[proms_flanking],
                     ce_seq[proms_distal],
+                    ce_seq[proms_full],
                     ce_seq[enhs_center],
                     ce_seq[enhs_flanking],
-                    ce_seq[enhs_extended]
+                    ce_seq[enhs_extended], 
+                    ce_seq[enhs_full]
                 )
             }
         ) %>% setNames(c('Ubiq.', 'Germline', 'Neurons', 'Muscle', 'Hypod.', 'Intest.'))
+        library(BiocParallel)
+        register(MulticoreParam(workers = 3))
         #
-        PSDs <- mclapply(names(list_params), mc.cores = 6, function(TISSUE) {
-            list_res <- mclapply(mc.cores = 6, list_params[[TISSUE]], function(seqs) {
+        PSDs <- bplapply(BPPARAM = MulticoreParam(workers = 6), names(list_params), function(TISSUE) {
+            list_res <- bplapply(BPPARAM = MulticoreParam(workers = 3), list_params[[TISSUE]], function(seqs) {
                 res <- getPeriodicity(
                     seqs, 
                     motif = 'TT', 
                     period = 10,
-                    BPPARAM = SnowParam(workers = 12), 
+                    BPPARAM = MulticoreParam(workers = 4)
                 )
                 res <- res$PSD$PSD[which.min(abs(res$PSD$period - 10))]
             })
             df <- data.frame(
                 psd = unlist(list_res), 
-                Loc = c('proms_center', 'proms_flanking', 'proms_distal', 'enhs_center', 'enhs_flanking', 'enhs_extended'), 
-                Class = c('Center', 'Flanking', 'Distal', 'Center', 'Flanking', 'Distal'), 
-                Type = c('Prom', 'Prom', 'Prom', 'Enh', 'Enh', 'Enh'),
+                Loc = c('proms_center', 'proms_flanking', 'proms_distal', 'proms_full', 'enhs_center', 'enhs_flanking', 'enhs_extended', 'enhs_full'), 
+                Class = c('Core', 'Flanking', 'Distal', 'Full', 'Core', 'Flanking', 'Distal', 'Full'), 
+                Type = c('Prom', 'Prom', 'Prom', 'Prom', 'Enh', 'Enh', 'Enh', 'Prom'),
                 tissue = TISSUE
             )
             return(df)
         }) %>% do.call(rbind, .) %>% 
-            mutate(Class = factor(Class, levels = c('Center', 'Flanking', 'Distal'))) %>% 
+            mutate(Class = factor(Class, levels = c('Core', 'Flanking', 'Distal', 'Full'))) %>% 
+            dplyr::filter(Class %in% c('Core', 'Flanking', 'Distal')) %>% 
             mutate(Type = factor(Type, levels = c('Prom', 'Enh'))) %>% 
             mutate(tissue = factor(tissue, levels = names(list_params))) %>% 
-            mutate(Loc = factor(Loc, levels = c('proms_center', 'proms_flanking', 'proms_distal', 'enhs_center', 'enhs_flanking', 'enhs_extended')))
+            mutate(Loc = factor(Loc, levels = c('proms_center', 'proms_flanking', 'proms_distal', 'proms_full', 'enhs_center', 'enhs_flanking', 'enhs_extended', 'enhs_full')))
         p <- ggplot(PSDs, aes(x = Loc, y = psd)) + 
             geom_col(
                 position = "dodge", aes(col = Type, alpha = Class), size = 0.25
@@ -218,36 +252,39 @@ test_that("getPeriodicity for ce11 proms/enhancers", {
                 x = '', 
                 y = 'TT PSD @ 10-bp'
             ) + 
-            scale_x_discrete(labels = c('', 'Proms', '', '', 'Enhs', '')) + 
             theme(
                 axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)
             ) + 
             scale_color_manual(values = c(NA, 'black'), guide = "none") + 
+            # scale_x_discrete(labels = c('', 'Proms', '', '', '', 'Enhs', '', '')) + 
+            # scale_alpha_manual(values = c(1, 0.6, 0.4, 0.2), name = '')
+            scale_x_discrete(labels = c('', 'Proms', '', '', 'Enhs', '')) + 
             scale_alpha_manual(values = c(1, 0.6, 0.3), name = '')
         ggsave(
-            'PSDs_ce11_TT_proms-enhs.pdf', width = 21, height = 8, unit = 'cm'
+            'PSDs_ce11_TT_proms-enhs_2.pdf', width = 21, height = 12, unit = 'cm'
         )
         #
-        FPIs <- mclapply(names(list_params), mc.cores = 6, function(TISSUE) {
-            list_res <- mclapply(mc.cores = 6, list_params[[TISSUE]], function(seqs) {
+        FPIs <- bplapply(BPPARAM = MulticoreParam(workers = 6), names(list_params), function(TISSUE) {
+            list_res <- bplapply(BPPARAM = MulticoreParam(workers = 6), list_params[[TISSUE]], function(seqs) {
                 res <- getFPI(
                     seqs, 
                     genome = 'ce11', 
                     motif = 'TT', 
                     period = 10, 
-                    n_shuffling = 16
+                    n_shuffling = 16, 
+                    BPPARAM = MulticoreParam(workers = 1)
                 )$FPI
             })
             df <- data.frame(
                 fpi = unlist(list_res), 
                 Loc = c('proms_center', 'proms_flanking', 'proms_distal', 'enhs_center', 'enhs_flanking', 'enhs_extended'), 
-                Class = c('Center', 'Flanking', 'Distal', 'Center', 'Flanking', 'Distal'), 
+                Class = c('Core', 'Flanking', 'Distal', 'Core', 'Flanking', 'Distal'), 
                 Type = c('Prom', 'Prom', 'Prom', 'Enh', 'Enh', 'Enh'),
                 tissue = TISSUE
             )
             return(df)
         }) %>% do.call(rbind, .) %>% 
-            mutate(Class = factor(Class, levels = c('Center', 'Flanking', 'Distal'))) %>% 
+            mutate(Class = factor(Class, levels = c('Core', 'Flanking', 'Distal'))) %>% 
             mutate(Type = factor(Type, levels = c('Prom', 'Enh'))) %>% 
             mutate(tissue = factor(tissue, levels = names(list_params))) %>% 
             mutate(Loc = factor(Loc, levels = c('proms_center', 'proms_flanking', 'proms_distal', 'enhs_center', 'enhs_flanking', 'enhs_extended')))

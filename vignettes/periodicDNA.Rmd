@@ -88,9 +88,7 @@ following example,
 
 ```{r, eval = FALSE}
 WW_10bp_track <- getPeriodicityTrack(
-    Biostrings::getSeq(
-        BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
-    ),
+    genome = 'ce11',
     granges = ce11_proms, 
     motif = 'WW',
     period = 10,
