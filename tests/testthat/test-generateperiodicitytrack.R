@@ -10,7 +10,7 @@ test_that("getPeriodicityTrack and plotAggregateCoverage works", {
             period = 10,
             step_size = 20,
             bw_file = 'TT-10-bp-periodicity_over-proms.bw', 
-            MulticoreParam(workers = 3)
+            MulticoreParam(workers = 1)
         )
         scaled_track <- scaleBigWigs(list('test' = track))
         scaled_track2 <- scaleBigWigs(track)

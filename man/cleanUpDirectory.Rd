@@ -4,7 +4,10 @@
 \alias{cleanUpDirectory}
 \title{Internal function}
 \usage{
-cleanUpDirectory()
+cleanUpDirectory(logfile)
+}
+\arguments{
+\item{logfile}{character, name of log file}
 }
 \value{
 NULL Clean-up temporary files generated when running 

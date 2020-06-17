@@ -6,13 +6,13 @@
 \usage{
 chunkWrapper(
   chunk,
+  chunks,
   genome,
   motif,
-  genome_sliding_shift,
-  window_sliding_size,
-  window_sliding_bin,
+  step_size,
   range_spectrum,
-  freq
+  freq,
+  logfile
 )
 }
 \arguments{
@@ -22,14 +22,8 @@ chunkWrapper(
 
 \item{motif}{String Oligonucleotide of interest.}
 
-\item{genome_sliding_shift}{Integer The increment between 
+\item{step_size}{Integer The increment between 
 bins over GRanges (default 2).}
-
-\item{window_sliding_size}{Integer The width of the bins to split 
-each primary bin in (default 60).}
-
-\item{window_sliding_bin}{Integer The increment between secondary bins
-(default 5).}
 
 \item{range_spectrum}{Numeric vector The distances between nucleotides
 to take into consideration when performing Fast Fourier Transform 
@@ -37,6 +31,8 @@ to take into consideration when performing Fast Fourier Transform
 
 \item{freq}{Float The frequence of the dinucleotide to study 
 (default 1/10).}
+
+\item{logfile}{character, name of log file}
 }
 \value{
 GRanges a GRanges object with a score column containing 

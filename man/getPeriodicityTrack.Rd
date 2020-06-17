@@ -11,11 +11,10 @@ getPeriodicityTrack(
   period = 10,
   BPPARAM = bpparam(),
   extension = 1000,
-  genome_sliding_size = 100,
-  genome_sliding_shift = 2,
-  window_sliding_size = 100,
-  window_sliding_bin = 5,
+  window_size = 100,
+  step_size = 2,
   range_spectrum = seq(5, 50),
+  smooth_track = 20,
   bw_file = NULL
 )
 }
@@ -35,21 +34,17 @@ BiocParallel}
 \item{extension}{Integer, the width the GRanges are going to 
 be extended to (default 1000).}
 
-\item{genome_sliding_size}{Integer, the width of the bins to split 
+\item{window_size}{Integer, the width of the bins to split 
 the GRanges objects in (default 100).}
 
-\item{genome_sliding_shift}{Integer, the increment between bins 
+\item{step_size}{Integer, the increment between bins 
 over GRanges (default 2).}
-
-\item{window_sliding_size}{Integer, the width of the bins to split
-each primary bin in (default 60).}
-
-\item{window_sliding_bin}{Integer, the increment between secondary bins
-(default 5).}
 
 \item{range_spectrum}{Numeric vector, the distances between nucleotides
 to take into consideration when performing Fast Fourier Transform 
 (default seq_len(50)).}
+
+\item{smooth_track}{Integer, smooth the resulting track}
 
 \item{bw_file}{character, the name of the output bigWig track}
 }

@@ -4,15 +4,7 @@
 \alias{binWrapper}
 \title{Internal function}
 \usage{
-binWrapper(
-  grange,
-  genome,
-  motif,
-  window_sliding_size,
-  window_sliding_bin,
-  range_spectrum,
-  freq
-)
+binWrapper(grange, genome, motif, range_spectrum, freq)
 }
 \arguments{
 \item{grange}{A GRanges object of length 1}
@@ -20,12 +12,6 @@ binWrapper(
 \item{genome}{DNAStringSet, BSgenome or genome ID}
 
 \item{motif}{String Oligonucleotide of interest.}
-
-\item{window_sliding_size}{Integer The width of the bins to 
-split each primary bin in (default 60).}
-
-\item{window_sliding_bin}{Integer The increment between secondary bins
-(default 5).}
 
 \item{range_spectrum}{Numeric vector The distances between nucleotides
 to take into consideration when performing Fast Fourier Transform 

@@ -32,31 +32,25 @@ test_that("namedListToLongFormat", {
 
 test_that("sampleGRanges works", {
     expect_true({
-        data(ce11_proms)
-        g <- sampleGRanges(
-            ce11_proms, 
-            100
-        )
-        g <- sampleGRanges(
-            ce11_proms, 
-            width = 10, 
-            n = 10
-        )
-        #
         g <- sampleGRanges(
             (BSgenome.Scerevisiae.UCSC.sacCer3::
             BSgenome.Scerevisiae.UCSC.sacCer3), 
-            100, 
-            exclude = FALSE
+            width = 100, 
+            n = 1000
         )
         #
-        data(ce11_proms_seqs)
-        g <- sampleGRanges(
-            ce11_proms_seqs,
-            n = 10, 
-            width = 10, 
-            exclude = FALSE
+        g2 <- sampleGRanges(
+            g, 
+            w = 100
         )
+        g2 <- sampleGRanges(
+            g, 
+            width = 10, 
+            n = 10, 
+            exclude = TRUE, 
+            avoid_overlap = TRUE
+        )
+        #
         TRUE
     })
 })

@@ -8,8 +8,8 @@ partitionGenome(
   genome,
   granges_extended_large,
   granges_extended,
-  genome_sliding_size,
-  genome_sliding_shift
+  window_size,
+  step_size
 )
 }
 \arguments{
@@ -19,10 +19,10 @@ partitionGenome(
 
 \item{granges_extended}{A GRanges object.}
 
-\item{genome_sliding_size}{An integer. The width of the bins to split 
+\item{window_size}{An integer. The width of the bins to split 
 the GRanges objects in (default 100).}
 
-\item{genome_sliding_shift}{An integer. The increment between bins 
+\item{step_size}{An integer. The increment between bins 
 over GRanges (default 2).}
 }
 \value{
