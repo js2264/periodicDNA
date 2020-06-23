@@ -54,8 +54,8 @@ vignette('internal-steps', package = 'periodicDNA')
 
 ## Main functions 
 
-The two main user-level functions of periodicDNA are `getPeriodicity()` 
-and `getPeriodicityTrack()`. 
+The three main user-level functions of periodicDNA are `getPeriodicity()`,
+`getPeriodicityTrack()` and `getFPI()`.
 
 * `getPeriodicity()` is used to compute the power spectral density 
   (PSD) of a chosen k-mer (i.e. `TT`) in a set of sequences. The PSD 
@@ -64,6 +64,11 @@ and `getPeriodicityTrack()`.
 * `getPeriodicityTrack()` can be used to generate linear tracks representing 
   the periodicity strength of a given k-mer at a chosen period, over genomic
   loci of interest. 
+* `getFPI()` is used to compute the Fold Power Increase, 
+  a more sophisticated metric derived from the PSD. 
+  It was initially developed by Pich et al., Cell 2018. 
+  It estimates the background periodicity of the k-mer 
+  of interest in shuffled sequences. 
 
 ### `getPeriodicity()` function
 
@@ -89,6 +94,22 @@ WW_10bp <- getPeriodicityTrack(
     bw_file = 'WW-10-bp-periodicity_over-proms.bw', 
     BPPARAM = BiocParallel::SnowParam(workers = 12)
 )
+```
+
+### `getFPI()` function
+
+```{r}
+ce_seq <- Biostrings::getSeq(
+    BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
+)
+FPI <- getFPI(
+    ce_seq[ce11_proms], 
+    period = 10,
+    motif = 'TT', 
+    cores_shuffling = 10, 
+    n_shuffling = 10
+)
+plotFPI(FPI)
 ```
 
 **Warning**: It is recommended to run this command across many processors 

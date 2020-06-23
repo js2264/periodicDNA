@@ -117,6 +117,29 @@ knitr::include_graphics(
 )
 ```
 
+### Fold Power Increase
+
+Fold Power Increase (FPI) is a metric introduced by Pich et al., 
+Cell 2018. It can be computed using the `getFPI()` function. In the 
+following example, the FPI of TT dinucleotides at a 10-bp periodicity is 
+computed over 200-bp long sequences randomly sampled in ce11 genome. 
+
+```{r, eval = TRUE}
+set.seed(42)
+ce11_random_regions <- sampleGenome(
+    'ce11',
+    n = 200, w = 500
+)
+fpi <- getFPI(
+    ce11_random_regions$seq, 
+    motif = 'WW', 
+    cores_computing = 1, 
+    cores_shuffling = 1, 
+    n_shuffling = 10
+)
+plotFPI(fpi)
+```
+
 ## Session info
 
 ```{r, eval = TRUE}
