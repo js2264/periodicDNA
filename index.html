@@ -134,12 +134,14 @@
 <div id="main-functions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#main-functions" class="anchor"></a>Main functions</h2>
-<p>The two main user-level functions of periodicDNA are <code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicity.html">getPeriodicity()</a></code> and <code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicityTrack.html">getPeriodicityTrack()</a></code>.</p>
+<p>The three main user-level functions of periodicDNA are <code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicity.html">getPeriodicity()</a></code>, <code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicityTrack.html">getPeriodicityTrack()</a></code> and <code><a href="https://rdrr.io/pkg/periodicDNA/man/getFPI.html">getFPI()</a></code>.</p>
 <ul>
 <li>
 <code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicity.html">getPeriodicity()</a></code> is used to compute the power spectral density (PSD) of a chosen k-mer (i.e. <code>TT</code>) in a set of sequences. The PSD score at a given period indicates the strength of the k-mer at this period.</li>
 <li>
 <code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicityTrack.html">getPeriodicityTrack()</a></code> can be used to generate linear tracks representing the periodicity strength of a given k-mer at a chosen period, over genomic loci of interest.</li>
+<li>
+<code><a href="https://rdrr.io/pkg/periodicDNA/man/getFPI.html">getFPI()</a></code> is used to compute the Fold Power Increase, a more sophisticated metric derived from the PSD. It was initially developed by Pich et al., Cell 2018. It estimates the background periodicity of the k-mer of interest in shuffled sequences.</li>
 </ul>
 <div id="getperiodicity-function" class="section level3">
 <h3 class="hasAnchor">
@@ -164,6 +166,21 @@
     <span class="kw">bw_file</span> <span class="kw">=</span> <span class="st">'WW-10-bp-periodicity_over-proms.bw'</span>,
     <span class="kw">BPPARAM</span> <span class="kw">=</span> <span class="kw pkg">BiocParallel</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/SnowParam-class.html">SnowParam</a></span>(<span class="kw">workers</span> <span class="kw">=</span> <span class="fl">12</span>)
 )</pre></div>
+</div>
+<div id="getfpi-function" class="section level3">
+<h3 class="hasAnchor">
+<a href="#getfpi-function" class="anchor"></a><code>getFPI()</code> function</h3>
+<pre class="{r}"><code>ce_seq &lt;- Biostrings::getSeq(
+    BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
+)
+FPI &lt;- getFPI(
+    ce_seq[ce11_proms], 
+    period = 10,
+    motif = 'TT', 
+    cores_shuffling = 10, 
+    n_shuffling = 10
+)
+plotFPI(FPI)</code></pre>
 <p><strong>Warning</strong>: It is recommended to run this command across many processors using BiocParallel. This command typically takes one day to produce a periodicity track over 15,000 GRanges of 150 bp (with default parameters) using <code>BPPARAM = BiocParallel::SnowParam(workers = 12)</code>. It is highly recommended to run this command in a new <code>screen</code> session.</p>
 </div>
 </div>

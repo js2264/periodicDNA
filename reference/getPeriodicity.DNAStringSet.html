@@ -161,7 +161,7 @@ normalized distogram.</p>
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>sample</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>doZscore</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>skip_shuffling</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>shuffling</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -208,8 +208,8 @@ genomes will have different GC percent</p></td>
       <td><p>Boolean should the normalized dampened signal be z-scored?</p></td>
     </tr>
     <tr>
-      <th>skip_shuffling</th>
-      <td><p>Boolean should the shuffling sequences be done?</p></td>
+      <th>shuffling</th>
+      <td><p>Integer, how many times should the sequences be shuffled?</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -239,13 +239,13 @@ genomes will have different GC percent</p></td>
 <span class='no'>periodicity_result</span> <span class='kw'>&lt;-</span> <span class='fu'>getPeriodicity</span>(
     <span class='no'>ce11_proms_seqs</span>[<span class='fl'>1</span>:<span class='fl'>10</span>],
     <span class='kw'>motif</span> <span class='kw'>=</span> <span class='st'>'TT'</span>
-)</div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 12945 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing histogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the vector of distances.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>periodicity_result</span>$<span class='no'>PSD</span>)</div><div class='output co'>#&gt;    freq    period          PSD
-#&gt; 1 0.005 200.00000 2.570352e-07
-#&gt; 2 0.010 100.00000 1.259095e-07
-#&gt; 3 0.015  66.66667 3.592383e-07
-#&gt; 4 0.020  50.00000 5.015015e-07
-#&gt; 5 0.025  40.00000 1.432032e-08
-#&gt; 6 0.030  33.33333 1.439312e-07</div><div class='input'><span class='fu'>plotPeriodicityResults</span>(<span class='no'>periodicity_result</span>)</div><div class='img'><img src='getPeriodicity.DNAStringSet-1.png' alt='' width='700' height='433' /></div></pre>
+)</div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 10328 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing histogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the vector of distances.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>periodicity_result</span>$<span class='no'>PSD</span>)</div><div class='output co'>#&gt;    freq    period          PSD
+#&gt; 1 0.005 200.00000 9.244740e-06
+#&gt; 2 0.010 100.00000 1.275625e-06
+#&gt; 3 0.015  66.66667 2.560088e-07
+#&gt; 4 0.020  50.00000 1.998063e-06
+#&gt; 5 0.025  40.00000 3.249916e-07
+#&gt; 6 0.030  33.33333 9.875538e-09</div><div class='input'><span class='fu'>plotPeriodicityResults</span>(<span class='no'>periodicity_result</span>)</div><div class='img'><img src='getPeriodicity.DNAStringSet-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

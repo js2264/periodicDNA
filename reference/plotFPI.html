@@ -147,7 +147,13 @@ It plots the observed PSD values in red and all the shuffled
 runs in grey.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plotFPI</span>(<span class='no'>fpi</span>, <span class='kw'>periods</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>20</span>), <span class='kw'>s</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</pre>
+    <pre class="usage"><span class='fu'>plotFPI</span>(
+  <span class='no'>fpi</span>,
+  <span class='kw'>periods</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>20</span>),
+  <span class='kw'>s</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
+  <span class='kw'>plot_ribbon</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.001</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -165,6 +171,15 @@ x-axis limits</p></td>
       <th>s</th>
       <td><p>float span parameter for loess smooth</p></td>
     </tr>
+    <tr>
+      <th>plot_ribbon</th>
+      <td><p>Boolean, should the PSDs from suffled sequences be 
+plotted as a ribbon (mean +/- CI)?</p></td>
+    </tr>
+    <tr>
+      <th>threshold</th>
+      <td><p>Float, p-value used as significance threshold</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -177,8 +192,8 @@ x-axis limits</p></td>
     <span class='no'>ce11_proms_seqs</span>[<span class='fl'>1</span>:<span class='fl'>10</span>],
     <span class='kw'>genome</span> <span class='kw'>=</span> <span class='st'>'ce11'</span>,
     <span class='kw'>motif</span> <span class='kw'>=</span> <span class='st'>'TT'</span>,
-    <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='kw pkg'>BiocParallel</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/BiocParallel/man/SnowParam-class.html'>SnowParam</a></span>(<span class='kw'>workers</span> <span class='kw'>=</span> <span class='fl'>1</span>)
-)</div><div class='output co'>#&gt; <span class='message'>- Calculating observed PSD</span></div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 12945 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing histogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the vector of distances.</span></div><div class='output co'>#&gt; <span class='message'>&gt;&gt; Measured PSD @ 10bp is: 4.78946534620361e-06</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 1/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 2/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 3/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 4/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 5/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 6/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 7/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 8/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 9/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 10/10</span></div><div class='output co'>#&gt; <span class='message'>&gt;&gt; Calculated FPI @ 10bp is: 16.9708481056748</span></div><div class='input'><span class='fu'>plotFPI</span>(<span class='no'>fpi</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1001 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='img'><img src='plotFPI-1.png' alt='' width='700' height='433' /></div></pre>
+    <span class='kw'>cores_computing</span> <span class='kw'>=</span> <span class='fl'>1</span>
+)</div><div class='output co'>#&gt; <span class='message'>- Calculating observed PSD</span></div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 10328 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing histogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the vector of distances.</span></div><div class='output co'>#&gt; <span class='message'>&gt;&gt; Measured PSD @ 10bp is: 7.25102345471808e-06</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 1/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 2/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 3/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 4/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 5/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 6/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 7/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 8/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 9/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 10/10</span></div><div class='output co'>#&gt; <span class='message'>&gt;&gt; Calculated FPI @ 10bp is: 14.9482636837213</span></div><div class='input'><span class='fu'>plotFPI</span>(<span class='no'>fpi</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='img'><img src='plotFPI-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

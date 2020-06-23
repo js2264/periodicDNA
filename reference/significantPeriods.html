@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A function to sample GRanges from GRanges/DNAStringSet — sampleGRanges • periodicDNA</title>
+<title>Internal function — significantPeriods • periodicDNA</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,11 +46,8 @@
 
 
 
-<meta property="og:title" content="A function to sample GRanges from GRanges/DNAStringSet — sampleGRanges" />
-<meta property="og:description" content="This function takes a given GRanges and returns another GRanges 
-object. The new GRanges has the same number of ranges and the same
-chromosome, width and strand distributions than the original 
-GRanges." />
+<meta property="og:title" content="Internal function — significantPeriods" />
+<meta property="og:description" content="Internal function" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -137,74 +134,35 @@ GRanges." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A function to sample GRanges from GRanges/DNAStringSet</h1>
-    <small class="dont-index">Source: <a href='https://github.com/js2264/periodicDNA/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>sampleGRanges.Rd</code></div>
+    <h1>Internal function</h1>
+    <small class="dont-index">Source: <a href='https://github.com/js2264/periodicDNA/blob/master/R/FPI.R'><code>R/FPI.R</code></a></small>
+    <div class="hidden name"><code>significantPeriods.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function takes a given GRanges and returns another GRanges 
-object. The new GRanges has the same number of ranges and the same
-chromosome, width and strand distributions than the original 
-GRanges.</p>
+    <p>Internal function</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sampleGRanges</span>(
-  <span class='no'>x</span>,
-  <span class='kw'>n</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>exclude</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>avoid_overlap</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>significantPeriods</span>(<span class='no'>fpi</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>GRanges or DNAStringSet object</p></td>
+      <th>fpi</th>
+      <td><p>result of getFPI() function</p></td>
     </tr>
     <tr>
-      <th>n</th>
-      <td><p>Integer, number of sampled GRanges</p></td>
-    </tr>
-    <tr>
-      <th>width</th>
-      <td><p>Integer, width of sampled GRanges</p></td>
-    </tr>
-    <tr>
-      <th>exclude</th>
-      <td><p>Boolean, should the original GRanges be excluded?</p></td>
-    </tr>
-    <tr>
-      <th>avoid_overlap</th>
-      <td><p>Boolean, should the sampled GRanges not 
-be overlapping?</p></td>
+      <th>threshold</th>
+      <td><p>Float, p-value used as significance threshold</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A GRanges object of length n</p>
+    <p>periods from the FPI list at which PSD are statistically higher 
+than those from shuffled sequences</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_proms</span>)
-<span class='fu'>sampleGRanges</span>(<span class='no'>ce11_proms</span>, <span class='fl'>100</span>)</div><div class='output co'>#&gt; GRanges object with 100 ranges and 0 metadata columns:
-#&gt;         seqnames            ranges strand
-#&gt;            &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;
-#&gt;     [1]     chrI     432365-432515      +
-#&gt;     [2]     chrI   5008336-5008486      +
-#&gt;     [3]     chrI   5524342-5524492      +
-#&gt;     [4]     chrI   7489007-7489157      +
-#&gt;     [5]     chrI 10035616-10035766      +
-#&gt;     ...      ...               ...    ...
-#&gt;    [96]     chrX 13488093-13488243      -
-#&gt;    [97]     chrX 14425131-14425281      -
-#&gt;    [98]     chrX 15680853-15681003      -
-#&gt;    [99]     chrX 16158655-16158805      -
-#&gt;   [100]     chrX 16353972-16354122      -
-#&gt;   -------
-#&gt;   seqinfo: 6 sequences from an unspecified genome</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -194,14 +194,13 @@ normalized distogram.</p>
     <span class='no'>ce11_proms</span>[<span class='fl'>1</span>:<span class='fl'>10</span>],
     <span class='kw'>genome</span> <span class='kw'>=</span> <span class='st'>'ce11'</span>,
     <span class='kw'>motif</span> <span class='kw'>=</span> <span class='st'>'TT'</span>
-)</div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 1842 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing histogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the vector of distances.</span></div><div class='output co'>#&gt; <span class='message'>Range (1:200) is wider than any range in the current </span>
-#&gt; <span class='message'>            distances vector. Shortening the range from 1 to 142...</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>periodicity_result</span>$<span class='no'>PSD</span>)</div><div class='output co'>#&gt;          freq period          PSD
-#&gt; 1 0.006944444  144.0 1.548620e-06
-#&gt; 2 0.013888889   72.0 3.502415e-06
-#&gt; 3 0.020833333   48.0 4.303596e-07
-#&gt; 4 0.027777778   36.0 1.881275e-05
-#&gt; 5 0.034722222   28.8 1.597722e-06
-#&gt; 6 0.041666667   24.0 1.767036e-05</div><div class='input'><span class='fu'>plotPeriodicityResults</span>(<span class='no'>periodicity_result</span>)</div><div class='img'><img src='getPeriodicity.GRanges-1.png' alt='' width='700' height='433' /></div></pre>
+)</div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 1842 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing histogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the vector of distances.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>periodicity_result</span>$<span class='no'>PSD</span>)</div><div class='output co'>#&gt;    freq    period          PSD
+#&gt; 1 0.005 200.00000 2.690817e-06
+#&gt; 2 0.010 100.00000 1.476058e-07
+#&gt; 3 0.015  66.66667 1.934533e-06
+#&gt; 4 0.020  50.00000 2.387861e-07
+#&gt; 5 0.025  40.00000 5.582855e-06
+#&gt; 6 0.030  33.33333 1.096215e-05</div><div class='input'><span class='fu'>plotPeriodicityResults</span>(<span class='no'>periodicity_result</span>)</div><div class='img'><img src='getPeriodicity.GRanges-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
