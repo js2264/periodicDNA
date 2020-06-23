@@ -4,7 +4,13 @@
 \alias{plotFPI}
 \title{Plot the output of getFPI()}
 \usage{
-plotFPI(fpi, periods = c(2, 20), s = 0.05)
+plotFPI(
+  fpi,
+  periods = c(2, 20),
+  s = 0.05,
+  plot_ribbon = TRUE,
+  threshold = 0.001
+)
 }
 \arguments{
 \item{fpi}{The output of getFPI function.}
@@ -13,6 +19,11 @@ plotFPI(fpi, periods = c(2, 20), s = 0.05)
 x-axis limits}
 
 \item{s}{float span parameter for loess smooth}
+
+\item{plot_ribbon}{Boolean, should the PSDs from suffled sequences be 
+plotted as a ribbon (mean +/- CI)?}
+
+\item{threshold}{Float, p-value used as significance threshold}
 }
 \value{
 ggplot A ggplot
@@ -28,7 +39,7 @@ fpi <- getFPI(
     ce11_proms_seqs[1:10], 
     genome = 'ce11', 
     motif = 'TT', 
-    BPPARAM = BiocParallel::SnowParam(workers = 1)
+    cores_computing = 1
 )
 plotFPI(fpi)
 }

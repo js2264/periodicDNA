@@ -9,7 +9,8 @@
   motif,
   period = 10,
   n_shuffling = 10,
-  BPPARAM = bpparam(),
+  cores_shuffling = 1,
+  cores_computing = 1,
   verbose = 1,
   ...
 )
@@ -23,8 +24,10 @@
 
 \item{n_shuffling}{integer, Number of shuffling}
 
-\item{BPPARAM}{integer, Number of threads to use to split
-shuffling of sequences}
+\item{cores_shuffling}{integer, Number of cores used for shuffling}
+
+\item{cores_computing}{integer, split the workload over several processors 
+using BiocParallel}
 
 \item{verbose}{integer, Should the function be verbose?}
 

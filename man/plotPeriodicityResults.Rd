@@ -8,7 +8,6 @@ plotPeriodicityResults(
   results,
   periods = c(2, 20),
   filter_periods = TRUE,
-  skip_shuffling = FALSE,
   facet_control = TRUE,
   xlim = NULL,
   ...
@@ -22,8 +21,6 @@ x-axis limits}
 
 \item{filter_periods}{Boolean Should the x-axis be 
 constrained to the periods?}
-
-\item{skip_shuffling}{Boolean should the shuffling sequences be done?}
 
 \item{facet_control}{Boolean should the shuffling plots be faceted?}
 
@@ -46,7 +43,6 @@ periodicity_result <- getPeriodicity(
     ce11_proms[1:100],
     genome = 'ce11',
     motif = 'TT', 
-    skip_shuffling = FALSE,
     BPPARAM = BiocParallel::SnowParam(workers = 1)
 )
 head(periodicity_result$PSD)
