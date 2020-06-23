@@ -5,7 +5,9 @@ test_that("getPeriodicity and plotPeriodicityResults works", {
         data(ce11_proms_seqs)
         periodicity_result <- getPeriodicity(
             ce11_proms_seqs[[1]],
-            motif = 'TT'
+            motif = 'TT', 
+            verbose = TRUE, 
+            skip_shuffling = FALSE
         )
         #
         data(ce11_proms)
@@ -16,17 +18,17 @@ test_that("getPeriodicity and plotPeriodicityResults works", {
         )
         #
         list_plots <- plotPeriodicityResults(
-            periodicity_result, skip_shuffling = FALSE, filter_periods = FALSE, 
+            periodicity_result, filter_periods = FALSE, 
             grid = FALSE, axis = TRUE, ticks = TRUE, border = FALSE
         )
         list_plots <- plotPeriodicityResults(
-            periodicity_result, skip_shuffling = TRUE, filter_periods = FALSE
+            periodicity_result, filter_periods = FALSE
         )
         list_plots <- plotPeriodicityResults(
-            periodicity_result, skip_shuffling = FALSE, filter_periods = TRUE
+            periodicity_result, filter_periods = TRUE
         )
         list_plots <- plotPeriodicityResults(
-            periodicity_result, skip_shuffling = TRUE, filter_periods = TRUE
+            periodicity_result, filter_periods = TRUE
         )
         methods::is(list_plots, "gg")
     }, TRUE)
@@ -87,6 +89,7 @@ test_that("getPeriodicity on lists of proms and mutlitple dinucleotides", {
 test_that("getPeriodicity for sacCer3 random loci", {
     skip('figure_paper_20200507')
     expect_equal({
+        set.seed(51)
         sacCer3_random_regions <- sampleGenome(
             'sacCer3', n = 1000, w = 800
         )
@@ -94,12 +97,12 @@ test_that("getPeriodicity for sacCer3 random loci", {
         PSDs_yeast <- getPeriodicity(
             sacCer3_random_regions, 
             motif = 'WW', 
-            period = 10, 
-            BPPARAM = SnowParam(workers = 30), 
-            skip_shuffling = FALSE
+            shuffling = 10, 
+            cores_shuffling = 10
         )
+        #
         p <- plotPeriodicityResults(PSDs_yeast, xlim = 150)
-        ggsave('PSDs_yeast_WW_800long.pdf', width = 32, height = 8, unit = 'cm')
+        ggsave('PSDs_yeast_WW_800long.pdf', width = 28, height = 9, unit = 'cm')
         #
         # Value for varying sequences lengths
         g <- sampleGenome('sacCer3', n = 1000, w = 1500)

@@ -2,18 +2,18 @@ context("test-FPI")
 
 test_that("FPI works", {
     expect_equal({
-        data(ce11_proms_seqs)
-        g <- DNAStringSet2GRanges(ce11_proms_seqs)
+        data(ce11_proms)
         rand_regions <- sampleGRanges(
-            g, n = 20, w = 200, exclude = FALSE
+            ce11_proms, n = 20, w = 200, exclude = FALSE
         )
-        rand_regions_seq <- ce11_proms_seqs[rand_regions]
         fpi <- getFPI(
-            rand_regions_seq,
-            motif = 'TT'
+            rand_regions,
+            genome = 'ce11', 
+            motif = 'TT', 
+            n_shuffling = 4
         )
         p <- plotFPI(fpi)
-        methods::is(p, 'gg')
+        TRUE
     }, TRUE)
 })
 
