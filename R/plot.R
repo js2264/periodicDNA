@@ -10,7 +10,6 @@
 #' x-axis limits 
 #' @param filter_periods Boolean Should the x-axis be 
 #' constrained to the periods?
-#' @param skip_shuffling Boolean should the shuffling sequences be done?
 #' @param facet_control Boolean should the shuffling plots be faceted?
 #' @param xlim Integer x axis upper limit in raw and norm. distograms
 #' @param ... Additional theme arguments passed to theme_ggplot2()
@@ -26,7 +25,6 @@
 #'     ce11_proms[1:100],
 #'     genome = 'ce11',
 #'     motif = 'TT', 
-#'     skip_shuffling = FALSE,
 #'     BPPARAM = BiocParallel::SnowParam(workers = 1)
 #' )
 #' head(periodicity_result$PSD)
@@ -43,7 +41,6 @@ plotPeriodicityResults <- function(
     results, 
     periods = c(2, 20), 
     filter_periods = TRUE, 
-    skip_shuffling = FALSE, 
     facet_control = TRUE,
     xlim = NULL, 
     ...
@@ -52,206 +49,86 @@ plotPeriodicityResults <- function(
     if (is.null(xlim)) {
         xlim <- nrow(results$hist) - 6
     }
-    
-    if (skip_shuffling == FALSE & 'dists_shuffled' %in% names(results)) {
-        d <- rbind(
-            head(
-                cbind(results$hist[-c(seq_len(5)),], type = 'observed'), 
-                xlim
-            ),
-            head(
-                cbind(
-                    results$hist_shuffled[-c(seq_len(5)),], type = 'shuffled'
-                ), 
-                xlim
+    p0 <- ggplot2::ggplot(
+        head(results$hist[-c(seq_len(5)),], xlim), 
+        ggplot2::aes(x = distance, y = counts)
+    ) + 
+        ggplot2::geom_line() +
+        theme_ggplot2(...) + 
+        ggplot2::labs(
+            x = paste0('Distance between pairs of ', results$motif),
+            y = 'Distribution', 
+            title = paste0(
+                'Distribution of\ndistances between pairs of ', 
+                results$motif
             )
         )
-        d$type = factor(d$type)
-        p0 <- ggplot2::ggplot(
-            d, ggplot2::aes(x = distance, y = counts, col = type)
-        ) + 
-            ggplot2::geom_line(alpha = c(1, 0.4)[d$type]) +
-            theme_ggplot2(...) + 
-            ggplot2::labs(
-                x = paste0('Distance between pairs of ', results$motif), 
-                y = 'Distribution', 
-                title = paste0(
-                    'Distribution of\ndistances between pairs of ',
-                    results$motif
-                )
-            ) + 
-            scale_color_manual(values = c('black', 'grey30')) +
-            theme(legend.position = 'none')
-        #
-        d <- rbind(
-            head(
-                cbind(
-                    results$normalized_hist[-c(seq_len(5)),],
-                    type = 'observed'
-                ), 
-                xlim
-            ),
-            head(
-                cbind(
-                    results$normalized_hist_shuffled[-c(seq_len(5)),], 
-                    type = 'shuffled'
-                ), 
-                xlim
+    #
+    df <- head(results$normalized_hist[-c(seq_len(5)),], xlim)
+    p1 <- ggplot2::ggplot(
+        df, ggplot2::aes(x = distance, y = norm_counts)
+    ) +
+        ggplot2::geom_line() +
+        theme_ggplot2(...) + 
+        ggplot2::labs(
+            x = paste0('Distance between pairs of ', results$motif), 
+            y = 'Normalized distribution', 
+            title = paste0(
+                'Normalized distribution of\ndistances between pairs of ',
+                results$motif
             )
         )
-        d$type = factor(d$type)
-        p1 <- ggplot2::ggplot(d, ggplot2::aes(
-            x = distance, y = norm_counts, col = type
-        )) + 
-            ggplot2::geom_line(alpha = c(1, 0.4)[d$type]) +
-            theme_ggplot2(...) + 
-            ggplot2::labs(
-                x = paste0('Distance between pairs of ', results$motif), 
-                y = 'Normalized distribution', 
-                title = paste0(
-                    'Normalized distribution of\ndistances between pairs of ',
-                    results$motif
-                )
-            ) + 
-            scale_color_manual(values = c('black', 'grey30')) +
-            theme(legend.position = 'none')
-        if (facet_control) p1 <- p1 + ggplot2::facet_wrap(~type, nrow = 2) 
-        #
-        if (filter_periods == FALSE) {
-            df <- data.frame(
-                x = c(
-                    rev(1/results$PSD$freq), rev(1/results$PSD_shuffled$freq)
-                ),
-                y = c(rev(results$PSD$PSD), rev(results$PSD_shuffled$PSD)), 
-                type = c(
-                    rep('observed', length(results$PSD$PSD)),
-                    rep('shuffled', length(results$PSD_shuffled$PSD))
-                )
-            )
-            df <- df[df$x >= periods[1] & df$x <= periods[2],]
-        }
-        else {
-            df <- data.frame(
-                x = c(periods[1]:periods[2], periods[1]:periods[2]),
-                y = c(
-                    results$PSD$PSD[
-                        unlist(lapply(1/(periods[1]:periods[2]), 
-                        function (freq) {
-                            idx <- which.min(abs(freq - results$PSD$freq))
-                        }
-                    ))
-                    ], 
-                    results$PSD_shuffled$PSD[
-                    unlist(lapply(
-                        1/(periods[1]:periods[2]), 
-                        function (freq) {
-                            idx <- which.min(
-                                abs(freq - results$PSD_shuffled$freq)
-                            )
-                        }
-                    ))
-                    ]
-                ), 
-                type = c(
-                    rep('observed', length(periods[1]:periods[2])),
-                    rep('shuffled', length(periods[1]:periods[2]))
-                )
-            )
-            df <- df[df$x >= periods[1] & df$x <= periods[2],]
-        }
-        p2 <- ggplot2::ggplot(df) + 
-            ggplot2::aes(x = x, y = y, col = type, fill = type) + 
-            ggplot2::geom_point(alpha = c(1, 0.4)[df$type]) +
-            ggplot2::geom_segment(
-                aes(x=x, xend=x, y=0, yend=y), alpha = c(1, 0.4)[df$type]
-            ) +
-            ggplot2::xlim(periods) +
-            theme_ggplot2(...) + 
-            ggplot2::labs(
-                x = paste0(results$motif, ' periods'), 
-                y = 'Power Spectral Density', 
-                title = paste0(
-                    results$motif, ' power spectral density'
-                )
-            ) + 
-            scale_color_manual(values = c('black', 'grey30')) +
-            theme(legend.position = 'none')
-        if (facet_control) p2 <- p2 + ggplot2::facet_wrap(~type) 
-        #
-        p <- cowplot::plot_grid(
-            plotlist = list(p0, p1, p2), nrow = 1, 
-            rel_widths = c(0.5, 0.5, 1)
+    #
+    if (filter_periods == FALSE) {
+        df <- data.frame(
+            x = rev(1/results$PSD$freq),
+            y = rev(results$PSD$PSD)
         )
-        return(p)
     }
     else {
-        p0 <- ggplot2::ggplot(
-            head(results$hist[-c(seq_len(5)),], xlim), 
-            ggplot2::aes(x = distance, y = counts)
-        ) + 
-            ggplot2::geom_line() +
-            theme_ggplot2(...) + 
-            ggplot2::labs(
-                x = paste0('Distance between pairs of ', results$motif),
-                y = 'Distribution', 
-                title = paste0(
-                    'Distribution of\ndistances between pairs of ', 
-                    results$motif
-                )
-            )
-        #
-        df <- head(results$normalized_hist[-c(seq_len(5)),], xlim)
-        p1 <- ggplot2::ggplot(
-            df, ggplot2::aes(x = distance, y = norm_counts)
-        ) +
-            ggplot2::geom_line() +
-            theme_ggplot2(...) + 
-            ggplot2::labs(
-                x = paste0('Distance between pairs of ', results$motif), 
-                y = 'Normalized distribution', 
-                title = paste0(
-                    'Normalized distribution of\ndistances between pairs of ',
-                    results$motif
-                )
-            )
-        #
-        if (filter_periods == FALSE) {
-            df <- data.frame(
-                x = rev(1/results$PSD$freq),
-                y = rev(results$PSD$PSD)
-            )
-        }
-        else {
-            df <- data.frame(
-                x = periods[1]:periods[2],
-                y = results$PSD$PSD[
-                unlist(lapply(1/(periods[1]:periods[2]), function (freq) {
-                    idx <- which.min(abs(freq - results$PSD$freq))
-                }))
-                ]
-            )
-        }
-        p2 <- ggplot2::ggplot(
-            df[df$x >= periods[1] & df$x <= periods[2],], 
-            ggplot2::aes(x = x, y = y)
-        ) + 
-            ggplot2::geom_point() +
-            ggplot2::geom_segment(aes(x=x, xend=x, y=0, yend=y)) +
-            ggplot2::xlim(periods) +
-            theme_ggplot2(...) + 
-            ggplot2::labs(
-                x = paste0(results$motif, ' periods'), 
-                y = 'Power Spectral Density', 
-                title = paste0(
-                    'Power Spectral Density of\n', 
-                    results$motif, 
-                    ' at different periods'
-                )
-            )
-        #
-        p <- cowplot::plot_grid(plotlist = list(p0, p1, p2), nrow = 1)
-        return(p)
+        df <- data.frame(
+            x = periods[1]:periods[2],
+            y = results$PSD$PSD[
+            unlist(lapply(1/(periods[1]:periods[2]), function (freq) {
+                idx <- which.min(abs(freq - results$PSD$freq))
+            }))
+            ]
+        )
     }
+    if (!("FPI" %in% names(results))) {
+        p2 <- ggplot2::ggplot(
+        df[df$x >= periods[1] & df$x <= periods[2],], 
+        ggplot2::aes(x = x, y = y)
+    ) + 
+        ggplot2::geom_point() +
+        ggplot2::geom_segment(aes(x=x, xend=x, y=0, yend=y)) +
+        ggplot2::xlim(periods) +
+        theme_ggplot2(...) + 
+        ggplot2::labs(
+            x = paste0(results$motif, ' periods'), 
+            y = 'Power Spectral Density', 
+            title = paste0(
+                'Power Spectral Density of\n', 
+                results$motif, 
+                ' at different periods'
+            )
+        )
+    } 
+    else {
+        p2 <- plotFPI(results$FPI)
+        p2 <- p2 + ggplot2::labs(
+            x = paste0(results$FPI$motif, ' periods'), 
+            y = 'Power Spectral Density', 
+            title = paste0(
+                'Observed PSD (red) vs. PSD in\nshuffled sequences (grey, n=',
+                length(results$FPI$shuffled_PSD), ')'
+            )
+        )
+
+    }
+    #
+    p <- cowplot::plot_grid(plotlist = list(p0, p1, p2), nrow = 1)
+    return(p)
 }
 
 #' Plot the output of getFPI()
@@ -264,9 +141,13 @@ plotPeriodicityResults <- function(
 #' @param periods Vector a numerical vector of length 2, to specify the
 #' x-axis limits 
 #' @param s float span parameter for loess smooth
+#' @param plot_ribbon Boolean, should the PSDs from suffled sequences be 
+#' plotted as a ribbon (mean +/- CI)?
+#' @param threshold Float, p-value used as significance threshold
 #' @return ggplot A ggplot
 #' 
 #' @import ggplot2
+#' @importFrom stats t.test
 #' @export
 #' 
 #' @examples
@@ -275,31 +156,53 @@ plotPeriodicityResults <- function(
 #'     ce11_proms_seqs[1:10], 
 #'     genome = 'ce11', 
 #'     motif = 'TT', 
-#'     BPPARAM = BiocParallel::SnowParam(workers = 1)
+#'     cores_computing = 1
 #' )
 #' plotFPI(fpi)
 
-plotFPI <- function(fpi, periods = c(2, 20), s = 0.05) {
-    
+plotFPI <- function(
+    fpi, 
+    periods = c(2, 20), 
+    s = 0.05, 
+    plot_ribbon = TRUE, 
+    threshold = 0.001
+) {
     n_shuffled <- length(fpi$shuffled_spectra)
-    x = c(
+    x <- c(
         1/fpi$observed_spectra$PSD$freq,
         lapply(seq_len(n_shuffled), function(k) {
             1/fpi$shuffled_spectra[[k]]$PSD$freq
         }) %>% unlist()
     )
-    psds = c(
+    psds <- c(
         fpi$observed_spectra$PSD$PSD,
         lapply(seq_len(n_shuffled), function(k) {
             fpi$shuffled_spectra[[k]]$PSD$PSD
         }) %>% unlist()
     )
-    groups = c(
+    groups <- c(
         rep(1, length(fpi$observed_spectra$PSD$PSD)),
         lapply(seq_len(n_shuffled), function(k) {
             rep(k+1, length(fpi$shuffled_spectra[[k]]$PSD$PSD))
         }) %>% unlist()
     )
+    # Calculate CI
+    mat <- matrix(psds[groups != 1], ncol = n_shuffled, byrow = FALSE)
+    conint <- apply(mat, 1, function (n) {
+        Q <- stats::qnorm(0.975, sum(!is.na(n))-1)
+        S <- sd(n, na.rm=TRUE)
+        sq <- sqrt(sum(!is.na(n)))
+        Q * S / sq
+    })
+    ribbon_coords <- data.frame(
+        x = unique(x), 
+        means = rowMeans(mat), 
+        meansUp = rowMeans(mat) + conint, 
+        meansDown = rowMeans(mat) - conint, 
+        type = 'shuffled'
+    )
+    ribbon_coords$meansDown[ribbon_coords$meansDown < 0] <- 0
+    # Making data frame
     df <- data.frame(
         'x' = x, 
         'y' = psds, 
@@ -310,36 +213,96 @@ plotFPI <- function(fpi, periods = c(2, 20), s = 0.05) {
         'group' = groups
     )
     df <- df[x >= periods[1] & x <= periods[2],]
-    p <- ggplot2::ggplot(df) + 
-    ggplot2::aes(x = x, y = y) + 
-    ggplot2::geom_point(
-        alpha = c(1, 0.3)[df$type], 
-        col = c('red', 'grey50')[df$type]
-    ) +
-    ggplot2::geom_line(
-        data = df[df$type != 'observed',],
-        aes(x = x, y = y, group = group), 
-        stat = "smooth", 
-        method = "loess", 
-        span = s, 
-        col = 'grey50',
-        alpha = 0.5, 
-    ) +
-    ggplot2::geom_smooth(
-        data = df[df$type == 'observed',],
-        aes(x = x, y = y, group = group), 
-        col = 'red',
-        alpha = 0, 
-        method = "loess",
-        span = 0.05
-    ) +
-    ggplot2::xlim(periods) +
-    ggplot2::theme_classic() + 
-    ggplot2::labs(
-        x = paste0(fpi$motif, ' periods'), 
-        y = 'Power Spectral Density', 
-        title = paste0('FPI @ ', fpi$period, '-bp period: ', round(fpi$FPI, 1))
+    if (plot_ribbon) {
+        # df <- df[df$type == 'observed',]
+        ribbon_coords <- ribbon_coords[
+            ribbon_coords$x >= periods[1] & ribbon_coords$x <= periods[2],
+        ]
+    }
+    # Adding significance
+    df$isSign <- factor(FALSE, levels = c(FALSE, TRUE))
+    df$isSign[df$x %in% significantPeriods(fpi, threshold)] <- TRUE
+    df$isSign[df$type != 'observed'] <- NA
+    pval <- formatC(
+        stats::t.test(
+            fpi$observed_PSD, fpi$shuffled_PSD, var.equal = TRUE
+        )$p.value, format = "e", digits = 2
     )
+    # Plotting
+    p <- ggplot2::ggplot(df) + 
+        ggplot2::aes(x = x, y = y) + 
+        ggplot2::geom_line(
+            data = df[df$type != 'observed',],
+            aes(x = x, y = y, group = group), 
+            stat = "smooth", 
+            method = "loess", 
+            span = s, 
+            col = 'grey50',
+            alpha = 0.5, 
+        ) +
+        ggplot2::geom_point(
+            data = df[df$type == 'shuffled',], 
+            ggplot2::aes(
+                x = x, 
+                y = y
+            ), 
+            alpha = 0.3, 
+            col = 'grey50', 
+            fill = 'grey50', 
+            shape = 21, 
+            size = 1
+        ) +
+        ggplot2::geom_smooth(
+            data = df[df$type == 'observed',],
+            aes(x = x, y = y, group = group), 
+            col = 'red',
+            alpha = 0, 
+            method = "loess",
+            span = 0.05
+        ) +
+        ggplot2::geom_point(
+            data = df[df$type == 'observed' & df$isSign == FALSE,], 
+            ggplot2::aes(
+                x = x, 
+                y = y,
+            ), 
+            alpha = 0.7, 
+            col = 'black', 
+            fill = 'white', 
+            shape = 21, 
+            size = 1.5
+        ) +
+        ggplot2::geom_point(
+            data = df[df$type == 'observed' & df$isSign == TRUE,], 
+            ggplot2::aes(
+                x = x, 
+                y = y,
+            ), 
+            alpha = 0.7, 
+            col = 'black', 
+            fill = 'red', 
+            shape = 21, 
+            size = 2
+        ) +
+        ggplot2::guides(alpha = FALSE, col = FALSE) + 
+        ggplot2::xlim(periods) +
+        theme_ggplot2() + 
+        ggplot2::labs(
+            x = paste0(fpi$motif, ' periods'), 
+            y = 'Power Spectral Density', 
+            title = paste0(
+                'FPI @ ', fpi$period, '-bp period: ', round(fpi$FPI, 1), 
+                '\n(p = ', pval, ')'
+            )
+        )
+    if (plot_ribbon) {
+        p <- p + ggplot2::geom_ribbon(
+            data = ribbon_coords,
+            ggplot2::aes(x = x, y = means, ymin = meansDown, ymax = meansUp), 
+            alpha = 0.2, col = NA
+        )
+        p <- p + ggplot2::theme(legend.position = "null")
+    }
     return(p)
 }
 

@@ -22,7 +22,7 @@
 #'     ce11_proms_seqs[1:10], 
 #'     genome = 'ce11', 
 #'     motif = 'TT', 
-#'     BPPARAM = BiocParallel::SnowParam(workers = 1)
+#'     cores_shuffling = 1
 #' )
 #' fpi$FPI
 #' fpi$observed_PSD
@@ -49,13 +49,15 @@ getFPI <- function(x, ...) {
 #' @param motif character, k-mer of interest
 #' @param period integer, Period of interest
 #' @param n_shuffling integer, Number of shuffling
-#' @param BPPARAM integer, Number of threads to use to split
-#' shuffling of sequences
+#' @param cores_shuffling integer, Number of cores used for shuffling
+#' @param cores_computing integer, split the workload over several processors 
+#' using BiocParallel
 #' @param verbose integer, Should the function be verbose? 
 #' @param ... Additional arguments
 #' @return Several metrics including FPI, observed PSD, etc...
 #' 
 #' @import GenomicRanges
+#' @import BiocParallel
 #' @import IRanges
 #' @export
 #' 
@@ -76,7 +78,8 @@ getFPI.DNAStringSet <- function(
     motif,
     period = 10, 
     n_shuffling = 10,
-    BPPARAM = bpparam(),
+    cores_shuffling = 1,
+    cores_computing = 1,
     verbose = 1,
     ...
 )
@@ -87,16 +90,17 @@ getFPI.DNAStringSet <- function(
     if (verbose) message('- Calculating observed PSD')
     obs <- getPeriodicity(
         seqs, 
-        motif,
+        motif = motif,
         skip_shuffling = TRUE,
-        verbose = 1,
+        verbose = verbose,
+        BPPARAM = SnowParam(workers = cores_computing),
         ...
     )
     obs_PSD <- obs$PSD$PSD[which.min(abs(1/obs$PSD$freq - period))]
     if (verbose) message('>> Measured PSD @ ', period, 'bp is: ', obs_PSD)
     # Shuffling sequences and re-computing ---------------------------
     l_shuff <- BiocParallel::bplapply(
-        BPPARAM = BPPARAM, 
+        BPPARAM = SnowParam(workers = cores_shuffling), 
         seq_len(n_shuffling), 
         function(k) {
             if (verbose) message('- Shuffling ', k, '/', n_shuffling)
@@ -106,6 +110,7 @@ getFPI.DNAStringSet <- function(
                 motif,
                 skip_shuffling = TRUE,
                 verbose = 0,
+                BPPARAM = SnowParam(workers = cores_computing),
                 ...
             )
             return(shuff)
@@ -116,10 +121,12 @@ getFPI.DNAStringSet <- function(
     }) %>% unlist()
     # Calculate FPI --------------------------------------------------
     fpi <- (obs_PSD - median(l_shuff_PSD)) / median(l_shuff_PSD)
+    median_fold <- obs_PSD / median(l_shuff_PSD)
     if (verbose) message('>> Calculated FPI @ ', period, 'bp is: ', fpi)
     # Return FPI -----------------------------------------------------
     res <- list(
         FPI = fpi, 
+        median_fold = median_fold,
         observed_PSD = obs_PSD, 
         observed_spectra = obs, 
         shuffled_PSD = l_shuff_PSD, 
@@ -157,7 +164,7 @@ getFPI.DNAStringSet <- function(
 #'     ce11_TSSs[['Ubiq.']][1:10], 
 #'     genome = 'ce11', 
 #'     motif = 'TT', 
-#'     BPPARAM = BiocParallel::SnowParam(workers = 1)
+#'     cores_shuffling = 1
 #' )
 #' fpi$FPI
 #' fpi$observed_PSD
@@ -167,7 +174,7 @@ getFPI.DNAStringSet <- function(
 #'     ce11_TSSs[['Muscle']][1:10], 
 #'     genome = 'ce11', 
 #'     motif = 'TT', 
-#'     BPPARAM = BiocParallel::SnowParam(workers = 1)
+#'     cores_shuffling = 1
 #' )
 #' fpi$FPI
 #' fpi$observed_PSD
@@ -182,13 +189,53 @@ getFPI.GRanges <- function(
 )
 {
     granges <- x
-    
     if (!is.null(granges$seq)) {
         seqs <- granges$seq
     }
     else {
-        seqs <- withSeq(granges, genome)$seq
+        if (methods::is(genome, 'character')) {
+            if (genome %in% c(
+                'sacCer3', 'ce11', 'dm6', 'mm10', 'hg38', 'danRer10'
+            )) {
+                genome <- char2BSgenome(genome)
+            }
+            else {
+                return(stop(
+                    'Only sacCer3, ce11, dm6, mm10, hg38 
+                    and danRer10 are supported'
+                ))
+            }
+        }
+        if (methods::is(genome, 'BSgenome')) {
+            genome <- Biostrings::getSeq(genome)
+        }
+        seqs <- genome[granges]
     }
     getFPI(seqs, ...)
 }
 
+#' Internal function
+#'
+#' @param fpi result of getFPI() function
+#' @param threshold Float, p-value used as significance threshold
+#' @return periods from the FPI list at which PSD are statistically higher 
+#' than those from shuffled sequences
+#' @importFrom stats t.test
+
+significantPeriods <- function(fpi, threshold = 0.0001) {
+    obsPsds <- fpi$observed_spectra$PSD
+    expPsds <- lapply(fpi$shuffled_spectra, '[[', 'PSD') %>% do.call(rbind, .)
+    df <- data.frame(
+        freq = obsPsds$freq, 
+        period = 1/obsPsds$freq,
+        pval = unlist(lapply(obsPsds$freq, function(freq) {
+            stats::t.test(
+                obsPsds$PSD[obsPsds$freq == freq], 
+                expPsds$PSD[expPsds$freq == freq],
+                var.equal = TRUE
+            )$p.value
+        }))
+    )
+    periods <- df$period[which(df$pval < threshold)]
+    return(periods)
+}

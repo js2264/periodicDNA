@@ -69,7 +69,7 @@ getPeriodicity <- function(x, ...) {
 #' when looking at periodicity in different genomes, since different
 #' genomes will have different GC percent
 #' @param doZscore Boolean should the normalized dampened signal be z-scored?
-#' @param skip_shuffling Boolean should the shuffling sequences be done?
+#' @param shuffling Integer, how many times should the sequences be shuffled?
 #' @param ... additional parameters
 #' @return A list containing the results of getPeriodicity function.  
 #' \itemize{
@@ -103,22 +103,21 @@ getPeriodicity <- function(x, ...) {
 #' plotPeriodicityResults(periodicity_result)
 
 getPeriodicity.DNAStringSet <- function(
-    x, 
-    motif = 'WW', 
+    x,
+    motif = 'WW',
     range_spectrum = seq(1, 200),
-    BPPARAM = bpparam(), 
+    BPPARAM = bpparam(),
     roll = 3,
-    verbose = TRUE, 
-    sample = 0, 
+    verbose = TRUE,
+    sample = 0,
     doZscore = FALSE,
-    skip_shuffling = TRUE,
+    shuffling = 0,
     ...
 )
 {
     seqs <- x
-    
     # Get pairwise distances --------------------------------------------------
-    if (verbose) message("- Mapping k-mers.")
+    if (verbose & shuffling == 0) message("- Mapping k-mers.")
     dists <- BiocParallel::bplapply(seq_len(length(seqs)), function(k) {
         Biostrings::vmatchPattern(
             motif, 
@@ -130,7 +129,8 @@ getPeriodicity.DNAStringSet <- function(
             dist() %>% 
             c()
     }, BPPARAM = BPPARAM) %>% unlist()
-    max_dist <- max(dists)
+    dists <- dists[dists %in% range_spectrum]
+    max_dist <- max(range_spectrum)
     if (length(dists) < 10) {
         if (verbose) message("- Only ", length(dists), 
         " pairs of k-mers found. Returning null results")
@@ -143,17 +143,19 @@ getPeriodicity.DNAStringSet <- function(
             motif = motif
         ))
     }
-    if (verbose) message("- ", length(dists), " pairwise distances measured.")
+    if (verbose & shuffling == 0) 
+        message("- ", length(dists), " pairwise distances measured.")
     if (sample < length(dists) & sample > 0) {
-        if (verbose) message("- Subsampling ", sample, " k-mers.")
-        dists <- dists[sample(seq_len(dists), sample)]
+        if (verbose) message("- Subsampling ", sample, " pairwise distances.")
+        dists <- sample(dists, sample)
     }
-    if (verbose) message("- Calculating pairwise distance distribution.")
+    if (verbose & shuffling == 0) 
+        message("- Calculating pairwise distance distribution.")
     hist <- hist(dists, breaks = seq(1, max_dist+1, 1), plot = FALSE)$counts
     hist <- zoo::rollmean(
         hist, k = roll, na.pad = TRUE, align = 'center'
     )
-    if (verbose) message("- Normalizing histogram vector.")
+    if (verbose & shuffling == 0) message("- Normalizing histogram vector.")
     if (length(hist) > 10) {
         norm_hist <- normalizeHistogram(hist, roll = 1, doZscore)
     } 
@@ -164,16 +166,16 @@ getPeriodicity.DNAStringSet <- function(
     if (verbose) message(
         "- Applying Fast Fourier Transform to the vector of distances."
     )
-    if (max_dist < tail(range_spectrum, 1)) {
-        if (verbose) message(
-            'Range (', 
-            head(range_spectrum, 1), ':', tail(range_spectrum, 1), 
-            ') is wider than any range in the current 
-            distances vector. Shortening the range from ', 
-            head(range_spectrum, 1), ' to ', max_dist, '...'
-        )
-        range_spectrum <- head(range_spectrum, 1):max_dist
-    }
+    # if (max_dist < tail(range_spectrum, 1)) {
+    #     if (verbose) message(
+    #         'Range (', 
+    #         head(range_spectrum, 1), ':', tail(range_spectrum, 1), 
+    #         ') is wider than any range in the current 
+    #         distances vector. Shortening the range from ', 
+    #         head(range_spectrum, 1), ' to ', max_dist, '...'
+    #     )
+    #     range_spectrum <- head(range_spectrum, 1):max_dist
+    # }
     spectra <- do.call(
         stats::spectrum, 
         list(norm_hist[range_spectrum], plot = FALSE)
@@ -183,110 +185,7 @@ getPeriodicity.DNAStringSet <- function(
         period = 1/spectra$freq, 
         PSD = spectra$spec
     )
-    # Return all results if skip_shuffling ------------------------------------
-    if (skip_shuffling) {
-        return(list(
-            dists = dists, 
-            hist = data.frame(
-                distance = seq(1, max_dist, 1), 
-                counts = hist
-            ), 
-            normalized_hist = data.frame(
-                distance = seq(1, max_dist, 1), 
-                norm_counts = norm_hist
-            ),
-            spectra = spectra, 
-            PSD = PSD,
-            motif = motif
-        ))
-    }
-    #
-    # DO THE SAME FOR SHUFFLED SEQUENCES --------------------------------------
-    {
-        if (verbose) message("- SHUFFLING: suffling sequences.")
-        seqs <- shuffleSeq(seqs)
-        if (verbose) message("- SHUFFLING: Mapping k-mers.")
-        dists_shuffled <- BiocParallel::bplapply(
-            seq_len(length(seqs)), 
-            function(k) {
-                seq <- seqs[k]
-                Biostrings::vmatchPattern(
-                    motif, 
-                    seq, 
-                    max.mismatch = 0, 
-                    fixed = FALSE
-                )[[1]] %>% 
-                    IRanges::start() %>% 
-                    dist() %>% 
-                    c()
-            }, 
-            BPPARAM = BPPARAM
-        ) %>% unlist()
-        max_dists_shuffled <- max(dists_shuffled)
-        if (length(dists_shuffled) < 10) {
-            if (verbose) message(
-                "- Only ", 
-                length(dists_shuffled), 
-                " pairs of k-mers found. Returning null results"
-            )
-            return(list(
-                dists = dists_shuffled, 
-                hist = 0, 
-                normalized_hist = 0,
-                spectra = 0, 
-                PSD = 0,
-                motif = motif
-            ))
-        }
-        if (verbose) message(
-            "- SHUFFLING: ", length(dists_shuffled), " k-mers found."
-        )
-        if (sample < length(dists_shuffled) & sample > 0) {
-            if (verbose) message("- Sampling ", sample, " k-mers.")
-            dists_shuffled <- dists_shuffled[
-                sample(seq_len(dists_shuffled), sample)
-            ]
-        }
-        if (verbose) message("- SHUFFLING: Calculating pairwise distances.")
-        hist_shuffled <- hist(
-            dists_shuffled, 
-            breaks = seq(1, max_dists_shuffled+1, 1), 
-            plot = FALSE
-        )$counts
-        if (verbose) message("- SHUFFLING: Normalizing histogram vector.")
-        if (length(hist_shuffled) > 10) {
-            norm_hist_shuffled <- normalizeHistogram(
-                hist_shuffled, roll, doZscore
-            )
-        } 
-        else {
-            norm_hist_shuffled <- hist_shuffled
-        }
-        # Fourier -------------------------------------------------------------
-        if (verbose) message(
-            "- SHUFFLING: Applying Fast Fourier Transform 
-            to the vector of distances."
-        )
-        if (max_dists_shuffled < tail(range_spectrum, 1)) {
-            if (verbose) message(
-                'Range (', 
-                head(range_spectrum, 1), ':', tail(range_spectrum, 1), 
-                ') is wider than any range in the current distances vector. 
-                Shortening the range from ', 
-                head(range_spectrum, 1), ' to ', max_dists_shuffled, '...'
-            )
-            a <- head(range_spectrum, 1)
-            range_spectrum <- a:max_dists_shuffled
-        }
-        spectra_shuffled <- norm_hist_shuffled %>%
-                '['(range_spectrum) %>% 
-                stats::spectrum(plot = FALSE)
-        PSD_shuffled <- data.frame(
-            freq = spectra_shuffled$freq, 
-            PSD = spectra_shuffled$spec
-        )
-    }
-    return(list(
+    l <- list(
         dists = dists, 
         hist = data.frame(
             distance = seq(1, max_dist, 1), 
@@ -298,19 +197,27 @@ getPeriodicity.DNAStringSet <- function(
         ),
         spectra = spectra, 
         PSD = PSD,
-        dists_shuffled = dists_shuffled, 
-        hist_shuffled = data.frame(
-            distance = seq(1, max_dists_shuffled, 1), 
-            counts = hist_shuffled
-        ), 
-        normalized_hist_shuffled = data.frame(
-            distance = seq(1, max_dists_shuffled, 1), 
-            norm_counts = norm_hist_shuffled
-        ),
-        spectra_shuffled = spectra_shuffled, 
-        PSD_shuffled = PSD_shuffled,
         motif = motif
-    ))
+    )
+    # Shuffle the sequences using getFPI --------------------------------------
+    if (shuffling > 0) {
+        FPI <- getFPI(
+            x = seqs, 
+            motif = motif,
+            range_spectrum = range_spectrum,
+            roll = roll,
+            verbose = verbose,
+            sample = sample,
+            doZscore = doZscore,
+            period = 10, 
+            n_shuffling = shuffling, 
+            shuffling = 0,
+            ...
+        )
+        l$FPI <- FPI
+    }
+    # Return results ----------------------------------------------------------
+    return(l)
 }
 
 #' A function to compute k-mer periodicity in GRanges.
