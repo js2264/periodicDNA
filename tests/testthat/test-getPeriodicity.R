@@ -13,6 +13,7 @@ test_that("getPeriodicity and plotPeriodicityResults works", {
         data(ce11_proms)
         periodicity_result <- getPeriodicity(
             ce11_proms[seq_len(2)],
+            range_spectrum = 1:100,
             genome = 'ce11',
             motif = 'TT'
         )
@@ -38,10 +39,11 @@ test_that("getPeriodicity works with shuffling", {
     expect_equal({
         data(ce11_proms)
         periodicity_result <- getPeriodicity(
-            ce11_proms[seq_len(50)],
+            ce11_proms[seq_len(10)],
+            range_spectrum = 1:100,
             genome = 'ce11',
             motif = 'TT',
-            skip_shuffling = TRUE, 
+            shuffling = 3, 
             doZscore = TRUE
         )
         list_plots <- plotPeriodicityResults(periodicity_result)
@@ -150,7 +152,8 @@ test_that("getPeriodicity for sacCer3 MNase", {
             motif = 'TT', 
             period = 10, 
             BPPARAM = SnowParam(workers = 20), 
-            skip_shuffling = FALSE
+            skip_shuffling = FALSE, 
+            range_spectrum = 1:100
         )
         p <- plotPeriodicityResults(PSDs_yeast, xlim = 150)
         ggsave('PSDs_yeast_MNase_TTs.pdf', width = 32, height = 8, unit = 'cm')
@@ -227,7 +230,8 @@ test_that("getPeriodicity for ce11 proms/enhancers", {
                     seqs, 
                     motif = 'TT', 
                     period = 10,
-                    BPPARAM = MulticoreParam(workers = 4)
+                    BPPARAM = MulticoreParam(workers = 4), 
+                    range_spectrum = 1:100
                 )
                 res <- res$PSD$PSD[which.min(abs(res$PSD$period - 10))]
             })

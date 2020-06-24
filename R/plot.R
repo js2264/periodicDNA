@@ -20,9 +20,9 @@
 #' @export
 #' 
 #' @examples
-#' data(ce11_proms)
+#' data(ce11_TSSs)
 #' periodicity_result <- getPeriodicity(
-#'     ce11_proms[1:100],
+#'     ce11_TSSs[['Ubiq.']][1:100],
 #'     genome = 'ce11',
 #'     motif = 'TT', 
 #'     BPPARAM = BiocParallel::SnowParam(workers = 1)
@@ -154,7 +154,6 @@ plotPeriodicityResults <- function(
 #' data(ce11_proms_seqs)
 #' fpi <- getFPI(
 #'     ce11_proms_seqs[1:10], 
-#'     genome = 'ce11', 
 #'     motif = 'TT', 
 #'     cores_computing = 1
 #' )

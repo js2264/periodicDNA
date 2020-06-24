@@ -129,8 +129,15 @@ getPeriodicity.DNAStringSet <- function(
             dist() %>% 
             c()
     }, BPPARAM = BPPARAM) %>% unlist()
-    dists <- dists[dists %in% range_spectrum]
-    max_dist <- max(range_spectrum)
+    max_dist <- max(dists)
+    if (max(dists) < tail(range_spectrum, 1)) {
+        stop(message(
+            'range_spectrum (', 
+            head(range_spectrum, 1), ':', tail(range_spectrum, 1), 
+            ') is wider than the maximum distance between pairs of k-mers (', 
+            max(dists), '). Try shortening range_spectrum to a smaller range.'
+        ))
+    }
     if (length(dists) < 10) {
         if (verbose) message("- Only ", length(dists), 
         " pairs of k-mers found. Returning null results")
@@ -166,16 +173,6 @@ getPeriodicity.DNAStringSet <- function(
     if (verbose) message(
         "- Applying Fast Fourier Transform to the vector of distances."
     )
-    # if (max_dist < tail(range_spectrum, 1)) {
-    #     if (verbose) message(
-    #         'Range (', 
-    #         head(range_spectrum, 1), ':', tail(range_spectrum, 1), 
-    #         ') is wider than any range in the current 
-    #         distances vector. Shortening the range from ', 
-    #         head(range_spectrum, 1), ' to ', max_dist, '...'
-    #     )
-    #     range_spectrum <- head(range_spectrum, 1):max_dist
-    # }
     spectra <- do.call(
         stats::spectrum, 
         list(norm_hist[range_spectrum], plot = FALSE)
@@ -250,9 +247,9 @@ getPeriodicity.DNAStringSet <- function(
 #' @export
 #' 
 #' @examples
-#' data(ce11_proms)
+#' data(ce11_TSSs)
 #' periodicity_result <- getPeriodicity(
-#'     ce11_proms[1:10],
+#'     ce11_TSSs[['Ubiq.']][1:10],
 #'     genome = 'ce11',
 #'     motif = 'TT'
 #' )

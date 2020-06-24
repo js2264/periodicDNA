@@ -38,10 +38,11 @@ library(periodicDNA)
 data(ce11_proms)
 periodicity_result <- getPeriodicity(
     ce11_proms[ce11_proms$which.tissues == 'Ubiq.'][1:500] %>% 
-        alignToTSS(upstream = 0, downstream = 150),
+        alignToTSS(upstream = 30, downstream = 200),
     genome = 'ce11',
     motif = 'TT', 
-    BPPARAM = BiocParallel::SnowParam(workers = 1)
+    BPPARAM = BiocParallel::SnowParam(workers = 1), 
+    shuffling = 3
 )
 ```
 

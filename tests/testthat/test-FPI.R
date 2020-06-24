@@ -4,13 +4,15 @@ test_that("FPI works", {
     expect_equal({
         data(ce11_proms)
         rand_regions <- sampleGRanges(
-            ce11_proms, n = 20, w = 200, exclude = FALSE
+            ce11_proms, n = 20, w = 300, exclude = FALSE
         )
         fpi <- getFPI(
             rand_regions,
             genome = 'ce11', 
             motif = 'TT', 
-            n_shuffling = 4
+            n_shuffling = 10, 
+            cores_shuffling = 10,
+            order = 1
         )
         p <- plotFPI(fpi)
         TRUE
