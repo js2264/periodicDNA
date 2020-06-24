@@ -31,7 +31,6 @@ test_that("namedListToLongFormat", {
 })
 
 test_that("sampleGRanges works", {
-    skip('skip')
     expect_true({
         g <- sampleGRanges(
             (BSgenome.Scerevisiae.UCSC.sacCer3::
