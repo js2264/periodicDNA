@@ -14,6 +14,14 @@ test_that("FPI works", {
             cores_shuffling = 1,
             order = 1
         )
+        fpi <- getFPI(
+            rand_regions[1:10],
+            genome = 'ce11', 
+            motif = 'TT', 
+            n_shuffling = 3, 
+            cores_shuffling = 1,
+            order = 2
+        )
         p <- plotFPI(fpi)
         TRUE
     }, TRUE)

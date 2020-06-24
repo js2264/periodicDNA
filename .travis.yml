@@ -1,4 +1,6 @@
 language: r
+before_install:
+  - pip install ushuffle
 cache: packages
 warnings_are_errors: false
 notifications:
