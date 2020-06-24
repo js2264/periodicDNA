@@ -20,7 +20,6 @@ test_that("FPI works", {
 })
 
 test_that("FPI order 2 works", {
-    skip('skip2')
     expect_equal({
         data(ce11_proms)
         rand_regions <- sampleGRanges(
