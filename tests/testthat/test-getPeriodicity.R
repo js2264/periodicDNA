@@ -36,7 +36,6 @@ test_that("getPeriodicity and plotPeriodicityResults works", {
 })
 
 test_that("getPeriodicity works with shuffling", {
-    skip('skip')
     expect_equal({
         data(ce11_proms)
         periodicity_result <- getPeriodicity(
