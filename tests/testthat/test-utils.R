@@ -1,7 +1,6 @@
 context("test-utils")
 
 test_that("shuffleSeq works", {
-    skip('skip')
     expect_true({
         data(ce11_proms_seqs)
         shuffleSeq(ce11_proms_seqs)
