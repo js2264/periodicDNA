@@ -38,9 +38,9 @@ distogram and the resulting PSD values. If a shuffled control has
 been performed by getPeriodicity(), it also displays it.
 }
 \examples{
-data(ce11_proms)
+data(ce11_TSSs)
 periodicity_result <- getPeriodicity(
-    ce11_proms[1:100],
+    ce11_TSSs[['Ubiq.']][1:100],
     genome = 'ce11',
     motif = 'TT', 
     BPPARAM = BiocParallel::SnowParam(workers = 1)

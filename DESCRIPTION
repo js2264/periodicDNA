@@ -45,6 +45,7 @@ Suggests:
     BSgenome.Drerio.UCSC.danRer10,
     BSgenome.Hsapiens.UCSC.hg38,
     BSgenome.Mmusculus.UCSC.mm10,
+    reticulate,
     testthat,
     covr,
     knitr,

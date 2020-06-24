@@ -57,6 +57,8 @@ na.remove <- function(x) {
 #' shuffles the order individual nucleotides. 
 #'
 #' @param dna DNAString or DNAStringSet
+#' @param order Integer, which order to take into consideration for shuffling
+#' (currently only 1st order is available)
 #' @return A DNAString or DNAStringSet
 #' 
 #' @import Biostrings
@@ -65,25 +67,34 @@ na.remove <- function(x) {
 #' @examples
 #' shuffleSeq('ACGTGGGCTATTAGCTACTGTACGTG')
 
-shuffleSeq <- function(dna) {
+shuffleSeq <- function(dna, order = 1) {
     if (is(dna, 'DNAString')) {
-        charvec <- strsplit(as.character(dna),"")[[1]]
-        shuffled_charvec <- sample(charvec)
-        Biostrings::DNAString( paste(shuffled_charvec, collapse="") )
+        dna <- Biostrings::DNAStringSet(dna)
     } 
-    else if (is(dna, 'DNAStringSet')) {
-        Biostrings::DNAStringSet(lapply(dna, function(seq) {
-            charvec <- strsplit(as.character(seq),"")[[1]]
-            shuffled_charvec <- sample(charvec)
-            Biostrings::DNAString( paste(shuffled_charvec, collapse="") )
-        }))
-    }
     else if (is(dna, 'character')) {
-        dna <- Biostrings::DNAString(dna)
-        charvec <- strsplit(as.character(dna),"")[[1]]
-        shuffled_charvec <- sample(charvec)
-        Biostrings::DNAString( paste(shuffled_charvec, collapse="") )
+        dna <- Biostrings::DNAStringSet(dna)
     }
+    if (order == 1) {
+        # message('Not using ushuffle')
+        shuffled <- Biostrings::DNAStringSet(
+            lapply(dna, function(seq) {
+                charvec <- strsplit(as.character(seq),"")[[1]]
+                shuffled_charvec <- sample(charvec)
+                Biostrings::DNAString( paste(shuffled_charvec, collapse="") )
+            })
+        )
+    }
+    else {
+        # message('Using ushuffle')
+        ushuffle <- reticulate::import("ushuffle")
+        shuffled <- Biostrings::DNAStringSet(
+            lapply(dna, function(seq) {
+                seq <- ushuffle$shuffle(charToRaw(as.character(seq)), 2)
+                Biostrings::DNAString( as.character(seq) )
+            })
+        )
+    }
+    return(shuffled)
 }
 
 #' A function to sample GRanges from GRanges/DNAStringSet

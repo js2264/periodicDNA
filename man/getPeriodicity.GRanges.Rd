@@ -37,9 +37,9 @@ and computes the resulting power spectral density of the
 normalized distogram.
 }
 \examples{
-data(ce11_proms)
+data(ce11_TSSs)
 periodicity_result <- getPeriodicity(
-    ce11_proms[1:10],
+    ce11_TSSs[['Ubiq.']][1:10],
     genome = 'ce11',
     motif = 'TT'
 )

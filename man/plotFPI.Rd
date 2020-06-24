@@ -37,7 +37,6 @@ runs in grey.
 data(ce11_proms_seqs)
 fpi <- getFPI(
     ce11_proms_seqs[1:10], 
-    genome = 'ce11', 
     motif = 'TT', 
     cores_computing = 1
 )

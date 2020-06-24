@@ -37,7 +37,8 @@
 #' periodicity_result <- getPeriodicity(
 #'     ce11_proms[1:100],
 #'     genome = 'ce11',
-#'     motif = 'TT'
+#'     motif = 'TT', 
+#'     range_spectrum = 1:100
 #' )
 #' head(periodicity_result$PSD)
 #' plotPeriodicityResults(periodicity_result)

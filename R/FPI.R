@@ -48,6 +48,8 @@ getFPI <- function(x, ...) {
 #' @param x DNAStringSet, sequences of interest
 #' @param motif character, k-mer of interest
 #' @param period integer, Period of interest
+#' @param order Integer, which order to take into consideration for shuffling
+#' (currently only 1st order is available)
 #' @param n_shuffling integer, Number of shuffling
 #' @param cores_shuffling integer, Number of cores used for shuffling
 #' @param cores_computing integer, split the workload over several processors 
@@ -77,6 +79,7 @@ getFPI.DNAStringSet <- function(
     x, 
     motif,
     period = 10, 
+    order = 1,
     n_shuffling = 10,
     cores_shuffling = 1,
     cores_computing = 1,
@@ -104,7 +107,7 @@ getFPI.DNAStringSet <- function(
         seq_len(n_shuffling), 
         function(k) {
             if (verbose) message('- Shuffling ', k, '/', n_shuffling)
-            shuff_seqs <- shuffleSeq(seqs)
+            shuff_seqs <- shuffleSeq(seqs, order)
             shuff <- getPeriodicity(
                 shuff_seqs, 
                 motif,

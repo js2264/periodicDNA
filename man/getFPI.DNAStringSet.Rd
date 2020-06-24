@@ -8,6 +8,7 @@
   x,
   motif,
   period = 10,
+  order = 1,
   n_shuffling = 10,
   cores_shuffling = 1,
   cores_computing = 1,
@@ -21,6 +22,9 @@
 \item{motif}{character, k-mer of interest}
 
 \item{period}{integer, Period of interest}
+
+\item{order}{Integer, which order to take into consideration for shuffling
+(currently only 1st order is available)}
 
 \item{n_shuffling}{integer, Number of shuffling}
 

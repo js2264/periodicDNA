@@ -43,6 +43,7 @@
 #'     period = 10,
 #'     BPPARAM = BiocParallel::SnowParam(workers = 1)
 #' )
+#' unlink('WW_10-bp-periodicity_g-100^2_smooth-20.bw')
 
 getPeriodicityTrack <- function(
     genome = NULL,

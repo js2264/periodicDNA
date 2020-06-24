@@ -4,10 +4,13 @@
 \alias{shuffleSeq}
 \title{A function to shuffle sequence(s)}
 \usage{
-shuffleSeq(dna)
+shuffleSeq(dna, order = 1)
 }
 \arguments{
 \item{dna}{DNAString or DNAStringSet}
+
+\item{order}{Integer, which order to take into consideration for shuffling
+(currently only 1st order is available)}
 }
 \value{
 A DNAString or DNAStringSet
