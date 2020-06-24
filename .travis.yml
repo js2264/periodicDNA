@@ -1,7 +1,13 @@
 language: r
+cache: 
+  - packages
+  - pip
+addons:
+  apt:
+    packages:
+      - python3-pip
 before_install:
-  - pip install ushuffle
-cache: packages
+  - pip3 install --user ushuffle
 warnings_are_errors: false
 notifications:
   email:

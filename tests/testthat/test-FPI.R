@@ -14,6 +14,18 @@ test_that("FPI works", {
             cores_shuffling = 1,
             order = 1
         )
+        p <- plotFPI(fpi)
+        TRUE
+    }, TRUE)
+})
+
+test_that("FPI order 2 works", {
+    skip('skip2')
+    expect_equal({
+        data(ce11_proms)
+        rand_regions <- sampleGRanges(
+            ce11_proms, n = 20, w = 300, exclude = FALSE
+        )
         fpi <- getFPI(
             rand_regions[1:10],
             genome = 'ce11', 
@@ -21,6 +33,22 @@ test_that("FPI works", {
             n_shuffling = 3, 
             cores_shuffling = 1,
             order = 2
+        )
+        p <- plotFPI(fpi)
+        TRUE
+    }, TRUE)
+})
+
+test_that("FPI order test", {
+    skip('skip2')
+    expect_equal({
+        data(ce11_TSSs)
+        fpi <- getFPI(
+            ce11_TSSs[['Ubiq.']][1:1000],
+            genome = 'ce11', 
+            motif = 'TT', 
+            n_shuffling = 100,
+            cores_shuffling = 1
         )
         p <- plotFPI(fpi)
         TRUE
