@@ -1,7 +1,6 @@
 context("test-FPI")
 
 test_that("FPI works", {
-    skip('skip')
     expect_equal({
         data(ce11_proms)
         rand_regions <- sampleGRanges(
