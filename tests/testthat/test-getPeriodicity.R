@@ -265,34 +265,41 @@ test_that("getPeriodicity for ce11 proms/enhancers", {
             }
         ) %>% setNames(c('Ubiq.', 'Germline', 'Neurons', 'Muscle', 'Hypod.', 'Intest.'))
         library(BiocParallel)
-        register(setUpBPPARAM(3))
         #
-        PSDs <- bplapply(BPPARAM = setUpBPPARAM(6), names(list_params), function(TISSUE) {
-            list_res <- bplapply(BPPARAM = setUpBPPARAM(3), list_params[[TISSUE]], function(seqs) {
+        PSDs <- bplapply(BPPARAM = setUpBPPARAM(1), names(list_params), function(TISSUE) {
+            list_res <- bplapply(BPPARAM = setUpBPPARAM(8), list_params[[TISSUE]], function(seqs) {
                 res <- getPeriodicity(
                     seqs, 
                     motif = 'TT', 
                     period = 10,
-                    BPPARAM = setUpBPPARAM(4), 
-                    range_spectrum = 1:100
+                    range_spectrum = 1:100, 
+                    n_shuffling = 10, 
+                    cores_shuffling = 10
                 )
-                res <- res$PSD$PSD[which.min(abs(res$PSD$period - 10))]
+                list(
+                    psd = res$PSD$PSD[which.min(abs(res$PSD$period - 10))], 
+                    fpi = res$FPI$FPI
+                )
             })
             df <- data.frame(
-                psd = unlist(list_res), 
+                PSD = unlist(lapply(list_res, '[[', 'psd')), 
+                FPI = unlist(lapply(list_res, '[[', 'fpi')), 
                 Loc = c('proms_center', 'proms_flanking', 'proms_distal', 'proms_full', 'enhs_center', 'enhs_flanking', 'enhs_extended', 'enhs_full'), 
                 Class = c('Core', 'Flanking', 'Distal', 'Full', 'Core', 'Flanking', 'Distal', 'Full'), 
                 Type = c('Prom', 'Prom', 'Prom', 'Prom', 'Enh', 'Enh', 'Enh', 'Prom'),
                 tissue = TISSUE
             )
             return(df)
-        }) %>% do.call(rbind, .) %>% 
+        })
+        PSDs_2 <- PSDs %>% 
+            do.call(rbind, .) %>% 
             mutate(Class = factor(Class, levels = c('Core', 'Flanking', 'Distal', 'Full'))) %>% 
-            # dplyr::filter(Class %in% c('Core', 'Flanking', 'Distal')) %>% 
+            dplyr::filter(Class %in% c('Core', 'Flanking', 'Distal')) %>% 
             mutate(Type = factor(Type, levels = c('Prom', 'Enh'))) %>% 
             mutate(tissue = factor(tissue, levels = names(list_params))) %>% 
             mutate(Loc = factor(Loc, levels = c('proms_center', 'proms_flanking', 'proms_distal', 'proms_full', 'enhs_center', 'enhs_flanking', 'enhs_extended', 'enhs_full')))
-        p <- ggplot(PSDs, aes(x = Loc, y = psd)) + 
+        #
+        p <- ggplot(PSDs_2, aes(x = Loc, y = PSD)) + 
             geom_col(
                 position = "dodge", aes(col = Type, alpha = Class), size = 0.25
             ) + 
@@ -311,45 +318,25 @@ test_that("getPeriodicity for ce11 proms/enhancers", {
             scale_x_discrete(labels = c('', 'Proms', '', '', 'Enhs', '')) + 
             scale_alpha_manual(values = c(1, 0.6, 0.3), name = '')
         ggsave(
-            'PSDs_ce11_TT_proms-enhs_2.pdf', width = 21, height = 12, unit = 'cm'
+            'PSDs_ce11_TT_proms-enhs.pdf', width = 21, height = 12, unit = 'cm'
         )
         #
-        FPIs <- bplapply(BPPARAM = setUpBPPARAM(6), names(list_params), function(TISSUE) {
-            list_res <- bplapply(BPPARAM = setUpBPPARAM(6), list_params[[TISSUE]], function(seqs) {
-                res <- getFPI(
-                    seqs, 
-                    genome = 'ce11', 
-                    motif = 'TT', 
-                    period = 10, 
-                    n_shuffling = 16, 
-                    BPPARAM = setUpBPPARAM(1)
-                )$FPI
-            })
-            df <- data.frame(
-                fpi = unlist(list_res), 
-                Loc = c('proms_center', 'proms_flanking', 'proms_distal', 'enhs_center', 'enhs_flanking', 'enhs_extended'), 
-                Class = c('Core', 'Flanking', 'Distal', 'Core', 'Flanking', 'Distal'), 
-                Type = c('Prom', 'Prom', 'Prom', 'Enh', 'Enh', 'Enh'),
-                tissue = TISSUE
-            )
-            return(df)
-        }) %>% do.call(rbind, .) %>% 
-            mutate(Class = factor(Class, levels = c('Core', 'Flanking', 'Distal'))) %>% 
-            mutate(Type = factor(Type, levels = c('Prom', 'Enh'))) %>% 
-            mutate(tissue = factor(tissue, levels = names(list_params))) %>% 
-            mutate(Loc = factor(Loc, levels = c('proms_center', 'proms_flanking', 'proms_distal', 'enhs_center', 'enhs_flanking', 'enhs_extended')))
-        p <- ggplot(FPIs, aes(x = Loc, y = fpi)) + 
-            geom_col(position = "dodge", aes(col = Type, alpha = Class), size = 0.25) + 
-            theme_ggplot2() + 
+        p <- ggplot(PSDs_2, aes(x = Loc, y = FPI)) + 
+            geom_col(
+                position = "dodge", aes(col = Type, fill = Class), size = 0.25
+            ) + 
+            theme_ggplot2(panel_spacing = unit(0.5, units = 'cm')) + 
             facet_wrap(~tissue, nrow = 1) + 
             labs(
                 x = '', 
                 y = 'TT FPI @ 10-bp'
             ) + 
-            scale_x_discrete(labels = c('', 'Proms', '', '', 'Enhs', '')) + 
-            theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) + 
+            theme(
+                axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)
+            ) + 
             scale_color_manual(values = c(NA, 'black'), guide = "none") + 
-            scale_alpha_manual(values = c(1, 0.6, 0.3), name = '')
+            scale_x_discrete(labels = c('', 'Proms', '', '', 'Enhs', '')) + 
+            scale_fill_manual(values = c('grey10', 'grey50', 'grey80'), name = '')
         ggsave(
             'FPIs_ce11_TT_proms-enhs.pdf', width = 21, height = 8, unit = 'cm'
         )

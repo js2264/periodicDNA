@@ -78,7 +78,7 @@ PSDs <- getPeriodicity(
     ce11_TSSs[['Ubiq.']],
     genome = 'ce11',
     motif = 'TT', 
-    BPPARAM = setUpBPPARAM(4)
+    BPPARAM = MulticoreParam(4)
 )
 plotPeriodicityResults(PSDs)
 ```
@@ -109,14 +109,14 @@ WW_10bp <- getPeriodicityTrack(
     motif = 'WW',
     period = 10,
     bw_file = 'WW-10-bp-periodicity_over-proms.bw', 
-    BPPARAM = setUpBPPARAM(12)
+    BPPARAM = MulticoreParam(12)
 )
 ```
 
 **Warning**: It is recommended to run this command across many processors 
 using BiocParallel. This command typically takes one day to produce 
 a periodicity track over 15,000 GRanges of 150 bp (with default parameters) 
-using `BPPARAM = setUpBPPARAM(12)`. 
+using `BPPARAM = MulticoreParam(12)`. 
 It is highly recommended to run this command in a new `screen` session.
 
 ## Contributions

@@ -97,25 +97,25 @@ plotPeriodicityResults <- function(
     }
     if (!("FPI" %in% names(results))) {
         p2 <- ggplot2::ggplot(
-        df[df$x >= periods[1] & df$x <= periods[2],], 
-        ggplot2::aes(x = x, y = y)
-    ) + 
-        ggplot2::geom_point() +
-        ggplot2::geom_segment(aes(x=x, xend=x, y=0, yend=y)) +
-        ggplot2::xlim(periods) +
-        theme_ggplot2(...) + 
-        ggplot2::labs(
-            x = paste0(results$motif, ' periods'), 
-            y = 'Power Spectral Density', 
-            title = paste0(
-                'Power Spectral Density of\n', 
-                results$motif, 
-                ' at different periods'
+            df[df$x >= periods[1] & df$x <= periods[2],], 
+            ggplot2::aes(x = x, y = y)
+        ) + 
+            ggplot2::geom_point() +
+            ggplot2::geom_segment(aes(x=x, xend=x, y=0, yend=y)) +
+            ggplot2::xlim(periods) +
+            theme_ggplot2(...) + 
+            ggplot2::labs(
+                x = paste0(results$motif, ' periods'), 
+                y = 'Power Spectral Density', 
+                title = paste0(
+                    'Power Spectral Density of\n', 
+                    results$motif, 
+                    ' at different periods'
+                )
             )
-        )
-    } 
+    }
     else {
-        p2 <- plotFPI(results$FPI)
+        p2 <- plotFPI(results$FPI, periods = periods)
         p2 <- p2 + ggplot2::labs(
             x = paste0(results$FPI$motif, ' periods'), 
             y = 'Power Spectral Density', 
@@ -124,7 +124,6 @@ plotPeriodicityResults <- function(
                 length(results$FPI$shuffled_PSD), ')'
             )
         )
-
     }
     #
     p <- cowplot::plot_grid(plotlist = list(p0, p1, p2), nrow = 1)
@@ -226,24 +225,21 @@ plotFPI <- function(
         ggplot2::geom_line(
             data = df[df$type != 'observed',],
             aes(x = x, y = y, group = group), 
-            stat = "smooth", 
-            method = "loess", 
-            span = s, 
             col = 'grey50',
             alpha = 0.5, 
+            size = 0.5
         ) +
         ggplot2::geom_ribbon(
             data = ribbon_coords,
             ggplot2::aes(x = x, y = means, ymin = meansDown, ymax = meansUp), 
             alpha = 0.2, col = NA
         ) + 
-        ggplot2::geom_smooth(
+        ggplot2::geom_line(
             data = df[df$type == 'observed',],
             aes(x = x, y = y, group = group), 
             col = 'red',
-            alpha = 0, 
-            method = "loess",
-            span = 0.05
+            alpha = 1, 
+            size = 1.2
         ) +
         ggplot2::geom_point(
             data = df[df$type == 'observed' & df$isSign == FALSE,], 

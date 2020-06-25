@@ -41,9 +41,11 @@ genomes will have different GC percent}
 
 \item{doZscore}{Boolean should the normalized dampened signal be z-scored?}
 
-\item{n_shuffling}{Integer, how many times should the sequences be shuffled?}
+\item{n_shuffling}{Integer, how many times should the sequences be 
+shuffled? If n_shuffling > 0, the sequences are passed to the getFPI 
+function.}
 
-\item{...}{additional parameters}
+\item{...}{additional parameters passed to getFPI}
 }
 \value{
 A list containing the results of getPeriodicity function.  

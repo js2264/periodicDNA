@@ -70,8 +70,10 @@ getPeriodicity <- function(x, ...) {
 #' when looking at periodicity in different genomes, since different
 #' genomes will have different GC percent
 #' @param doZscore Boolean should the normalized dampened signal be z-scored?
-#' @param n_shuffling Integer, how many times should the sequences be shuffled?
-#' @param ... additional parameters
+#' @param n_shuffling Integer, how many times should the sequences be 
+#' shuffled? If n_shuffling > 0, the sequences are passed to the getFPI 
+#' function.
+#' @param ... additional parameters passed to getFPI
 #' @return A list containing the results of getPeriodicity function.  
 #' \itemize{
 #'     \item The dists vector is the raw vector of all distances between 
@@ -117,88 +119,95 @@ getPeriodicity.DNAStringSet <- function(
 )
 {
     seqs <- x
-    # Get pairwise distances --------------------------------------------------
-    if (verbose & n_shuffling == 0) message("- Mapping k-mers.")
-    dists <- BiocParallel::bplapply(seq_len(length(seqs)), function(k) {
-        Biostrings::vmatchPattern(
-            motif, 
-            seqs[k], 
-            max.mismatch = 0, 
-            fixed = FALSE
-        )[[1]] %>% 
-            IRanges::start() %>% 
-            dist() %>% 
-            c()
-    }, BPPARAM = BPPARAM) %>% unlist()
-    max_dist <- max(dists)
-    if (max(dists) < tail(range_spectrum, 1)) {
-        stop(message(
-            'range_spectrum (', 
-            head(range_spectrum, 1), ':', tail(range_spectrum, 1), 
-            ') is wider than the maximum distance between pairs of k-mers (', 
-            max(dists), '). Try shortening range_spectrum to a smaller range.'
-        ))
-    }
-    if (length(dists) < 10) {
-        if (verbose) message("- Only ", length(dists), 
-        " pairs of k-mers found. Returning null results")
-        return(list(
+    if (n_shuffling == 0) {
+        # Get pairwise distances ----------------------------------------------
+        if (verbose & n_shuffling == 0) message("- Mapping k-mers.")
+        dists <- BiocParallel::bplapply(seq_len(length(seqs)), function(k) {
+            Biostrings::vmatchPattern(
+                motif, 
+                seqs[k], 
+                max.mismatch = 0, 
+                fixed = FALSE
+            )[[1]] %>% 
+                IRanges::start() %>% 
+                dist() %>% 
+                c()
+        }, BPPARAM = BPPARAM) %>% unlist()
+        max_dist <- max(dists)
+        if (max(dists) < tail(range_spectrum, 1)) {
+            stop(message(
+                'range_spectrum (', 
+                head(range_spectrum, 1), ':', tail(range_spectrum, 1), 
+                ') is wider than the maximum distance between ', 
+                'pairs of k-mers (', max(dists), 
+                '). Try shortening range_spectrum to a smaller range.'
+            ))
+        }
+        if (length(dists) < 10) {
+            if (verbose) message("- Only ", length(dists), 
+            " pairs of k-mers found. Returning null results")
+            return(list(
+                dists = dists, 
+                hist = 0, 
+                normalized_hist = 0,
+                spectra = 0, 
+                PSD = 0,
+                motif = motif
+            ))
+        }
+        if (verbose & n_shuffling == 0) 
+            message("- ", length(dists), " pairwise distances measured.")
+        if (sample < length(dists) & sample > 0) {
+            if (verbose) 
+                message("- Subsampling ", sample, " pairwise distances.")
+            dists <- sample(dists, sample)
+        }
+        if (verbose & n_shuffling == 0) 
+            message("- Calculating pairwise distance distribution.")
+        hist <- hist(
+            dists, breaks = seq(1, max_dist+1, 1), plot = FALSE
+        )$counts
+        hist <- zoo::rollmean(
+            hist, k = roll, na.pad = TRUE, align = 'center'
+        )
+        if (verbose & n_shuffling == 0) 
+            message("- Normalizing histogram vector.")
+        if (length(hist) > 10) {
+            norm_hist <- normalizeHistogram(hist, roll = 1, doZscore)
+        } 
+        else {
+            norm_hist <- hist
+        }
+        # Fourier -------------------------------------------------------------
+        if (verbose) message(
+            "- Applying Fast Fourier Transform to the vector of distances."
+        )
+        spectra <- do.call(
+            stats::spectrum, 
+            list(norm_hist[range_spectrum], plot = FALSE)
+        )
+        PSD <- data.frame(
+            freq = spectra$freq, 
+            period = 1/spectra$freq, 
+            PSD = spectra$spec
+        )
+        l <- list(
             dists = dists, 
-            hist = 0, 
-            normalized_hist = 0,
-            spectra = 0, 
-            PSD = 0,
+            hist = data.frame(
+                distance = seq(1, max_dist, 1), 
+                counts = hist
+            ), 
+            normalized_hist = data.frame(
+                distance = seq(1, max_dist, 1), 
+                norm_counts = norm_hist
+            ),
+            spectra = spectra, 
+            PSD = PSD,
             motif = motif
-        ))
+        )
+        # Shuffle the sequences using getFPI ----------------------------------
     }
-    if (verbose & n_shuffling == 0) 
-        message("- ", length(dists), " pairwise distances measured.")
-    if (sample < length(dists) & sample > 0) {
-        if (verbose) message("- Subsampling ", sample, " pairwise distances.")
-        dists <- sample(dists, sample)
-    }
-    if (verbose & n_shuffling == 0) 
-        message("- Calculating pairwise distance distribution.")
-    hist <- hist(dists, breaks = seq(1, max_dist+1, 1), plot = FALSE)$counts
-    hist <- zoo::rollmean(
-        hist, k = roll, na.pad = TRUE, align = 'center'
-    )
-    if (verbose & n_shuffling == 0) message("- Normalizing histogram vector.")
-    if (length(hist) > 10) {
-        norm_hist <- normalizeHistogram(hist, roll = 1, doZscore)
-    } 
     else {
-        norm_hist <- hist
-    }
-    # Fourier -----------------------------------------------------------------
-    if (verbose) message(
-        "- Applying Fast Fourier Transform to the vector of distances."
-    )
-    spectra <- do.call(
-        stats::spectrum, 
-        list(norm_hist[range_spectrum], plot = FALSE)
-    )
-    PSD <- data.frame(
-        freq = spectra$freq, 
-        period = 1/spectra$freq, 
-        PSD = spectra$spec
-    )
-    l <- list(
-        dists = dists, 
-        hist = data.frame(
-            distance = seq(1, max_dist, 1), 
-            counts = hist
-        ), 
-        normalized_hist = data.frame(
-            distance = seq(1, max_dist, 1), 
-            norm_counts = norm_hist
-        ),
-        spectra = spectra, 
-        PSD = PSD,
-        motif = motif
-    )
-    # Shuffle the sequences using getFPI --------------------------------------
-    if (n_shuffling > 0) {
         FPI <- getFPI(
             x = seqs, 
             motif = motif,
@@ -207,11 +216,18 @@ getPeriodicity.DNAStringSet <- function(
             verbose = verbose,
             sample = sample,
             doZscore = doZscore,
-            period = 10, 
             n_shuffling = n_shuffling, 
             ...
         )
-        l$FPI <- FPI
+        l <- list(
+            dists = FPI$observed_spectra$dists, 
+            hist = FPI$observed_spectra$hist,
+            normalized_hist = FPI$observed_spectra$normalized_hist,
+            spectra = FPI$observed_spectra$spectra, 
+            PSD = FPI$observed_spectra$PSD,
+            motif = FPI$observed_spectra$motif, 
+            FPI = FPI
+        )
     }
     # Return results ----------------------------------------------------------
     return(l)

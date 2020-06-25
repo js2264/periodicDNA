@@ -246,13 +246,15 @@ getSignificantPeriods <- function(fpi) {
     df <- data.frame(
         Freq = obsPsds$freq, 
         Period = 1/obsPsds$freq,
-        ObservedPSD = formatC(obsPsds$PSD, format = "e", digits = 2),
+        ObservedPSD = as.numeric(
+            formatC(obsPsds$PSD, format = "e", digits = 2)
+        ),
         FPI = unlist(lapply(obsPsds$freq, function(freq) {
             obs_PSD <- obsPsds$PSD[obsPsds$freq == freq]
             l_shuff_PSD <- expPsds$PSD[expPsds$freq == freq]
             (obs_PSD - median(l_shuff_PSD)) / median(l_shuff_PSD)
         })), 
-        pval = formatC(
+        pval = as.numeric(formatC(
             unlist(lapply(obsPsds$freq, function(freq) {
                 stats::p.adjust(stats::t.test(
                     obsPsds$PSD[obsPsds$freq == freq], 
@@ -260,8 +262,8 @@ getSignificantPeriods <- function(fpi) {
                     var.equal = TRUE
                 )$p.value, "BH")
             })), 
-             format = "e", digits = 2
-         )
+            format = "e", digits = 2
+        ))
     )
     return(df)
 }
