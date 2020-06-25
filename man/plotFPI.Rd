@@ -4,13 +4,7 @@
 \alias{plotFPI}
 \title{Plot the output of getFPI()}
 \usage{
-plotFPI(
-  fpi,
-  periods = c(2, 20),
-  s = 0.05,
-  plot_ribbon = TRUE,
-  threshold = 0.001
-)
+plotFPI(fpi, periods = c(2, 20), s = 0.05, threshold = 0.001)
 }
 \arguments{
 \item{fpi}{The output of getFPI function.}
@@ -19,9 +13,6 @@ plotFPI(
 x-axis limits}
 
 \item{s}{float span parameter for loess smooth}
-
-\item{plot_ribbon}{Boolean, should the PSDs from suffled sequences be 
-plotted as a ribbon (mean +/- CI)?}
 
 \item{threshold}{Float, p-value used as significance threshold}
 }

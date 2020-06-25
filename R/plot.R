@@ -25,7 +25,7 @@
 #'     ce11_TSSs[['Ubiq.']][1:100],
 #'     genome = 'ce11',
 #'     motif = 'TT', 
-#'     BPPARAM = BiocParallel::SnowParam(workers = 1)
+#'     BPPARAM = setUpBPPARAM(1)
 #' )
 #' head(periodicity_result$PSD)
 #' plotPeriodicityResults(periodicity_result)
@@ -141,8 +141,6 @@ plotPeriodicityResults <- function(
 #' @param periods Vector a numerical vector of length 2, to specify the
 #' x-axis limits 
 #' @param s float span parameter for loess smooth
-#' @param plot_ribbon Boolean, should the PSDs from suffled sequences be 
-#' plotted as a ribbon (mean +/- CI)?
 #' @param threshold Float, p-value used as significance threshold
 #' @return ggplot A ggplot
 #' 
@@ -163,7 +161,6 @@ plotFPI <- function(
     fpi, 
     periods = c(2, 20), 
     s = 0.05, 
-    plot_ribbon = TRUE, 
     threshold = 0.001
 ) {
     n_shuffled <- length(fpi$shuffled_spectra)
@@ -212,21 +209,17 @@ plotFPI <- function(
         'group' = groups
     )
     df <- df[x >= periods[1] & x <= periods[2],]
-    if (plot_ribbon) {
-        # df <- df[df$type == 'observed',]
-        ribbon_coords <- ribbon_coords[
-            ribbon_coords$x >= periods[1] & ribbon_coords$x <= periods[2],
-        ]
-    }
+    ribbon_coords <- ribbon_coords[
+        ribbon_coords$x >= periods[1] & ribbon_coords$x <= periods[2],
+    ]
     # Adding significance
+    pvals <- getSignificantPeriods(fpi)
+    pvals <- pvals[pvals$Period >= periods[1] & pvals$Period <= periods[2],]
+    df$pval <- 1
+    df$pval[seq_len(nrow(pvals))] <- pvals$pval
     df$isSign <- factor(FALSE, levels = c(FALSE, TRUE))
-    df$isSign[df$x %in% significantPeriods(fpi, threshold)] <- TRUE
+    df$isSign[df$pval <= threshold] <- TRUE
     df$isSign[df$type != 'observed'] <- NA
-    pval <- formatC(
-        stats::t.test(
-            fpi$observed_PSD, fpi$shuffled_PSD, var.equal = TRUE
-        )$p.value, format = "e", digits = 2
-    )
     # Plotting
     p <- ggplot2::ggplot(df) + 
         ggplot2::aes(x = x, y = y) + 
@@ -239,18 +232,11 @@ plotFPI <- function(
             col = 'grey50',
             alpha = 0.5, 
         ) +
-        # ggplot2::geom_point(
-        #     data = df[df$type == 'shuffled',], 
-        #     ggplot2::aes(
-        #         x = x, 
-        #         y = y
-        #     ), 
-        #     alpha = 0.3, 
-        #     col = 'grey50', 
-        #     fill = 'grey50', 
-        #     shape = 21, 
-        #     size = 1
-        # ) +
+        ggplot2::geom_ribbon(
+            data = ribbon_coords,
+            ggplot2::aes(x = x, y = means, ymin = meansDown, ymax = meansUp), 
+            alpha = 0.2, col = NA
+        ) + 
         ggplot2::geom_smooth(
             data = df[df$type == 'observed',],
             aes(x = x, y = y, group = group), 
@@ -291,17 +277,10 @@ plotFPI <- function(
             y = 'Power Spectral Density', 
             title = paste0(
                 'FPI @ ', fpi$period, '-bp period: ', round(fpi$FPI, 1), 
-                '\n(p = ', pval, ')'
+                '\n(p = ', df$pval[which.min(abs(df$x - fpi$period))], ')'
             )
-        )
-    if (plot_ribbon) {
-        p <- p + ggplot2::geom_ribbon(
-            data = ribbon_coords,
-            ggplot2::aes(x = x, y = means, ymin = meansDown, ymax = meansUp), 
-            alpha = 0.2, col = NA
-        )
-        p <- p + ggplot2::theme(legend.position = "null")
-    }
+        ) + 
+        ggplot2::theme(legend.position = "null")
     return(p)
 }
 
