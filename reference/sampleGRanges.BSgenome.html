@@ -19,8 +19,8 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
@@ -171,33 +171,33 @@ This function is useful to sample sequences from a full genome.</p>
     <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>150</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>
 )
 <span class='no'>g</span></div><div class='output co'>#&gt; GRanges object with 100 ranges and 1 metadata column:
-#&gt;         seqnames        ranges strand |                     seq
-#&gt;            &lt;Rle&gt;     &lt;IRanges&gt;  &lt;Rle&gt; |          &lt;DNAStringSet&gt;
-#&gt;     [1]     chrI   77737-77886      * | CATCACCCAA...CTAACTTACG
-#&gt;     [2]     chrI 229146-229295      * | CTTGTACAAT...TACATTCCTA
-#&gt;     [3]    chrII   30865-31014      * | AAAGGTCTAT...CAAACAACAC
-#&gt;     [4]    chrII   52256-52405      * | AACTCTACAG...TTGCTTTTCA
-#&gt;     [5]    chrII   63438-63587      * | TATGAACTTG...AAACGACATT
-#&gt;     ...      ...           ...    ... .                     ...
-#&gt;    [96]   chrXVI 737072-737221      * | TTGATATCAC...TAATTTCGTA
-#&gt;    [97]   chrXVI 879501-879650      * | TTTTGATCAG...ATGAGCCGTA
-#&gt;    [98]   chrXVI 905678-905827      * | CAAATTTAGA...TCTGTTGGTA
-#&gt;    [99]     chrM   17849-17998      * | TGAAAAATTA...ATATTTTAAA
-#&gt;   [100]     chrM   42196-42345      * | ATACTGCTTT...TTGTTAAAGA
+#&gt;         seqnames          ranges strand |                     seq
+#&gt;            &lt;Rle&gt;       &lt;IRanges&gt;  &lt;Rle&gt; |          &lt;DNAStringSet&gt;
+#&gt;     [1]     chrI   173544-173693      * | ACTACGTAAG...GTTATTCAGA
+#&gt;     [2]    chrII   343077-343226      * | CTATTTTTTA...TTTTTGTGTT
+#&gt;     [3]    chrII   426165-426314      * | AGGTAGAGAA...CCCAATATTC
+#&gt;     [4]    chrII   460819-460968      * | AATCAAGGAA...TAACACGTAA
+#&gt;     [5]    chrII   577659-577808      * | CCTCTATCAC...TACGGATCCG
+#&gt;     ...      ...             ...    ... .                     ...
+#&gt;    [96]    chrXV 1059266-1059415      * | GCACCCTAAG...AGTATAATTA
+#&gt;    [97]   chrXVI       3858-4007      * | TTGTTACTTG...CCGTCAAGCG
+#&gt;    [98]   chrXVI   139703-139852      * | TTTTCTCCTT...CTTGCCTTCT
+#&gt;    [99]   chrXVI   463366-463515      * | TTGGACACGG...TGTTGCTATC
+#&gt;   [100]   chrXVI   463767-463916      * | CAATTGGATC...TGCGTTTCTT
 #&gt;   -------
 #&gt;   seqinfo: 17 sequences from an unspecified genome</div><div class='input'><span class='no'>g</span>$<span class='no'>seq</span></div><div class='output co'>#&gt; DNAStringSet object of length 100:
 #&gt;       width seq
-#&gt;   [1]   150 CATCACCCAACAGATTGGTGCCACTTATTTCCC...ACCCCAGGTCACGAATCCTTCTCTAACTTACG
-#&gt;   [2]   150 CTTGTACAATGGATTACAACATTCTTGTCAAGA...CTAGAAGGTGGTGTTAATAACTTACATTCCTA
-#&gt;   [3]   150 AAAGGTCTATCCGGTGACTTCAAATACCTACGT...ATCTAAATAAACCGTCCCAATACAAACAACAC
-#&gt;   [4]   150 AACTCTACAGACATCTCGCAAAACTCTTGCACA...ATATGTTGGTGTCCTTATTGGATTGCTTTTCA
-#&gt;   [5]   150 TATGAACTTGTCCTTCAAAAGATGTTACCAAAT...ACTTTCGAAACCGCGTAGTCGGAAACGACATT
+#&gt;   [1]   150 ACTACGTAAGTAATTTGAGGACTGATTAAAATT...ATTGGGCTCTTCTTTCATGGATGTTATTCAGA
+#&gt;   [2]   150 CTATTTTTTAAAAAAAGCATCAAAATGTCTGAT...GTTCAGACTGGCTTTTCACCGTTTTTTGTGTT
+#&gt;   [3]   150 AGGTAGAGAACATTGAGTTGTTAGATCAAGCAC...AGTTAAGGCCTTCCACCTCTCACCCAATATTC
+#&gt;   [4]   150 AATCAAGGAACACTAACCATGTATGACATACAA...CTAGTTTAGATTCAAAATTTGGTAACACGTAA
+#&gt;   [5]   150 CCTCTATCACCGTGCTTGCATAGTTTTGATTTT...GAATTCCCTTGCTGTCAATACCTACGGATCCG
 #&gt;   ...   ... ...
-#&gt;  [96]   150 TTGATATCACCTGTAGTCAAATCAAAATTGTCA...TGAAAAGGCTCAGTTCTCTATCTAATTTCGTA
-#&gt;  [97]   150 TTTTGATCAGCGATGATCAGGAGGACGAAGTTC...TAAGAATGATTTGGAAGATCAAATGAGCCGTA
-#&gt;  [98]   150 CAAATTTAGATCGTGTTATGACTGATAAAGGGT...GGGTGAAAGTGAAAAAGCAGGGTCTGTTGGTA
-#&gt;  [99]   150 TGAAAAATTAAAATTGATTAGATTAAGAGACCA...GGTTCTCATAATGATTGTAAAAATATTTTAAA
-#&gt; [100]   150 ATACTGCTTTATATAAAGCTTGATTAAAATTTA...AATATAACATCTTTGTAAATTATTGTTAAAGA</div></pre>
+#&gt;  [96]   150 GCACCCTAAGTTCAAATGCACCCCCCCTCGCCC...GTATACGAATCTAACTGGGTGCAGTATAATTA
+#&gt;  [97]   150 TTGTTACTTGATCTGGATCCTCAAATCCCACCA...AAACACGTAATCTGAAGTGAGTCCGTCAAGCG
+#&gt;  [98]   150 TTTTCTCCTTATCCCTTTGTGATTTTTCTTCCT...CAATACTTTTTGAATGAATGATCTTGCCTTCT
+#&gt;  [99]   150 TTGGACACGGGGCTGGAACTTGGAATGCTGAGT...ATATTACCACCGTGTGTATTAGTGTTGCTATC
+#&gt; [100]   150 CAATTGGATCTTGTGTTGATTTAGCAATGGATG...TACTGATTTGATTCTTTTTAAGTGCGTTTCTT</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -209,7 +209,7 @@ This function is useful to sample sequences from a full genome.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jacques Serizay.</p>
+  <p>Developed by <a href='https://js2264.github.io/'>Jacques Serizay</a>.</p>
 </div>
 
 <div class="pkgdown">

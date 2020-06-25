@@ -19,8 +19,8 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
@@ -232,7 +232,7 @@ to take into consideration when performing Fast Fourier Transform
     <span class='no'>ce11_proms</span>[<span class='fl'>1</span>],
     <span class='kw'>motif</span> <span class='kw'>=</span> <span class='st'>'WW'</span>,
     <span class='kw'>period</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-    <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='kw pkg'>BiocParallel</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/BiocParallel/man/SnowParam-class.html'>SnowParam</a></span>(<span class='kw'>workers</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+    <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>setUpBPPARAM</span>(<span class='fl'>1</span>)
 )</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>    The genome has been divided in 100-bp long windows </span>
 #&gt; <span class='message'>    with a sliding window of 2-bp.</span>
@@ -240,12 +240,12 @@ to take into consideration when performing Fast Fourier Transform
 #&gt; <span class='message'>    The mapping will be split into 1 cores. Each core will </span>
 #&gt; <span class='message'>    process 549 windows.</span>
 #&gt; <span class='message'>    </span>
-#&gt; <span class='message'>    Now starting [2020-06-23 21:51:13]...</span>
+#&gt; <span class='message'>    Now starting [2020-06-25 14:35:20]...</span>
 #&gt; <span class='message'>    </span></div><div class='output co'>#&gt; <span class='message'>    Merging the results...</span>
 #&gt; <span class='message'>    </span></div><div class='output co'>#&gt; <span class='message'>    Smoothing the track...</span>
 #&gt; <span class='message'>        </span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>   SUCCESS: WW_10-bp-periodicity_g-100^2_smooth-20.bw has been created!</span></div><div class='output co'>#&gt; <span class='message'>   1098 bases covered by the generated track.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>    Finished without errors [2020-06-23 21:52:34]</span>
+#&gt; <span class='message'>    Finished without errors [2020-06-25 14:36:46]</span>
 #&gt; <span class='message'>    </span></div><div class='output co'>#&gt; RleList of length 7
 #&gt; $chrI
 #&gt; numeric-Rle of length 15072434 with 1120 runs
@@ -273,7 +273,7 @@ to take into consideration when performing Fast Fourier Transform
 #&gt;   Values :        0
 #&gt; 
 #&gt; ...
-#&gt; &lt;2 more elements&gt;</div></pre>
+#&gt; &lt;2 more elements&gt;</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/unlink.html'>unlink</a></span>(<span class='st'>'WW_10-bp-periodicity_g-100^2_smooth-20.bw'</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -285,7 +285,7 @@ to take into consideration when performing Fast Fourier Transform
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jacques Serizay.</p>
+  <p>Developed by <a href='https://js2264.github.io/'>Jacques Serizay</a>.</p>
 </div>
 
 <div class="pkgdown">

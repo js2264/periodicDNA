@@ -19,8 +19,8 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
@@ -185,32 +185,32 @@ supported.</p>
     <pre class="examples"><div class='input'><span class='fu'>sampleGRanges</span>(<span class='st'>'sacCer3'</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>150</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; GRanges object with 100 ranges and 1 metadata column:
 #&gt;         seqnames        ranges strand |                     seq
 #&gt;            &lt;Rle&gt;     &lt;IRanges&gt;  &lt;Rle&gt; |          &lt;DNAStringSet&gt;
-#&gt;     [1]     chrI   37057-37206      * | AGAAGTTTTT...CTTCTTTTTT
-#&gt;     [2]     chrI   61917-62066      * | ACTTGAATGA...TTGAACTTCA
-#&gt;     [3]    chrII   34254-34403      * | TCGTTGATGA...GAGATCAAAT
-#&gt;     [4]    chrII 109555-109704      * | GACTGTATCA...TGAATGGAAG
-#&gt;     [5]    chrII 324499-324648      * | TTGGAGAAAA...ATGCCTACCT
+#&gt;     [1]     chrI 151559-151708      * | GTTTTTGTTT...GCTCAATCTT
+#&gt;     [2]    chrII 122748-122897      * | ATATATTACC...TGCGGACAAC
+#&gt;     [3]    chrII 169497-169646      * | GTGAAGGAGA...GTCCTTTATG
+#&gt;     [4]    chrII 199276-199425      * | CCAGTCCGCT...TCCATATCCC
+#&gt;     [5]    chrII 296308-296457      * | AGTTTGAAAA...CCTTTTTTAG
 #&gt;     ...      ...           ...    ... .                     ...
-#&gt;    [96]   chrXVI 618324-618473      * | ATTCTCTGCT...CAAAAAACAT
-#&gt;    [97]   chrXVI 630814-630963      * | CAGTTGAATT...TGAAGATTAT
-#&gt;    [98]   chrXVI 895046-895195      * | GCCACTAGCC...TATCGGATAT
-#&gt;    [99]   chrXVI 929686-929835      * | AATATTCACG...AAACCATAGA
-#&gt;   [100]     chrM   18503-18652      * | TTCAAAAGTT...GTCAAATTTG
+#&gt;    [96]   chrXVI 327747-327896      * | GGATTTTTGT...TGTCATTTTC
+#&gt;    [97]   chrXVI 442364-442513      * | TCCCTGTAGC...ATCTGAATAT
+#&gt;    [98]   chrXVI 495550-495699      * | ATTGCGACTG...TATTCCAGTT
+#&gt;    [99]   chrXVI 621439-621588      * | GATCTGCTAG...GAGGCTACCG
+#&gt;   [100]   chrXVI 683630-683779      * | TGATTTTATT...GATAGATGAT
 #&gt;   -------
 #&gt;   seqinfo: 17 sequences from an unspecified genome</div><div class='input'><span class='fu'>sampleGenome</span>(<span class='st'>'sacCer3'</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>150</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; GRanges object with 100 ranges and 1 metadata column:
 #&gt;         seqnames        ranges strand |                     seq
 #&gt;            &lt;Rle&gt;     &lt;IRanges&gt;  &lt;Rle&gt; |          &lt;DNAStringSet&gt;
-#&gt;     [1]     chrI   23545-23694      * | GGCAATAATT...TCGAAGTGTT
-#&gt;     [2]     chrI   28541-28690      * | CCTTTTTAGT...TACAAAAAAA
-#&gt;     [3]     chrI 133934-134083      * | TTCTGCAAAT...TAAGGTGTTC
-#&gt;     [4]     chrI 211108-211257      * | GACCGTTTGA...TTCATCAATC
-#&gt;     [5]    chrII   29238-29387      * | GATGGTTTTT...TGAACGAAAC
+#&gt;     [1]     chrI   67024-67173      * | TCCCAAAATT...GTGACAGTAC
+#&gt;     [2]     chrI 214261-214410      * | TTCAGACTCA...ACTAACCCCA
+#&gt;     [3]    chrII     8409-8558      * | TAAGCCATCA...CAAAGCTGTA
+#&gt;     [4]    chrII   73009-73158      * | TAGTATTACT...CCTTGTCCAA
+#&gt;     [5]    chrII 165115-165264      * | CCGGCTCCGC...TCTAGCCCAT
 #&gt;     ...      ...           ...    ... .                     ...
-#&gt;    [96]   chrXVI 417969-418118      * | CAGAATCTCT...ATTACCTATG
-#&gt;    [97]   chrXVI 468488-468637      * | AAGGTGTCAT...GAAGATGATG
-#&gt;    [98]   chrXVI 610864-611013      * | CTTACAATCA...ACCTACTGAC
-#&gt;    [99]   chrXVI 687170-687319      * | ACTGAAGCAA...ATTCACCGCC
-#&gt;   [100]   chrXVI 712752-712901      * | TGACCAACTT...TTCACATCCG
+#&gt;    [96]   chrXVI 125315-125464      * | AGGTACACCA...AGAATTTAGG
+#&gt;    [97]   chrXVI 254451-254600      * | TGTACAAGAA...TTTTTTTATC
+#&gt;    [98]   chrXVI 764266-764415      * | AATAGCTTAT...TGCATCAAAA
+#&gt;    [99]   chrXVI 914001-914150      * | ATACATCAAA...CATTAAAGTT
+#&gt;   [100]     chrM   16817-16966      * | GTTAACCAAA...TTAATTTAAA
 #&gt;   -------
 #&gt;   seqinfo: 17 sequences from an unspecified genome</div></pre>
   </div>
@@ -224,7 +224,7 @@ supported.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jacques Serizay.</p>
+  <p>Developed by <a href='https://js2264.github.io/'>Jacques Serizay</a>.</p>
 </div>
 
 <div class="pkgdown">

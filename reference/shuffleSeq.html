@@ -19,8 +19,8 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
@@ -145,7 +145,7 @@ shuffles the order individual nucleotides." />
 shuffles the order individual nucleotides.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>shuffleSeq</span>(<span class='no'>dna</span>)</pre>
+    <pre class="usage"><span class='fu'>shuffleSeq</span>(<span class='no'>dna</span>, <span class='kw'>order</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -154,6 +154,11 @@ shuffles the order individual nucleotides.</p>
       <th>dna</th>
       <td><p>DNAString or DNAStringSet</p></td>
     </tr>
+    <tr>
+      <th>order</th>
+      <td><p>Integer, which order to take into consideration for shuffling
+(currently only 1st order is available)</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -161,8 +166,9 @@ shuffles the order individual nucleotides.</p>
     <p>A DNAString or DNAStringSet</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>shuffleSeq</span>(<span class='st'>'ACGTGGGCTATTAGCTACTGTACGTG'</span>)</div><div class='output co'>#&gt; 26-letter DNAString object
-#&gt; seq: CCGACTGAGGTATCATGTTGTGTACG</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>shuffleSeq</span>(<span class='st'>'ACGTGGGCTATTAGCTACTGTACGTG'</span>)</div><div class='output co'>#&gt; DNAStringSet object of length 1:
+#&gt;     width seq
+#&gt; [1]    26 TCCAGGGAGCCGTTTTAGTTGACATG</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -174,7 +180,7 @@ shuffles the order individual nucleotides.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jacques Serizay.</p>
+  <p>Developed by <a href='https://js2264.github.io/'>Jacques Serizay</a>.</p>
 </div>
 
 <div class="pkgdown">

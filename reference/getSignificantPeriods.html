@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • periodicDNA</title>
+<title>A function used to compute FPIs and associated p-values — getSignificantPeriods • periodicDNA</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -19,8 +19,8 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
@@ -46,7 +46,8 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="A function used to compute FPIs and associated p-values — getSignificantPeriods" />
+<meta property="og:description" content="A function used to compute FPIs and associated p-values" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -66,7 +67,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -133,90 +134,57 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/js2264/periodicDNA/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>A function used to compute FPIs and associated p-values</h1>
+    <small class="dont-index">Source: <a href='https://github.com/js2264/periodicDNA/blob/master/R/FPI.R'><code>R/FPI.R</code></a></small>
+    <div class="hidden name"><code>getSignificantPeriods.Rd</code></div>
     </div>
 
-    <div id="periodicdna-0-3-2-dev" class="section level1">
-<h1 class="page-header" data-toc-text="0.3.2">
-<a href="#periodicdna-0-3-2-dev" class="anchor"></a>periodicDNA 0.3.2 (dev)</h1>
-<ul>
-<li>IMPORTANT:
-<ul>
-<li>Implemented data-raw for reproducibility</li>
-</ul>
-</li>
-<li>MINOR:
-<ul>
-<li>Changed xlim of norm. distr. plot in plotPeriodicityResults()</li>
-</ul>
-</li>
-</ul>
-</div>
-    <div id="periodicdna-0-3-1-2020-05-05" class="section level1">
-<h1 class="page-header" data-toc-text="0.3.1">
-<a href="#periodicdna-0-3-1-2020-05-05" class="anchor"></a>periodicDNA 0.3.1 (2020-05-05)</h1>
-<ul>
-<li>IMPORTANT:
-<ul>
-<li>rollmean(k=3) is now applied <em>before</em> normalisation <em>as well</em>, on the raw distribution vector</li>
-<li>plotPeriodicityResults() output returns one single plot (with cowplot)</li>
-<li>getPeriodicityTrack() now returns the Rle</li>
-<li>Improved plotting functions -now show shuffled for plotPeriodicityResults()</li>
-<li>Added ggplot2 theming</li>
-</ul>
-</li>
-<li>MINOR:
-<ul>
-<li>Changed many variable names (all to snake_case)</li>
-<li>sampleGRanges is now full-fledged function (GRanges, DNAStringSet, character and BSgenome methods)</li>
-<li>sampleGenome is an alias for sampleGRanges.character</li>
-<li>Added sacCer3 to getPeriodicity BSgenomes</li>
-<li>Added DNAString method for getPeriodicity</li>
-<li>Added a vignette describing the internal steps</li>
-<li>Clarified user-level functions in README</li>
-<li>Added ce11_TSSs data</li>
-<li>Renamed generateperiodicitytrack as getPeriodicityTrack</li>
-<li>Renamed variables in getFPI and getPeriodicity</li>
-<li>Created a utility char2BSgenome()</li>
-</ul>
-</li>
-</ul>
-</div>
-    <div id="periodicdna-0-3-0-2020-05-03" class="section level1">
-<h1 class="page-header" data-toc-text="0.3.0">
-<a href="#periodicdna-0-3-0-2020-05-03" class="anchor"></a>periodicDNA 0.3.0 (2020-05-03)</h1>
-<ul>
-<li>Added tests</li>
-<li>Added getFPI function</li>
-<li>cleaned-up functions</li>
-<li>cleaned-up function dependencies</li>
-<li>Added toy data</li>
-<li>Added vignette</li>
-</ul>
-</div>
-    <div id="periodicdna-0-2-1-2020-03-04" class="section level1">
-<h1 class="page-header" data-toc-text="0.2.1">
-<a href="#periodicdna-0-2-1-2020-03-04" class="anchor"></a>periodicDNA 0.2.1 (2020-03-04)</h1>
-<ul>
-<li>Added Travis build check</li>
-<li>Simplified README.md</li>
-</ul>
-</div>
-  </div>
+    <div class="ref-description">
+    <p>A function used to compute FPIs and associated p-values</p>
+    </div>
 
+    <pre class="usage"><span class='fu'>getSignificantPeriods</span>(<span class='no'>fpi</span>)</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>fpi</th>
+      <td><p>result of getFPI() function or getPeriodicity() function with
+n_shuffling &gt; 1</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A table showing FPI and p-value for each observed PSD value</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_TSSs</span>)
+<span class='no'>fpi</span> <span class='kw'>&lt;-</span> <span class='fu'>getFPI</span>(
+    <span class='no'>ce11_TSSs</span><span class='kw'>[[</span><span class='st'>'Ubiq.'</span>]][<span class='fl'>1</span>:<span class='fl'>10</span>],
+    <span class='kw'>genome</span> <span class='kw'>=</span> <span class='st'>'ce11'</span>,
+    <span class='kw'>motif</span> <span class='kw'>=</span> <span class='st'>'TT'</span>,
+    <span class='kw'>cores_shuffling</span> <span class='kw'>=</span> <span class='fl'>1</span>
+)</div><div class='output co'>#&gt; <span class='message'>- Calculating observed PSD</span></div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 76459 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing histogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the vector of distances.</span></div><div class='output co'>#&gt; <span class='message'>&gt;&gt; Measured PSD @ 10bp is: 9.02565541651108e-07</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 1/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 2/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 3/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 4/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 5/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 6/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 7/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 8/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 9/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 10/10</span></div><div class='output co'>#&gt; <span class='message'>&gt;&gt; Calculated FPI @ 10bp is: 36.1154696016193</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>getSignificantPeriods</span>(<span class='no'>fpi</span>))</div><div class='output co'>#&gt;    Freq    Period ObservedPSD        FPI     pval
+#&gt; 1 0.005 200.00000    5.10e-08  0.4623038 4.32e-01
+#&gt; 2 0.010 100.00000    1.42e-10 -0.9920768 2.62e-01
+#&gt; 3 0.015  66.66667    8.40e-09 -0.4018246 5.60e-01
+#&gt; 4 0.020  50.00000    5.74e-08  2.2502436 5.02e-02
+#&gt; 5 0.025  40.00000    2.48e-08  0.3475462 7.33e-01
+#&gt; 6 0.030  33.33333    3.71e-08 -0.1852133 7.21e-01</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
 
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jacques Serizay.</p>
+  <p>Developed by <a href='https://js2264.github.io/'>Jacques Serizay</a>.</p>
 </div>
 
 <div class="pkgdown">

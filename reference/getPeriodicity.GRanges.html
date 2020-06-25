@@ -19,8 +19,8 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
@@ -189,18 +189,18 @@ normalized distogram.</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_proms</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_TSSs</span>)
 <span class='no'>periodicity_result</span> <span class='kw'>&lt;-</span> <span class='fu'>getPeriodicity</span>(
-    <span class='no'>ce11_proms</span>[<span class='fl'>1</span>:<span class='fl'>10</span>],
+    <span class='no'>ce11_TSSs</span><span class='kw'>[[</span><span class='st'>'Ubiq.'</span>]][<span class='fl'>1</span>:<span class='fl'>10</span>],
     <span class='kw'>genome</span> <span class='kw'>=</span> <span class='st'>'ce11'</span>,
     <span class='kw'>motif</span> <span class='kw'>=</span> <span class='st'>'TT'</span>
-)</div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 1842 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing histogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the vector of distances.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>periodicity_result</span>$<span class='no'>PSD</span>)</div><div class='output co'>#&gt;    freq    period          PSD
-#&gt; 1 0.005 200.00000 2.690817e-06
-#&gt; 2 0.010 100.00000 1.476058e-07
-#&gt; 3 0.015  66.66667 1.934533e-06
-#&gt; 4 0.020  50.00000 2.387861e-07
-#&gt; 5 0.025  40.00000 5.582855e-06
-#&gt; 6 0.030  33.33333 1.096215e-05</div><div class='input'><span class='fu'>plotPeriodicityResults</span>(<span class='no'>periodicity_result</span>)</div><div class='img'><img src='getPeriodicity.GRanges-1.png' alt='' width='700' height='433' /></div></pre>
+)</div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 76459 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing histogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the vector of distances.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>periodicity_result</span>$<span class='no'>PSD</span>)</div><div class='output co'>#&gt;    freq    period          PSD
+#&gt; 1 0.005 200.00000 5.098262e-08
+#&gt; 2 0.010 100.00000 1.419371e-10
+#&gt; 3 0.015  66.66667 8.403591e-09
+#&gt; 4 0.020  50.00000 5.735926e-08
+#&gt; 5 0.025  40.00000 2.478199e-08
+#&gt; 6 0.030  33.33333 3.711879e-08</div><div class='input'><span class='fu'>plotPeriodicityResults</span>(<span class='no'>periodicity_result</span>)</div><div class='img'><img src='getPeriodicity.GRanges-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -212,7 +212,7 @@ normalized distogram.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jacques Serizay.</p>
+  <p>Developed by <a href='https://js2264.github.io/'>Jacques Serizay</a>.</p>
 </div>
 
 <div class="pkgdown">

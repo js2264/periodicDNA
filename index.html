@@ -5,21 +5,19 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Set of tools to identify periodic occurrences of k-mers in 
-    DNA sequences • periodicDNA</title>
+<title>periodicDNA package • periodicDNA</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Set of tools to identify periodic occurrences of k-mers in 
-    DNA sequences">
+<script src="pkgdown.js"></script><meta property="og:title" content="periodicDNA package">
 <meta property="og:description" content="This R package helps the user identify k-mers 
     (e.g. di- or tri-nucleotides) present periodically in a set of genomic 
     loci (typically regulatory elements). The functions of this package 
@@ -139,49 +137,50 @@
 <li>
 <code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicity.html">getPeriodicity()</a></code> is used to compute the power spectral density (PSD) of a chosen k-mer (i.e. <code>TT</code>) in a set of sequences. The PSD score at a given period indicates the strength of the k-mer at this period.</li>
 <li>
-<code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicityTrack.html">getPeriodicityTrack()</a></code> can be used to generate linear tracks representing the periodicity strength of a given k-mer at a chosen period, over genomic loci of interest.</li>
-<li>
 <code><a href="https://rdrr.io/pkg/periodicDNA/man/getFPI.html">getFPI()</a></code> is used to compute the Fold Power Increase, a more sophisticated metric derived from the PSD. It was initially developed by Pich et al., Cell 2018. It estimates the background periodicity of the k-mer of interest in shuffled sequences.</li>
+<li>
+<code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicityTrack.html">getPeriodicityTrack()</a></code> can be used to generate linear tracks representing the periodicity strength of a given k-mer at a chosen period, over genomic loci of interest.</li>
 </ul>
 <div id="getperiodicity-function" class="section level3">
 <h3 class="hasAnchor">
 <a href="#getperiodicity-function" class="anchor"></a><code>getPeriodicity()</code> function</h3>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce11_proms</span>)
+<div class="sourceCode" id="cb5"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce11_TSSs</span>)
 <span class="no">PSDs</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicity.html">getPeriodicity</a></span>(
-    <span class="no">ce11_proms</span>,
+    <span class="no">ce11_TSSs</span><span class="kw">[[</span><span class="st">'Ubiq.'</span>]],
     <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'ce11'</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
-    <span class="kw">BPPARAM</span> <span class="kw">=</span> <span class="kw pkg">BiocParallel</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/SnowParam-class.html">SnowParam</a></span>(<span class="kw">workers</span> <span class="kw">=</span> <span class="fl">4</span>)
+    <span class="kw">BPPARAM</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/setUpBPPARAM.html">setUpBPPARAM</a></span>(<span class="fl">4</span>)
 )
 <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/plotPeriodicityResults.html">plotPeriodicityResults</a></span>(<span class="no">PSDs</span>)</pre></div>
+</div>
+<div id="getfpi-function" class="section level3">
+<h3 class="hasAnchor">
+<a href="#getfpi-function" class="anchor"></a><code>getFPI()</code> function</h3>
+<div class="sourceCode" id="cb6"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce11_TSSs</span>)
+<span class="no">FPI</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/getFPI.html">getFPI</a></span>(
+    <span class="no">ce11_TSSs</span><span class="kw">[[</span><span class="st">'Ubiq.'</span>]],
+    <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'ce11'</span>,
+    <span class="kw">period</span> <span class="kw">=</span> <span class="fl">10</span>,
+    <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
+    <span class="kw">cores_shuffling</span> <span class="kw">=</span> <span class="fl">10</span>,
+    <span class="kw">cores_computing</span> <span class="kw">=</span> <span class="fl">8</span>,
+    <span class="kw">n_shuffling</span> <span class="kw">=</span> <span class="fl">10</span>
+)
+<span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/plotFPI.html">plotFPI</a></span>(<span class="no">FPI</span>)</pre></div>
 </div>
 <div id="getperiodicitytrack-function" class="section level3">
 <h3 class="hasAnchor">
 <a href="#getperiodicitytrack-function" class="anchor"></a><code>getPeriodicityTrack()</code> function</h3>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="no">WW_10bp</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicityTrack.html">getPeriodicityTrack</a></span>(
+<div class="sourceCode" id="cb7"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce11_proms</span>)
+<span class="no">WW_10bp</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicityTrack.html">getPeriodicityTrack</a></span>(
     <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'ce11'</span>,
     <span class="kw">granges</span> <span class="kw">=</span> <span class="no">ce11_proms</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'WW'</span>,
     <span class="kw">period</span> <span class="kw">=</span> <span class="fl">10</span>,
     <span class="kw">bw_file</span> <span class="kw">=</span> <span class="st">'WW-10-bp-periodicity_over-proms.bw'</span>,
-    <span class="kw">BPPARAM</span> <span class="kw">=</span> <span class="kw pkg">BiocParallel</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/SnowParam-class.html">SnowParam</a></span>(<span class="kw">workers</span> <span class="kw">=</span> <span class="fl">12</span>)
+    <span class="kw">BPPARAM</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/setUpBPPARAM.html">setUpBPPARAM</a></span>(<span class="fl">12</span>)
 )</pre></div>
-</div>
-<div id="getfpi-function" class="section level3">
-<h3 class="hasAnchor">
-<a href="#getfpi-function" class="anchor"></a><code>getFPI()</code> function</h3>
-<pre class="{r}"><code>ce_seq &lt;- Biostrings::getSeq(
-    BSgenome.Celegans.UCSC.ce11::BSgenome.Celegans.UCSC.ce11
-)
-FPI &lt;- getFPI(
-    ce_seq[ce11_proms], 
-    period = 10,
-    motif = 'TT', 
-    cores_shuffling = 10, 
-    n_shuffling = 10
-)
-plotFPI(FPI)</code></pre>
-<p><strong>Warning</strong>: It is recommended to run this command across many processors using BiocParallel. This command typically takes one day to produce a periodicity track over 15,000 GRanges of 150 bp (with default parameters) using <code>BPPARAM = BiocParallel::SnowParam(workers = 12)</code>. It is highly recommended to run this command in a new <code>screen</code> session.</p>
+<p><strong>Warning</strong>: It is recommended to run this command across many processors using BiocParallel. This command typically takes one day to produce a periodicity track over 15,000 GRanges of 150 bp (with default parameters) using <code>BPPARAM = setUpBPPARAM(12)</code>. It is highly recommended to run this command in a new <code>screen</code> session.</p>
 </div>
 </div>
 <div id="contributions" class="section level2">
@@ -206,6 +205,12 @@ plotFPI(FPI)</code></pre>
 </li>
 <li>Report a bug at <br><a href="https://github.com/js2264/periodicDNA/issues">https://​github.com/​js2264/​periodicDNA/​issues</a>
 </li>
+<li>Contact the author at at <br><a href="https://js2264.github.io/">https://​js2264.github.io/​</a>
+</li>
+<li>Browse source code at at <br><a href="https://github.com/js2264/periodicDNA/">https://​github.com/​js2264/​periodicDNA/​</a>
+</li>
+<li>Read vignette at at <br><a href="https://github.com/js2264/periodicDNA/blob/master/vignettes/periodicDNA.Rmd">https://​github.com/​js2264/​periodicDNA/​blob/​master/​vignettes/​periodicDNA.Rmd</a>
+</li>
 </ul>
 </div>
 <div class="license">
@@ -219,7 +224,8 @@ plotFPI(FPI)</code></pre>
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Jacques Serizay <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-4295-0624" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>
+<a href="https://js2264.github.io/">Jacques Serizay</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-4295-0624" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
 
@@ -238,7 +244,7 @@ plotFPI(FPI)</code></pre>
 
 
       <footer><div class="copyright">
-  <p>Developed by Jacques Serizay.</p>
+  <p>Developed by <a href="https://js2264.github.io/">Jacques Serizay</a>.</p>
 </div>
 
 <div class="pkgdown">

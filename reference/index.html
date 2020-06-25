@@ -19,8 +19,8 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
@@ -147,7 +147,7 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
+          <h2 id="section-main-functions" class="hasAnchor"><a href="#section-main-functions" class="anchor"></a>Main functions</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
@@ -159,111 +159,9 @@
       <tr>
         
         <td>
-          <p><code><a href="DNAStringSet2GRanges.html">DNAStringSet2GRanges()</a></code> </p>
+          <p><code><a href="getPeriodicity.html">getPeriodicity()</a></code> </p>
         </td>
-        <td><p>A function to generate a GRanges from a DNAStringSet</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="alignToTSS.html">alignToTSS()</a></code> </p>
-        </td>
-        <td><p>A function to re-align a GRanges object to TSSs</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="binWrapper.html">binWrapper()</a></code> </p>
-        </td>
-        <td><p>Internal function</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ce11_ATACseq.html">ce11_ATACseq</a></code> </p>
-        </td>
-        <td><p>ce11_ATACseq</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ce11_TSSs.html">ce11_TSSs</a></code> </p>
-        </td>
-        <td><p>ce11_TSSs</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ce11_WW_10bp.html">ce11_WW_10bp</a></code> </p>
-        </td>
-        <td><p>ce11_WW_10bp</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ce11_all_REs.html">ce11_all_REs</a></code> </p>
-        </td>
-        <td><p>ce11_all_REs</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ce11_proms.html">ce11_proms</a></code> </p>
-        </td>
-        <td><p>ce11_proms</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ce11_proms_seqs.html">ce11_proms_seqs</a></code> </p>
-        </td>
-        <td><p>ce11_proms_seqs</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="char2BSgenome.html">char2BSgenome()</a></code> </p>
-        </td>
-        <td><p>A function to get the BSgenome from genome ID</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="chunkWrapper.html">chunkWrapper()</a></code> </p>
-        </td>
-        <td><p>Internal function</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="cleanUpDirectory.html">cleanUpDirectory()</a></code> </p>
-        </td>
-        <td><p>Internal function</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="deconvolveBidirectionalPromoters.html">deconvolveBidirectionalPromoters()</a></code> </p>
-        </td>
-        <td><p>A function to duplicate bi-directional GRanges</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="getChunks.html">getChunks()</a></code> </p>
-        </td>
-        <td><p>Internal function</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="getCovMatrix.html">getCovMatrix()</a></code> </p>
-        </td>
-        <td><p>Internal function</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="getFPI.DNAStringSet.html">getFPI(<i>&lt;DNAStringSet&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>A function to compute fold power increase (FPI)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="getFPI.GRanges.html">getFPI(<i>&lt;GRanges&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>A function to compute fold power increase (FPI)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="getFPI.html">getFPI()</a></code> </p>
-        </td>
-        <td><p>A function to compute fold power increase (FPI)</p></td>
+        <td><p>A function to compute k-mer periodicity in sequence(s).</p></td>
       </tr><tr>
         
         <td>
@@ -285,46 +183,47 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="getPeriodicity.html">getPeriodicity()</a></code> </p>
-        </td>
-        <td><p>A function to compute k-mer periodicity in sequence(s).</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="getPeriodicityTrack.html">getPeriodicityTrack()</a></code> </p>
         </td>
         <td><p>Function to generate a k-mer periodicity track</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="na.remove.html">na.remove()</a></code> </p>
+          <p><code><a href="getFPI.DNAStringSet.html">getFPI(<i>&lt;DNAStringSet&gt;</i>)</a></code> </p>
         </td>
-        <td><p>A function to remove NAs from a vector</p></td>
+        <td><p>A function to compute fold power increase (FPI)</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="na.replace.html">na.replace()</a></code> </p>
+          <p><code><a href="getFPI.GRanges.html">getFPI(<i>&lt;GRanges&gt;</i>)</a></code> </p>
         </td>
-        <td><p>A function to replace NAs in a vector by a given value</p></td>
+        <td><p>A function to compute fold power increase (FPI)</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="namedListToLongFormat.html">namedListToLongFormat()</a></code> </p>
+          <p><code><a href="getFPI.html">getFPI()</a></code> </p>
         </td>
-        <td><p>A function to easily coerce a named list into a long data.frame</p></td>
+        <td><p>A function to compute fold power increase (FPI)</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="normalizeHistogram.html">normalizeHistogram()</a></code> </p>
+          <p><code><a href="getSignificantPeriods.html">getSignificantPeriods()</a></code> </p>
         </td>
-        <td><p>Internal function</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="partitionGenome.html">partitionGenome()</a></code> </p>
-        </td>
-        <td><p>Internal function</p></td>
-      </tr><tr>
+        <td><p>A function used to compute FPIs and associated p-values</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-plotting-functions" class="hasAnchor"><a href="#section-plotting-functions" class="anchor"></a>Plotting functions</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
         
         <td>
           <p><code><a href="plotAggregateCoverage.CompressedRleList.html">plotAggregateCoverage(<i>&lt;CompressedRleList&gt;</i>)</a></code> </p>
@@ -360,6 +259,31 @@
           <p><code><a href="plotPeriodicityResults.html">plotPeriodicityResults()</a></code> </p>
         </td>
         <td><p>Plot the output of getPeriodicity()</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-utilities" class="hasAnchor"><a href="#section-utilities" class="anchor"></a>Utilities</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="sampleGRanges.character.html">sampleGRanges(<i>&lt;character&gt;</i>)</a></code> <code><a href="sampleGRanges.character.html">sampleGenome()</a></code> </p>
+        </td>
+        <td><p>A function to sample GRanges from genome IDs</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="sampleGRanges.html">sampleGRanges()</a></code> </p>
+        </td>
+        <td><p>A function to sample GRanges from GRanges/DNAStringSet</p></td>
       </tr><tr>
         
         <td>
@@ -381,21 +305,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="sampleGRanges.html">sampleGRanges()</a></code> </p>
+          <p><code><a href="withSeq.html">withSeq()</a></code> </p>
         </td>
-        <td><p>A function to sample GRanges from GRanges/DNAStringSet</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sampleGRanges.character.html">sampleGRanges(<i>&lt;character&gt;</i>)</a></code> <code><a href="sampleGRanges.character.html">sampleGenome()</a></code> </p>
-        </td>
-        <td><p>A function to sample GRanges from genome IDs</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scaleBigWigs.html">scaleBigWigs()</a></code> </p>
-        </td>
-        <td><p>A function to z-score a bigWig track imported by rtracklayer.</p></td>
+        <td><p>A function to add sequence to an existing GRanges</p></td>
       </tr><tr>
         
         <td>
@@ -405,15 +317,33 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="significantPeriods.html">significantPeriods()</a></code> </p>
+          <p><code><a href="deconvolveBidirectionalPromoters.html">deconvolveBidirectionalPromoters()</a></code> </p>
         </td>
-        <td><p>Internal function</p></td>
+        <td><p>A function to duplicate bi-directional GRanges</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="smoothBigWig.html">smoothBigWig()</a></code> </p>
+          <p><code><a href="alignToTSS.html">alignToTSS()</a></code> </p>
         </td>
-        <td><p>Internal function</p></td>
+        <td><p>A function to re-align a GRanges object to TSSs</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="scaleBigWigs.html">scaleBigWigs()</a></code> </p>
+        </td>
+        <td><p>A function to z-score a bigWig track imported by rtracklayer.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="DNAStringSet2GRanges.html">DNAStringSet2GRanges()</a></code> </p>
+        </td>
+        <td><p>A function to generate a GRanges from a DNAStringSet</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="char2BSgenome.html">char2BSgenome()</a></code> </p>
+        </td>
+        <td><p>A function to get the BSgenome from genome ID</p></td>
       </tr><tr>
         
         <td>
@@ -424,9 +354,137 @@ at https://github.com/hrbrmstr/hrbrthemes/</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="withSeq.html">withSeq()</a></code> </p>
+          <p><code><a href="setUpBPPARAM.html">setUpBPPARAM()</a></code> </p>
         </td>
-        <td><p>A function to add sequence to an existing GRanges</p></td>
+        <td><p>A function to dynamically select MulticoreParam or SnowParam (if Windows)</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-data" class="hasAnchor"><a href="#section-data" class="anchor"></a>Data</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="ce11_all_REs.html">ce11_all_REs</a></code> </p>
+        </td>
+        <td><p>ce11_all_REs</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ce11_proms.html">ce11_proms</a></code> </p>
+        </td>
+        <td><p>ce11_proms</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ce11_proms_seqs.html">ce11_proms_seqs</a></code> </p>
+        </td>
+        <td><p>ce11_proms_seqs</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ce11_TSSs.html">ce11_TSSs</a></code> </p>
+        </td>
+        <td><p>ce11_TSSs</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ce11_WW_10bp.html">ce11_WW_10bp</a></code> </p>
+        </td>
+        <td><p>ce11_WW_10bp</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ce11_ATACseq.html">ce11_ATACseq</a></code> </p>
+        </td>
+        <td><p>ce11_ATACseq</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-internal-functions" class="hasAnchor"><a href="#section-internal-functions" class="anchor"></a>Internal functions</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="binWrapper.html">binWrapper()</a></code> </p>
+        </td>
+        <td><p>Internal function</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="chunkWrapper.html">chunkWrapper()</a></code> </p>
+        </td>
+        <td><p>Internal function</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="cleanUpDirectory.html">cleanUpDirectory()</a></code> </p>
+        </td>
+        <td><p>Internal function</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="getChunks.html">getChunks()</a></code> </p>
+        </td>
+        <td><p>Internal function</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="getCovMatrix.html">getCovMatrix()</a></code> </p>
+        </td>
+        <td><p>Internal function</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="na.remove.html">na.remove()</a></code> </p>
+        </td>
+        <td><p>A function to remove NAs from a vector</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="na.replace.html">na.replace()</a></code> </p>
+        </td>
+        <td><p>A function to replace NAs in a vector by a given value</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="namedListToLongFormat.html">namedListToLongFormat()</a></code> </p>
+        </td>
+        <td><p>A function to easily coerce a named list into a long data.frame</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="normalizeHistogram.html">normalizeHistogram()</a></code> </p>
+        </td>
+        <td><p>Internal function</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="partitionGenome.html">partitionGenome()</a></code> </p>
+        </td>
+        <td><p>Internal function</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="smoothBigWig.html">smoothBigWig()</a></code> </p>
+        </td>
+        <td><p>Internal function</p></td>
       </tr>
     </tbody>
     </table>
@@ -442,7 +500,7 @@ at https://github.com/hrbrmstr/hrbrthemes/</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jacques Serizay.</p>
+  <p>Developed by <a href='https://js2264.github.io/'>Jacques Serizay</a>.</p>
 </div>
 
 <div class="pkgdown">

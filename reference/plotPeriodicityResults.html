@@ -19,8 +19,8 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
@@ -194,19 +194,19 @@ constrained to the periods?</p></td>
     <p>list A list containing four ggplots</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_proms</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_TSSs</span>)
 <span class='no'>periodicity_result</span> <span class='kw'>&lt;-</span> <span class='fu'>getPeriodicity</span>(
-    <span class='no'>ce11_proms</span>[<span class='fl'>1</span>:<span class='fl'>100</span>],
+    <span class='no'>ce11_TSSs</span><span class='kw'>[[</span><span class='st'>'Ubiq.'</span>]][<span class='fl'>1</span>:<span class='fl'>100</span>],
     <span class='kw'>genome</span> <span class='kw'>=</span> <span class='st'>'ce11'</span>,
     <span class='kw'>motif</span> <span class='kw'>=</span> <span class='st'>'TT'</span>,
-    <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='kw pkg'>BiocParallel</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/BiocParallel/man/SnowParam-class.html'>SnowParam</a></span>(<span class='kw'>workers</span> <span class='kw'>=</span> <span class='fl'>1</span>)
-)</div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 16999 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing histogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the vector of distances.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>periodicity_result</span>$<span class='no'>PSD</span>)</div><div class='output co'>#&gt;    freq    period          PSD
-#&gt; 1 0.005 200.00000 4.469363e-06
-#&gt; 2 0.010 100.00000 1.183972e-06
-#&gt; 3 0.015  66.66667 8.793382e-07
-#&gt; 4 0.020  50.00000 5.467787e-07
-#&gt; 5 0.025  40.00000 1.770289e-07
-#&gt; 6 0.030  33.33333 1.548420e-06</div><div class='input'><span class='fu'>plotPeriodicityResults</span>(<span class='no'>periodicity_result</span>)</div><div class='img'><img src='plotPeriodicityResults-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotPeriodicityResults</span>(<span class='no'>periodicity_result</span>, <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fl'>150</span>)</div><div class='img'><img src='plotPeriodicityResults-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotPeriodicityResults</span>(
+    <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>setUpBPPARAM</span>(<span class='fl'>1</span>)
+)</div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 822536 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing histogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the vector of distances.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>periodicity_result</span>$<span class='no'>PSD</span>)</div><div class='output co'>#&gt;    freq    period          PSD
+#&gt; 1 0.005 200.00000 1.510814e-08
+#&gt; 2 0.010 100.00000 1.624735e-09
+#&gt; 3 0.015  66.66667 2.195991e-09
+#&gt; 4 0.020  50.00000 2.865971e-09
+#&gt; 5 0.025  40.00000 1.184211e-09
+#&gt; 6 0.030  33.33333 5.121531e-09</div><div class='input'><span class='fu'>plotPeriodicityResults</span>(<span class='no'>periodicity_result</span>)</div><div class='img'><img src='plotPeriodicityResults-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotPeriodicityResults</span>(<span class='no'>periodicity_result</span>, <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fl'>150</span>)</div><div class='img'><img src='plotPeriodicityResults-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotPeriodicityResults</span>(
     <span class='no'>periodicity_result</span>, <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fl'>150</span>, <span class='kw'>filter_periods</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</div><div class='img'><img src='plotPeriodicityResults-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotPeriodicityResults</span>(
     <span class='no'>periodicity_result</span>, <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fl'>150</span>, <span class='kw'>facet_control</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
@@ -222,7 +222,7 @@ constrained to the periods?</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jacques Serizay.</p>
+  <p>Developed by <a href='https://js2264.github.io/'>Jacques Serizay</a>.</p>
 </div>
 
 <div class="pkgdown">
