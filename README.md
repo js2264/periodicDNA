@@ -61,14 +61,14 @@ The three main user-level functions of periodicDNA are `getPeriodicity()`,
   (PSD) of a chosen k-mer (i.e. `TT`) in a set of sequences. The PSD 
   score at a given period indicates the strength of the k-mer at 
   this period. 
-* `getPeriodicityTrack()` can be used to generate linear tracks representing 
-  the periodicity strength of a given k-mer at a chosen period, over genomic
-  loci of interest. 
 * `getFPI()` is used to compute the Fold Power Increase, 
   a more sophisticated metric derived from the PSD. 
   It was initially developed by Pich et al., Cell 2018. 
   It estimates the background periodicity of the k-mer 
   of interest in shuffled sequences. 
+* `getPeriodicityTrack()` can be used to generate linear tracks representing 
+  the periodicity strength of a given k-mer at a chosen period, over genomic
+  loci of interest. 
 
 ### `getPeriodicity()` function
 
@@ -78,30 +78,10 @@ PSDs <- getPeriodicity(
     ce11_TSSs[['Ubiq.']],
     genome = 'ce11',
     motif = 'TT', 
-    BPPARAM = BiocParallel::SnowParam(workers = 4)
+    BPPARAM = setUpBPPARAM(4)
 )
 plotPeriodicityResults(PSDs)
 ```
-
-### `getPeriodicityTrack()` function
-
-```r
-data(ce11_proms)
-WW_10bp <- getPeriodicityTrack(
-    genome = 'ce11',
-    granges = ce11_proms, 
-    motif = 'WW',
-    period = 10,
-    bw_file = 'WW-10-bp-periodicity_over-proms.bw', 
-    BPPARAM = BiocParallel::SnowParam(workers = 12)
-)
-```
-
-**Warning**: It is recommended to run this command across many processors 
-using BiocParallel. This command typically takes one day to produce 
-a periodicity track over 15,000 GRanges of 150 bp (with default parameters) 
-using `BPPARAM = BiocParallel::SnowParam(workers = 12)`. 
-It is highly recommended to run this command in a new `screen` session.
 
 ### `getFPI()` function
 
@@ -118,6 +98,26 @@ FPI <- getFPI(
 )
 plotFPI(FPI)
 ```
+
+### `getPeriodicityTrack()` function
+
+```r
+data(ce11_proms)
+WW_10bp <- getPeriodicityTrack(
+    genome = 'ce11',
+    granges = ce11_proms, 
+    motif = 'WW',
+    period = 10,
+    bw_file = 'WW-10-bp-periodicity_over-proms.bw', 
+    BPPARAM = setUpBPPARAM(12)
+)
+```
+
+**Warning**: It is recommended to run this command across many processors 
+using BiocParallel. This command typically takes one day to produce 
+a periodicity track over 15,000 GRanges of 150 bp (with default parameters) 
+using `BPPARAM = setUpBPPARAM(12)`. 
+It is highly recommended to run this command in a new `screen` session.
 
 ## Contributions
 Code contributions, bug reports, fixes and feature requests are most welcome.

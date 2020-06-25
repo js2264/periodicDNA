@@ -70,7 +70,7 @@ getPeriodicity <- function(x, ...) {
 #' when looking at periodicity in different genomes, since different
 #' genomes will have different GC percent
 #' @param doZscore Boolean should the normalized dampened signal be z-scored?
-#' @param shuffling Integer, how many times should the sequences be shuffled?
+#' @param n_shuffling Integer, how many times should the sequences be shuffled?
 #' @param ... additional parameters
 #' @return A list containing the results of getPeriodicity function.  
 #' \itemize{
@@ -112,13 +112,13 @@ getPeriodicity.DNAStringSet <- function(
     verbose = TRUE,
     sample = 0,
     doZscore = FALSE,
-    shuffling = 0,
+    n_shuffling = 0,
     ...
 )
 {
     seqs <- x
     # Get pairwise distances --------------------------------------------------
-    if (verbose & shuffling == 0) message("- Mapping k-mers.")
+    if (verbose & n_shuffling == 0) message("- Mapping k-mers.")
     dists <- BiocParallel::bplapply(seq_len(length(seqs)), function(k) {
         Biostrings::vmatchPattern(
             motif, 
@@ -151,19 +151,19 @@ getPeriodicity.DNAStringSet <- function(
             motif = motif
         ))
     }
-    if (verbose & shuffling == 0) 
+    if (verbose & n_shuffling == 0) 
         message("- ", length(dists), " pairwise distances measured.")
     if (sample < length(dists) & sample > 0) {
         if (verbose) message("- Subsampling ", sample, " pairwise distances.")
         dists <- sample(dists, sample)
     }
-    if (verbose & shuffling == 0) 
+    if (verbose & n_shuffling == 0) 
         message("- Calculating pairwise distance distribution.")
     hist <- hist(dists, breaks = seq(1, max_dist+1, 1), plot = FALSE)$counts
     hist <- zoo::rollmean(
         hist, k = roll, na.pad = TRUE, align = 'center'
     )
-    if (verbose & shuffling == 0) message("- Normalizing histogram vector.")
+    if (verbose & n_shuffling == 0) message("- Normalizing histogram vector.")
     if (length(hist) > 10) {
         norm_hist <- normalizeHistogram(hist, roll = 1, doZscore)
     } 
@@ -198,7 +198,7 @@ getPeriodicity.DNAStringSet <- function(
         motif = motif
     )
     # Shuffle the sequences using getFPI --------------------------------------
-    if (shuffling > 0) {
+    if (n_shuffling > 0) {
         FPI <- getFPI(
             x = seqs, 
             motif = motif,
@@ -208,8 +208,7 @@ getPeriodicity.DNAStringSet <- function(
             sample = sample,
             doZscore = doZscore,
             period = 10, 
-            n_shuffling = shuffling, 
-            shuffling = 0,
+            n_shuffling = n_shuffling, 
             ...
         )
         l$FPI <- FPI

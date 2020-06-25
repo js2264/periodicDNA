@@ -68,7 +68,7 @@ test_that("FPI several organisms", {
             getFPI(
                 rand_regions_1[[genome]]$seq,
                 motif = 'TT', 
-                BPPARAM = BiocParallel::SnowParam(workers = 20), 
+                BPPARAM = setUpBPPARAM(20), 
                 n_shuffling = 20
             )
         })
@@ -98,7 +98,7 @@ test_that("FPI TSSs of several organisms", {
             r1 <- getFPI(
                 genome_seqs[[genome]][TSSs[[genome]][['lowCV']]],
                 motif = 'WW', 
-                BPPARAM = BiocParallel::SnowParam(workers = 20), 
+                BPPARAM = setUpBPPARAM(20), 
                 n_shuffling = 20, 
                 range_spectrum = 1:75
             )
@@ -106,7 +106,7 @@ test_that("FPI TSSs of several organisms", {
             r2 <- getFPI(
                 genome_seqs[[genome]][TSSs[[genome]][['highCV']]],
                 motif = 'WW', 
-                BPPARAM = BiocParallel::SnowParam(workers = 20), 
+                BPPARAM = setUpBPPARAM(20), 
                 n_shuffling = 20, 
                 range_spectrum = 1:75
             )

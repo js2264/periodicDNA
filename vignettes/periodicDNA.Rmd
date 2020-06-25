@@ -20,7 +20,7 @@ suppressPackageStartupMessages({
     library(magrittr)
     library(periodicDNA)
 })
-BiocParallel::register(BiocParallel::SnowParam(workers = 1), default = TRUE)
+BiocParallel::register(setUpBPPARAM(1), default = TRUE)
 ```
 
 ### Dinucleotide periodicity over a set of Genomic Ranges
@@ -35,14 +35,12 @@ library(ggplot2)
 library(magrittr)
 library(periodicDNA)
 #
-data(ce11_proms)
+data(ce11_TSSs)
 periodicity_result <- getPeriodicity(
-    ce11_proms[ce11_proms$which.tissues == 'Ubiq.'][1:500] %>% 
-        alignToTSS(upstream = 30, downstream = 200),
+    ce11_TSSs[['Ubiq.']][1:500],
     genome = 'ce11',
     motif = 'TT', 
-    BPPARAM = BiocParallel::SnowParam(workers = 1), 
-    shuffling = 3
+    BPPARAM = setUpBPPARAM(1)
 )
 ```
 
@@ -76,8 +74,44 @@ data(ce11_proms_seqs)
 periodicity_result <- getPeriodicity(
     ce11_proms_seqs,
     motif = 'TT', 
-    BPPARAM = BiocParallel::SnowParam(workers = 1)
+    BPPARAM = setUpBPPARAM(1)
 )
+```
+
+### Fold Power Increase
+
+Fold Power Increase (FPI) is a metric introduced by Pich et al., 
+Cell 2018. It can be computed using the `getFPI()` function. In the 
+following example, the FPI of TT dinucleotides at a 10-bp periodicity is 
+computed over 200-bp long sequences randomly sampled in ce11 genome. 
+
+```{r, eval = TRUE}
+set.seed(52) 
+yeast_seqs <- sampleGenome('sacCer3', n = 1000, w = 800)
+FPI <- getFPI(
+    yeast_seqs, 
+    motif = 'WW', 
+    n_shuffling = 5
+)
+getSignificantPeriods(FPI) %>% head(30)
+plotFPI(FPI)
+```
+
+**Important:**  
+Note that `getFPI()` can also be internally ran when using `getPeriodicity()` 
+with the `n_shuffling` argument. 
+
+```{r, eval = TRUE}
+data(ce11_TSSs)
+periodicity_result <- getPeriodicity(
+    ce11_TSSs[['Ubiq.']][1:500],
+    genome = 'ce11',
+    motif = 'TT', 
+    BPPARAM = setUpBPPARAM(1), 
+    n_shuffling = 5
+)
+getSignificantPeriods(periodicity_result) %>% head(30)
+plotPeriodicityResults(periodicity_result)
 ```
 
 ### Track of periodicity over a set of Genomic Ranges
@@ -93,7 +127,7 @@ WW_10bp_track <- getPeriodicityTrack(
     granges = ce11_proms, 
     motif = 'WW',
     period = 10,
-    BPPARAM = BiocParallel::SnowParam(workers = 1),
+    BPPARAM = setUpBPPARAM(1),
     bw_file = 'WW-10-bp-periodicity_over-proms.bw'
 )
 ```
@@ -116,25 +150,6 @@ plotAggregateCoverage(
 knitr::include_graphics(
     "https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/TT-10bp-periodicity_tissue-spe-TSSs.png"
 )
-```
-
-### Fold Power Increase
-
-Fold Power Increase (FPI) is a metric introduced by Pich et al., 
-Cell 2018. It can be computed using the `getFPI()` function. In the 
-following example, the FPI of TT dinucleotides at a 10-bp periodicity is 
-computed over 200-bp long sequences randomly sampled in ce11 genome. 
-
-```{r, eval = TRUE}
-set.seed(51) 
-yeast_seqs <- sampleGenome('sacCer3', n = 1000, w = 800)
-FPI <- getFPI(
-    yeast_seqs, 
-    motif = 'WW', 
-    n_shuffling = 3, 
-    cores_shuffling = 1
-)
-plotFPI(FPI)
 ```
 
 ## Session info

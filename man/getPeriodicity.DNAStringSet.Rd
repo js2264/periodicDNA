@@ -13,7 +13,7 @@
   verbose = TRUE,
   sample = 0,
   doZscore = FALSE,
-  shuffling = 0,
+  n_shuffling = 0,
   ...
 )
 }
@@ -41,7 +41,7 @@ genomes will have different GC percent}
 
 \item{doZscore}{Boolean should the normalized dampened signal be z-scored?}
 
-\item{shuffling}{Integer, how many times should the sequences be shuffled?}
+\item{n_shuffling}{Integer, how many times should the sequences be shuffled?}
 
 \item{...}{additional parameters}
 }

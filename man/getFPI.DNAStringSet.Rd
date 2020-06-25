@@ -24,7 +24,7 @@
 \item{period}{integer, Period of interest}
 
 \item{order}{Integer, which order to take into consideration for shuffling
-(currently only 1st order is available)}
+(ushuffle python library must be installed for orders > 1)}
 
 \item{n_shuffling}{integer, Number of shuffling}
 
@@ -54,7 +54,7 @@ by the n_shuffling argument.
 }
 \examples{
 data(ce11_proms_seqs)
-BiocParallel::register(BiocParallel::SnowParam(workers = 1))
+BiocParallel::register(setUpBPPARAM(1))
 fpi <- getFPI(
     ce11_proms_seqs[1:10], 
     motif = 'TT'

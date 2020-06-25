@@ -13,12 +13,12 @@ test_that("getPeriodicityTrack and plotAggregateCoverage works", {
             step_size = 20,
             smooth_track = 1,
             bw_file = 'TT-10-bp-periodicity_over-proms.bw', 
-            MulticoreParam(workers = 1)
+            setUpBPPARAM(1)
         )
         scaled_track <- scaleBigWigs(list('test' = track))
         scaled_track2 <- scaleBigWigs(track)
         subtrack <- RleList('chrI' = scaled_track2[[1]][1:12000])
-        subtrack <- smoothBigWig(subtrack, k = 10, MulticoreParam(workers = 1))
+        subtrack <- smoothBigWig(subtrack, k = 10, setUpBPPARAM(1))
         vec <- na.replace(scaled_track, 0)
         vec <- na.remove(scaled_track)
         p <- plotAggregateCoverage(

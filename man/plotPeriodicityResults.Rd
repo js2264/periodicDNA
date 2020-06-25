@@ -43,7 +43,7 @@ periodicity_result <- getPeriodicity(
     ce11_TSSs[['Ubiq.']][1:100],
     genome = 'ce11',
     motif = 'TT', 
-    BPPARAM = BiocParallel::SnowParam(workers = 1)
+    BPPARAM = setUpBPPARAM(1)
 )
 head(periodicity_result$PSD)
 plotPeriodicityResults(periodicity_result)

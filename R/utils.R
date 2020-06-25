@@ -457,3 +457,24 @@ char2BSgenome <- function(ID) {
     )
     return(genome)
 }
+
+#' A function to dynamically select MulticoreParam or SnowParam (if Windows)
+#'
+#' @param nproc number of processors
+#' @return A BPPARAM object
+#' 
+#' @import BiocParallel
+#' @export
+#' 
+#' @examples
+#' BPPARAM <- setUpBPPARAM(1)
+
+setUpBPPARAM <- function(nproc = 1) {
+    if (.Platform$OS.type == "windows") {
+        # windows doesn't support multicore, using snow instead
+        result <- BiocParallel::SnowParam(workers = nproc)
+    } else {
+        result <- BiocParallel::MulticoreParam(workers = nproc)
+    }
+    return(result)
+}

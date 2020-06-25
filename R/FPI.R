@@ -49,7 +49,7 @@ getFPI <- function(x, ...) {
 #' @param motif character, k-mer of interest
 #' @param period integer, Period of interest
 #' @param order Integer, which order to take into consideration for shuffling
-#' (currently only 1st order is available)
+#' (ushuffle python library must be installed for orders > 1)
 #' @param n_shuffling integer, Number of shuffling
 #' @param cores_shuffling integer, Number of cores used for shuffling
 #' @param cores_computing integer, split the workload over several processors 
@@ -66,7 +66,7 @@ getFPI <- function(x, ...) {
 #' 
 #' @examples
 #' data(ce11_proms_seqs)
-#' BiocParallel::register(BiocParallel::SnowParam(workers = 1))
+#' BiocParallel::register(setUpBPPARAM(1))
 #' fpi <- getFPI(
 #'     ce11_proms_seqs[1:10], 
 #'     motif = 'TT'
@@ -95,16 +95,15 @@ getFPI.DNAStringSet <- function(
     obs <- getPeriodicity(
         seqs, 
         motif = motif,
-        skip_shuffling = TRUE,
         verbose = verbose,
-        BPPARAM = SnowParam(workers = cores_computing),
+        BPPARAM = setUpBPPARAM(cores_computing),
         ...
     )
     obs_PSD <- obs$PSD$PSD[which.min(abs(1/obs$PSD$freq - period))]
     if (verbose) message('>> Measured PSD @ ', period, 'bp is: ', obs_PSD)
     # Shuffling sequences and re-computing ---------------------------
     l_shuff <- BiocParallel::bplapply(
-        BPPARAM = SnowParam(workers = cores_shuffling), 
+        BPPARAM = setUpBPPARAM(cores_shuffling), 
         seq_len(n_shuffling), 
         function(k) {
             if (verbose) message('- Shuffling ', k, '/', n_shuffling)
@@ -112,9 +111,8 @@ getFPI.DNAStringSet <- function(
             shuff <- getPeriodicity(
                 shuff_seqs, 
                 motif,
-                skip_shuffling = TRUE,
                 verbose = 0,
-                BPPARAM = SnowParam(workers = cores_computing),
+                BPPARAM = setUpBPPARAM(cores_computing),
                 ...
             )
             return(shuff)
@@ -218,29 +216,52 @@ getFPI.GRanges <- function(
     getFPI(seqs, ...)
 }
 
-#' Internal function
+#' A function used to compute FPIs and associated p-values
 #'
-#' @param fpi result of getFPI() function
-#' @param threshold Float, p-value used as significance threshold
-#' @return periods from the FPI list at which PSD are statistically higher 
-#' than those from shuffled sequences
+#' @param fpi result of getFPI() function or getPeriodicity() function with
+#' n_shuffling > 1
+#' @return A table showing FPI and p-value for each observed PSD value 
+#' 
 #' @importFrom stats t.test
 #' @importFrom stats p.adjust
+#' @export
+#' 
+#' @examples
+#' data(ce11_TSSs)
+#' fpi <- getFPI(
+#'     ce11_TSSs[['Ubiq.']][1:10], 
+#'     genome = 'ce11', 
+#'     motif = 'TT', 
+#'     cores_shuffling = 1
+#' )
+#' head(getSignificantPeriods(fpi))
 
-significantPeriods <- function(fpi, threshold = 0.0001) {
+getSignificantPeriods <- function(fpi) {
+    if (all(c("FPI", "dists") %in% names(fpi))) {
+        fpi <- fpi$FPI
+    }
+    freqs <- fpi$observed_spectra$PSD$freq
     obsPsds <- fpi$observed_spectra$PSD
     expPsds <- lapply(fpi$shuffled_spectra, '[[', 'PSD') %>% do.call(rbind, .)
     df <- data.frame(
-        freq = obsPsds$freq, 
-        period = 1/obsPsds$freq,
-        pval = stats::p.adjust(unlist(lapply(obsPsds$freq, function(freq) {
-            stats::t.test(
-                obsPsds$PSD[obsPsds$freq == freq], 
-                expPsds$PSD[expPsds$freq == freq],
-                var.equal = TRUE
-            )$p.value
-        })), "BH")
+        Freq = obsPsds$freq, 
+        Period = 1/obsPsds$freq,
+        ObservedPSD = formatC(obsPsds$PSD, format = "e", digits = 2),
+        FPI = unlist(lapply(obsPsds$freq, function(freq) {
+            obs_PSD <- obsPsds$PSD[obsPsds$freq == freq]
+            l_shuff_PSD <- expPsds$PSD[expPsds$freq == freq]
+            (obs_PSD - median(l_shuff_PSD)) / median(l_shuff_PSD)
+        })), 
+        pval = formatC(
+            unlist(lapply(obsPsds$freq, function(freq) {
+                stats::p.adjust(stats::t.test(
+                    obsPsds$PSD[obsPsds$freq == freq], 
+                    expPsds$PSD[expPsds$freq == freq],
+                    var.equal = TRUE
+                )$p.value, "BH")
+            })), 
+             format = "e", digits = 2
+         )
     )
-    periods <- df$period[which(df$pval < threshold)]
-    return(periods)
+    return(df)
 }

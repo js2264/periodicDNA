@@ -6,8 +6,7 @@ test_that("getPeriodicity and plotPeriodicityResults works", {
         periodicity_result <- getPeriodicity(
             ce11_proms_seqs[[1]],
             motif = 'TT', 
-            verbose = TRUE, 
-            skip_shuffling = FALSE
+            verbose = TRUE
         )
         #
         data(ce11_proms)
@@ -43,7 +42,7 @@ test_that("getPeriodicity works with shuffling", {
             range_spectrum = 1:100,
             genome = 'ce11',
             motif = 'TT',
-            shuffling = 3, 
+            n_shuffling = 3, 
             doZscore = TRUE
         )
         list_plots <- plotPeriodicityResults(periodicity_result)
@@ -55,18 +54,22 @@ test_that("getPeriodicity + FPI Yeast", {
     skip('skip2')
     expect_equal({
         set.seed(52) 
+        ####
+        ####
+        #### getPeriodicity with shuffling
+        set.seed(52) 
         yeast_seqs <- sampleGenome('sacCer3', n = 1000, w = 800)
         yeast_PSDs <- getPeriodicity(
             yeast_seqs, 
             motif = 'WW', 
-            shuffling = 30, 
+            n_shuffling = 30, 
             cores_shuffling = 30
         )
         plots <- plotPeriodicityResults(yeast_PSDs, xlim = 150)
         ggsave('tmp.pdf', width = 12, height = 4)
         ####
         ####
-        ####
+        #### Order 1
         set.seed(52) 
         yeast_seqs <- sampleGenome('sacCer3', n = 1000, w = 800)
         FPI <- getFPI(
@@ -79,7 +82,7 @@ test_that("getPeriodicity + FPI Yeast", {
         ggsave('tmp2.pdf')
         ####
         ####
-        ####
+        #### Order 2
         set.seed(52) 
         yeast_seqs <- sampleGenome('sacCer3', n = 1000, w = 800)
         FPI <- getFPI(
@@ -142,7 +145,7 @@ test_that("getPeriodicity for sacCer3 random loci", {
         PSDs_yeast <- getPeriodicity(
             sacCer3_random_regions, 
             motif = 'WW', 
-            shuffling = 10, 
+            n_shuffling = 10, 
             cores_shuffling = 10
         )
         #
@@ -155,8 +158,7 @@ test_that("getPeriodicity for sacCer3 random loci", {
             g, 
             motif = 'WW', 
             period = 10, 
-            BPPARAM = SnowParam(workers = 12), 
-            skip_shuffling = FALSE
+            BPPARAM = setUpBPPARAM(12)
         )
         p <- plotPeriodicityResults(PSDs_yeast_1500, xlim = 150)
         ggsave('PSDs_yeast_WW_1500long.pdf', width = 32, height = 8, unit = 'cm')
@@ -169,8 +171,7 @@ test_that("getPeriodicity for sacCer3 random loci", {
             g_500, 
             motif = 'WW', 
             period = 10, 
-            BPPARAM = SnowParam(workers = 12), 
-            skip_shuffling = FALSE
+            BPPARAM = setUpBPPARAM(12)
         )
         p <- plotPeriodicityResults(PSDs_yeast_500, xlim = 150)
         ggsave('PSDs_yeast_WW_500long.pdf', width = 32, height = 8, unit = 'cm')
@@ -194,8 +195,7 @@ test_that("getPeriodicity for sacCer3 MNase", {
             genome = 'sacCer3',
             motif = 'TT', 
             period = 10, 
-            BPPARAM = SnowParam(workers = 20), 
-            skip_shuffling = FALSE, 
+            BPPARAM = setUpBPPARAM(20), 
             range_spectrum = 1:100
         )
         p <- plotPeriodicityResults(PSDs_yeast, xlim = 150)
@@ -265,15 +265,15 @@ test_that("getPeriodicity for ce11 proms/enhancers", {
             }
         ) %>% setNames(c('Ubiq.', 'Germline', 'Neurons', 'Muscle', 'Hypod.', 'Intest.'))
         library(BiocParallel)
-        register(MulticoreParam(workers = 3))
+        register(setUpBPPARAM(3))
         #
-        PSDs <- bplapply(BPPARAM = MulticoreParam(workers = 6), names(list_params), function(TISSUE) {
-            list_res <- bplapply(BPPARAM = MulticoreParam(workers = 3), list_params[[TISSUE]], function(seqs) {
+        PSDs <- bplapply(BPPARAM = setUpBPPARAM(6), names(list_params), function(TISSUE) {
+            list_res <- bplapply(BPPARAM = setUpBPPARAM(3), list_params[[TISSUE]], function(seqs) {
                 res <- getPeriodicity(
                     seqs, 
                     motif = 'TT', 
                     period = 10,
-                    BPPARAM = MulticoreParam(workers = 4), 
+                    BPPARAM = setUpBPPARAM(4), 
                     range_spectrum = 1:100
                 )
                 res <- res$PSD$PSD[which.min(abs(res$PSD$period - 10))]
@@ -314,15 +314,15 @@ test_that("getPeriodicity for ce11 proms/enhancers", {
             'PSDs_ce11_TT_proms-enhs_2.pdf', width = 21, height = 12, unit = 'cm'
         )
         #
-        FPIs <- bplapply(BPPARAM = MulticoreParam(workers = 6), names(list_params), function(TISSUE) {
-            list_res <- bplapply(BPPARAM = MulticoreParam(workers = 6), list_params[[TISSUE]], function(seqs) {
+        FPIs <- bplapply(BPPARAM = setUpBPPARAM(6), names(list_params), function(TISSUE) {
+            list_res <- bplapply(BPPARAM = setUpBPPARAM(6), list_params[[TISSUE]], function(seqs) {
                 res <- getFPI(
                     seqs, 
                     genome = 'ce11', 
                     motif = 'TT', 
                     period = 10, 
                     n_shuffling = 16, 
-                    BPPARAM = MulticoreParam(workers = 1)
+                    BPPARAM = setUpBPPARAM(1)
                 )$FPI
             })
             df <- data.frame(
