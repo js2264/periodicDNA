@@ -131,11 +131,10 @@ yeast_seqs <- sampleGenome('sacCer3', n = 1000, w = 800)
 FPI <- getFPI(
     yeast_seqs, 
     motif = 'WW', 
-    n_shuffling = 20, 
-    cores_shuffling = 20
+    n_shuffling = 3, 
+    cores_shuffling = 1
 )
-p <- plotFPI(FPI)
-ggsave('tmp2.pdf')
+plotFPI(FPI)
 ```
 
 ## Session info
