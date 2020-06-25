@@ -1,11 +1,9 @@
 docs/
 inst/doc
 data-raw/
-pkgdown/
 gitdiff.html
 *.bw
 *.pdf
 *.bed
 CONDUCT
 TODO
-codecov.yml
