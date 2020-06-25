@@ -126,19 +126,16 @@ following example, the FPI of TT dinucleotides at a 10-bp periodicity is
 computed over 200-bp long sequences randomly sampled in ce11 genome. 
 
 ```{r, eval = TRUE}
-set.seed(42)
-ce11_random_regions <- sampleGenome(
-    'ce11',
-    n = 200, w = 500
-)
-fpi <- getFPI(
-    ce11_random_regions$seq, 
+set.seed(51) 
+yeast_seqs <- sampleGenome('sacCer3', n = 1000, w = 800)
+FPI <- getFPI(
+    yeast_seqs, 
     motif = 'WW', 
-    cores_computing = 1, 
-    cores_shuffling = 1, 
-    n_shuffling = 10
+    n_shuffling = 20, 
+    cores_shuffling = 20
 )
-plotFPI(fpi)
+p <- plotFPI(FPI)
+ggsave('tmp2.pdf')
 ```
 
 ## Session info

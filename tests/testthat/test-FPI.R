@@ -38,16 +38,16 @@ test_that("FPI order 2 works", {
     }, TRUE)
 })
 
-test_that("FPI order test", {
+test_that("FPI test", {
     skip('skip2')
     expect_equal({
         data(ce11_TSSs)
         fpi <- getFPI(
-            ce11_TSSs[['Ubiq.']][1:1000],
+            ce11_TSSs[['Ubiq.']][1:500],
             genome = 'ce11', 
             motif = 'TT', 
-            n_shuffling = 100,
-            cores_shuffling = 1
+            n_shuffling = 1000,
+            cores_shuffling = 100
         )
         p <- plotFPI(fpi)
         TRUE

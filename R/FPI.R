@@ -60,6 +60,7 @@ getFPI <- function(x, ...) {
 #' 
 #' @import GenomicRanges
 #' @import BiocParallel
+#' @importFrom parallel mclapply
 #' @import IRanges
 #' @export
 #' 
@@ -224,6 +225,7 @@ getFPI.GRanges <- function(
 #' @return periods from the FPI list at which PSD are statistically higher 
 #' than those from shuffled sequences
 #' @importFrom stats t.test
+#' @importFrom stats p.adjust
 
 significantPeriods <- function(fpi, threshold = 0.0001) {
     obsPsds <- fpi$observed_spectra$PSD
@@ -231,13 +233,13 @@ significantPeriods <- function(fpi, threshold = 0.0001) {
     df <- data.frame(
         freq = obsPsds$freq, 
         period = 1/obsPsds$freq,
-        pval = unlist(lapply(obsPsds$freq, function(freq) {
+        pval = stats::p.adjust(unlist(lapply(obsPsds$freq, function(freq) {
             stats::t.test(
                 obsPsds$PSD[obsPsds$freq == freq], 
                 expPsds$PSD[expPsds$freq == freq],
                 var.equal = TRUE
             )$p.value
-        }))
+        })), "BH")
     )
     periods <- df$period[which(df$pval < threshold)]
     return(periods)

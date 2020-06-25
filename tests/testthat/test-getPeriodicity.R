@@ -51,6 +51,49 @@ test_that("getPeriodicity works with shuffling", {
     }, TRUE)
 })
 
+test_that("getPeriodicity + FPI Yeast", {
+    skip('skip2')
+    expect_equal({
+        set.seed(52) 
+        yeast_seqs <- sampleGenome('sacCer3', n = 1000, w = 800)
+        yeast_PSDs <- getPeriodicity(
+            yeast_seqs, 
+            motif = 'WW', 
+            shuffling = 30, 
+            cores_shuffling = 30
+        )
+        plots <- plotPeriodicityResults(yeast_PSDs, xlim = 150)
+        ggsave('tmp.pdf', width = 12, height = 4)
+        ####
+        ####
+        ####
+        set.seed(52) 
+        yeast_seqs <- sampleGenome('sacCer3', n = 1000, w = 800)
+        FPI <- getFPI(
+            yeast_seqs, 
+            motif = 'WW', 
+            n_shuffling = 30, 
+            cores_shuffling = 30
+        )
+        p <- plotFPI(FPI)
+        ggsave('tmp2.pdf')
+        ####
+        ####
+        ####
+        set.seed(52) 
+        yeast_seqs <- sampleGenome('sacCer3', n = 1000, w = 800)
+        FPI <- getFPI(
+            yeast_seqs, 
+            motif = 'WW', 
+            n_shuffling = 10, 
+            cores_shuffling = 1, 
+            order = 2
+        )
+        p <- plotFPI(FPI)
+        ggsave('tmp3.pdf')
+    }, TRUE)
+})
+
 test_that("getPeriodicity on lists of proms and mutlitple dinucleotides", {
     skip('skip')
     expect_equal({

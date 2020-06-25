@@ -239,18 +239,18 @@ plotFPI <- function(
             col = 'grey50',
             alpha = 0.5, 
         ) +
-        ggplot2::geom_point(
-            data = df[df$type == 'shuffled',], 
-            ggplot2::aes(
-                x = x, 
-                y = y
-            ), 
-            alpha = 0.3, 
-            col = 'grey50', 
-            fill = 'grey50', 
-            shape = 21, 
-            size = 1
-        ) +
+        # ggplot2::geom_point(
+        #     data = df[df$type == 'shuffled',], 
+        #     ggplot2::aes(
+        #         x = x, 
+        #         y = y
+        #     ), 
+        #     alpha = 0.3, 
+        #     col = 'grey50', 
+        #     fill = 'grey50', 
+        #     shape = 21, 
+        #     size = 1
+        # ) +
         ggplot2::geom_smooth(
             data = df[df$type == 'observed',],
             aes(x = x, y = y, group = group), 
@@ -265,7 +265,7 @@ plotFPI <- function(
                 x = x, 
                 y = y,
             ), 
-            alpha = 0.7, 
+            alpha = 1,
             col = 'black', 
             fill = 'white', 
             shape = 21, 
@@ -277,7 +277,7 @@ plotFPI <- function(
                 x = x, 
                 y = y,
             ), 
-            alpha = 0.7, 
+            alpha = 1,
             col = 'black', 
             fill = 'red', 
             shape = 21, 
