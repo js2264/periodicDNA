@@ -50,7 +50,7 @@ getPeriodicityTrack <- function(
     granges,
     motif = 'WW',
     period = 10,
-    BPPARAM = bpparam(),
+    BPPARAM = setUpBPPARAM(1),
     extension = 1000,
     window_size = 100,
     step_size = 2,

@@ -109,7 +109,7 @@ getPeriodicity.DNAStringSet <- function(
     x,
     motif = 'WW',
     range_spectrum = seq(1, 200),
-    BPPARAM = bpparam(),
+    BPPARAM = setUpBPPARAM(1),
     roll = 3,
     verbose = TRUE,
     sample = 0,
@@ -226,7 +226,8 @@ getPeriodicity.DNAStringSet <- function(
             spectra = FPI$observed_spectra$spectra, 
             PSD = FPI$observed_spectra$PSD,
             motif = FPI$observed_spectra$motif, 
-            FPI = FPI
+            FPI = FPI, 
+            significantPeriods = FPI$significantPeriods
         )
     }
     # Return results ----------------------------------------------------------

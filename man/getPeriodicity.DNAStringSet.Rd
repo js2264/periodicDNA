@@ -8,7 +8,7 @@
   x,
   motif = "WW",
   range_spectrum = seq(1, 200),
-  BPPARAM = bpparam(),
+  BPPARAM = setUpBPPARAM(1),
   roll = 3,
   verbose = TRUE,
   sample = 0,
