@@ -278,11 +278,13 @@ test_that("getPeriodicity for ce11 proms/enhancers", {
                 )
                 list(
                     psd = res$PSD$PSD[which.min(abs(res$PSD$period - 10))], 
+                    pvalue = getSignificantPeriods(res$FPI) %>% filter(Period == 10) %>% select(pval) %>% '[['(1),
                     fpi = res$FPI$FPI
                 )
             })
             df <- data.frame(
                 PSD = unlist(lapply(list_res, '[[', 'psd')), 
+                pval = unlist(lapply(list_res, '[[', 'pvalue')), 
                 FPI = unlist(lapply(list_res, '[[', 'fpi')), 
                 Loc = c('proms_center', 'proms_flanking', 'proms_distal', 'proms_full', 'enhs_center', 'enhs_flanking', 'enhs_extended', 'enhs_full'), 
                 Class = c('Core', 'Flanking', 'Distal', 'Full', 'Core', 'Flanking', 'Distal', 'Full'), 

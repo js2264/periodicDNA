@@ -136,6 +136,7 @@ getFPI.DNAStringSet <- function(
         motif = motif, 
         period = period
     )
+    res$significantPeriods <- getSignificantPeriods(res)
     return(res)
 }
 
@@ -249,11 +250,6 @@ getSignificantPeriods <- function(fpi) {
         ObservedPSD = as.numeric(
             formatC(obsPsds$PSD, format = "e", digits = 2)
         ),
-        FPI = unlist(lapply(obsPsds$freq, function(freq) {
-            obs_PSD <- obsPsds$PSD[obsPsds$freq == freq]
-            l_shuff_PSD <- expPsds$PSD[expPsds$freq == freq]
-            (obs_PSD - median(l_shuff_PSD)) / median(l_shuff_PSD)
-        })), 
         pval = as.numeric(formatC(
             unlist(lapply(obsPsds$freq, function(freq) {
                 stats::p.adjust(stats::t.test(
@@ -263,7 +259,12 @@ getSignificantPeriods <- function(fpi) {
                 )$p.value, "BH")
             })), 
             format = "e", digits = 2
-        ))
+        )),
+        FPI = unlist(lapply(obsPsds$freq, function(freq) {
+            obs_PSD <- obsPsds$PSD[obsPsds$freq == freq]
+            l_shuff_PSD <- expPsds$PSD[expPsds$freq == freq]
+            (obs_PSD - median(l_shuff_PSD)) / median(l_shuff_PSD)
+        }))
     )
     return(df)
 }
