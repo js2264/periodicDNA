@@ -156,7 +156,7 @@ normalized distogram.</p>
   <span class='no'>x</span>,
   <span class='kw'>motif</span> <span class='kw'>=</span> <span class='st'>"WW"</span>,
   <span class='kw'>range_spectrum</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>1</span>, <span class='fl'>200</span>),
-  <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>bpparam</span>(),
+  <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>setUpBPPARAM</span>(<span class='fl'>1</span>),
   <span class='kw'>roll</span> <span class='kw'>=</span> <span class='fl'>3</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>sample</span> <span class='kw'>=</span> <span class='fl'>0</span>,
@@ -209,11 +209,13 @@ genomes will have different GC percent</p></td>
     </tr>
     <tr>
       <th>n_shuffling</th>
-      <td><p>Integer, how many times should the sequences be shuffled?</p></td>
+      <td><p>Integer, how many times should the sequences be 
+shuffled? If n_shuffling &gt; 0, the sequences are passed to the getFPI 
+function.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>additional parameters</p></td>
+      <td><p>additional parameters passed to getFPI</p></td>
     </tr>
     </table>
 

@@ -156,7 +156,7 @@ track from these values.</p>
   <span class='no'>granges</span>,
   <span class='kw'>motif</span> <span class='kw'>=</span> <span class='st'>"WW"</span>,
   <span class='kw'>period</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>bpparam</span>(),
+  <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>setUpBPPARAM</span>(<span class='fl'>1</span>),
   <span class='kw'>extension</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
   <span class='kw'>window_size</span> <span class='kw'>=</span> <span class='fl'>100</span>,
   <span class='kw'>step_size</span> <span class='kw'>=</span> <span class='fl'>2</span>,
@@ -240,12 +240,12 @@ to take into consideration when performing Fast Fourier Transform
 #&gt; <span class='message'>    The mapping will be split into 1 cores. Each core will </span>
 #&gt; <span class='message'>    process 549 windows.</span>
 #&gt; <span class='message'>    </span>
-#&gt; <span class='message'>    Now starting [2020-06-25 22:11:28]...</span>
+#&gt; <span class='message'>    Now starting [2020-06-26 11:28:22]...</span>
 #&gt; <span class='message'>    </span></div><div class='output co'>#&gt; <span class='message'>    Merging the results...</span>
 #&gt; <span class='message'>    </span></div><div class='output co'>#&gt; <span class='message'>    Smoothing the track...</span>
 #&gt; <span class='message'>        </span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>   SUCCESS: WW_10-bp-periodicity_g-100^2_smooth-20.bw has been created!</span></div><div class='output co'>#&gt; <span class='message'>   1098 bases covered by the generated track.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>    Finished without errors [2020-06-25 22:12:53]</span>
+#&gt; <span class='message'>    Finished without errors [2020-06-26 11:29:44]</span>
 #&gt; <span class='message'>    </span></div><div class='output co'>#&gt; RleList of length 7
 #&gt; $chrI
 #&gt; numeric-Rle of length 15072434 with 1120 runs

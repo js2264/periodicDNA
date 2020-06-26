@@ -149,7 +149,7 @@
     <span class="no">ce11_TSSs</span><span class="kw">[[</span><span class="st">'Ubiq.'</span>]],
     <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'ce11'</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
-    <span class="kw">BPPARAM</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/setUpBPPARAM.html">setUpBPPARAM</a></span>(<span class="fl">4</span>)
+    <span class="kw">BPPARAM</span> <span class="kw">=</span> <span class="fu">MulticoreParam</span>(<span class="fl">4</span>)
 )
 <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/plotPeriodicityResults.html">plotPeriodicityResults</a></span>(<span class="no">PSDs</span>)</pre></div>
 </div>
@@ -178,9 +178,9 @@
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'WW'</span>,
     <span class="kw">period</span> <span class="kw">=</span> <span class="fl">10</span>,
     <span class="kw">bw_file</span> <span class="kw">=</span> <span class="st">'WW-10-bp-periodicity_over-proms.bw'</span>,
-    <span class="kw">BPPARAM</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/setUpBPPARAM.html">setUpBPPARAM</a></span>(<span class="fl">12</span>)
+    <span class="kw">BPPARAM</span> <span class="kw">=</span> <span class="fu">MulticoreParam</span>(<span class="fl">12</span>)
 )</pre></div>
-<p><strong>Warning</strong>: It is recommended to run this command across many processors using BiocParallel. This command typically takes one day to produce a periodicity track over 15,000 GRanges of 150 bp (with default parameters) using <code>BPPARAM = setUpBPPARAM(12)</code>. It is highly recommended to run this command in a new <code>screen</code> session.</p>
+<p><strong>Warning</strong>: It is recommended to run this command across many processors using BiocParallel. This command typically takes one day to produce a periodicity track over 15,000 GRanges of 150 bp (with default parameters) using <code>BPPARAM = MulticoreParam(12)</code>. It is highly recommended to run this command in a new <code>screen</code> session.</p>
 </div>
 </div>
 <div id="contributions" class="section level2">
