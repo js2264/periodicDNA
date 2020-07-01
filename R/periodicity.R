@@ -94,6 +94,7 @@ getPeriodicity <- function(x, ...) {
 #' @import IRanges
 #' @import magrittr
 #' @importFrom stats spectrum
+#' @importFrom stats setNames
 #' @export
 #' 
 #' @examples
@@ -203,7 +204,10 @@ getPeriodicity.DNAStringSet <- function(
             ),
             spectra = spectra, 
             PSD = PSD,
-            motif = motif
+            motif = motif, 
+            periodicityMetrics = stats::setNames(
+                PSD, c('Freq', 'Period', 'PSD')
+            )
         )
         # Shuffle the sequences using getFPI ----------------------------------
     }
@@ -225,9 +229,11 @@ getPeriodicity.DNAStringSet <- function(
             normalized_hist = FPI$observed_spectra$normalized_hist,
             spectra = FPI$observed_spectra$spectra, 
             PSD = FPI$observed_spectra$PSD,
+            PSD_withShuffling = FPI, 
             motif = FPI$observed_spectra$motif, 
-            FPI = FPI, 
-            significantPeriods = FPI$significantPeriods
+            FPI = FPI$FPI, 
+            significantPeriods = FPI$significantPeriods, 
+            periodicityMetrics = FPI$periodicityMetrics
         )
     }
     # Return results ----------------------------------------------------------
