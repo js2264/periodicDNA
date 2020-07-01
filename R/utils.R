@@ -62,7 +62,6 @@ na.remove <- function(x) {
 #' @return A DNAString or DNAStringSet
 #' 
 #' @import Biostrings
-#' @import reticulate
 #' @export
 #' 
 #' @examples
