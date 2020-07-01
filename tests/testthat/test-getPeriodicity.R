@@ -36,6 +36,7 @@ test_that("getPeriodicity and plotPeriodicityResults works", {
 
 test_that("getPeriodicity works with shuffling", {
     expect_equal({
+        data(ce11_TSSs)
         data(ce11_proms)
         periodicity_result <- getPeriodicity(
             ce11_proms[seq_len(10)],
@@ -45,8 +46,65 @@ test_that("getPeriodicity works with shuffling", {
             n_shuffling = 3, 
             doZscore = TRUE
         )
-        list_plots <- plotPeriodicityResults(periodicity_result)
+        periodicity_result_2 <- getPeriodicity(
+            ce11_TSSs[['Ubiq.']][seq_len(10)] %>% 
+                resize(width = 250, fix = 'center'),
+            genome = 'ce11', 
+            motif = 'TT', 
+            n_shuffling = 1, 
+            cores_shuffling = 1
+        )
+        periodicity_result_2 <- getPeriodicity(
+            ce11_TSSs[['Ubiq.']][seq_len(10)] %>% 
+                resize(width = 250, fix = 'center'),
+            genome = 'ce11', 
+            motif = 'TT', 
+            n_shuffling = 4, 
+            cores_shuffling = 1
+        )
+        list_plots <- plotPeriodicityResults(periodicity_result_2)
+        # ggsave('tmp2.pdf', width = 12, height = 4)
+        # getSignificantPeriods(periodicity_result_2)$significantPeriods %>% dplyr::mutate(ObservedPSD = formatC(ObservedPSD, format = "e", digits = 2)) %>% dplyr::mutate(pval = formatC(pval, , format = "e", digits = 2)) %>% head(30) %>% knitr::kable()
         methods::is(list_plots, "gg")
+    }, TRUE)
+})
+
+test_that("getPeriodicity examples in periodicDNA paper", {
+    skip('skip2')
+    expect_equal({
+        ####
+        ####
+        library(TxDb.Scerevisiae.UCSC.sacCer3.sgdGene)
+        library(GenomicFeatures)
+        genes <- genes(TxDb.Scerevisiae.UCSC.sacCer3.sgdGene)
+        sacCer3_TSSs <- genes %>%
+            resize(fix = 'center', 300) %>% 
+            '['(. %within% GRanges(seqinfo(genes)))
+        sacCer3_results <- getPeriodicity(
+            sacCer3_TSSs,
+            genome = 'sacCer3',
+            motif = 'WW', 
+            n_shuffling = 500, 
+            cores_shuffling = 24
+        )
+        plots <- plotPeriodicityResults(sacCer3_results, xlim = 150)
+        ggsave('sacCer3_results_500.pdf', width = 12, height = 4)
+        # getSignificantPeriods(sacCer3_results)$periodicityMetrics %>% dplyr::mutate(PSD_observed = formatC(PSD_observed, format = "e", digits = 2)) %>% dplyr::mutate(pval = formatC(pval, format = "e", digits = 2)) %>% head(30) %>% knitr::kable()
+        ####
+        ####
+        data(ce11_TSSs)
+        ce11_results <- getPeriodicity(
+            ce11_TSSs[['Ubiq.']],
+            genome = 'ce11', 
+            motif = 'WW', 
+            n_shuffling = 500, 
+            cores_shuffling = 48
+        )
+        plots <- plotPeriodicityResults(ce11_results, xlim = 150)
+        ggsave('ce11_results_500.pdf', width = 12, height = 4)
+        # getSignificantPeriods(ce11_results)$periodicityMetrics %>% dplyr::mutate(PSD_observed = formatC(PSD_observed, format = "e", digits = 2)) %>% dplyr::mutate(pval = formatC(pval, format = "e", digits = 2)) %>% head(30) %>% knitr::kable()
+        ####
+        ####
     }, TRUE)
 })
 
@@ -278,7 +336,7 @@ test_that("getPeriodicity for ce11 proms/enhancers", {
                 )
                 list(
                     psd = res$PSD$PSD[which.min(abs(res$PSD$period - 10))], 
-                    pvalue = getSignificantPeriods(res$FPI) %>% filter(Period == 10) %>% select(pval) %>% '[['(1),
+                    pvalue = getSignificantPeriods(res$FPI)$significantPeriods %>% filter(Period == 10) %>% select(pval) %>% '[['(1),
                     fpi = res$FPI$FPI
                 )
             })

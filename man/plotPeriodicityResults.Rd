@@ -10,6 +10,7 @@ plotPeriodicityResults(
   filter_periods = TRUE,
   facet_control = TRUE,
   xlim = NULL,
+  pval_threshold = 0.01,
   ...
 )
 }
@@ -25,6 +26,8 @@ constrained to the periods?}
 \item{facet_control}{Boolean should the shuffling plots be faceted?}
 
 \item{xlim}{Integer x axis upper limit in raw and norm. distograms}
+
+\item{pval_threshold}{Float, significance threshold}
 
 \item{...}{Additional theme arguments passed to theme_ggplot2()}
 }

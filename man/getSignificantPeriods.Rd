@@ -4,14 +4,19 @@
 \alias{getSignificantPeriods}
 \title{A function used to compute FPIs and associated p-values}
 \usage{
-getSignificantPeriods(fpi)
+getSignificantPeriods(fpi, pval_threshold = 1)
 }
 \arguments{
 \item{fpi}{result of getFPI() function or getPeriodicity() function with
-n_shuffling > 1}
+n_shuffling != 0}
+
+\item{pval_threshold}{Float, the significance threshold (e.g. 0.01 or 0.05).
+Please keep in mind that empirical p-values cannot be smaller than 
+1/(# of permutations + 1).}
 }
 \value{
-A table showing FPI and p-value for each observed PSD value
+A table with observed PSD values, associated empirical p-values and
+FPI for each frequency assessed by getPeriodicity().
 }
 \description{
 A function used to compute FPIs and associated p-values
@@ -24,5 +29,5 @@ fpi <- getFPI(
     motif = 'TT', 
     cores_shuffling = 1
 )
-head(getSignificantPeriods(fpi))
+getSignificantPeriods(fpi)$significantPeriods
 }

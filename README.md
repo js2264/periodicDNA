@@ -24,7 +24,7 @@ periodicDNA is available in Bioconductor. To install the current release use:
 ```r
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
-BiocManager::install("GenomicRanges")
+BiocManager::install("periodicDNA")
 ```
 
 For advanced users, the most recent periodicDNA can be installed 
@@ -54,8 +54,8 @@ vignette('internal-steps', package = 'periodicDNA')
 
 ## Main functions 
 
-The three main user-level functions of periodicDNA are `getPeriodicity()`,
-`getPeriodicityTrack()` and `getFPI()`.
+The three main user-level functions of periodicDNA are `getPeriodicity()`, 
+`getFPI()` and `getPeriodicityTrack()`.
 
 * `getPeriodicity()` is used to compute the power spectral density 
   (PSD) of a chosen k-mer (i.e. `TT`) in a set of sequences. The PSD 
@@ -78,7 +78,7 @@ PSDs <- getPeriodicity(
     ce11_TSSs[['Ubiq.']],
     genome = 'ce11',
     motif = 'TT', 
-    BPPARAM = MulticoreParam(4)
+    BPPARAM = MulticoreParam(12)
 )
 plotPeriodicityResults(PSDs)
 ```
@@ -92,9 +92,8 @@ FPI <- getFPI(
     genome = 'ce11',
     period = 10,
     motif = 'TT', 
-    cores_shuffling = 10, 
-    cores_computing = 8, 
-    n_shuffling = 10
+    n_shuffling = 10,
+    cores_shuffling = 10
 )
 plotFPI(FPI)
 ```

@@ -44,13 +44,14 @@ periodicity_result <- getPeriodicity(
 )
 ```
 
-The output of `getPeriodicity()` is an object containing the PSD scores 
-associated with each period. For a given period, a high PSD score 
+The main output of `getPeriodicity()` is a table of power spectral density 
+(PSD) values associated with discrete frequencies, computed using a 
+Fast FourierTransform. For a given frequency, a high PSD score 
 indicates a high periodicity of the k-mer of interest. 
 
 ```{r, eval = TRUE}
 head(periodicity_result$PSD)
-periodicity_result$PSD %$% PSD[.$period == 10]
+periodicity_result$periodicityMetrics %>% '['(.$Period == 10, )
 ```
 
 Graphical output of `getPeriodicity()` can be obtained using the 
@@ -76,6 +77,7 @@ periodicity_result <- getPeriodicity(
     motif = 'TT', 
     BPPARAM = setUpBPPARAM(1)
 )
+periodicity_result$periodicityMetrics %>% '['(.$Period == 10, )
 ```
 
 ### Fold Power Increase
@@ -86,31 +88,37 @@ following example, the FPI of TT dinucleotides at a 10-bp periodicity is
 computed over 200-bp long sequences randomly sampled in ce11 genome. 
 
 ```{r, eval = TRUE}
-set.seed(52) 
-yeast_seqs <- sampleGenome('sacCer3', n = 1000, w = 800)
 FPI <- getFPI(
-    yeast_seqs, 
+    ce11_TSSs[['Ubiq.']][1:500],
+    genome = 'ce11', 
     motif = 'WW', 
     n_shuffling = 5
 )
-getSignificantPeriods(FPI) %>% head(30)
+FPI$periodicityMetrics %>% head(25)
 plotFPI(FPI)
 ```
 
-**Important:**  
-Note that `getFPI()` can also be internally ran when using `getPeriodicity()` 
+#### Note 1
+
+If `n_shuffling >= 100`, an empirical p-value is automatically computed. 
+Note that empirical p-values are only an estimation of the real p-value. 
+Notably, small p-values are systematically under-estimated as their 
+lower bound is 1/(n+1).
+
+#### Note 2
+
+Note that `getFPI()` can also be ran using `getPeriodicity()` 
 with the `n_shuffling` argument. 
 
 ```{r, eval = TRUE}
 data(ce11_TSSs)
 periodicity_result <- getPeriodicity(
     ce11_TSSs[['Ubiq.']][1:500],
-    genome = 'ce11',
+    genome = 'ce11', 
     motif = 'TT', 
-    BPPARAM = setUpBPPARAM(1), 
     n_shuffling = 5
 )
-getSignificantPeriods(periodicity_result) %>% head(30)
+periodicity_result$significantPeriods %>% head(30)
 plotPeriodicityResults(periodicity_result)
 ```
 
