@@ -74,8 +74,8 @@ test_that("getPeriodicity examples in periodicDNA paper", {
     expect_equal({
         ####
         ####
-        library(TxDb.Scerevisiae.UCSC.sacCer3.sgdGene)
-        library(GenomicFeatures)
+        # library(TxDb.Scerevisiae.UCSC.sacCer3.sgdGene)
+        # library(GenomicFeatures)
         genes <- genes(TxDb.Scerevisiae.UCSC.sacCer3.sgdGene)
         sacCer3_TSSs <- genes %>%
             resize(fix = 'center', 300) %>% 
@@ -354,7 +354,7 @@ test_that("getPeriodicity for ce11 proms/enhancers", {
         PSDs_2 <- PSDs %>% 
             do.call(rbind, .) %>% 
             mutate(Class = factor(Class, levels = c('Core', 'Flanking', 'Distal', 'Full'))) %>% 
-            dplyr::filter(Class %in% c('Core', 'Flanking', 'Distal')) %>% 
+            # dplyr::filter(Class %in% c('Core', 'Flanking', 'Distal')) %>% 
             mutate(Type = factor(Type, levels = c('Prom', 'Enh'))) %>% 
             mutate(tissue = factor(tissue, levels = names(list_params))) %>% 
             mutate(Loc = factor(Loc, levels = c('proms_center', 'proms_flanking', 'proms_distal', 'proms_full', 'enhs_center', 'enhs_flanking', 'enhs_extended', 'enhs_full')))

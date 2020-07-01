@@ -10,7 +10,7 @@ shuffleSeq(dna, order = 1)
 \item{dna}{DNAString or DNAStringSet}
 
 \item{order}{Integer, which order to take into consideration for shuffling
-(currently only 1st order is available)}
+(requires Python ushuffle library)}
 }
 \value{
 A DNAString or DNAStringSet

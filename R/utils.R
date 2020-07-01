@@ -58,10 +58,11 @@ na.remove <- function(x) {
 #'
 #' @param dna DNAString or DNAStringSet
 #' @param order Integer, which order to take into consideration for shuffling
-#' (currently only 1st order is available)
+#' (requires Python ushuffle library)
 #' @return A DNAString or DNAStringSet
 #' 
 #' @import Biostrings
+#' @import reticulate
 #' @export
 #' 
 #' @examples
@@ -86,6 +87,8 @@ shuffleSeq <- function(dna, order = 1) {
     }
     else {
         # message('Using ushuffle')
+        if (!reticulate::py_module_available("ushuffle")) 
+            reticulate::py_install("ushuffle")
         ushuffle <- reticulate::import("ushuffle")
         shuffled <- Biostrings::DNAStringSet(
             lapply(dna, function(seq) {
