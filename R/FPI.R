@@ -136,7 +136,7 @@ getFPI.DNAStringSet <- function(
         motif = motif, 
         period = period
     )
-    res$significantPeriods <- getSignificantPeriods(res)
+    res <- getSignificantPeriods(res)
     return(res)
 }
 
@@ -220,8 +220,12 @@ getFPI.GRanges <- function(
 #' A function used to compute FPIs and associated p-values
 #'
 #' @param fpi result of getFPI() function or getPeriodicity() function with
-#' n_shuffling > 1
-#' @return A table showing FPI and p-value for each observed PSD value 
+#' n_shuffling != 0
+#' @param pval_threshold Float, the significance threshold (e.g. 0.01 or 0.05).
+#' Please keep in mind that empirical p-values cannot be smaller than 
+#' 1/(# of permutations + 1).
+#' @return A table with observed PSD values, associated empirical p-values and
+#' FPI for each frequency assessed by getPeriodicity(). 
 #' 
 #' @importFrom stats t.test
 #' @importFrom stats p.adjust
@@ -235,36 +239,66 @@ getFPI.GRanges <- function(
 #'     motif = 'TT', 
 #'     cores_shuffling = 1
 #' )
-#' head(getSignificantPeriods(fpi))
+#' getSignificantPeriods(fpi)$significantPeriods
 
-getSignificantPeriods <- function(fpi) {
+getSignificantPeriods <- function(fpi, pval_threshold = 1) {
     if (all(c("FPI", "dists") %in% names(fpi))) {
-        fpi <- fpi$FPI
+        fpi <- fpi$PSD_withShuffling
     }
     freqs <- fpi$observed_spectra$PSD$freq
     obsPsds <- fpi$observed_spectra$PSD
     expPsds <- lapply(fpi$shuffled_spectra, '[[', 'PSD') %>% do.call(rbind, .)
-    df <- data.frame(
-        Freq = obsPsds$freq, 
-        Period = 1/obsPsds$freq,
-        ObservedPSD = as.numeric(
-            formatC(obsPsds$PSD, format = "e", digits = 2)
-        ),
-        pval = as.numeric(formatC(
-            unlist(lapply(obsPsds$freq, function(freq) {
-                stats::p.adjust(stats::t.test(
-                    obsPsds$PSD[obsPsds$freq == freq], 
-                    expPsds$PSD[expPsds$freq == freq],
-                    var.equal = TRUE
-                )$p.value, "BH")
-            })), 
-            format = "e", digits = 2
-        )),
-        FPI = unlist(lapply(obsPsds$freq, function(freq) {
-            obs_PSD <- obsPsds$PSD[obsPsds$freq == freq]
-            l_shuff_PSD <- expPsds$PSD[expPsds$freq == freq]
-            (obs_PSD - median(l_shuff_PSD)) / median(l_shuff_PSD)
+    n_perms <- table(expPsds$freq)[[1]]
+    if (n_perms < 100) {
+        message(
+            "Only ", table(expPsds$freq)[[1]], " shufflings. ", 
+            "Cannot compute accurate empirical p-values. ",
+            "To compute empirical p-values, ",
+            "set up n_shuffling to at least 100. ",
+            "Only FPI is returned"
+        )
+        df <- data.frame(
+            Freq = obsPsds$freq, 
+            Period = 1/obsPsds$freq,
+            PSD_observed = as.numeric(
+                formatC(obsPsds$PSD, format = "e", digits = 2)
+            ),
+            FPI = unlist(lapply(obsPsds$freq, function(freq) {
+                obs_PSD <- obsPsds$PSD[obsPsds$freq == freq]
+                l_shuff_PSD <- expPsds$PSD[expPsds$freq == freq]
+                (obs_PSD - median(l_shuff_PSD)) / median(l_shuff_PSD)
+            }))
+        )
+    }
+    else {
+        minpval <- formatC(1/(n_perms+1), format = 'e', digits = 2)
+        message(
+            table(expPsds$freq)[[1]], " permutations found. ", 
+            "Computing empirical p-values ", 
+            "(minimum = ", minpval, ")."
+        )
+        pvals <- unlist(lapply(obsPsds$freq, function(freq) {
+            obs <- obsPsds$PSD[obsPsds$freq == freq]
+            exp <- expPsds$PSD[expPsds$freq == freq]
+            (sum(exp > obs) + 1)/(n_perms + 1)
         }))
-    )
-    return(df)
+        df <- data.frame(
+            Freq = obsPsds$freq, 
+            Period = 1/obsPsds$freq,
+            PSD_observed = as.numeric(
+                formatC(obsPsds$PSD, format = "e", digits = 2)
+            ),
+            pval = as.numeric(formatC(pvals, format = "e", digits = 2)),
+            fdr = stats::p.adjust(pvals, method = 'fdr'),
+            FPI = unlist(lapply(obsPsds$freq, function(freq) {
+                obs_PSD <- obsPsds$PSD[obsPsds$freq == freq]
+                l_shuff_PSD <- expPsds$PSD[expPsds$freq == freq]
+                (obs_PSD - median(l_shuff_PSD)) / median(l_shuff_PSD)
+            }))
+        )
+        df <- df[df$pval <= pval_threshold,]
+    }
+    fpi$significantPeriods <- df
+    fpi$periodicityMetrics <- df
+    return(fpi)
 }
