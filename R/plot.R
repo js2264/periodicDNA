@@ -12,6 +12,7 @@
 #' constrained to the periods?
 #' @param facet_control Boolean should the shuffling plots be faceted?
 #' @param xlim Integer x axis upper limit in raw and norm. distograms
+#' @param pval_threshold Float, significance threshold
 #' @param ... Additional theme arguments passed to theme_ggplot2()
 #' @return list A list containing four ggplots
 #' 
@@ -43,6 +44,7 @@ plotPeriodicityResults <- function(
     filter_periods = TRUE, 
     facet_control = TRUE,
     xlim = NULL, 
+    pval_threshold = 0.01,
     ...
 ) 
 {
@@ -54,7 +56,7 @@ plotPeriodicityResults <- function(
         ggplot2::aes(x = distance, y = counts)
     ) + 
         ggplot2::geom_line() +
-        theme_ggplot2(...) + 
+        theme_ggplot2() + 
         ggplot2::labs(
             x = paste0('Distance between pairs of ', results$motif),
             y = 'Distribution', 
@@ -69,7 +71,7 @@ plotPeriodicityResults <- function(
         df, ggplot2::aes(x = distance, y = norm_counts)
     ) +
         ggplot2::geom_line() +
-        theme_ggplot2(...) + 
+        theme_ggplot2() + 
         ggplot2::labs(
             x = paste0('Distance between pairs of ', results$motif), 
             y = 'Normalized distribution', 
@@ -103,7 +105,7 @@ plotPeriodicityResults <- function(
             ggplot2::geom_point() +
             ggplot2::geom_segment(aes(x=x, xend=x, y=0, yend=y)) +
             ggplot2::xlim(periods) +
-            theme_ggplot2(...) + 
+            theme_ggplot2() + 
             ggplot2::labs(
                 x = paste0(results$motif, ' periods'), 
                 y = 'Power Spectral Density', 
@@ -115,13 +117,16 @@ plotPeriodicityResults <- function(
             )
     }
     else {
-        p2 <- plotFPI(results$FPI, periods = periods)
+        p2 <- plotFPI(results$PSD_withShuffling, 
+            periods = periods, 
+            pval_threshold = pval_threshold
+        )
         p2 <- p2 + ggplot2::labs(
-            x = paste0(results$FPI$motif, ' periods'), 
+            x = paste0(results$motif, ' periods'), 
             y = 'Power Spectral Density', 
             title = paste0(
                 'Observed PSD (red) vs. PSD in\nshuffled sequences (grey, n=',
-                length(results$FPI$shuffled_PSD), ')'
+                length(results$PSD_withShuffling$shuffled_PSD), ')'
             )
         )
     }
@@ -139,8 +144,7 @@ plotPeriodicityResults <- function(
 #' @param fpi The output of getFPI function.
 #' @param periods Vector a numerical vector of length 2, to specify the
 #' x-axis limits 
-#' @param s float span parameter for loess smooth
-#' @param threshold Float, p-value used as significance threshold
+#' @param pval_threshold Float, significance threshold
 #' @return ggplot A ggplot
 #' 
 #' @import ggplot2
@@ -159,11 +163,11 @@ plotPeriodicityResults <- function(
 plotFPI <- function(
     fpi, 
     periods = c(2, 20), 
-    s = 0.05, 
-    threshold = 0.001
+    pval_threshold = 0.01
 ) {
+    periods_bounds <- periods 
     n_shuffled <- length(fpi$shuffled_spectra)
-    x <- c(
+    periods <- c(
         1/fpi$observed_spectra$PSD$freq,
         lapply(seq_len(n_shuffled), function(k) {
             1/fpi$shuffled_spectra[[k]]$PSD$freq
@@ -190,7 +194,7 @@ plotFPI <- function(
         Q * S / sq
     })
     ribbon_coords <- data.frame(
-        x = unique(x), 
+        periods = unique(periods), 
         means = rowMeans(mat), 
         meansUp = rowMeans(mat) + conint, 
         meansDown = rowMeans(mat) - conint, 
@@ -199,44 +203,50 @@ plotFPI <- function(
     ribbon_coords$meansDown[ribbon_coords$meansDown < 0] <- 0
     # Making data frame
     df <- data.frame(
-        'x' = x, 
+        'periods' = periods, 
         'y' = psds, 
         'type' = c(
             rep('observed', length(fpi$observed_spectra$PSD$freq)), 
-            rep('shuffled', length(x)-length(fpi$observed_spectra$PSD$freq))
+            rep('shuffled', length(periods)-length(fpi$observed_spectra$PSD$freq))
         ), 
         'group' = groups
     )
-    df <- df[x >= periods[1] & x <= periods[2],]
+    df <- df[periods >= periods_bounds[1] & periods <= periods_bounds[2],]
     ribbon_coords <- ribbon_coords[
-        ribbon_coords$x >= periods[1] & ribbon_coords$x <= periods[2],
+        ribbon_coords$periods >= periods_bounds[1] & 
+        ribbon_coords$periods <= periods_bounds[2],
     ]
     # Adding significance
-    pvals <- getSignificantPeriods(fpi)
-    pvals <- pvals[pvals$Period >= periods[1] & pvals$Period <= periods[2],]
+    pvals <- fpi$significantPeriods
+    if (!("pval" %in% colnames(pvals))) {
+        pvals$pval <- 1
+    }
+    pvals <- pvals[
+        pvals$Period >= periods_bounds[1] & pvals$Period <= periods_bounds[2],
+    ]
     df$pval <- 1
     df$pval[seq_len(nrow(pvals))] <- pvals$pval
     df$isSign <- factor(FALSE, levels = c(FALSE, TRUE))
-    df$isSign[df$pval <= threshold] <- TRUE
+    df$isSign[df$pval <= pval_threshold] <- TRUE
     df$isSign[df$type != 'observed'] <- NA
     # Plotting
     p <- ggplot2::ggplot(df) + 
-        ggplot2::aes(x = x, y = y) + 
+        ggplot2::aes(x = periods, y = y) + 
         ggplot2::geom_line(
             data = df[df$type != 'observed',],
-            aes(x = x, y = y, group = group), 
+            aes(x = periods, y = y, group = group), 
             col = 'grey50',
             alpha = 0.5, 
             size = 0.5
         ) +
         ggplot2::geom_ribbon(
             data = ribbon_coords,
-            ggplot2::aes(x = x, y = means, ymin = meansDown, ymax = meansUp), 
+            ggplot2::aes(x = periods, y = means, ymin = meansDown, ymax = meansUp), 
             alpha = 0.2, col = NA
         ) + 
         ggplot2::geom_line(
             data = df[df$type == 'observed',],
-            aes(x = x, y = y, group = group), 
+            aes(x = periods, y = y, group = group), 
             col = 'red',
             alpha = 1, 
             size = 1.2
@@ -244,7 +254,7 @@ plotFPI <- function(
         ggplot2::geom_point(
             data = df[df$type == 'observed' & df$isSign == FALSE,], 
             ggplot2::aes(
-                x = x, 
+                x = periods, 
                 y = y,
             ), 
             alpha = 1,
@@ -256,7 +266,7 @@ plotFPI <- function(
         ggplot2::geom_point(
             data = df[df$type == 'observed' & df$isSign == TRUE,], 
             ggplot2::aes(
-                x = x, 
+                x = periods, 
                 y = y,
             ), 
             alpha = 1,
@@ -266,14 +276,14 @@ plotFPI <- function(
             size = 2
         ) +
         ggplot2::guides(alpha = FALSE, col = FALSE) + 
-        ggplot2::xlim(periods) +
+        ggplot2::xlim(periods_bounds) +
         theme_ggplot2() + 
         ggplot2::labs(
             x = paste0(fpi$motif, ' periods'), 
             y = 'Power Spectral Density', 
             title = paste0(
                 'FPI @ ', fpi$period, '-bp period: ', round(fpi$FPI, 1), 
-                '\n(p = ', df$pval[which.min(abs(df$x - fpi$period))], ')'
+                '\n(p = ', df$pval[which.min(abs(df$periods - fpi$period))], ')'
             )
         ) + 
         ggplot2::theme(legend.position = "null")
