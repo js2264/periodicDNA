@@ -81,7 +81,7 @@ This function is useful to sample sequences from a full genome." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.12</span>
       </span>
     </div>
 
@@ -171,33 +171,33 @@ This function is useful to sample sequences from a full genome.</p>
     <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>150</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>
 )
 <span class='no'>g</span></div><div class='output co'>#&gt; GRanges object with 100 ranges and 1 metadata column:
-#&gt;         seqnames          ranges strand |                     seq
-#&gt;            &lt;Rle&gt;       &lt;IRanges&gt;  &lt;Rle&gt; |          &lt;DNAStringSet&gt;
-#&gt;     [1]     chrI   173544-173693      * | ACTACGTAAG...GTTATTCAGA
-#&gt;     [2]    chrII   343077-343226      * | CTATTTTTTA...TTTTTGTGTT
-#&gt;     [3]    chrII   426165-426314      * | AGGTAGAGAA...CCCAATATTC
-#&gt;     [4]    chrII   460819-460968      * | AATCAAGGAA...TAACACGTAA
-#&gt;     [5]    chrII   577659-577808      * | CCTCTATCAC...TACGGATCCG
-#&gt;     ...      ...             ...    ... .                     ...
-#&gt;    [96]    chrXV 1059266-1059415      * | GCACCCTAAG...AGTATAATTA
-#&gt;    [97]   chrXVI       3858-4007      * | TTGTTACTTG...CCGTCAAGCG
-#&gt;    [98]   chrXVI   139703-139852      * | TTTTCTCCTT...CTTGCCTTCT
-#&gt;    [99]   chrXVI   463366-463515      * | TTGGACACGG...TGTTGCTATC
-#&gt;   [100]   chrXVI   463767-463916      * | CAATTGGATC...TGCGTTTCTT
+#&gt;         seqnames        ranges strand |                     seq
+#&gt;            &lt;Rle&gt;     &lt;IRanges&gt;  &lt;Rle&gt; |          &lt;DNAStringSet&gt;
+#&gt;     [1]     chrI   17553-17702      * | TCACGTCCTT...GGGGTTAGTA
+#&gt;     [2]     chrI   97094-97243      * | ATCATCTCTG...GGATAGTTTC
+#&gt;     [3]     chrI 115269-115418      * | TTGGACATGG...CCAAACAGAA
+#&gt;     [4]     chrI 183511-183660      * | CACTCATGAT...AATTGCTAAA
+#&gt;     [5]     chrI 201824-201973      * | TAATAGCTTA...CAAAGTCTGG
+#&gt;     ...      ...           ...    ... .                     ...
+#&gt;    [96]   chrXVI 490612-490761      * | ACCTGATATT...AATTGCACAA
+#&gt;    [97]   chrXVI 595289-595438      * | ACAAAAGTGG...TGTTGACGTT
+#&gt;    [98]   chrXVI 797625-797774      * | AACCTTGAAA...TTTTTGTATT
+#&gt;    [99]   chrXVI 821275-821424      * | TTTTCTGTCT...CAATACCATA
+#&gt;   [100]     chrM   59396-59545      * | ATATATTTAA...GATCAGGAAA
 #&gt;   -------
 #&gt;   seqinfo: 17 sequences from an unspecified genome</div><div class='input'><span class='no'>g</span>$<span class='no'>seq</span></div><div class='output co'>#&gt; DNAStringSet object of length 100:
 #&gt;       width seq
-#&gt;   [1]   150 ACTACGTAAGTAATTTGAGGACTGATTAAAATT...ATTGGGCTCTTCTTTCATGGATGTTATTCAGA
-#&gt;   [2]   150 CTATTTTTTAAAAAAAGCATCAAAATGTCTGAT...GTTCAGACTGGCTTTTCACCGTTTTTTGTGTT
-#&gt;   [3]   150 AGGTAGAGAACATTGAGTTGTTAGATCAAGCAC...AGTTAAGGCCTTCCACCTCTCACCCAATATTC
-#&gt;   [4]   150 AATCAAGGAACACTAACCATGTATGACATACAA...CTAGTTTAGATTCAAAATTTGGTAACACGTAA
-#&gt;   [5]   150 CCTCTATCACCGTGCTTGCATAGTTTTGATTTT...GAATTCCCTTGCTGTCAATACCTACGGATCCG
+#&gt;   [1]   150 TCACGTCCTTGGTTTTTACCGAGTACATATATT...GAAGCGATCGTCACCTTCCATTGGGGTTAGTA
+#&gt;   [2]   150 ATCATCTCTGGTTTCCTCGTTGATGATCAACAA...ATACCCGCTTCTTGTAATGTGTGGATAGTTTC
+#&gt;   [3]   150 TTGGACATGGAACAAGAACGCATCTCCCAAGAA...AAATCCTCCAAGATTACCGTGGCCAAACAGAA
+#&gt;   [4]   150 CACTCATGATCATAATGGCCCTGTAAAAGGCTC...AAAGAATATGAAAGGGGTTCTGAATTGCTAAA
+#&gt;   [5]   150 TAATAGCTTATCAGAATTACAAGTAATTACTTG...CTCTACTGTAGACAGGTCGATTCAAAGTCTGG
 #&gt;   ...   ... ...
-#&gt;  [96]   150 GCACCCTAAGTTCAAATGCACCCCCCCTCGCCC...GTATACGAATCTAACTGGGTGCAGTATAATTA
-#&gt;  [97]   150 TTGTTACTTGATCTGGATCCTCAAATCCCACCA...AAACACGTAATCTGAAGTGAGTCCGTCAAGCG
-#&gt;  [98]   150 TTTTCTCCTTATCCCTTTGTGATTTTTCTTCCT...CAATACTTTTTGAATGAATGATCTTGCCTTCT
-#&gt;  [99]   150 TTGGACACGGGGCTGGAACTTGGAATGCTGAGT...ATATTACCACCGTGTGTATTAGTGTTGCTATC
-#&gt; [100]   150 CAATTGGATCTTGTGTTGATTTAGCAATGGATG...TACTGATTTGATTCTTTTTAAGTGCGTTTCTT</div></pre>
+#&gt;  [96]   150 ACCTGATATTAAAGGTTTGGCAATGATCTGCTG...GATAGAAACTCAATTGATGAGAAATTGCACAA
+#&gt;  [97]   150 ACAAAAGTGGAGCTGGAAGGTAGCAAAAGAAAA...GACATAAAATTAAACGTAAAGCTGTTGACGTT
+#&gt;  [98]   150 AACCTTGAAACAGGCCGCTTATGTGGCTGCGTT...ATGACACTAAAATATGTTTCTCTTTTTGTATT
+#&gt;  [99]   150 TTTTCTGTCTCATCTTCTTCCAATTGAGTAACA...TATCTTTAATTTCTGATATAAGCAATACCATA
+#&gt; [100]   150 ATATATTTAAGATGGGATAATCTATATTAATAA...TTATATAATATAAACTAATAAAGATCAGGAAA</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

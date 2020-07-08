@@ -84,7 +84,7 @@ normalized distogram." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.12</span>
       </span>
     </div>
 
@@ -194,13 +194,13 @@ normalized distogram.</p>
     <span class='no'>ce11_TSSs</span><span class='kw'>[[</span><span class='st'>'Ubiq.'</span>]][<span class='fl'>1</span>:<span class='fl'>10</span>],
     <span class='kw'>genome</span> <span class='kw'>=</span> <span class='st'>'ce11'</span>,
     <span class='kw'>motif</span> <span class='kw'>=</span> <span class='st'>'TT'</span>
-)</div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 76459 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing histogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the vector of distances.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>periodicity_result</span>$<span class='no'>PSD</span>)</div><div class='output co'>#&gt;    freq    period          PSD
-#&gt; 1 0.005 200.00000 5.098262e-08
-#&gt; 2 0.010 100.00000 1.419371e-10
-#&gt; 3 0.015  66.66667 8.403591e-09
-#&gt; 4 0.020  50.00000 5.735926e-08
-#&gt; 5 0.025  40.00000 2.478199e-08
-#&gt; 6 0.030  33.33333 3.711879e-08</div><div class='input'><span class='fu'>plotPeriodicityResults</span>(<span class='no'>periodicity_result</span>)</div><div class='img'><img src='getPeriodicity.GRanges-1.png' alt='' width='700' height='433' /></div></pre>
+)</div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 10025 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing histogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the vector of distances.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>periodicity_result</span>$<span class='no'>PSD</span>)</div><div class='output co'>#&gt;    freq    period          PSD
+#&gt; 1 0.005 200.00000 7.869046e-08
+#&gt; 2 0.010 100.00000 4.304990e-08
+#&gt; 3 0.015  66.66667 1.323240e-06
+#&gt; 4 0.020  50.00000 4.524673e-07
+#&gt; 5 0.025  40.00000 3.453647e-07
+#&gt; 6 0.030  33.33333 4.240164e-07</div><div class='input'><span class='fu'>plotPeriodicityResults</span>(<span class='no'>periodicity_result</span>)</div><div class='img'><img src='getPeriodicity.GRanges-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

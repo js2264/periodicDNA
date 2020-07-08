@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A function to easily coerce a named list into a long data.frame — namedListToLongFormat • periodicDNA</title>
+<title>Changelog • periodicDNA</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,11 +46,7 @@
 
 
 
-<meta property="og:title" content="A function to easily coerce a named list into a long data.frame — namedListToLongFormat" />
-<meta property="og:description" content="This function takes a named list of data.frames. For each data.frame, 
-the name of the data.frame is added in a new column, and the resulting
-data.frames are all bound together using rbind.
-to" />
+<meta property="og:title" content="Changelog" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -70,7 +66,7 @@ to" />
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-topic">
+    <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -137,39 +133,84 @@ to" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A function to easily coerce a named list into a long data.frame</h1>
-    <small class="dont-index">Source: <a href='https://github.com/js2264/periodicDNA/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>namedListToLongFormat.Rd</code></div>
+      <h1 data-toc-skip>Changelog <small></small></h1>
+      <small>Source: <a href='https://github.com/js2264/periodicDNA/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div class="ref-description">
-    <p>This function takes a named list of data.frames. For each data.frame, 
-the name of the data.frame is added in a new column, and the resulting
-data.frames are all bound together using rbind.
-to</p>
-    </div>
-
-    <pre class="usage"><span class='fu'>namedListToLongFormat</span>(<span class='no'>x</span>)</pre>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>A named list of vectors or data.frames</p></td>
-    </tr>
-    </table>
-
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A long data frame</p>
-
+    <div id="periodicdna-0-3-2-dev" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.2">
+<a href="#periodicdna-0-3-2-dev" class="anchor"></a>periodicDNA 0.3.2 (dev)</h1>
+<ul>
+<li>IMPORTANT:
+<ul>
+<li>Implemented data-raw for reproducibility</li>
+</ul>
+</li>
+<li>MINOR:
+<ul>
+<li>Changed xlim of norm. distr. plot in plotPeriodicityResults()</li>
+</ul>
+</li>
+</ul>
+</div>
+    <div id="periodicdna-0-3-1-2020-05-05" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.1">
+<a href="#periodicdna-0-3-1-2020-05-05" class="anchor"></a>periodicDNA 0.3.1 (2020-05-05)</h1>
+<ul>
+<li>IMPORTANT:
+<ul>
+<li>rollmean(k=3) is now applied <em>before</em> normalisation <em>as well</em>, on the raw distribution vector</li>
+<li>plotPeriodicityResults() output returns one single plot (with cowplot)</li>
+<li>getPeriodicityTrack() now returns the Rle</li>
+<li>Improved plotting functions -now show shuffled for plotPeriodicityResults()</li>
+<li>Added ggplot2 theming</li>
+</ul>
+</li>
+<li>MINOR:
+<ul>
+<li>Changed many variable names (all to snake_case)</li>
+<li>sampleGRanges is now full-fledged function (GRanges, DNAStringSet, character and BSgenome methods)</li>
+<li>sampleGenome is an alias for sampleGRanges.character</li>
+<li>Added sacCer3 to getPeriodicity BSgenomes</li>
+<li>Added DNAString method for getPeriodicity</li>
+<li>Added a vignette describing the internal steps</li>
+<li>Clarified user-level functions in README</li>
+<li>Added ce11_TSSs data</li>
+<li>Renamed generateperiodicitytrack as getPeriodicityTrack</li>
+<li>Renamed variables in getFPI and getPeriodicity</li>
+<li>Created a utility char2BSgenome()</li>
+</ul>
+</li>
+</ul>
+</div>
+    <div id="periodicdna-0-3-0-2020-05-03" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.0">
+<a href="#periodicdna-0-3-0-2020-05-03" class="anchor"></a>periodicDNA 0.3.0 (2020-05-03)</h1>
+<ul>
+<li>Added tests</li>
+<li>Added getFPI function</li>
+<li>cleaned-up functions</li>
+<li>cleaned-up function dependencies</li>
+<li>Added toy data</li>
+<li>Added vignette</li>
+</ul>
+</div>
+    <div id="periodicdna-0-2-1-2020-03-04" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.1">
+<a href="#periodicdna-0-2-1-2020-03-04" class="anchor"></a>periodicDNA 0.2.1 (2020-03-04)</h1>
+<ul>
+<li>Added Travis build check</li>
+<li>Simplified README.md</li>
+</ul>
+</div>
   </div>
+
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
+
 </div>
 
 

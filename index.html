@@ -44,7 +44,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.12</span>
       </span>
     </div>
 
@@ -115,7 +115,7 @@
 <p>periodicDNA is available in Bioconductor. To install the current release use:</p>
 <div class="sourceCode" id="cb1"><pre class="r"><span class="kw">if</span> (!<span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"BiocManager"</span>, <span class="kw">quietly</span> <span class="kw">=</span> <span class="fl">TRUE</span>))
     <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"BiocManager"</span>)
-<span class="kw pkg">BiocManager</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span>(<span class="st">"GenomicRanges"</span>)</pre></div>
+<span class="kw pkg">BiocManager</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span>(<span class="st">"periodicDNA"</span>)</pre></div>
 <p>For advanced users, the most recent periodicDNA can be installed from Github as follows (might be buggy):</p>
 <div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)
 <span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu">install_github</span>(<span class="st">"js2264/periodicDNA"</span>)
@@ -132,7 +132,7 @@
 <div id="main-functions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#main-functions" class="anchor"></a>Main functions</h2>
-<p>The three main user-level functions of periodicDNA are <code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicity.html">getPeriodicity()</a></code>, <code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicityTrack.html">getPeriodicityTrack()</a></code> and <code><a href="https://rdrr.io/pkg/periodicDNA/man/getFPI.html">getFPI()</a></code>.</p>
+<p>The three main user-level functions of periodicDNA are <code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicity.html">getPeriodicity()</a></code>, <code><a href="https://rdrr.io/pkg/periodicDNA/man/getFPI.html">getFPI()</a></code> and <code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicityTrack.html">getPeriodicityTrack()</a></code>.</p>
 <ul>
 <li>
 <code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicity.html">getPeriodicity()</a></code> is used to compute the power spectral density (PSD) of a chosen k-mer (i.e. <code>TT</code>) in a set of sequences. The PSD score at a given period indicates the strength of the k-mer at this period.</li>
@@ -149,7 +149,7 @@
     <span class="no">ce11_TSSs</span><span class="kw">[[</span><span class="st">'Ubiq.'</span>]],
     <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'ce11'</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
-    <span class="kw">BPPARAM</span> <span class="kw">=</span> <span class="fu">MulticoreParam</span>(<span class="fl">4</span>)
+    <span class="kw">BPPARAM</span> <span class="kw">=</span> <span class="fu">MulticoreParam</span>(<span class="fl">12</span>)
 )
 <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/plotPeriodicityResults.html">plotPeriodicityResults</a></span>(<span class="no">PSDs</span>)</pre></div>
 </div>
@@ -162,9 +162,8 @@
     <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'ce11'</span>,
     <span class="kw">period</span> <span class="kw">=</span> <span class="fl">10</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
-    <span class="kw">cores_shuffling</span> <span class="kw">=</span> <span class="fl">10</span>,
-    <span class="kw">cores_computing</span> <span class="kw">=</span> <span class="fl">8</span>,
-    <span class="kw">n_shuffling</span> <span class="kw">=</span> <span class="fl">10</span>
+    <span class="kw">n_shuffling</span> <span class="kw">=</span> <span class="fl">10</span>,
+    <span class="kw">cores_shuffling</span> <span class="kw">=</span> <span class="fl">10</span>
 )
 <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/plotFPI.html">plotFPI</a></span>(<span class="no">FPI</span>)</pre></div>
 </div>

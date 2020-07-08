@@ -83,7 +83,7 @@ been performed by getPeriodicity(), it also displays it." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.12</span>
       </span>
     </div>
 
@@ -155,6 +155,7 @@ been performed by getPeriodicity(), it also displays it.</p>
   <span class='kw'>filter_periods</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>facet_control</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>pval_threshold</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -184,6 +185,10 @@ constrained to the periods?</p></td>
       <td><p>Integer x axis upper limit in raw and norm. distograms</p></td>
     </tr>
     <tr>
+      <th>pval_threshold</th>
+      <td><p>Float, significance threshold</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>Additional theme arguments passed to theme_ggplot2()</p></td>
     </tr>
@@ -200,13 +205,13 @@ constrained to the periods?</p></td>
     <span class='kw'>genome</span> <span class='kw'>=</span> <span class='st'>'ce11'</span>,
     <span class='kw'>motif</span> <span class='kw'>=</span> <span class='st'>'TT'</span>,
     <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>setUpBPPARAM</span>(<span class='fl'>1</span>)
-)</div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 822536 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing histogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the vector of distances.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>periodicity_result</span>$<span class='no'>PSD</span>)</div><div class='output co'>#&gt;    freq    period          PSD
-#&gt; 1 0.005 200.00000 1.510814e-08
-#&gt; 2 0.010 100.00000 1.624735e-09
-#&gt; 3 0.015  66.66667 2.195991e-09
-#&gt; 4 0.020  50.00000 2.865971e-09
-#&gt; 5 0.025  40.00000 1.184211e-09
-#&gt; 6 0.030  33.33333 5.121531e-09</div><div class='input'><span class='fu'>plotPeriodicityResults</span>(<span class='no'>periodicity_result</span>)</div><div class='img'><img src='plotPeriodicityResults-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotPeriodicityResults</span>(<span class='no'>periodicity_result</span>, <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fl'>150</span>)</div><div class='img'><img src='plotPeriodicityResults-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotPeriodicityResults</span>(
+)</div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 97937 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing histogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the vector of distances.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>periodicity_result</span>$<span class='no'>PSD</span>)</div><div class='output co'>#&gt;    freq    period          PSD
+#&gt; 1 0.005 200.00000 5.283741e-08
+#&gt; 2 0.010 100.00000 3.937510e-08
+#&gt; 3 0.015  66.66667 4.057825e-08
+#&gt; 4 0.020  50.00000 1.233001e-08
+#&gt; 5 0.025  40.00000 2.084665e-08
+#&gt; 6 0.030  33.33333 7.776985e-08</div><div class='input'><span class='fu'>plotPeriodicityResults</span>(<span class='no'>periodicity_result</span>)</div><div class='img'><img src='plotPeriodicityResults-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotPeriodicityResults</span>(<span class='no'>periodicity_result</span>, <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fl'>150</span>)</div><div class='img'><img src='plotPeriodicityResults-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotPeriodicityResults</span>(
     <span class='no'>periodicity_result</span>, <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fl'>150</span>, <span class='kw'>filter_periods</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</div><div class='img'><img src='plotPeriodicityResults-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotPeriodicityResults</span>(
     <span class='no'>periodicity_result</span>, <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fl'>150</span>, <span class='kw'>facet_control</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>

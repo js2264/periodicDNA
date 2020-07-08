@@ -81,7 +81,7 @@ shuffles the order individual nucleotides." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.12</span>
       </span>
     </div>
 
@@ -157,7 +157,7 @@ shuffles the order individual nucleotides.</p>
     <tr>
       <th>order</th>
       <td><p>Integer, which order to take into consideration for shuffling
-(currently only 1st order is available)</p></td>
+(requires Python ushuffle library)</p></td>
     </tr>
     </table>
 
@@ -168,7 +168,7 @@ shuffles the order individual nucleotides.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>shuffleSeq</span>(<span class='st'>'ACGTGGGCTATTAGCTACTGTACGTG'</span>)</div><div class='output co'>#&gt; DNAStringSet object of length 1:
 #&gt;     width seq
-#&gt; [1]    26 TCCAGGGAGCCGTTTTAGTTGACATG</div></pre>
+#&gt; [1]    26 CGTTCTTGATGGGACTCACGGTTGAA</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
