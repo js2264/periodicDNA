@@ -61,9 +61,14 @@ getPeriodicityTrack <- function(
 {
     cores <- BPPARAM$workers
     freq <- 1/period
-    #
     if (is.null(genome)) {
         genome <- 'ce11'
+    }
+    if (methods::is(genome, 'character')) {
+        genomeID <- genome
+    } 
+    else {
+        genomeID <- "Unknown"
     }
     if (methods::is(genome, 'character')) {
         if (genome %in% c(
@@ -74,14 +79,16 @@ getPeriodicityTrack <- function(
         else {
             return(stop(
                 'Only sacCer3, ce11, dm6, mm10, hg38 
-                and danRer10 are supported'
+                and danRer10 are supported. Other genomes have to be 
+                input as BSgenome objects or directly as DNAStringSet.'
             ))
         }
     }
     if (methods::is(genome, 'BSgenome')) {
         genome <- Biostrings::getSeq(genome)
     }
-    #
+    
+    # Partition the genome
     isCircular(seqinfo(granges)) <- NA
     granges <- reduce(GRanges(granges, strand = '*'))
     granges_extended <- GenomicRanges::resize(
@@ -98,7 +105,21 @@ getPeriodicityTrack <- function(
         genome_partionned, granges_extended
     )
     chunks <- getChunks(genome_partionned_filtered, cores = cores)
-    #
+    
+    # Additional variables
+    closestPeriod <- checkPeriodFromFourier(window_size, 10)
+    nbases <- formatC(
+        sum(width(reduce(genome_partionned_filtered))), 
+        format = "f", big.mark = ',', digits = 0
+    )
+    if (is.null(bw_file)) bw_file <- paste0(
+        genomeID, '_', motif, '_', period, '-bp-periodicity',
+        '_g-', window_size, '^', step_size, 
+        '_smooth-', smooth_track,
+        '.bw'
+    )
+    
+    # Start up message
     message('
     The genome has been divided in ', window_size, '-bp long windows 
     with a sliding window of ', step_size, '-bp.
@@ -107,14 +128,16 @@ getPeriodicityTrack <- function(
     The mapping will be split into ', cores, ' cores. Each core will 
     process ', lengths(chunks)[1], ' windows.
     
-    Now starting [', Sys.time(), ']...
+    Generating the following track: ', bw_file, '
+        GENOME:   ', genomeID, '
+        MOTIF:    ', motif, '
+        PERIOD:   ', closestPeriod, '
+        # LOCI:   ', length(granges), '
+        # BASES:  ', nbases, '
+    
+    
+    Now starting [', Sys.time(), ']
     ')
-    if (is.null(bw_file)) bw_file <- paste0(
-        motif, '_', period, '-bp-periodicity',
-        '_g-', window_size, '^', step_size, 
-        '_smooth-', smooth_track,
-        '.bw'
-    )
     
     # Prepare log file
     logfile <- paste0('log.', bw_file, '.txt')

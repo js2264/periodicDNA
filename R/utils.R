@@ -460,7 +460,10 @@ char2BSgenome <- function(ID) {
     return(genome)
 }
 
-#' A function to dynamically select MulticoreParam or SnowParam (if Windows)
+#' setUpBPPARAM
+#' 
+#' A function to dynamically select 
+#' MulticoreParam or SnowParam (if Windows)
 #'
 #' @param nproc number of processors
 #' @return A BPPARAM object
@@ -479,4 +482,36 @@ setUpBPPARAM <- function(nproc = 1) {
         result <- BiocParallel::MulticoreParam(workers = nproc)
     }
     return(result)
+}
+
+#' checkPeriodsFromFourier
+#' 
+#' A function to quickly check whether a period of interest is in 
+#' the result of a FFT analysis, based on the length of the vector which 
+#' is used for FFT
+#'
+#' @param len length of the vector used for FFT
+#' @param period Float, period of interest
+#' @return Float period returned by FFT closest to the period of interest
+#' 
+#' @importFrom stats spectrum
+#' @export
+#' 
+#' @examples
+#' checkPeriodsFromFourier(300, 10)
+
+checkPeriodFromFourier <- function(len, period) {
+    s <- stats::spectrum(runif(len), plot = FALSE)
+    isFreqThere <- sum(abs(s$freq - freq) < 10e-6)
+    if (isFreqThere) {
+        return(1/s$freq[which(abs(s$freq - freq) < 10e-6)])
+    } 
+    else {
+        freq2 <- s$freq[which.min(abs(s$freq - freq))]
+        message(
+            "Frequency closest to ", freq, " returned by FFT is: ", 
+            formatC(freq2, digit = 3)
+        )
+        return(1/s$freq[which.min(abs(s$freq - freq))])
+    }
 }
