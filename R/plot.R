@@ -12,7 +12,7 @@
 #' constrained to the periods?
 #' @param facet_control Boolean should the shuffling plots be faceted?
 #' @param xlim Integer x axis upper limit in raw and norm. distograms
-#' @param pval_threshold Float, significance threshold
+#' @param fdr_threshold Float, significance threshold
 #' @param ... Additional theme arguments passed to theme_ggplot2()
 #' @return list A list containing four ggplots
 #' 
@@ -44,7 +44,7 @@ plotPeriodicityResults <- function(
     filter_periods = TRUE, 
     facet_control = TRUE,
     xlim = NULL, 
-    pval_threshold = 0.01,
+    fdr_threshold = 0.05,
     ...
 ) 
 {
@@ -119,7 +119,7 @@ plotPeriodicityResults <- function(
     else {
         p2 <- plotFPI(results$PSD_withShuffling, 
             periods = periods, 
-            pval_threshold = pval_threshold
+            fdr_threshold = fdr_threshold
         )
         p2 <- p2 + ggplot2::labs(
             x = paste0(results$motif, ' periods'), 
@@ -144,7 +144,7 @@ plotPeriodicityResults <- function(
 #' @param fpi The output of getFPI function.
 #' @param periods Vector a numerical vector of length 2, to specify the
 #' x-axis limits 
-#' @param pval_threshold Float, significance threshold
+#' @param fdr_threshold Float, significance threshold
 #' @return ggplot A ggplot
 #' 
 #' @import ggplot2
@@ -163,7 +163,7 @@ plotPeriodicityResults <- function(
 plotFPI <- function(
     fpi, 
     periods = c(2, 20), 
-    pval_threshold = 0.01
+    fdr_threshold = 0.05
 ) {
     periods_bounds <- periods 
     n_shuffled <- length(fpi$shuffled_spectra)
@@ -207,7 +207,10 @@ plotFPI <- function(
         'y' = psds, 
         'type' = c(
             rep('observed', length(fpi$observed_spectra$PSD$freq)), 
-            rep('shuffled', length(periods)-length(fpi$observed_spectra$PSD$freq))
+            rep(
+                'shuffled', 
+                length(periods)-length(fpi$observed_spectra$PSD$freq)
+            )
         ), 
         'group' = groups
     )
@@ -225,9 +228,9 @@ plotFPI <- function(
         pvals$Period >= periods_bounds[1] & pvals$Period <= periods_bounds[2],
     ]
     df$pval <- 1
-    df$pval[seq_len(nrow(pvals))] <- pvals$pval
+    df$fdr[seq_len(nrow(pvals))] <- pvals$fdr
     df$isSign <- factor(FALSE, levels = c(FALSE, TRUE))
-    df$isSign[df$pval <= pval_threshold] <- TRUE
+    df$isSign[df$fdr <= fdr_threshold] <- TRUE
     df$isSign[df$type != 'observed'] <- NA
     # Plotting
     p <- ggplot2::ggplot(df) + 
@@ -241,7 +244,9 @@ plotFPI <- function(
         ) +
         ggplot2::geom_ribbon(
             data = ribbon_coords,
-            ggplot2::aes(x = periods, y = means, ymin = meansDown, ymax = meansUp), 
+            ggplot2::aes(
+                x = periods, y = means, ymin = meansDown, ymax = meansUp
+            ), 
             alpha = 0.2, col = NA
         ) + 
         ggplot2::geom_line(
@@ -282,8 +287,9 @@ plotFPI <- function(
             x = paste0(fpi$motif, ' periods'), 
             y = 'Power Spectral Density', 
             title = paste0(
-                'FPI @ ', fpi$period, '-bp period: ', round(fpi$FPI, 1), 
-                '\n(p = ', df$pval[which.min(abs(df$periods - fpi$period))], ')'
+                'FPI @ ', df$periods[which.min(abs(df$periods - fpi$period))],
+                '-bp period: ', round(fpi$FPI, 1), 
+                '\n(FDR = ', df$fdr[which.min(abs(df$periods - fpi$period))], ')'
             )
         ) + 
         ggplot2::theme(legend.position = "null")
