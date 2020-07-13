@@ -4,7 +4,7 @@
 \alias{plotFPI}
 \title{Plot the output of getFPI()}
 \usage{
-plotFPI(fpi, periods = c(2, 20), pval_threshold = 0.01)
+plotFPI(fpi, periods = c(2, 20), fdr_threshold = 0.01)
 }
 \arguments{
 \item{fpi}{The output of getFPI function.}
@@ -12,7 +12,7 @@ plotFPI(fpi, periods = c(2, 20), pval_threshold = 0.01)
 \item{periods}{Vector a numerical vector of length 2, to specify the
 x-axis limits}
 
-\item{pval_threshold}{Float, significance threshold}
+\item{fdr_threshold}{Float, significance threshold}
 }
 \value{
 ggplot A ggplot

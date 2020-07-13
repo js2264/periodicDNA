@@ -64,7 +64,7 @@ test_that("getPeriodicity works with shuffling", {
         )
         list_plots <- plotPeriodicityResults(periodicity_result_2)
         # ggsave('tmp2.pdf', width = 12, height = 4)
-        # getSignificantPeriods(periodicity_result_2)$significantPeriods %>% dplyr::mutate(ObservedPSD = formatC(ObservedPSD, format = "e", digits = 2)) %>% dplyr::mutate(pval = formatC(pval, , format = "e", digits = 2)) %>% head(30) %>% knitr::kable()
+        # getPeriodsMetrics(periodicity_result_2)$significantPeriods %>% dplyr::mutate(ObservedPSD = formatC(ObservedPSD, format = "e", digits = 2)) %>% dplyr::mutate(pval = formatC(pval, , format = "e", digits = 2)) %>% head(30) %>% knitr::kable()
         methods::is(list_plots, "gg")
     }, TRUE)
 })
@@ -89,7 +89,7 @@ test_that("getPeriodicity examples in periodicDNA paper", {
         )
         plots <- plotPeriodicityResults(sacCer3_results, xlim = 150)
         ggsave('sacCer3_results_500.pdf', width = 12, height = 4)
-        # getSignificantPeriods(sacCer3_results)$periodicityMetrics %>% dplyr::mutate(PSD_observed = formatC(PSD_observed, format = "e", digits = 2)) %>% dplyr::mutate(pval = formatC(pval, format = "e", digits = 2)) %>% head(30) %>% knitr::kable()
+        # getPeriodsMetrics(sacCer3_results)$periodicityMetrics %>% dplyr::mutate(PSD_observed = formatC(PSD_observed, format = "e", digits = 2)) %>% dplyr::mutate(pval = formatC(pval, format = "e", digits = 2)) %>% head(30) %>% knitr::kable()
         ####
         ####
         data(ce11_TSSs)
@@ -102,7 +102,7 @@ test_that("getPeriodicity examples in periodicDNA paper", {
         )
         plots <- plotPeriodicityResults(ce11_results, xlim = 150)
         ggsave('ce11_results_500.pdf', width = 12, height = 4)
-        # getSignificantPeriods(ce11_results)$periodicityMetrics %>% dplyr::mutate(PSD_observed = formatC(PSD_observed, format = "e", digits = 2)) %>% dplyr::mutate(pval = formatC(pval, format = "e", digits = 2)) %>% head(30) %>% knitr::kable()
+        # getPeriodsMetrics(ce11_results)$periodicityMetrics %>% dplyr::mutate(PSD_observed = formatC(PSD_observed, format = "e", digits = 2)) %>% dplyr::mutate(pval = formatC(pval, format = "e", digits = 2)) %>% head(30) %>% knitr::kable()
         ####
         ####
     }, TRUE)
@@ -336,7 +336,7 @@ test_that("getPeriodicity for ce11 proms/enhancers", {
                 )
                 list(
                     psd = res$PSD$PSD[which.min(abs(res$PSD$period - 10))], 
-                    pvalue = getSignificantPeriods(res$FPI)$significantPeriods %>% filter(Period == 10) %>% select(pval) %>% '[['(1),
+                    pvalue = getPeriodsMetrics(res$FPI)$significantPeriods %>% filter(Period == 10) %>% select(pval) %>% '[['(1),
                     fpi = res$FPI$FPI
                 )
             })

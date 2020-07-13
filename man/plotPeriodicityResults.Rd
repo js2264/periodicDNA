@@ -10,7 +10,7 @@ plotPeriodicityResults(
   filter_periods = TRUE,
   facet_control = TRUE,
   xlim = NULL,
-  pval_threshold = 0.01,
+  fdr_threshold = 0.05,
   ...
 )
 }
@@ -27,7 +27,7 @@ constrained to the periods?}
 
 \item{xlim}{Integer x axis upper limit in raw and norm. distograms}
 
-\item{pval_threshold}{Float, significance threshold}
+\item{fdr_threshold}{Float, significance threshold}
 
 \item{...}{Additional theme arguments passed to theme_ggplot2()}
 }

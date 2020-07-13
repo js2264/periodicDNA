@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{setUpBPPARAM}
 \alias{setUpBPPARAM}
-\title{A function to dynamically select MulticoreParam or SnowParam (if Windows)}
+\title{setUpBPPARAM}
 \usage{
 setUpBPPARAM(nproc = 1)
 }
@@ -13,7 +13,8 @@ setUpBPPARAM(nproc = 1)
 A BPPARAM object
 }
 \description{
-A function to dynamically select MulticoreParam or SnowParam (if Windows)
+A function to dynamically select 
+MulticoreParam or SnowParam (if Windows)
 }
 \examples{
 BPPARAM <- setUpBPPARAM(1)
