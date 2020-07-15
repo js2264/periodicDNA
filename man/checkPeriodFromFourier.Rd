@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{checkPeriodFromFourier}
 \alias{checkPeriodFromFourier}
-\title{checkPeriodsFromFourier}
+\title{checkPeriodFromFourier}
 \usage{
 checkPeriodFromFourier(len, period)
 }
@@ -20,5 +20,5 @@ the result of a FFT analysis, based on the length of the vector which
 is used for FFT
 }
 \examples{
-checkPeriodsFromFourier(300, 10)
+checkPeriodFromFourier(300, 10)
 }

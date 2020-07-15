@@ -484,7 +484,7 @@ setUpBPPARAM <- function(nproc = 1) {
     return(result)
 }
 
-#' checkPeriodsFromFourier
+#' checkPeriodFromFourier
 #' 
 #' A function to quickly check whether a period of interest is in 
 #' the result of a FFT analysis, based on the length of the vector which 
@@ -495,13 +495,15 @@ setUpBPPARAM <- function(nproc = 1) {
 #' @return Float period returned by FFT closest to the period of interest
 #' 
 #' @importFrom stats spectrum
+#' @importFrom stats runif
 #' @export
 #' 
 #' @examples
-#' checkPeriodsFromFourier(300, 10)
+#' checkPeriodFromFourier(300, 10)
 
 checkPeriodFromFourier <- function(len, period) {
-    s <- stats::spectrum(runif(len), plot = FALSE)
+    s <- stats::spectrum(stats::runif(len), plot = FALSE)
+    freq <- 1/period
     isFreqThere <- sum(abs(s$freq - freq) < 10e-6)
     if (isFreqThere) {
         return(1/s$freq[which(abs(s$freq - freq) < 10e-6)])
@@ -510,7 +512,7 @@ checkPeriodFromFourier <- function(len, period) {
         freq2 <- s$freq[which.min(abs(s$freq - freq))]
         message(
             "Frequency closest to ", freq, " returned by FFT is: ", 
-            formatC(freq2, digit = 3)
+            formatC(freq2, digits = 3)
         )
         return(1/s$freq[which.min(abs(s$freq - freq))])
     }

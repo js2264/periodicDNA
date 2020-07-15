@@ -232,6 +232,16 @@ plotFPI <- function(
     df$isSign <- factor(FALSE, levels = c(FALSE, TRUE))
     df$isSign[df$fdr <= fdr_threshold] <- TRUE
     df$isSign[df$type != 'observed'] <- NA
+    tit <- paste0(
+        'FPI @ ', df$periods[which.min(abs(df$periods - fpi$period))],
+        '-bp period: ', round(fpi$FPI, 1)
+    )
+    if (any(!is.na(df$fdr))) {
+        tit <- paste0(
+            tit, 
+            '\n(FDR = ', df$fdr[which.min(abs(df$periods - fpi$period))], ')'
+        )
+    }
     # Plotting
     p <- ggplot2::ggplot(df) + 
         ggplot2::aes(x = periods, y = y) + 
@@ -286,11 +296,7 @@ plotFPI <- function(
         ggplot2::labs(
             x = paste0(fpi$motif, ' periods'), 
             y = 'Power Spectral Density', 
-            title = paste0(
-                'FPI @ ', df$periods[which.min(abs(df$periods - fpi$period))],
-                '-bp period: ', round(fpi$FPI, 1), 
-                '\n(FDR = ', df$fdr[which.min(abs(df$periods - fpi$period))], ')'
-            )
+            title = tit
         ) + 
         ggplot2::theme(legend.position = "null")
     return(p)
