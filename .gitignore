@@ -7,3 +7,4 @@ gitdiff.html
 *.bed
 CONDUCT
 TODO
+ignored_tests.R
