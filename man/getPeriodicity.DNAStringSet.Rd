@@ -12,7 +12,6 @@
   roll = 3,
   verbose = TRUE,
   sample = 0,
-  doZscore = FALSE,
   n_shuffling = 0,
   ...
 )
@@ -38,8 +37,6 @@ can be very strong in vertebrate genomes)}
 from the dists vector before normalization. This ensures consistency 
 when looking at periodicity in different genomes, since different
 genomes will have different GC percent}
-
-\item{doZscore}{Boolean should the normalized dampened signal be z-scored?}
 
 \item{n_shuffling}{Integer, how many times should the sequences be 
 shuffled? If n_shuffling > 0, the sequences are passed to the getFPI 

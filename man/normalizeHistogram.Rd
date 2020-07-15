@@ -4,14 +4,12 @@
 \alias{normalizeHistogram}
 \title{Internal function}
 \usage{
-normalizeHistogram(hist, roll = 1, doZscore = TRUE, roll_smoothed.h = 10)
+normalizeHistogram(hist, roll = 1, roll_smoothed.h = 10)
 }
 \arguments{
 \item{hist}{Vector a numeric vector}
 
 \item{roll}{Integer window used to roll the flatten histogram}
-
-\item{doZscore}{Boolean should the normalized dampened signal be z-scored?}
 
 \item{roll_smoothed.h}{Integer window used to flatten the histogram}
 }

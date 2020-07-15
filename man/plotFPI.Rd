@@ -4,7 +4,7 @@
 \alias{plotFPI}
 \title{Plot the output of getFPI()}
 \usage{
-plotFPI(fpi, periods = c(2, 20), fdr_threshold = 0.01)
+plotFPI(fpi, periods = c(2, 20), fdr_threshold = 0.05)
 }
 \arguments{
 \item{fpi}{The output of getFPI function.}

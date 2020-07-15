@@ -69,7 +69,6 @@ getPeriodicity <- function(x, ...) {
 #' from the dists vector before normalization. This ensures consistency 
 #' when looking at periodicity in different genomes, since different
 #' genomes will have different GC percent
-#' @param doZscore Boolean should the normalized dampened signal be z-scored?
 #' @param n_shuffling Integer, how many times should the sequences be 
 #' shuffled? If n_shuffling > 0, the sequences are passed to the getFPI 
 #' function.
@@ -114,7 +113,6 @@ getPeriodicity.DNAStringSet <- function(
     roll = 3,
     verbose = TRUE,
     sample = 0,
-    doZscore = FALSE,
     n_shuffling = 0,
     ...
 )
@@ -174,7 +172,7 @@ getPeriodicity.DNAStringSet <- function(
         if (verbose & n_shuffling == 0) 
             message("- Normalizing histogram vector.")
         if (length(hist) > 10) {
-            norm_hist <- normalizeHistogram(hist, roll = 1, doZscore)
+            norm_hist <- normalizeHistogram(hist, roll = 1)
         } 
         else {
             norm_hist <- hist
@@ -219,7 +217,6 @@ getPeriodicity.DNAStringSet <- function(
             roll = roll,
             verbose = verbose,
             sample = sample,
-            doZscore = doZscore,
             n_shuffling = n_shuffling, 
             ...
         )
@@ -363,7 +360,6 @@ getPeriodicity.DNAString <- function(
 #'
 #' @param hist Vector a numeric vector
 #' @param roll Integer window used to roll the flatten histogram
-#' @param doZscore Boolean should the normalized dampened signal be z-scored?
 #' @param roll_smoothed.h Integer window used to flatten the histogram
 #' @return a normalized vector
 #' 
@@ -372,7 +368,6 @@ getPeriodicity.DNAString <- function(
 normalizeHistogram <- function(
     hist, 
     roll = 1, 
-    doZscore = TRUE, 
     roll_smoothed.h = 10
 ) 
 {
@@ -385,10 +380,6 @@ normalizeHistogram <- function(
         rep(0, roll_smoothed.h-1)
     ) 
     norm.h <- h - smoothed.h
-    # Z-score
-    if (doZscore) {
-        norm.h <- scale(norm.h) 
-    } 
     # Smooth normalized distribution 
     if (roll > 1) {
         norm.h <- zoo::rollmean(

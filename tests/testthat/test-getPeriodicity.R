@@ -43,8 +43,7 @@ test_that("getPeriodicity works with shuffling", {
             range_spectrum = 1:100,
             genome = 'ce11',
             motif = 'TT',
-            n_shuffling = 3, 
-            doZscore = TRUE
+            n_shuffling = 3
         )
         periodicity_result_2 <- getPeriodicity(
             ce11_TSSs[['Ubiq.']][seq_len(10)] %>% 
