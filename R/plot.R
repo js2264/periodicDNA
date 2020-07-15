@@ -220,7 +220,7 @@ plotFPI <- function(
         ribbon_coords$periods <= periods_bounds[2],
     ]
     # Adding significance
-    pvals <- fpi$significantPeriods
+    pvals <- fpi$periodicityMetrics
     if (!("pval" %in% colnames(pvals))) {
         pvals$pval <- 1
     }

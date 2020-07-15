@@ -232,7 +232,6 @@ getPeriodicity.DNAStringSet <- function(
             PSD_withShuffling = FPI, 
             motif = FPI$observed_spectra$motif, 
             FPI = FPI$FPI, 
-            significantPeriods = FPI$significantPeriods, 
             periodicityMetrics = FPI$periodicityMetrics
         )
     }

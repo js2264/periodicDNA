@@ -118,7 +118,7 @@ periodicity_result <- getPeriodicity(
     motif = 'TT', 
     n_shuffling = 5
 )
-periodicity_result$significantPeriods %>% head(30)
+periodicity_result$periodicityMetrics %>% head(30)
 plotPeriodicityResults(periodicity_result)
 ```
 

@@ -101,7 +101,7 @@ getFPI.DNAStringSet <- function(
     )
     closestfreq <- which.min(abs(1/obs$PSD$freq - period))
     f <- obs$PSD$freq[closestfreq]
-    if (f != 0.1) {
+    if ((f - 0.1) > 1e-10) {
         warning(
             "The period returned by Fast Fourier Transform ",
             "which is closest to the period of interest (", period, ") ",
@@ -256,6 +256,11 @@ getPeriodsMetrics <- function(fpi) {
     obsPsds <- fpi$observed_spectra$PSD
     expPsds <- lapply(fpi$shuffled_spectra, '[[', 'PSD') %>% do.call(rbind, .)
     n_perms <- table(expPsds$freq)[[1]]
+    fpis <- unlist(lapply(obsPsds$freq, function(freq) {
+        obs_PSD <- obsPsds$PSD[obsPsds$freq == freq]
+        l_shuff_PSD <- expPsds$PSD[expPsds$freq == freq]
+        (obs_PSD - median(l_shuff_PSD)) / median(l_shuff_PSD)
+    }))
     if (n_perms < 100) {
         message(
             "Only ", table(expPsds$freq)[[1]], " shufflings. ", 
@@ -264,7 +269,7 @@ getPeriodsMetrics <- function(fpi) {
             "set up n_shuffling to at least 100. ",
             "Only FPI is returned"
         )
-        pvals <- as.numeric(NA)
+        pvals <- rep(as.numeric(NA), length(obsPsds$freq))
     }
     else {
         minpval <- formatC(1/(n_perms+1), format = 'e', digits = 2)
@@ -278,6 +283,7 @@ getPeriodsMetrics <- function(fpi) {
             exp <- expPsds$PSD[expPsds$freq == freq]
             (sum(exp > obs) + 1)/(n_perms + 1)
         }))
+        pvals <- as.numeric(formatC(pvals, format = "e", digits = 2))
     }
     df <- data.frame(
         Freq = obsPsds$freq, 
@@ -290,16 +296,10 @@ getPeriodsMetrics <- function(fpi) {
             l_shuff_PSD <- expPsds$PSD[expPsds$freq == freq]
             log2(obs_PSD/median(l_shuff_PSD))
         })),
-        pval = as.numeric(formatC(pvals, format = "e", digits = 2)),
-        fdr = stats::p.adjust(pvals, method = 'fdr'),
-        FPI = unlist(lapply(obsPsds$freq, function(freq) {
-            obs_PSD <- obsPsds$PSD[obsPsds$freq == freq]
-            l_shuff_PSD <- expPsds$PSD[expPsds$freq == freq]
-            (obs_PSD - median(l_shuff_PSD)) / median(l_shuff_PSD)
-        }))
+        pval = pvals,
+        fdr = stats::p.adjust(pvals, method = 'fdr')#,
+        # FPI = fpis
     )
-    df <- df[df$pval <= pval_threshold,]
-    fpi$significantPeriods <- df
     fpi$periodicityMetrics <- df
     return(fpi)
 }
