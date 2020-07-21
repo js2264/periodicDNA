@@ -17,6 +17,7 @@
 #' 
 #' @import GenomicRanges
 #' @import IRanges
+#' @import BSgenome
 #' @export
 #' 
 #' @examples
@@ -129,7 +130,7 @@ withSeq <- function(granges, genome) {
         if (genome %in% c(
             'sacCer3', 'ce11', 'dm6', 'mm10', 'hg38', 'danRer10'
         )) {
-            genome <- char2BSgenome(genome)
+            genome <- BSgenome::getBSgenome(genome)
         }
         else {
             return(stop(
@@ -144,23 +145,6 @@ withSeq <- function(granges, genome) {
     granges$seq <- genome[granges]
     return(granges)
 }
-
-#' Internal function
-#' 
-#' Used to compute the stranded coverage of a RleList over a 
-#' GRanges as a square matrix.
-#'
-#' @param g GRanges to map a track onto
-#' @param bw RleList, a track from rtraklayer::import(..., as = 'Rle')
-#' @param norm character, should the signal be normalized 
-#' ('none', 'zscore' or 'log2')?
-#' @param verbose Boolean, should the function be verbose?
-#' @return A square numerical matrix of signal values over the GRanges
-#' 
-#' @import magrittr
-#' @import IRanges
-#' @import GenomicRanges
-#' @import GenomeInfoDb
 
 getCovMatrix <- function(g, bw, norm = 'none', verbose = FALSE) {
     scores <- bw
@@ -302,8 +286,7 @@ plotAggregateCoverage.CompressedRleList <- function(
 #' @import ggplot2
 #' @importFrom zoo rollmean
 #' @importFrom parallel mclapply
-#' @importFrom stats qt
-#' @importFrom methods is
+#' @import stats
 #' @export
 #' 
 #' @examples
@@ -510,7 +493,7 @@ plotAggregateCoverage.SimpleRleList <- function(
 #' @import ggplot2
 #' @importFrom zoo rollmean
 #' @importFrom parallel mclapply
-#' @importFrom stats qt
+#' @import stats
 #' @importFrom methods is
 #' @export
 #' 

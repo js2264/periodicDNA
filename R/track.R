@@ -30,6 +30,7 @@
 #' @import GenomicRanges
 #' @import IRanges
 #' @import BiocParallel
+#' @import BSgenome
 #' @importFrom rtracklayer export.bw
 #' @importFrom methods is
 #' @export
@@ -74,7 +75,7 @@ getPeriodicityTrack <- function(
         if (genome %in% c(
             'sacCer3', 'ce11', 'dm6', 'mm10', 'hg38', 'danRer10'
         )) {
-            genome <- char2BSgenome(genome)
+            genome <- BSgenome::getBSgenome(genome)
         }
         else {
             return(stop(
@@ -198,22 +199,6 @@ getPeriodicityTrack <- function(
     return(res)
 }
 
-#' Internal function
-#'
-#' @param genome DNAStringSet, BSgenome or genome ID
-#' @param granges_extended_large A GRanges object.
-#' @param granges_extended A GRanges object.
-#' @param window_size An integer. The width of the bins to split 
-#' the GRanges objects in (default 100).
-#' @param step_size An integer. The increment between bins 
-#' over GRanges (default 2).
-#' @return granges_partionned A Granges object corresponding to the binned 
-#' genome. 
-#' 
-#' @import GenomeInfoDb
-#' @import GenomicRanges
-#' @import IRanges
-
 partitionGenome <- function(
     genome, 
     granges_extended_large, 
@@ -248,13 +233,6 @@ partitionGenome <- function(
     return(granges_partionned)
 }
 
-#' Internal function
-#'
-#' @param genome_partionned_filtered Output from partitionGenome() filtered 
-#' over GRanges of interest. 
-#' @param cores An integer Split the workload over several processors 
-#' (default 12).
-#' @return list Chunks list of primary bins to measure.
 
 getChunks <- function(genome_partionned_filtered, cores) {
     chunks <- as.numeric(
@@ -271,26 +249,6 @@ getChunks <- function(genome_partionned_filtered, cores) {
     }
     return(list_granges)
 }
-
-#' Internal function
-#'
-#' @param chunk A GRanges from the chunks list obtained with getChunks
-#' @param chunks GRanges split in a list with getChunks
-#' @param genome DNAStringSet, BSgenome or genome ID
-#' @param motif String Oligonucleotide of interest. 
-#' @param step_size Integer The increment between 
-#' bins over GRanges (default 2).
-#' @param range_spectrum Numeric vector The distances between nucleotides
-#' to take into consideration when performing Fast Fourier Transform 
-#' (default seq_len(50)).
-#' @param freq Float The frequence of the dinucleotide to study 
-#' (default 1/10).
-#' @param logfile character, name of log file 
-#' @return GRanges a GRanges object with a score column containing 
-#' estimated periodicity
-#' 
-#' @import GenomicRanges
-#' @importFrom rtracklayer export.bw
 
 chunkWrapper <- function(
     chunk,
@@ -335,26 +293,6 @@ chunkWrapper <- function(
     return(res)
 }
 
-#' Internal function
-#'
-#' @param grange A GRanges object of length 1
-#' @param genome DNAStringSet, BSgenome or genome ID
-#' @param motif String Oligonucleotide of interest. 
-#' @param range_spectrum Numeric vector The distances between nucleotides
-#' to take into consideration when performing Fast Fourier Transform 
-#' (default seq_len(50)).
-#' @param freq Float The frequence of the dinucleotide to study
-#' (default 1/10).
-#' @return Float The estimated periodicity score of the input GRanges
-#' 
-#' @import magrittr
-#' @importFrom stats dist
-#' @import Biostrings
-#' @import GenomicRanges
-#' @import IRanges
-#' @importFrom stats spectrum
-#' @importFrom zoo rollmean
-
 binWrapper <- function(
     grange, 
     genome, 
@@ -370,7 +308,7 @@ binWrapper <- function(
         ) %>% 
         IRanges::start() %>% 
         '[['(1) %>% 
-        dist() %>% 
+        stats::dist() %>% 
         c()
     }))
     dists <- dists[dists <= max(range_spectrum)]
@@ -384,18 +322,6 @@ binWrapper <- function(
     spec <- round(s$spec[which.min(abs(s$freq - freq))], 4)
     return(spec)
 }
-
-#' Internal function
-#'
-#' @param bw A RleList object
-#' @param k Integer, smoothing window
-#' @param BPPARAM BPPARAM
-#' @return bw RleList smoothed (for each chromosome) using a window of k.
-#' 
-#' @import BiocParallel
-#' @import S4Vectors
-#' @importFrom methods as
-#' @importFrom zoo rollmean
 
 smoothBigWig <- function(bw, k = 20, BPPARAM) {
     BPPARAM$workers <- min(length(bw), BPPARAM$workers)
@@ -412,14 +338,6 @@ smoothBigWig <- function(bw, k = 20, BPPARAM) {
     v <- methods::as(v, "RleList")
     return(v)
 }
-
-#' Internal function
-#' 
-#' @param logfile character, name of log file 
-#' @return NULL Clean-up temporary files generated when running 
-#' getPeriodicityTrack.
-#' 
-#' @import magrittr
 
 cleanUpDirectory <- function(logfile) {
     list.files(pattern = '.*tmp.*') %>% file.remove()

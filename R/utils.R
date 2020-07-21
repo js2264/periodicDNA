@@ -1,13 +1,3 @@
-#' A function to easily coerce a named list into a long data.frame
-#' 
-#' This function takes a named list of data.frames. For each data.frame, 
-#' the name of the data.frame is added in a new column, and the resulting
-#' data.frames are all bound together using rbind.
-#' to 
-#' 
-#' @param x A named list of vectors or data.frames
-#' @return A long data frame
-
 namedListToLongFormat <- function(x) {
     l <- lapply(names(x), function(NAME) {
         L <- x[[NAME]]
@@ -22,29 +12,11 @@ namedListToLongFormat <- function(x) {
     return(res)
 }
 
-#' A function to replace NAs in a vector by a given value
-#' 
-#' This function is 'tidyverse-friendly', i.e. it takes a vector and
-#' returns the same vector with the NA values replaced by a chosen 
-#' value
-#'
-#' @param x vector
-#' @param value Replace NAs by this variable
-#' @return A vector with NA replaced by value
-
 na.replace <- function(x, value) {
     which.na <- is.na(x)
     x[which.na] <- value
     return(x)
 }
-
-#' A function to remove NAs from a vector
-#'
-#' This function is 'tidyverse-friendly', i.e. it takes a vector and
-#' returns the same vector minus the NA values
-#' 
-#' @param x vector
-#' @return A vector without NAs
 
 na.remove <- function(x) {
     which.na <- is.na(x)
@@ -355,6 +327,7 @@ sampleGRanges.BSgenome <- function(
 #' @import GenomicRanges
 #' @import IRanges
 #' @import GenomeInfoDb
+#' @import BSgenome
 #' @export
 #' 
 #' @examples
@@ -368,7 +341,7 @@ sampleGRanges.character <- function(
     if (x %in% c(
         'sacCer3', 'ce11', 'dm6', 'mm10', 'hg38', 'danRer10'
     )) {
-        genome <- char2BSgenome(x)
+        genome <- BSgenome::getBSgenome(x)
     }
     else {
         return(stop(
@@ -427,39 +400,6 @@ DNAStringSet2GRanges <- function(seqs) {
     return(g)
 }
 
-#' A function to get the BSgenome from genome ID
-#'
-#' This function switches a UCSC genome ID to the actual BSgenome
-#' object. Currently, sacCer3, ce11, dm6, danRer10, mm10 and hg38 are 
-#' supported. 
-#' 
-#' @param ID character
-#' @return BSgenome object
-#' 
-#' @export
-#' 
-#' @examples
-#' char2BSgenome('ce11')
-
-char2BSgenome <- function(ID) {
-    genome <- switch(
-        ID, 
-        'sacCer3' = (BSgenome.Scerevisiae.UCSC.sacCer3::
-            BSgenome.Scerevisiae.UCSC.sacCer3), 
-        'ce11' = (BSgenome.Celegans.UCSC.ce11::
-            BSgenome.Celegans.UCSC.ce11), 
-        'dm6' = (BSgenome.Dmelanogaster.UCSC.dm6::
-            BSgenome.Dmelanogaster.UCSC.dm6), 
-        'danRer10' = (BSgenome.Drerio.UCSC.danRer10::
-            BSgenome.Drerio.UCSC.danRer10), 
-        'mm10' = (BSgenome.Mmusculus.UCSC.mm10::
-            BSgenome.Mmusculus.UCSC.mm10), 
-        'hg38' = (BSgenome.Hsapiens.UCSC.hg38::
-            BSgenome.Hsapiens.UCSC.hg38)
-    )
-    return(genome)
-}
-
 #' setUpBPPARAM
 #' 
 #' A function to dynamically select 
@@ -494,8 +434,7 @@ setUpBPPARAM <- function(nproc = 1) {
 #' @param period Float, period of interest
 #' @return Float period returned by FFT closest to the period of interest
 #' 
-#' @importFrom stats spectrum
-#' @importFrom stats runif
+#' @import stats
 #' @export
 #' 
 #' @examples

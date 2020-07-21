@@ -1,6 +1,6 @@
 ---
-title: periodicDNA
-author: Jacques Serizay
+title: "periodicDNA"
+author: "Jacques Serizay"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >

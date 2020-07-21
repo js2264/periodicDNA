@@ -92,8 +92,7 @@ getPeriodicity <- function(x, ...) {
 #' @import Biostrings
 #' @import IRanges
 #' @import magrittr
-#' @importFrom stats spectrum
-#' @importFrom stats setNames
+#' @import stats
 #' @export
 #' 
 #' @examples
@@ -129,7 +128,7 @@ getPeriodicity.DNAStringSet <- function(
                 fixed = FALSE
             )[[1]] %>% 
                 IRanges::start() %>% 
-                dist() %>% 
+                stats::dist() %>% 
                 c()
         }, BPPARAM = BPPARAM) %>% unlist()
         max_dist <- max(dists)
@@ -263,6 +262,7 @@ getPeriodicity.DNAStringSet <- function(
 #' }
 #' 
 #' @importFrom methods is
+#' @importFrom BSgenome getBSgenome
 #' @export
 #' 
 #' @examples
@@ -291,7 +291,7 @@ getPeriodicity.GRanges <- function(
             if (genome %in% c(
                 'sacCer3', 'ce11', 'dm6', 'mm10', 'hg38', 'danRer10'
             )) {
-                genome <- char2BSgenome(genome)
+                genome <- BSgenome::getBSgenome(genome)
             }
             else {
                 return(stop(
@@ -353,17 +353,6 @@ getPeriodicity.DNAString <- function(
     seq <- Biostrings::DNAStringSet(x)
     getPeriodicity(seq, ...)
 }
-
-#' Internal function 
-#' 
-#' This function normalize a distogram for distance decay
-#'
-#' @param hist Vector a numeric vector
-#' @param roll Integer window used to roll the flatten histogram
-#' @param roll_smoothed.h Integer window used to flatten the histogram
-#' @return a normalized vector
-#' 
-#' @importFrom zoo rollmean
 
 normalizeHistogram <- function(
     hist, 

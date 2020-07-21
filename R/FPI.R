@@ -168,6 +168,7 @@ getFPI.DNAStringSet <- function(
 #' 
 #' @import GenomicRanges
 #' @import IRanges
+#' @import BSgenome
 #' @export
 #' 
 #' @examples
@@ -209,7 +210,7 @@ getFPI.GRanges <- function(
             if (genome %in% c(
                 'sacCer3', 'ce11', 'dm6', 'mm10', 'hg38', 'danRer10'
             )) {
-                genome <- char2BSgenome(genome)
+                genome <- BSgenome::getBSgenome(genome)
             }
             else {
                 return(stop(
@@ -234,8 +235,7 @@ getFPI.GRanges <- function(
 #' associated empirical p-values, and FPI for each frequency 
 #' assessed by getPeriodicity(). 
 #' 
-#' @importFrom stats t.test
-#' @importFrom stats p.adjust
+#' @import stats
 #' @export
 #' 
 #' @examples

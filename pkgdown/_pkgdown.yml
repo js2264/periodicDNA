@@ -43,7 +43,6 @@ reference:
   - alignToTSS
   - scaleBigWigs
   - DNAStringSet2GRanges
-  - char2BSgenome
   - theme_ggplot2
   - setUpBPPARAM
 - title: Data

@@ -26,6 +26,7 @@ Depends:
     Biostrings, 
     GenomicRanges,
     IRanges, 
+    BSgenome,
     BiocParallel
 Imports: 
     S4Vectors,
