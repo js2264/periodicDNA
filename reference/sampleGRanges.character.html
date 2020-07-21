@@ -88,7 +88,7 @@ supported." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.13</span>
       </span>
     </div>
 
@@ -185,32 +185,32 @@ supported.</p>
     <pre class="examples"><div class='input'><span class='fu'>sampleGRanges</span>(<span class='st'>'sacCer3'</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>150</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; GRanges object with 100 ranges and 1 metadata column:
 #&gt;         seqnames        ranges strand |                     seq
 #&gt;            &lt;Rle&gt;     &lt;IRanges&gt;  &lt;Rle&gt; |          &lt;DNAStringSet&gt;
-#&gt;     [1]     chrI     4170-4319      * | TAAGTCAATT...AATAGCTCTT
-#&gt;     [2]     chrI   59690-59839      * | GCTTGATAAG...TTGTTGAGGG
-#&gt;     [3]     chrI 103141-103290      * | AAATCTCTGG...TCTCTGTGGA
-#&gt;     [4]     chrI 131876-132025      * | GAGGCCTCTG...CCTTTTTAAG
-#&gt;     [5]     chrI 145379-145528      * | TTCTTTTCAG...TTATTAATAT
+#&gt;     [1]     chrI     5479-5628      * | TAACTCCTAA...GGGAATAAAA
+#&gt;     [2]    chrII   34744-34893      * | TAAACAATTA...GAGGAAAGTC
+#&gt;     [3]    chrII   49292-49441      * | GGAATTCATG...CTATTTAGTT
+#&gt;     [4]    chrII 399076-399225      * | ATAGGCAATT...ATACTAACCT
+#&gt;     [5]    chrII 434573-434722      * | TACCCAAATA...TCAATTTCCT
 #&gt;     ...      ...           ...    ... .                     ...
-#&gt;    [96]   chrXVI 731381-731530      * | AAAATACCGA...AGCCTTTGGA
-#&gt;    [97]     chrM     3916-4065      * | CTTTTTTTTT...GGACCCGGAT
-#&gt;    [98]     chrM     5001-5150      * | ACCATTTATA...AATATAAATA
-#&gt;    [99]     chrM   40812-40961      * | CAAATATGTA...ATCTAATCCA
-#&gt;   [100]     chrM   75322-75471      * | ATTATTAATT...TAAAATGATA
+#&gt;    [96]   chrXVI 327186-327335      * | AAGTTGGAAA...CGTTGTTAAG
+#&gt;    [97]   chrXVI 594393-594542      * | AGAACATTCT...CTATCTTTTT
+#&gt;    [98]   chrXVI 627594-627743      * | CCACGTACCC...GGAAAAGACC
+#&gt;    [99]   chrXVI 781947-782096      * | GAACAGTTAA...ATCCCGTTGT
+#&gt;   [100]     chrM     2218-2367      * | TATTATATAA...CATTTCAATA
 #&gt;   -------
 #&gt;   seqinfo: 17 sequences from an unspecified genome</div><div class='input'><span class='fu'>sampleGenome</span>(<span class='st'>'sacCer3'</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>150</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; GRanges object with 100 ranges and 1 metadata column:
 #&gt;         seqnames        ranges strand |                     seq
 #&gt;            &lt;Rle&gt;     &lt;IRanges&gt;  &lt;Rle&gt; |          &lt;DNAStringSet&gt;
-#&gt;     [1]     chrI   90074-90223      * | GGAGGTCTGG...CTTAATTGCG
-#&gt;     [2]     chrI 140448-140597      * | GACTTGAGAT...CAATTTCAAC
-#&gt;     [3]    chrII   79146-79295      * | TCTAGATGGT...TATTCCAATC
-#&gt;     [4]    chrII 215940-216089      * | CAGCGGGAGC...TCATTTTCAT
-#&gt;     [5]    chrII 220859-221008      * | CCTGTGCGTG...TGTATATCTA
+#&gt;     [1]     chrI   12761-12910      * | TTGTACTGGT...GAACTAGTTT
+#&gt;     [2]     chrI 176230-176379      * | TTGATCTTTT...GTACGAGGGA
+#&gt;     [3]    chrII   33100-33249      * | TTTGGGTGGT...AGGCTGCATG
+#&gt;     [4]    chrII   95956-96105      * | CTTCAACAAA...ATTCCTTTGC
+#&gt;     [5]    chrII 154599-154748      * | CTTTTTATCC...AAGCAAATGC
 #&gt;     ...      ...           ...    ... .                     ...
-#&gt;    [96]   chrXVI 362957-363106      * | GATTGGATGT...TGGGAACTCC
-#&gt;    [97]   chrXVI 365337-365486      * | GGAAAGTTGG...GCTCTCACTG
-#&gt;    [98]   chrXVI 610177-610326      * | TGAAATGCGA...GTAGTGAAAA
-#&gt;    [99]   chrXVI 665783-665932      * | TGGCGTTAGA...GGTCCTTCTT
-#&gt;   [100]   chrXVI 888694-888843      * | TTCCTGAATT...GATGTGACGC
+#&gt;    [96]   chrXVI 575847-575996      * | TTGCTCTTCG...ACATCCTACT
+#&gt;    [97]   chrXVI 624081-624230      * | AAAAGATCGT...CCTCAAATCA
+#&gt;    [98]   chrXVI 774149-774298      * | ATTGCCATTG...TGGGTTGGGC
+#&gt;    [99]   chrXVI 816380-816529      * | ACTTTATAAT...AACATTATAT
+#&gt;   [100]   chrXVI 916548-916697      * | AGACTTGTTA...TGATAGAAGA
 #&gt;   -------
 #&gt;   seqinfo: 17 sequences from an unspecified genome</div></pre>
   </div>

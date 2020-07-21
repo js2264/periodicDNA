@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.13</span>
       </span>
     </div>
 
@@ -95,7 +95,7 @@
       <h1 data-toc-skip>periodicDNA</h1>
                         <h4 class="author">Jacques Serizay</h4>
             
-            <h4 class="date">2020-07-08</h4>
+            <h4 class="date">2020-07-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/js2264/periodicDNA/blob/master/vignettes/periodicDNA.Rmd"><code>vignettes/periodicDNA.Rmd</code></a></small>
       <div class="hidden name"><code>periodicDNA.Rmd</code></div>
@@ -178,35 +178,35 @@
 <span class="co">#&gt; - Shuffling 3/5</span>
 <span class="co">#&gt; - Shuffling 4/5</span>
 <span class="co">#&gt; - Shuffling 5/5</span>
-<span class="co">#&gt; &gt;&gt; Calculated FPI @ 10bp is: 886.561160377945</span>
+<span class="co">#&gt; &gt;&gt; Calculated FPI @ 10bp is: 741.545171132644</span>
 <span class="co">#&gt; Only 5 shufflings. Cannot compute accurate empirical p-values. To compute empirical p-values, set up n_shuffling to at least 100. Only FPI is returned</span>
 <span class="no">FPI</span>$<span class="no">periodicityMetrics</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="fl">25</span>)
-<span class="co">#&gt;     Freq     Period PSD_observed           FPI</span>
-<span class="co">#&gt; 1  0.005 200.000000     4.05e-08   -0.07251679</span>
-<span class="co">#&gt; 2  0.010 100.000000     1.04e-08    0.09179573</span>
-<span class="co">#&gt; 3  0.015  66.666667     1.13e-09   -0.75040835</span>
-<span class="co">#&gt; 4  0.020  50.000000     3.16e-09    1.13968896</span>
-<span class="co">#&gt; 5  0.025  40.000000     4.11e-09    7.19893484</span>
-<span class="co">#&gt; 6  0.030  33.333333     6.48e-09    3.37502077</span>
-<span class="co">#&gt; 7  0.035  28.571429     6.08e-10    0.11603815</span>
-<span class="co">#&gt; 8  0.040  25.000000     2.06e-09    2.42682040</span>
-<span class="co">#&gt; 9  0.045  22.222222     1.97e-09    0.85267652</span>
-<span class="co">#&gt; 10 0.050  20.000000     4.79e-09    4.83208217</span>
-<span class="co">#&gt; 11 0.055  18.181818     3.67e-09    3.62866687</span>
-<span class="co">#&gt; 12 0.060  16.666667     7.42e-09   21.69528372</span>
-<span class="co">#&gt; 13 0.065  15.384615     2.16e-09    4.62202068</span>
-<span class="co">#&gt; 14 0.070  14.285714     1.90e-08   13.49278304</span>
-<span class="co">#&gt; 15 0.075  13.333333     1.55e-08   29.96850944</span>
-<span class="co">#&gt; 16 0.080  12.500000     2.62e-08   14.01371719</span>
-<span class="co">#&gt; 17 0.085  11.764706     7.53e-08  116.00433247</span>
-<span class="co">#&gt; 18 0.090  11.111111     6.94e-08   82.90349666</span>
-<span class="co">#&gt; 19 0.095  10.526316     4.17e-07 1046.98830618</span>
-<span class="co">#&gt; 20 0.100  10.000000     4.47e-07  886.56116038</span>
-<span class="co">#&gt; 21 0.105   9.523810     7.60e-08   90.42162686</span>
-<span class="co">#&gt; 22 0.110   9.090909     6.38e-08  111.38072843</span>
-<span class="co">#&gt; 23 0.115   8.695652     1.96e-08   26.91650731</span>
-<span class="co">#&gt; 24 0.120   8.333333     1.22e-08   28.87290331</span>
-<span class="co">#&gt; 25 0.125   8.000000     8.11e-09   17.78294132</span>
+<span class="co">#&gt;     Freq     Period PSD_observed        l2FC pval fdr</span>
+<span class="co">#&gt; 1  0.005 200.000000     4.05e-08 -0.14225679   NA  NA</span>
+<span class="co">#&gt; 2  0.010 100.000000     1.04e-08 -0.07686527   NA  NA</span>
+<span class="co">#&gt; 3  0.015  66.666667     1.13e-09 -1.30568352   NA  NA</span>
+<span class="co">#&gt; 4  0.020  50.000000     3.16e-09  3.24606685   NA  NA</span>
+<span class="co">#&gt; 5  0.025  40.000000     4.11e-09  0.98622625   NA  NA</span>
+<span class="co">#&gt; 6  0.030  33.333333     6.48e-09  2.08986407   NA  NA</span>
+<span class="co">#&gt; 7  0.035  28.571429     6.08e-10 -0.77359878   NA  NA</span>
+<span class="co">#&gt; 8  0.040  25.000000     2.06e-09  3.37028887   NA  NA</span>
+<span class="co">#&gt; 9  0.045  22.222222     1.97e-09  0.43140735   NA  NA</span>
+<span class="co">#&gt; 10 0.050  20.000000     4.79e-09  1.82266405   NA  NA</span>
+<span class="co">#&gt; 11 0.055  18.181818     3.67e-09  2.31455344   NA  NA</span>
+<span class="co">#&gt; 12 0.060  16.666667     7.42e-09  1.85500790   NA  NA</span>
+<span class="co">#&gt; 13 0.065  15.384615     2.16e-09  0.94329035   NA  NA</span>
+<span class="co">#&gt; 14 0.070  14.285714     1.90e-08  4.78007486   NA  NA</span>
+<span class="co">#&gt; 15 0.075  13.333333     1.55e-08  3.13728516   NA  NA</span>
+<span class="co">#&gt; 16 0.080  12.500000     2.62e-08  3.65761009   NA  NA</span>
+<span class="co">#&gt; 17 0.085  11.764706     7.53e-08  6.89566607   NA  NA</span>
+<span class="co">#&gt; 18 0.090  11.111111     6.94e-08  5.04461707   NA  NA</span>
+<span class="co">#&gt; 19 0.095  10.526316     4.17e-07  9.19591310   NA  NA</span>
+<span class="co">#&gt; 20 0.100  10.000000     4.47e-07  9.53633498   NA  NA</span>
+<span class="co">#&gt; 21 0.105   9.523810     7.60e-08  7.75493423   NA  NA</span>
+<span class="co">#&gt; 22 0.110   9.090909     6.38e-08  6.91479737   NA  NA</span>
+<span class="co">#&gt; 23 0.115   8.695652     1.96e-08  6.64782551   NA  NA</span>
+<span class="co">#&gt; 24 0.120   8.333333     1.22e-08  4.95165082   NA  NA</span>
+<span class="co">#&gt; 25 0.125   8.000000     8.11e-09  6.07327494   NA  NA</span>
 <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/plotFPI.html">plotFPI</a></span>(<span class="no">FPI</span>)</pre></body></html></div>
 <p><img src="periodicDNA_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <div id="note-1" class="section level4">
@@ -237,40 +237,40 @@
 <span class="co">#&gt; - Shuffling 3/5</span>
 <span class="co">#&gt; - Shuffling 4/5</span>
 <span class="co">#&gt; - Shuffling 5/5</span>
-<span class="co">#&gt; &gt;&gt; Calculated FPI @ 10bp is: 499.513061813345</span>
+<span class="co">#&gt; &gt;&gt; Calculated FPI @ 10bp is: 199.48530262661</span>
 <span class="co">#&gt; Only 5 shufflings. Cannot compute accurate empirical p-values. To compute empirical p-values, set up n_shuffling to at least 100. Only FPI is returned</span>
-<span class="no">periodicity_result</span>$<span class="no">significantPeriods</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="fl">30</span>)
-<span class="co">#&gt;     Freq     Period PSD_observed           FPI</span>
-<span class="co">#&gt; 1  0.005 200.000000     6.26e-08  -0.590502579</span>
-<span class="co">#&gt; 2  0.010 100.000000     2.20e-08  -0.237917706</span>
-<span class="co">#&gt; 3  0.015  66.666667     2.22e-09  -0.859100241</span>
-<span class="co">#&gt; 4  0.020  50.000000     1.11e-08   0.695615971</span>
-<span class="co">#&gt; 5  0.025  40.000000     4.65e-09  -0.729008924</span>
-<span class="co">#&gt; 6  0.030  33.333333     2.66e-08   1.722398289</span>
-<span class="co">#&gt; 7  0.035  28.571429     6.30e-09  -0.670846850</span>
-<span class="co">#&gt; 8  0.040  25.000000     1.21e-08   0.676181944</span>
-<span class="co">#&gt; 9  0.045  22.222222     2.12e-08   0.881285393</span>
-<span class="co">#&gt; 10 0.050  20.000000     6.41e-08   1.843206700</span>
-<span class="co">#&gt; 11 0.055  18.181818     2.94e-08   2.113415730</span>
-<span class="co">#&gt; 12 0.060  16.666667     9.68e-08   0.499910304</span>
-<span class="co">#&gt; 13 0.065  15.384615     6.42e-08   0.394782942</span>
-<span class="co">#&gt; 14 0.070  14.285714     1.11e-07   3.446422761</span>
-<span class="co">#&gt; 15 0.075  13.333333     1.26e-07   6.656618771</span>
-<span class="co">#&gt; 16 0.080  12.500000     2.75e-07  18.513732216</span>
-<span class="co">#&gt; 17 0.085  11.764706     5.30e-07  70.442251527</span>
-<span class="co">#&gt; 18 0.090  11.111111     1.01e-06  74.880348338</span>
-<span class="co">#&gt; 19 0.095  10.526316     3.46e-06 243.707481498</span>
-<span class="co">#&gt; 20 0.100  10.000000     3.63e-06 499.513061813</span>
-<span class="co">#&gt; 21 0.105   9.523810     8.18e-07 219.835485036</span>
-<span class="co">#&gt; 22 0.110   9.090909     3.97e-07  55.722166364</span>
-<span class="co">#&gt; 23 0.115   8.695652     1.62e-07  13.568313829</span>
-<span class="co">#&gt; 24 0.120   8.333333     1.08e-07  25.628961711</span>
-<span class="co">#&gt; 25 0.125   8.000000     6.05e-08   7.021068274</span>
-<span class="co">#&gt; 26 0.130   7.692308     2.02e-08   0.333353038</span>
-<span class="co">#&gt; 27 0.135   7.407407     2.01e-08   2.531597761</span>
-<span class="co">#&gt; 28 0.140   7.142857     4.80e-09   0.752820192</span>
-<span class="co">#&gt; 29 0.145   6.896552     3.64e-08   3.268171336</span>
-<span class="co">#&gt; 30 0.150   6.666667     8.05e-09   0.003337251</span>
+<span class="no">periodicity_result</span>$<span class="no">periodicityMetrics</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="fl">30</span>)
+<span class="co">#&gt;     Freq     Period PSD_observed        l2FC pval fdr</span>
+<span class="co">#&gt; 1  0.005 200.000000     6.26e-08 -1.35684277   NA  NA</span>
+<span class="co">#&gt; 2  0.010 100.000000     2.20e-08 -0.80725747   NA  NA</span>
+<span class="co">#&gt; 3  0.015  66.666667     2.22e-09 -2.08667958   NA  NA</span>
+<span class="co">#&gt; 4  0.020  50.000000     1.11e-08  0.95115197   NA  NA</span>
+<span class="co">#&gt; 5  0.025  40.000000     4.65e-09 -1.08798478   NA  NA</span>
+<span class="co">#&gt; 6  0.030  33.333333     2.66e-08  1.28158363   NA  NA</span>
+<span class="co">#&gt; 7  0.035  28.571429     6.30e-09 -0.53432703   NA  NA</span>
+<span class="co">#&gt; 8  0.040  25.000000     1.21e-08  0.64676881   NA  NA</span>
+<span class="co">#&gt; 9  0.045  22.222222     2.12e-08 -0.33150432   NA  NA</span>
+<span class="co">#&gt; 10 0.050  20.000000     6.41e-08  0.76694732   NA  NA</span>
+<span class="co">#&gt; 11 0.055  18.181818     2.94e-08  1.03895996   NA  NA</span>
+<span class="co">#&gt; 12 0.060  16.666667     9.68e-08  1.60283569   NA  NA</span>
+<span class="co">#&gt; 13 0.065  15.384615     6.42e-08  0.62144825   NA  NA</span>
+<span class="co">#&gt; 14 0.070  14.285714     1.11e-07  2.28384432   NA  NA</span>
+<span class="co">#&gt; 15 0.075  13.333333     1.26e-07  3.12001436   NA  NA</span>
+<span class="co">#&gt; 16 0.080  12.500000     2.75e-07  3.40803233   NA  NA</span>
+<span class="co">#&gt; 17 0.085  11.764706     5.30e-07  5.73896547   NA  NA</span>
+<span class="co">#&gt; 18 0.090  11.111111     1.01e-06  5.29997177   NA  NA</span>
+<span class="co">#&gt; 19 0.095  10.526316     3.46e-06  7.84844704   NA  NA</span>
+<span class="co">#&gt; 20 0.100  10.000000     3.63e-06  7.64735267   NA  NA</span>
+<span class="co">#&gt; 21 0.105   9.523810     8.18e-07  6.19096970   NA  NA</span>
+<span class="co">#&gt; 22 0.110   9.090909     3.97e-07  5.99863728   NA  NA</span>
+<span class="co">#&gt; 23 0.115   8.695652     1.62e-07  3.75071033   NA  NA</span>
+<span class="co">#&gt; 24 0.120   8.333333     1.08e-07  3.81975982   NA  NA</span>
+<span class="co">#&gt; 25 0.125   8.000000     6.05e-08  2.83089697   NA  NA</span>
+<span class="co">#&gt; 26 0.130   7.692308     2.02e-08  1.12072214   NA  NA</span>
+<span class="co">#&gt; 27 0.135   7.407407     2.01e-08  2.13247587   NA  NA</span>
+<span class="co">#&gt; 28 0.140   7.142857     4.80e-09  0.04973832   NA  NA</span>
+<span class="co">#&gt; 29 0.145   6.896552     3.64e-08  1.74773684   NA  NA</span>
+<span class="co">#&gt; 30 0.150   6.666667     8.05e-09  0.71684078   NA  NA</span>
 <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/plotPeriodicityResults.html">plotPeriodicityResults</a></span>(<span class="no">periodicity_result</span>)</pre></body></html></div>
 <p><img src="periodicDNA_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 </div>
@@ -301,7 +301,7 @@
 <h2 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session info</h2>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()
-<span class="co">#&gt; R Under development (unstable) (2020-07-08 r78794)</span>
+<span class="co">#&gt; R version 4.0.0 (2020-04-24)</span>
 <span class="co">#&gt; Platform: x86_64-pc-linux-gnu (64-bit)</span>
 <span class="co">#&gt; Running under: Ubuntu 14.04.5 LTS</span>
 <span class="co">#&gt; </span>
@@ -322,40 +322,41 @@
 <span class="co">#&gt; [8] methods   base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt;  [1] periodicDNA_0.99.12  BiocParallel_1.23.2  Biostrings_2.57.2   </span>
-<span class="co">#&gt;  [4] XVector_0.29.3       magrittr_1.5         ggplot2_3.3.2       </span>
-<span class="co">#&gt;  [7] GenomicRanges_1.41.5 GenomeInfoDb_1.25.8  IRanges_2.23.10     </span>
-<span class="co">#&gt; [10] S4Vectors_0.27.12    BiocGenerics_0.35.4 </span>
+<span class="co">#&gt;  [1] BSgenome.Celegans.UCSC.ce11_1.4.2 periodicDNA_0.99.13              </span>
+<span class="co">#&gt;  [3] BiocParallel_1.23.2               BSgenome_1.57.4                  </span>
+<span class="co">#&gt;  [5] rtracklayer_1.49.3                Biostrings_2.57.2                </span>
+<span class="co">#&gt;  [7] XVector_0.29.3                    magrittr_1.5                     </span>
+<span class="co">#&gt;  [9] ggplot2_3.3.2                     GenomicRanges_1.41.5             </span>
+<span class="co">#&gt; [11] GenomeInfoDb_1.25.8               IRanges_2.23.10                  </span>
+<span class="co">#&gt; [13] S4Vectors_0.27.12                 BiocGenerics_0.35.4              </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
-<span class="co">#&gt;  [1] SummarizedExperiment_1.19.5       zoo_1.8-8                        </span>
-<span class="co">#&gt;  [3] xfun_0.15                         lattice_0.20-41                  </span>
-<span class="co">#&gt;  [5] colorspace_1.4-1                  vctrs_0.3.1                      </span>
-<span class="co">#&gt;  [7] htmltools_0.5.0                   rtracklayer_1.49.3               </span>
-<span class="co">#&gt;  [9] yaml_2.2.1                        XML_3.99-0.4                     </span>
-<span class="co">#&gt; [11] rlang_0.4.6                       pkgdown_1.5.1                    </span>
-<span class="co">#&gt; [13] pillar_1.4.4                      glue_1.4.1                       </span>
-<span class="co">#&gt; [15] withr_2.2.0                       matrixStats_0.56.0               </span>
-<span class="co">#&gt; [17] GenomeInfoDbData_1.2.3            lifecycle_0.2.0                  </span>
-<span class="co">#&gt; [19] stringr_1.4.0                     zlibbioc_1.35.0                  </span>
-<span class="co">#&gt; [21] munsell_0.5.0                     gtable_0.3.0                     </span>
-<span class="co">#&gt; [23] memoise_1.1.0                     evaluate_0.14                    </span>
-<span class="co">#&gt; [25] labeling_0.3                      Biobase_2.49.0                   </span>
-<span class="co">#&gt; [27] knitr_1.29                        BSgenome_1.57.3                  </span>
-<span class="co">#&gt; [29] scales_1.1.1                      backports_1.1.8                  </span>
-<span class="co">#&gt; [31] DelayedArray_0.15.6               desc_1.2.0                       </span>
-<span class="co">#&gt; [33] farver_2.0.3                      fs_1.4.2                         </span>
-<span class="co">#&gt; [35] Rsamtools_2.5.3                   digest_0.6.25                    </span>
-<span class="co">#&gt; [37] stringi_1.4.6                     grid_4.1.0                       </span>
-<span class="co">#&gt; [39] rprojroot_1.3-2                   cowplot_1.0.0                    </span>
-<span class="co">#&gt; [41] tools_4.1.0                       bitops_1.0-6                     </span>
-<span class="co">#&gt; [43] RCurl_1.98-1.2                    tibble_3.0.2                     </span>
-<span class="co">#&gt; [45] crayon_1.3.4                      pkgconfig_2.0.3                  </span>
-<span class="co">#&gt; [47] MASS_7.3-51.6                     ellipsis_0.3.1                   </span>
-<span class="co">#&gt; [49] BSgenome.Celegans.UCSC.ce11_1.4.2 Matrix_1.2-18                    </span>
-<span class="co">#&gt; [51] assertthat_0.2.1                  rmarkdown_2.3                    </span>
-<span class="co">#&gt; [53] R6_2.4.1                          GenomicAlignments_1.25.3         </span>
-<span class="co">#&gt; [55] compiler_4.1.0</span></pre></body></html></div>
+<span class="co">#&gt;  [1] SummarizedExperiment_1.19.6 zoo_1.8-8                  </span>
+<span class="co">#&gt;  [3] xfun_0.15                   lattice_0.20-41            </span>
+<span class="co">#&gt;  [5] colorspace_1.4-1            vctrs_0.3.2                </span>
+<span class="co">#&gt;  [7] htmltools_0.5.0             yaml_2.2.1                 </span>
+<span class="co">#&gt;  [9] XML_3.99-0.4                rlang_0.4.7                </span>
+<span class="co">#&gt; [11] pkgdown_1.5.1               pillar_1.4.6               </span>
+<span class="co">#&gt; [13] glue_1.4.1                  withr_2.2.0                </span>
+<span class="co">#&gt; [15] matrixStats_0.56.0          GenomeInfoDbData_1.2.3     </span>
+<span class="co">#&gt; [17] lifecycle_0.2.0             stringr_1.4.0              </span>
+<span class="co">#&gt; [19] zlibbioc_1.35.0             munsell_0.5.0              </span>
+<span class="co">#&gt; [21] gtable_0.3.0                memoise_1.1.0              </span>
+<span class="co">#&gt; [23] evaluate_0.14               labeling_0.3               </span>
+<span class="co">#&gt; [25] Biobase_2.49.0              knitr_1.29                 </span>
+<span class="co">#&gt; [27] scales_1.1.1                backports_1.1.8            </span>
+<span class="co">#&gt; [29] DelayedArray_0.15.7         desc_1.2.0                 </span>
+<span class="co">#&gt; [31] farver_2.0.3                fs_1.4.2                   </span>
+<span class="co">#&gt; [33] Rsamtools_2.5.3             digest_0.6.25              </span>
+<span class="co">#&gt; [35] stringi_1.4.6               grid_4.0.0                 </span>
+<span class="co">#&gt; [37] rprojroot_1.3-2             cowplot_1.0.0              </span>
+<span class="co">#&gt; [39] tools_4.0.0                 bitops_1.0-6               </span>
+<span class="co">#&gt; [41] RCurl_1.98-1.2              tibble_3.0.3               </span>
+<span class="co">#&gt; [43] crayon_1.3.4                pkgconfig_2.0.3            </span>
+<span class="co">#&gt; [45] MASS_7.3-51.5               ellipsis_0.3.1             </span>
+<span class="co">#&gt; [47] Matrix_1.2-18               assertthat_0.2.1           </span>
+<span class="co">#&gt; [49] rmarkdown_2.3               R6_2.4.1                   </span>
+<span class="co">#&gt; [51] GenomicAlignments_1.25.3    compiler_4.0.0</span></pre></body></html></div>
 </div>
   </div>
 

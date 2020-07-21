@@ -84,7 +84,7 @@ normalized distogram." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.13</span>
       </span>
     </div>
 
@@ -160,7 +160,6 @@ normalized distogram.</p>
   <span class='kw'>roll</span> <span class='kw'>=</span> <span class='fl'>3</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>sample</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>doZscore</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>n_shuffling</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='no'>...</span>
 )</pre>
@@ -202,10 +201,6 @@ can be very strong in vertebrate genomes)</p></td>
 from the dists vector before normalization. This ensures consistency 
 when looking at periodicity in different genomes, since different
 genomes will have different GC percent</p></td>
-    </tr>
-    <tr>
-      <th>doZscore</th>
-      <td><p>Boolean should the normalized dampened signal be z-scored?</p></td>
     </tr>
     <tr>
       <th>n_shuffling</th>

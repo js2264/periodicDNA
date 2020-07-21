@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A function to easily coerce a named list into a long data.frame — namedListToLongFormat • periodicDNA</title>
+<title>checkPeriodFromFourier — checkPeriodFromFourier • periodicDNA</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,11 +46,10 @@
 
 
 
-<meta property="og:title" content="A function to easily coerce a named list into a long data.frame — namedListToLongFormat" />
-<meta property="og:description" content="This function takes a named list of data.frames. For each data.frame, 
-the name of the data.frame is added in a new column, and the resulting
-data.frames are all bound together using rbind.
-to" />
+<meta property="og:title" content="checkPeriodFromFourier — checkPeriodFromFourier" />
+<meta property="og:description" content="A function to quickly check whether a period of interest is in 
+the result of a FFT analysis, based on the length of the vector which 
+is used for FFT" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -83,7 +82,7 @@ to" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.13</span>
       </span>
     </div>
 
@@ -137,33 +136,38 @@ to" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A function to easily coerce a named list into a long data.frame</h1>
+    <h1>checkPeriodFromFourier</h1>
     <small class="dont-index">Source: <a href='https://github.com/js2264/periodicDNA/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>namedListToLongFormat.Rd</code></div>
+    <div class="hidden name"><code>checkPeriodFromFourier.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function takes a named list of data.frames. For each data.frame, 
-the name of the data.frame is added in a new column, and the resulting
-data.frames are all bound together using rbind.
-to</p>
+    <p>A function to quickly check whether a period of interest is in 
+the result of a FFT analysis, based on the length of the vector which 
+is used for FFT</p>
     </div>
 
-    <pre class="usage"><span class='fu'>namedListToLongFormat</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>checkPeriodFromFourier</span>(<span class='no'>len</span>, <span class='no'>period</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>A named list of vectors or data.frames</p></td>
+      <th>len</th>
+      <td><p>length of the vector used for FFT</p></td>
+    </tr>
+    <tr>
+      <th>period</th>
+      <td><p>Float, period of interest</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A long data frame</p>
+    <p>Float period returned by FFT closest to the period of interest</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>checkPeriodFromFourier</span>(<span class='fl'>300</span>, <span class='fl'>10</span>)</div><div class='output co'>#&gt; [1] 10</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
