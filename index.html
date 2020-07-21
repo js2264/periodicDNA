@@ -44,7 +44,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.14</span>
       </span>
     </div>
 
@@ -147,7 +147,7 @@
 <div class="sourceCode" id="cb5"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce11_TSSs</span>)
 <span class="no">PSDs</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicity.html">getPeriodicity</a></span>(
     <span class="no">ce11_TSSs</span><span class="kw">[[</span><span class="st">'Ubiq.'</span>]],
-    <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'ce11'</span>,
+    <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'BSgenome.Celegans.UCSC.ce11'</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
     <span class="kw">BPPARAM</span> <span class="kw">=</span> <span class="fu">MulticoreParam</span>(<span class="fl">12</span>)
 )
@@ -159,7 +159,7 @@
 <div class="sourceCode" id="cb6"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce11_TSSs</span>)
 <span class="no">FPI</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/getFPI.html">getFPI</a></span>(
     <span class="no">ce11_TSSs</span><span class="kw">[[</span><span class="st">'Ubiq.'</span>]],
-    <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'ce11'</span>,
+    <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'BSgenome.Celegans.UCSC.ce11'</span>,
     <span class="kw">period</span> <span class="kw">=</span> <span class="fl">10</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
     <span class="kw">n_shuffling</span> <span class="kw">=</span> <span class="fl">10</span>,
@@ -172,7 +172,7 @@
 <a href="#getperiodicitytrack-function" class="anchor"></a><code>getPeriodicityTrack()</code> function</h3>
 <div class="sourceCode" id="cb7"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce11_proms</span>)
 <span class="no">WW_10bp</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicityTrack.html">getPeriodicityTrack</a></span>(
-    <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'ce11'</span>,
+    <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'BSgenome.Celegans.UCSC.ce11'</span>,
     <span class="kw">granges</span> <span class="kw">=</span> <span class="no">ce11_proms</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'WW'</span>,
     <span class="kw">period</span> <span class="kw">=</span> <span class="fl">10</span>,

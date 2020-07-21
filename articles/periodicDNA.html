@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.14</span>
       </span>
     </div>
 
@@ -115,7 +115,7 @@
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce11_TSSs</span>)
 <span class="no">periodicity_result</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicity.html">getPeriodicity</a></span>(
     <span class="no">ce11_TSSs</span><span class="kw">[[</span><span class="st">'Ubiq.'</span>]][<span class="fl">1</span>:<span class="fl">500</span>],
-    <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'ce11'</span>,
+    <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'BSgenome.Celegans.UCSC.ce11'</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
     <span class="kw">BPPARAM</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/setUpBPPARAM.html">setUpBPPARAM</a></span>(<span class="fl">1</span>)
 )
@@ -162,7 +162,7 @@
 <p>Fold Power Increase (FPI) is a metric introduced by Pich et al., Cell 2018. It can be computed using the <code><a href="https://rdrr.io/pkg/periodicDNA/man/getFPI.html">getFPI()</a></code> function. In the following example, the FPI of TT dinucleotides at a 10-bp periodicity is computed over 200-bp long sequences randomly sampled in ce11 genome.</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">FPI</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/getFPI.html">getFPI</a></span>(
     <span class="no">ce11_TSSs</span><span class="kw">[[</span><span class="st">'Ubiq.'</span>]][<span class="fl">1</span>:<span class="fl">500</span>],
-    <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'ce11'</span>,
+    <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'BSgenome.Celegans.UCSC.ce11'</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'WW'</span>,
     <span class="kw">n_shuffling</span> <span class="kw">=</span> <span class="fl">5</span>
 )
@@ -178,35 +178,35 @@
 <span class="co">#&gt; - Shuffling 3/5</span>
 <span class="co">#&gt; - Shuffling 4/5</span>
 <span class="co">#&gt; - Shuffling 5/5</span>
-<span class="co">#&gt; &gt;&gt; Calculated FPI @ 10bp is: 741.545171132644</span>
+<span class="co">#&gt; &gt;&gt; Calculated FPI @ 10bp is: 625.579749720561</span>
 <span class="co">#&gt; Only 5 shufflings. Cannot compute accurate empirical p-values. To compute empirical p-values, set up n_shuffling to at least 100. Only FPI is returned</span>
 <span class="no">FPI</span>$<span class="no">periodicityMetrics</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="fl">25</span>)
-<span class="co">#&gt;     Freq     Period PSD_observed        l2FC pval fdr</span>
-<span class="co">#&gt; 1  0.005 200.000000     4.05e-08 -0.14225679   NA  NA</span>
-<span class="co">#&gt; 2  0.010 100.000000     1.04e-08 -0.07686527   NA  NA</span>
-<span class="co">#&gt; 3  0.015  66.666667     1.13e-09 -1.30568352   NA  NA</span>
-<span class="co">#&gt; 4  0.020  50.000000     3.16e-09  3.24606685   NA  NA</span>
-<span class="co">#&gt; 5  0.025  40.000000     4.11e-09  0.98622625   NA  NA</span>
-<span class="co">#&gt; 6  0.030  33.333333     6.48e-09  2.08986407   NA  NA</span>
-<span class="co">#&gt; 7  0.035  28.571429     6.08e-10 -0.77359878   NA  NA</span>
-<span class="co">#&gt; 8  0.040  25.000000     2.06e-09  3.37028887   NA  NA</span>
-<span class="co">#&gt; 9  0.045  22.222222     1.97e-09  0.43140735   NA  NA</span>
-<span class="co">#&gt; 10 0.050  20.000000     4.79e-09  1.82266405   NA  NA</span>
-<span class="co">#&gt; 11 0.055  18.181818     3.67e-09  2.31455344   NA  NA</span>
-<span class="co">#&gt; 12 0.060  16.666667     7.42e-09  1.85500790   NA  NA</span>
-<span class="co">#&gt; 13 0.065  15.384615     2.16e-09  0.94329035   NA  NA</span>
-<span class="co">#&gt; 14 0.070  14.285714     1.90e-08  4.78007486   NA  NA</span>
-<span class="co">#&gt; 15 0.075  13.333333     1.55e-08  3.13728516   NA  NA</span>
-<span class="co">#&gt; 16 0.080  12.500000     2.62e-08  3.65761009   NA  NA</span>
-<span class="co">#&gt; 17 0.085  11.764706     7.53e-08  6.89566607   NA  NA</span>
-<span class="co">#&gt; 18 0.090  11.111111     6.94e-08  5.04461707   NA  NA</span>
-<span class="co">#&gt; 19 0.095  10.526316     4.17e-07  9.19591310   NA  NA</span>
-<span class="co">#&gt; 20 0.100  10.000000     4.47e-07  9.53633498   NA  NA</span>
-<span class="co">#&gt; 21 0.105   9.523810     7.60e-08  7.75493423   NA  NA</span>
-<span class="co">#&gt; 22 0.110   9.090909     6.38e-08  6.91479737   NA  NA</span>
-<span class="co">#&gt; 23 0.115   8.695652     1.96e-08  6.64782551   NA  NA</span>
-<span class="co">#&gt; 24 0.120   8.333333     1.22e-08  4.95165082   NA  NA</span>
-<span class="co">#&gt; 25 0.125   8.000000     8.11e-09  6.07327494   NA  NA</span>
+<span class="co">#&gt;     Freq     Period PSD_observed       l2FC pval fdr</span>
+<span class="co">#&gt; 1  0.005 200.000000     4.05e-08 -0.1529703   NA  NA</span>
+<span class="co">#&gt; 2  0.010 100.000000     1.04e-08  0.3158060   NA  NA</span>
+<span class="co">#&gt; 3  0.015  66.666667     1.13e-09 -0.9429211   NA  NA</span>
+<span class="co">#&gt; 4  0.020  50.000000     3.16e-09  2.0369325   NA  NA</span>
+<span class="co">#&gt; 5  0.025  40.000000     4.11e-09  2.0232350   NA  NA</span>
+<span class="co">#&gt; 6  0.030  33.333333     6.48e-09  3.4870994   NA  NA</span>
+<span class="co">#&gt; 7  0.035  28.571429     6.08e-10  0.3483613   NA  NA</span>
+<span class="co">#&gt; 8  0.040  25.000000     2.06e-09  2.0514393   NA  NA</span>
+<span class="co">#&gt; 9  0.045  22.222222     1.97e-09  0.7407333   NA  NA</span>
+<span class="co">#&gt; 10 0.050  20.000000     4.79e-09  2.4279669   NA  NA</span>
+<span class="co">#&gt; 11 0.055  18.181818     3.67e-09  1.2546354   NA  NA</span>
+<span class="co">#&gt; 12 0.060  16.666667     7.42e-09  5.0108804   NA  NA</span>
+<span class="co">#&gt; 13 0.065  15.384615     2.16e-09  1.0183929   NA  NA</span>
+<span class="co">#&gt; 14 0.070  14.285714     1.90e-08  2.8847565   NA  NA</span>
+<span class="co">#&gt; 15 0.075  13.333333     1.55e-08  2.4221558   NA  NA</span>
+<span class="co">#&gt; 16 0.080  12.500000     2.62e-08  5.7771809   NA  NA</span>
+<span class="co">#&gt; 17 0.085  11.764706     7.53e-08  7.0875990   NA  NA</span>
+<span class="co">#&gt; 18 0.090  11.111111     6.94e-08  5.1772439   NA  NA</span>
+<span class="co">#&gt; 19 0.095  10.526316     4.17e-07  8.3960311   NA  NA</span>
+<span class="co">#&gt; 20 0.100  10.000000     4.47e-07  9.2913543   NA  NA</span>
+<span class="co">#&gt; 21 0.105   9.523810     7.60e-08  7.3419689   NA  NA</span>
+<span class="co">#&gt; 22 0.110   9.090909     6.38e-08  6.8106078   NA  NA</span>
+<span class="co">#&gt; 23 0.115   8.695652     1.96e-08  6.5231116   NA  NA</span>
+<span class="co">#&gt; 24 0.120   8.333333     1.22e-08  3.9470184   NA  NA</span>
+<span class="co">#&gt; 25 0.125   8.000000     8.11e-09  6.4906915   NA  NA</span>
 <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/plotFPI.html">plotFPI</a></span>(<span class="no">FPI</span>)</pre></body></html></div>
 <p><img src="periodicDNA_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <div id="note-1" class="section level4">
@@ -221,7 +221,7 @@
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">ce11_TSSs</span>)
 <span class="no">periodicity_result</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicity.html">getPeriodicity</a></span>(
     <span class="no">ce11_TSSs</span><span class="kw">[[</span><span class="st">'Ubiq.'</span>]][<span class="fl">1</span>:<span class="fl">500</span>],
-    <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'ce11'</span>,
+    <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'BSgenome.Celegans.UCSC.ce11'</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'TT'</span>,
     <span class="kw">n_shuffling</span> <span class="kw">=</span> <span class="fl">5</span>
 )
@@ -237,40 +237,40 @@
 <span class="co">#&gt; - Shuffling 3/5</span>
 <span class="co">#&gt; - Shuffling 4/5</span>
 <span class="co">#&gt; - Shuffling 5/5</span>
-<span class="co">#&gt; &gt;&gt; Calculated FPI @ 10bp is: 199.48530262661</span>
+<span class="co">#&gt; &gt;&gt; Calculated FPI @ 10bp is: 277.540346677664</span>
 <span class="co">#&gt; Only 5 shufflings. Cannot compute accurate empirical p-values. To compute empirical p-values, set up n_shuffling to at least 100. Only FPI is returned</span>
 <span class="no">periodicity_result</span>$<span class="no">periodicityMetrics</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="fl">30</span>)
 <span class="co">#&gt;     Freq     Period PSD_observed        l2FC pval fdr</span>
-<span class="co">#&gt; 1  0.005 200.000000     6.26e-08 -1.35684277   NA  NA</span>
-<span class="co">#&gt; 2  0.010 100.000000     2.20e-08 -0.80725747   NA  NA</span>
-<span class="co">#&gt; 3  0.015  66.666667     2.22e-09 -2.08667958   NA  NA</span>
-<span class="co">#&gt; 4  0.020  50.000000     1.11e-08  0.95115197   NA  NA</span>
-<span class="co">#&gt; 5  0.025  40.000000     4.65e-09 -1.08798478   NA  NA</span>
-<span class="co">#&gt; 6  0.030  33.333333     2.66e-08  1.28158363   NA  NA</span>
-<span class="co">#&gt; 7  0.035  28.571429     6.30e-09 -0.53432703   NA  NA</span>
-<span class="co">#&gt; 8  0.040  25.000000     1.21e-08  0.64676881   NA  NA</span>
-<span class="co">#&gt; 9  0.045  22.222222     2.12e-08 -0.33150432   NA  NA</span>
-<span class="co">#&gt; 10 0.050  20.000000     6.41e-08  0.76694732   NA  NA</span>
-<span class="co">#&gt; 11 0.055  18.181818     2.94e-08  1.03895996   NA  NA</span>
-<span class="co">#&gt; 12 0.060  16.666667     9.68e-08  1.60283569   NA  NA</span>
-<span class="co">#&gt; 13 0.065  15.384615     6.42e-08  0.62144825   NA  NA</span>
-<span class="co">#&gt; 14 0.070  14.285714     1.11e-07  2.28384432   NA  NA</span>
-<span class="co">#&gt; 15 0.075  13.333333     1.26e-07  3.12001436   NA  NA</span>
-<span class="co">#&gt; 16 0.080  12.500000     2.75e-07  3.40803233   NA  NA</span>
-<span class="co">#&gt; 17 0.085  11.764706     5.30e-07  5.73896547   NA  NA</span>
-<span class="co">#&gt; 18 0.090  11.111111     1.01e-06  5.29997177   NA  NA</span>
-<span class="co">#&gt; 19 0.095  10.526316     3.46e-06  7.84844704   NA  NA</span>
-<span class="co">#&gt; 20 0.100  10.000000     3.63e-06  7.64735267   NA  NA</span>
-<span class="co">#&gt; 21 0.105   9.523810     8.18e-07  6.19096970   NA  NA</span>
-<span class="co">#&gt; 22 0.110   9.090909     3.97e-07  5.99863728   NA  NA</span>
-<span class="co">#&gt; 23 0.115   8.695652     1.62e-07  3.75071033   NA  NA</span>
-<span class="co">#&gt; 24 0.120   8.333333     1.08e-07  3.81975982   NA  NA</span>
-<span class="co">#&gt; 25 0.125   8.000000     6.05e-08  2.83089697   NA  NA</span>
-<span class="co">#&gt; 26 0.130   7.692308     2.02e-08  1.12072214   NA  NA</span>
-<span class="co">#&gt; 27 0.135   7.407407     2.01e-08  2.13247587   NA  NA</span>
-<span class="co">#&gt; 28 0.140   7.142857     4.80e-09  0.04973832   NA  NA</span>
-<span class="co">#&gt; 29 0.145   6.896552     3.64e-08  1.74773684   NA  NA</span>
-<span class="co">#&gt; 30 0.150   6.666667     8.05e-09  0.71684078   NA  NA</span>
+<span class="co">#&gt; 1  0.005 200.000000     6.26e-08 -1.15595837   NA  NA</span>
+<span class="co">#&gt; 2  0.010 100.000000     2.20e-08 -0.36711572   NA  NA</span>
+<span class="co">#&gt; 3  0.015  66.666667     2.22e-09 -2.80177751   NA  NA</span>
+<span class="co">#&gt; 4  0.020  50.000000     1.11e-08  0.80699165   NA  NA</span>
+<span class="co">#&gt; 5  0.025  40.000000     4.65e-09 -0.71183428   NA  NA</span>
+<span class="co">#&gt; 6  0.030  33.333333     2.66e-08  4.22026613   NA  NA</span>
+<span class="co">#&gt; 7  0.035  28.571429     6.30e-09 -2.49769338   NA  NA</span>
+<span class="co">#&gt; 8  0.040  25.000000     1.21e-08 -0.15754212   NA  NA</span>
+<span class="co">#&gt; 9  0.045  22.222222     2.12e-08  0.01694406   NA  NA</span>
+<span class="co">#&gt; 10 0.050  20.000000     6.41e-08  1.86765768   NA  NA</span>
+<span class="co">#&gt; 11 0.055  18.181818     2.94e-08 -0.24554616   NA  NA</span>
+<span class="co">#&gt; 12 0.060  16.666667     9.68e-08  2.93174786   NA  NA</span>
+<span class="co">#&gt; 13 0.065  15.384615     6.42e-08  0.31401246   NA  NA</span>
+<span class="co">#&gt; 14 0.070  14.285714     1.11e-07  3.29373352   NA  NA</span>
+<span class="co">#&gt; 15 0.075  13.333333     1.26e-07  1.42492410   NA  NA</span>
+<span class="co">#&gt; 16 0.080  12.500000     2.75e-07  5.06530414   NA  NA</span>
+<span class="co">#&gt; 17 0.085  11.764706     5.30e-07  5.86825076   NA  NA</span>
+<span class="co">#&gt; 18 0.090  11.111111     1.01e-06  6.25593725   NA  NA</span>
+<span class="co">#&gt; 19 0.095  10.526316     3.46e-06  7.81653035   NA  NA</span>
+<span class="co">#&gt; 20 0.100  10.000000     3.63e-06  8.12174251   NA  NA</span>
+<span class="co">#&gt; 21 0.105   9.523810     8.18e-07  5.87193424   NA  NA</span>
+<span class="co">#&gt; 22 0.110   9.090909     3.97e-07  5.33149773   NA  NA</span>
+<span class="co">#&gt; 23 0.115   8.695652     1.62e-07  5.21567180   NA  NA</span>
+<span class="co">#&gt; 24 0.120   8.333333     1.08e-07  4.53597042   NA  NA</span>
+<span class="co">#&gt; 25 0.125   8.000000     6.05e-08  4.26923722   NA  NA</span>
+<span class="co">#&gt; 26 0.130   7.692308     2.02e-08  2.89532863   NA  NA</span>
+<span class="co">#&gt; 27 0.135   7.407407     2.01e-08  5.15159999   NA  NA</span>
+<span class="co">#&gt; 28 0.140   7.142857     4.80e-09 -0.82285303   NA  NA</span>
+<span class="co">#&gt; 29 0.145   6.896552     3.64e-08  1.69607910   NA  NA</span>
+<span class="co">#&gt; 30 0.150   6.666667     8.05e-09  1.43825106   NA  NA</span>
 <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/plotPeriodicityResults.html">plotPeriodicityResults</a></span>(<span class="no">periodicity_result</span>)</pre></body></html></div>
 <p><img src="periodicDNA_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 </div>
@@ -280,7 +280,7 @@
 <a href="#track-of-periodicity-over-a-set-of-genomic-ranges" class="anchor"></a>Track of periodicity over a set of Genomic Ranges</h3>
 <p>Another major aim of periodicDNA is to generate continuous linear tracks of k-mer periodicity strength over genomic loci of interest. <code><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicityTrack.html">getPeriodicityTrack()</a></code> can be used to generate suck genomic tracks. In the following example,</p>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">WW_10bp_track</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/periodicDNA/man/getPeriodicityTrack.html">getPeriodicityTrack</a></span>(
-    <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'ce11'</span>,
+    <span class="kw">genome</span> <span class="kw">=</span> <span class="st">'BSgenome.Celegans.UCSC.ce11'</span>,
     <span class="kw">granges</span> <span class="kw">=</span> <span class="no">ce11_proms</span>,
     <span class="kw">motif</span> <span class="kw">=</span> <span class="st">'WW'</span>,
     <span class="kw">period</span> <span class="kw">=</span> <span class="fl">10</span>,
@@ -322,7 +322,7 @@
 <span class="co">#&gt; [8] methods   base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt;  [1] BSgenome.Celegans.UCSC.ce11_1.4.2 periodicDNA_0.99.13              </span>
+<span class="co">#&gt;  [1] BSgenome.Celegans.UCSC.ce11_1.4.2 periodicDNA_0.99.14              </span>
 <span class="co">#&gt;  [3] BiocParallel_1.23.2               BSgenome_1.57.4                  </span>
 <span class="co">#&gt;  [5] rtracklayer_1.49.3                Biostrings_2.57.2                </span>
 <span class="co">#&gt;  [7] XVector_0.29.3                    magrittr_1.5                     </span>

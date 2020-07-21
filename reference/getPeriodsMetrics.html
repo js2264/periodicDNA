@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.14</span>
       </span>
     </div>
 
@@ -165,7 +165,7 @@ assessed by getPeriodicity().</p>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_TSSs</span>)
 <span class='no'>fpi</span> <span class='kw'>&lt;-</span> <span class='fu'>getFPI</span>(
     <span class='no'>ce11_TSSs</span><span class='kw'>[[</span><span class='st'>'Ubiq.'</span>]][<span class='fl'>1</span>:<span class='fl'>10</span>],
-    <span class='kw'>genome</span> <span class='kw'>=</span> <span class='st'>'ce11'</span>,
+    <span class='kw'>genome</span> <span class='kw'>=</span> <span class='st'>'BSgenome.Celegans.UCSC.ce11'</span>,
     <span class='kw'>motif</span> <span class='kw'>=</span> <span class='st'>'TT'</span>,
     <span class='kw'>cores_shuffling</span> <span class='kw'>=</span> <span class='fl'>1</span>
 )</div><div class='output co'>#&gt; <span class='message'>- Calculating observed PSD</span></div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 10025 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing histogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the vector of distances.</span></div><div class='output co'>#&gt; <span class='message'>&gt;&gt; Measured PSD @ 10bp is: 1.85658122793149e-05</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 1/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 2/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 3/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 4/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 5/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 6/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 7/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 8/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 9/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 10/10</span></div><div class='output co'>#&gt; <span class='message'>&gt;&gt; Calculated FPI @ 10bp is: 16.6601286875301</span></div><div class='output co'>#&gt; <span class='message'>Only 10 shufflings. Cannot compute accurate empirical p-values. To compute empirical p-values, set up n_shuffling to at least 100. Only FPI is returned</span></div><div class='input'><span class='fu'>getPeriodsMetrics</span>(<span class='no'>fpi</span>)$<span class='no'>periodicityMetrics</span></div><div class='output co'>#&gt; <span class='message'>Only 10 shufflings. Cannot compute accurate empirical p-values. To compute empirical p-values, set up n_shuffling to at least 100. Only FPI is returned</span></div><div class='output co'>#&gt;      Freq     Period PSD_observed         l2FC pval fdr
