@@ -32,7 +32,7 @@ by the n_shuffling argument.
 data(ce11_TSSs)
 fpi <- getFPI(
     ce11_TSSs[['Ubiq.']][1:10], 
-    genome = 'ce11', 
+    genome = 'BSgenome.Celegans.UCSC.ce11', 
     motif = 'TT', 
     cores_shuffling = 1
 )
@@ -42,7 +42,7 @@ fpi$shuffled_PSD
 p1 <- plotFPI(fpi)
 fpi <- getFPI(
     ce11_TSSs[['Muscle']][1:10], 
-    genome = 'ce11', 
+    genome = 'BSgenome.Celegans.UCSC.ce11', 
     motif = 'TT', 
     cores_shuffling = 1
 )

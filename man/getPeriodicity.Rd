@@ -45,7 +45,7 @@ plotPeriodicityResults(periodicity_result)
 data(ce11_proms)
 periodicity_result <- getPeriodicity(
     ce11_proms[1:100],
-    genome = 'ce11',
+    genome = 'BSgenome.Celegans.UCSC.ce11',
     motif = 'TT', 
     range_spectrum = 1:100
 )

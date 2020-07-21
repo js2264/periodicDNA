@@ -76,7 +76,7 @@ The three main user-level functions of periodicDNA are `getPeriodicity()`,
 data(ce11_TSSs)
 PSDs <- getPeriodicity(
     ce11_TSSs[['Ubiq.']],
-    genome = 'ce11',
+    genome = 'BSgenome.Celegans.UCSC.ce11',
     motif = 'TT', 
     BPPARAM = MulticoreParam(12)
 )
@@ -89,7 +89,7 @@ plotPeriodicityResults(PSDs)
 data(ce11_TSSs)
 FPI <- getFPI(
     ce11_TSSs[['Ubiq.']],
-    genome = 'ce11',
+    genome = 'BSgenome.Celegans.UCSC.ce11',
     period = 10,
     motif = 'TT', 
     n_shuffling = 10,
@@ -103,7 +103,7 @@ plotFPI(FPI)
 ```r
 data(ce11_proms)
 WW_10bp <- getPeriodicityTrack(
-    genome = 'ce11',
+    genome = 'BSgenome.Celegans.UCSC.ce11',
     granges = ce11_proms, 
     motif = 'WW',
     period = 10,

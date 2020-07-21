@@ -24,7 +24,7 @@
 #' data(ce11_TSSs)
 #' periodicity_result <- getPeriodicity(
 #'     ce11_TSSs[['Ubiq.']][1:100],
-#'     genome = 'ce11',
+#'     genome = 'BSgenome.Celegans.UCSC.ce11',
 #'     motif = 'TT', 
 #'     BPPARAM = setUpBPPARAM(1)
 #' )

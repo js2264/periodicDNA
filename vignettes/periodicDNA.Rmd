@@ -38,7 +38,7 @@ library(periodicDNA)
 data(ce11_TSSs)
 periodicity_result <- getPeriodicity(
     ce11_TSSs[['Ubiq.']][1:500],
-    genome = 'ce11',
+    genome = 'BSgenome.Celegans.UCSC.ce11',
     motif = 'TT', 
     BPPARAM = setUpBPPARAM(1)
 )
@@ -90,7 +90,7 @@ computed over 200-bp long sequences randomly sampled in ce11 genome.
 ```{r, eval = TRUE}
 FPI <- getFPI(
     ce11_TSSs[['Ubiq.']][1:500],
-    genome = 'ce11', 
+    genome = 'BSgenome.Celegans.UCSC.ce11', 
     motif = 'WW', 
     n_shuffling = 5
 )
@@ -114,7 +114,7 @@ with the `n_shuffling` argument.
 data(ce11_TSSs)
 periodicity_result <- getPeriodicity(
     ce11_TSSs[['Ubiq.']][1:500],
-    genome = 'ce11', 
+    genome = 'BSgenome.Celegans.UCSC.ce11', 
     motif = 'TT', 
     n_shuffling = 5
 )
@@ -131,7 +131,7 @@ following example,
 
 ```{r, eval = FALSE}
 WW_10bp_track <- getPeriodicityTrack(
-    genome = 'ce11',
+    genome = 'BSgenome.Celegans.UCSC.ce11',
     granges = ce11_proms, 
     motif = 'WW',
     period = 10,

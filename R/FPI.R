@@ -20,7 +20,7 @@
 #' data(ce11_proms_seqs)
 #' fpi <- getFPI(
 #'     ce11_proms_seqs[1:10], 
-#'     genome = 'ce11', 
+#'     genome = 'BSgenome.Celegans.UCSC.ce11', 
 #'     motif = 'TT', 
 #'     cores_shuffling = 1
 #' )
@@ -175,7 +175,7 @@ getFPI.DNAStringSet <- function(
 #' data(ce11_TSSs)
 #' fpi <- getFPI(
 #'     ce11_TSSs[['Ubiq.']][1:10], 
-#'     genome = 'ce11', 
+#'     genome = 'BSgenome.Celegans.UCSC.ce11', 
 #'     motif = 'TT', 
 #'     cores_shuffling = 1
 #' )
@@ -185,7 +185,7 @@ getFPI.DNAStringSet <- function(
 #' p1 <- plotFPI(fpi)
 #' fpi <- getFPI(
 #'     ce11_TSSs[['Muscle']][1:10], 
-#'     genome = 'ce11', 
+#'     genome = 'BSgenome.Celegans.UCSC.ce11', 
 #'     motif = 'TT', 
 #'     cores_shuffling = 1
 #' )
@@ -242,7 +242,7 @@ getFPI.GRanges <- function(
 #' data(ce11_TSSs)
 #' fpi <- getFPI(
 #'     ce11_TSSs[['Ubiq.']][1:10], 
-#'     genome = 'ce11', 
+#'     genome = 'BSgenome.Celegans.UCSC.ce11', 
 #'     motif = 'TT', 
 #'     cores_shuffling = 1
 #' )

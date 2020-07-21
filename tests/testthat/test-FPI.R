@@ -8,7 +8,7 @@ test_that("FPI works", {
         )
         fpi <- getFPI(
             rand_regions[1:10],
-            genome = 'ce11', 
+            genome = 'BSgenome.Celegans.UCSC.ce11', 
             motif = 'TT', 
             n_shuffling = 3, 
             cores_shuffling = 1,

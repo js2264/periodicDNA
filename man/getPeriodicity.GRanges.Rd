@@ -4,7 +4,7 @@
 \alias{getPeriodicity.GRanges}
 \title{A function to compute k-mer periodicity in GRanges.}
 \usage{
-\method{getPeriodicity}{GRanges}(x, genome = "ce11", ...)
+\method{getPeriodicity}{GRanges}(x, genome = "BSgenome.Celegans.UCSC.ce11", ...)
 }
 \arguments{
 \item{x}{a GRanges}
@@ -40,7 +40,7 @@ normalized distogram.
 data(ce11_TSSs)
 periodicity_result <- getPeriodicity(
     ce11_TSSs[['Ubiq.']][1:10],
-    genome = 'ce11',
+    genome = 'BSgenome.Celegans.UCSC.ce11',
     motif = 'TT'
 )
 head(periodicity_result$PSD)

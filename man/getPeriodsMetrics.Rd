@@ -22,7 +22,7 @@ A function used to compute l2FC, FPIs and associated p-values
 data(ce11_TSSs)
 fpi <- getFPI(
     ce11_TSSs[['Ubiq.']][1:10], 
-    genome = 'ce11', 
+    genome = 'BSgenome.Celegans.UCSC.ce11', 
     motif = 'TT', 
     cores_shuffling = 1
 )

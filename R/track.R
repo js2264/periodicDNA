@@ -38,7 +38,7 @@
 #' @examples
 #' data(ce11_proms)
 #' getPeriodicityTrack(
-#'     genome = 'ce11', 
+#'     genome = 'BSgenome.Celegans.UCSC.ce11', 
 #'     ce11_proms[1], 
 #'     motif = 'WW',
 #'     period = 10,

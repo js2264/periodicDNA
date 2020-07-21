@@ -30,7 +30,7 @@ by the n_shuffling argument.
 data(ce11_proms_seqs)
 fpi <- getFPI(
     ce11_proms_seqs[1:10], 
-    genome = 'ce11', 
+    genome = 'BSgenome.Celegans.UCSC.ce11', 
     motif = 'TT', 
     cores_shuffling = 1
 )
