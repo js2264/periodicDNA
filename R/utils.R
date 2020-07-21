@@ -340,7 +340,7 @@ sampleGRanges.character <- function(
 {
     if (x %in% c(
         'sacCer3', 'ce11', 'dm6', 'mm10', 'hg38', 'danRer10'
-    )) {
+    ) | x %in% BSgenome::installed.genomes()) {
         genome <- BSgenome::getBSgenome(x)
     }
     else {

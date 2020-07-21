@@ -209,7 +209,7 @@ getFPI.GRanges <- function(
         if (methods::is(genome, 'character')) {
             if (genome %in% c(
                 'sacCer3', 'ce11', 'dm6', 'mm10', 'hg38', 'danRer10'
-            )) {
+            ) | genome %in% BSgenome::installed.genomes()) {
                 genome <- BSgenome::getBSgenome(genome)
             }
             else {
