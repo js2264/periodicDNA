@@ -434,7 +434,8 @@ setUpBPPARAM <- function(nproc = 1) {
 #' @param period Float, period of interest
 #' @return Float period returned by FFT closest to the period of interest
 #' 
-#' @import stats
+#' @importFrom stats spectrum
+#' @importFrom stats runif
 #' @export
 #' 
 #' @examples

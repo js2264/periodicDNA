@@ -22,7 +22,7 @@ or DNAStringSet object.
 \examples{
 data(ce11_all_REs)
 ce11_all_REs
-ce11_all_REs <- withSeq(ce11_all_REs, 'ce11')
+ce11_all_REs <- withSeq(ce11_all_REs, 'BSgenome.Celegans.UCSC.ce11')
 ce11_all_REs
 ce11_all_REs$seq
 }

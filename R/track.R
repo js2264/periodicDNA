@@ -63,7 +63,7 @@ getPeriodicityTrack <- function(
     cores <- BPPARAM$workers
     freq <- 1/period
     if (is.null(genome)) {
-        genome <- 'ce11'
+        genome <- 'BSgenome.Celegans.UCSC.ce11'
     }
     if (methods::is(genome, 'character')) {
         genomeID <- genome
@@ -292,6 +292,9 @@ chunkWrapper <- function(
     }
     return(res)
 }
+
+#' @importFrom stats dist
+#' @importFrom stats spectrum
 
 binWrapper <- function(
     grange, 

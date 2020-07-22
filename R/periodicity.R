@@ -92,7 +92,9 @@ getPeriodicity <- function(x, ...) {
 #' @import Biostrings
 #' @import IRanges
 #' @import magrittr
-#' @import stats
+#' @importFrom stats spectrum
+#' @importFrom stats dist
+#' @importFrom stats setNames
 #' @export
 #' 
 #' @examples

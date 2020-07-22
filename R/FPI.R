@@ -235,7 +235,7 @@ getFPI.GRanges <- function(
 #' associated empirical p-values, and FPI for each frequency 
 #' assessed by getPeriodicity(). 
 #' 
-#' @import stats
+#' @importFrom stats p.adjust
 #' @export
 #' 
 #' @examples

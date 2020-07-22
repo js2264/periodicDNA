@@ -4,7 +4,7 @@ test_that("getPeriodicityTrack and plotAggregateCoverage works", {
     expect_equal({
         data(ce11_proms)
         track <- getPeriodicityTrack(
-            'ce11',
+            genome = 'BSgenome.Celegans.UCSC.ce11',
             granges = ce11_proms[1:3], 
             extension = 200, 
             motif = 'TT',

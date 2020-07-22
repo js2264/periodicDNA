@@ -121,7 +121,7 @@ deconvolveBidirectionalPromoters <- function(granges) {
 #' @examples
 #' data(ce11_all_REs)
 #' ce11_all_REs
-#' ce11_all_REs <- withSeq(ce11_all_REs, 'ce11')
+#' ce11_all_REs <- withSeq(ce11_all_REs, 'BSgenome.Celegans.UCSC.ce11')
 #' ce11_all_REs
 #' ce11_all_REs$seq
 
@@ -286,7 +286,7 @@ plotAggregateCoverage.CompressedRleList <- function(
 #' @import ggplot2
 #' @importFrom zoo rollmean
 #' @importFrom parallel mclapply
-#' @import stats
+#' @importFrom stats qt
 #' @export
 #' 
 #' @examples
@@ -493,8 +493,8 @@ plotAggregateCoverage.SimpleRleList <- function(
 #' @import ggplot2
 #' @importFrom zoo rollmean
 #' @importFrom parallel mclapply
-#' @import stats
 #' @importFrom methods is
+#' @importFrom stats qt
 #' @export
 #' 
 #' @examples

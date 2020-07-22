@@ -148,7 +148,7 @@ plotPeriodicityResults <- function(
 #' @return ggplot A ggplot
 #' 
 #' @import ggplot2
-#' @import stats
+#' @importFrom stats qnorm
 #' @export
 #' 
 #' @examples
