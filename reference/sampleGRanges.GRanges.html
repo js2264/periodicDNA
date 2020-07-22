@@ -190,20 +190,20 @@ be overlapping?</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_proms</span>)
-<span class='fu'>sampleGRanges</span>(<span class='no'>ce11_proms</span>, <span class='fl'>100</span>)</div><div class='output co'>#&gt; GRanges object with 100 ranges and 0 metadata columns:
-#&gt;         seqnames            ranges strand
-#&gt;            &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;
-#&gt;     [1]     chrI     533392-533542      +
-#&gt;     [2]     chrI   2684790-2684940      +
-#&gt;     [3]     chrI   5515970-5516120      +
-#&gt;     [4]     chrI   9769691-9769841      +
-#&gt;     [5]     chrI 10508218-10508368      +
-#&gt;     ...      ...               ...    ...
-#&gt;    [96]     chrX 13297023-13297173      -
-#&gt;    [97]     chrX 14208808-14208958      -
-#&gt;    [98]     chrX 14709550-14709700      -
-#&gt;    [99]     chrX 15576915-15577065      -
-#&gt;   [100]     chrX 15665526-15665676      -
+<span class='fu'>sampleGRanges</span>(<span class='no'>ce11_proms</span>[<span class='fl'>1</span>:<span class='fl'>1000</span>], <span class='fl'>100</span>)</div><div class='output co'>#&gt; GRanges object with 100 ranges and 0 metadata columns:
+#&gt;         seqnames          ranges strand
+#&gt;            &lt;Rle&gt;       &lt;IRanges&gt;  &lt;Rle&gt;
+#&gt;     [1]     chrI     41285-41435      +
+#&gt;     [2]     chrI   568672-568822      +
+#&gt;     [3]     chrI   605256-605406      +
+#&gt;     [4]     chrI   862075-862225      +
+#&gt;     [5]     chrI   938075-938225      +
+#&gt;     ...      ...             ...    ...
+#&gt;    [96]     chrI 5387759-5387909      -
+#&gt;    [97]     chrI 5469495-5469645      -
+#&gt;    [98]     chrI 5502021-5502171      -
+#&gt;    [99]     chrI 5616072-5616222      -
+#&gt;   [100]     chrI 5814492-5814642      -
 #&gt;   -------
 #&gt;   seqinfo: 6 sequences from an unspecified genome</div></pre>
   </div>

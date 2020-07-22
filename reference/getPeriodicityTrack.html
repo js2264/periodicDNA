@@ -230,35 +230,38 @@ to take into consideration when performing Fast Fourier Transform
 <span class='fu'>getPeriodicityTrack</span>(
     <span class='kw'>genome</span> <span class='kw'>=</span> <span class='st'>'BSgenome.Celegans.UCSC.ce11'</span>,
     <span class='no'>ce11_proms</span>[<span class='fl'>1</span>],
+    <span class='kw'>extension</span> <span class='kw'>=</span> <span class='fl'>200</span>,
+    <span class='kw'>window_size</span> <span class='kw'>=</span> <span class='fl'>100</span>,
+    <span class='kw'>step_size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+    <span class='kw'>smooth_track</span> <span class='kw'>=</span> <span class='fl'>1</span>,
     <span class='kw'>motif</span> <span class='kw'>=</span> <span class='st'>'WW'</span>,
     <span class='kw'>period</span> <span class='kw'>=</span> <span class='fl'>10</span>,
     <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>setUpBPPARAM</span>(<span class='fl'>1</span>)
 )</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>    The genome has been divided in 100-bp long windows </span>
-#&gt; <span class='message'>    with a sliding window of 2-bp.</span>
-#&gt; <span class='message'>    549 windows overlap the 1 input loci (extended to 1000-bp).</span>
+#&gt; <span class='message'>    with a sliding window of 10-bp.</span>
+#&gt; <span class='message'>    29 windows overlap the 1 input loci (extended to 200-bp).</span>
 #&gt; <span class='message'>    The mapping will be split into 1 cores. Each core will </span>
-#&gt; <span class='message'>    process 549 windows.</span>
+#&gt; <span class='message'>    process 29 windows.</span>
 #&gt; <span class='message'>    </span>
-#&gt; <span class='message'>    Generating the following track: BSgenome.Celegans.UCSC.ce11_WW_10-bp-periodicity_g-100^2_smooth-20.bw</span>
+#&gt; <span class='message'>    Generating the following track: BSgenome.Celegans.UCSC.ce11_WW_10-bp-periodicity_g-100^10_smooth-1.bw</span>
 #&gt; <span class='message'>        GENOME:   BSgenome.Celegans.UCSC.ce11</span>
 #&gt; <span class='message'>        MOTIF:    WW</span>
 #&gt; <span class='message'>        PERIOD:   10</span>
 #&gt; <span class='message'>        # LOCI:   1</span>
-#&gt; <span class='message'>        # BASES:  1,196</span>
+#&gt; <span class='message'>        # BASES:  380</span>
 #&gt; <span class='message'>    </span>
 #&gt; <span class='message'>    </span>
-#&gt; <span class='message'>    Now starting [2020-07-22 07:54:04]</span>
+#&gt; <span class='message'>    Now starting [2020-07-22 10:54:11]</span>
 #&gt; <span class='message'>    </span></div><div class='output co'>#&gt; <span class='message'>    Merging the results...</span>
-#&gt; <span class='message'>    </span></div><div class='output co'>#&gt; <span class='message'>    Smoothing the track...</span>
-#&gt; <span class='message'>        </span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>   SUCCESS: BSgenome.Celegans.UCSC.ce11_WW_10-bp-periodicity_g-100^2_smooth-20.bw has been created!</span></div><div class='output co'>#&gt; <span class='message'>   1098 bases covered by the generated track.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>    Finished without errors [2020-07-22 07:55:24]</span>
+#&gt; <span class='message'>    </span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>   SUCCESS: BSgenome.Celegans.UCSC.ce11_WW_10-bp-periodicity_g-100^10_smooth-1.bw has been created!</span></div><div class='output co'>#&gt; <span class='message'>   290 bases covered by the generated track.</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>    Finished without errors [2020-07-22 10:54:13]</span>
 #&gt; <span class='message'>    </span></div><div class='output co'>#&gt; RleList of length 7
 #&gt; $chrI
-#&gt; numeric-Rle of length 15072434 with 1120 runs
-#&gt;   Lengths:       10788           1           1 ...    15060519          10
-#&gt;   Values :    0.000000    0.317675    0.635350 ... 1.16573e-16 0.00000e+00
+#&gt; numeric-Rle of length 15072434 with 31 runs
+#&gt;   Lengths:    11202       10       10       10 ...       10       10 15060942
+#&gt;   Values :   0.0000   2.1468   1.1504   0.1467 ...   0.1502   0.0878   0.0000
 #&gt; 
 #&gt; $chrII
 #&gt; numeric-Rle of length 15279421 with 1 run
