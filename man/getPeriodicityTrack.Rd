@@ -63,6 +63,10 @@ data(ce11_proms)
 getPeriodicityTrack(
     genome = 'BSgenome.Celegans.UCSC.ce11', 
     ce11_proms[1], 
+    extension = 200, 
+    window_size = 100,
+    step_size = 10, 
+    smooth_track = 1,
     motif = 'WW',
     period = 10,
     BPPARAM = setUpBPPARAM(1)

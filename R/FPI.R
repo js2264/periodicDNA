@@ -184,7 +184,7 @@ getFPI.DNAStringSet <- function(
 #' fpi$shuffled_PSD
 #' p1 <- plotFPI(fpi)
 #' fpi <- getFPI(
-#'     ce11_TSSs[['Muscle']][1:10], 
+#'     ce11_TSSs[['Muscle']][1:5], 
 #'     genome = 'BSgenome.Celegans.UCSC.ce11', 
 #'     motif = 'TT', 
 #'     cores_shuffling = 1

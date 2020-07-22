@@ -5,12 +5,12 @@ test_that("getPeriodicityTrack and plotAggregateCoverage works", {
         data(ce11_proms)
         track <- getPeriodicityTrack(
             genome = 'BSgenome.Celegans.UCSC.ce11',
-            granges = ce11_proms[1:3], 
-            extension = 200, 
+            granges = ce11_proms[2:3], 
+            extension = 100, 
             motif = 'TT',
             period = 10,
-            window_size = 160, 
-            step_size = 20,
+            window_size = 60, 
+            step_size = 30,
             smooth_track = 1,
             bw_file = 'TT-10-bp-periodicity_over-proms.bw', 
             setUpBPPARAM(1)

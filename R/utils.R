@@ -126,7 +126,7 @@ sampleGRanges <- function(
 #' 
 #' @examples
 #' data(ce11_proms)
-#' sampleGRanges(ce11_proms, 100)
+#' sampleGRanges(ce11_proms[1:1000], 100)
 
 sampleGRanges.GRanges <- function(
     x, 
