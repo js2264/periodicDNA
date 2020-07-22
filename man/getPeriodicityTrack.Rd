@@ -60,7 +60,7 @@ track from these values.
 }
 \examples{
 data(ce11_proms)
-getPeriodicityTrack(
+track <- getPeriodicityTrack(
     genome = 'BSgenome.Celegans.UCSC.ce11', 
     ce11_proms[1], 
     extension = 200, 
@@ -71,5 +71,8 @@ getPeriodicityTrack(
     period = 10,
     BPPARAM = setUpBPPARAM(1)
 )
-unlink('WW_10-bp-periodicity_g-100^2_smooth-20.bw')
+track
+unlink(
+    'BSgenome.Celegans.UCSC.ce11_WW_10-bp-periodicity_g-100^10_smooth-1.bw'
+)
 }
