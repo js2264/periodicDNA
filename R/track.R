@@ -18,7 +18,7 @@
 #' @param range_spectrum Numeric vector, the distances between nucleotides
 #' to take into consideration when performing Fast Fourier Transform 
 #' (default seq_len(50)).
-#' @param period Integer, the period of the dinucleotide to study 
+#' @param period Integer, the period of the k-mer to study 
 #' (default=10).
 #' @param smooth_track Integer, smooth the resulting track
 #' @param BPPARAM split the workload over several processors using 
@@ -31,6 +31,7 @@
 #' @import IRanges
 #' @import BiocParallel
 #' @import BSgenome
+#' @import GenomeInfoDb
 #' @importFrom rtracklayer export.bw
 #' @importFrom methods is
 #' @export
@@ -97,7 +98,7 @@ getPeriodicityTrack <- function(
     }
     
     # Partition the genome
-    isCircular(seqinfo(granges)) <- NA
+    GenomeInfoDb::isCircular(seqinfo(granges)) <- NA
     granges <- reduce(GRanges(granges, strand = '*'))
     granges_extended <- GenomicRanges::resize(
         granges, extension, fix = 'center'
