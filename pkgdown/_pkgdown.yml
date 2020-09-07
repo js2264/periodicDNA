@@ -24,7 +24,6 @@ reference:
   - getPeriodicity.DNAStringSet
   - getPeriodicity.GRanges
   - getPeriodicityTrack
-  - starts_with("getFPI")
   - getPeriodsMetrics
 - title: Plotting functions
 - contents: 
@@ -37,11 +36,9 @@ reference:
   - sampleGRanges.DNAStringSet
   - sampleGRanges.GRanges
   - sampleGRanges.character
-  - withSeq
   - shuffleSeq
   - deconvolveBidirectionalPromoters
   - alignToTSS
-  - scaleBigWigs
   - DNAStringSet2GRanges
   - theme_ggplot2
   - setUpBPPARAM
