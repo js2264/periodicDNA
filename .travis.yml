@@ -16,7 +16,7 @@ notifications:
 matrix:
   include:
     - os: linux
-      dist: trusty
+      dist: bionic
       sudo: true
       r: bioc-devel
       bioc_check: true
