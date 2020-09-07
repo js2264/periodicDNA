@@ -2,20 +2,78 @@
 % Please edit documentation in R/periodicity.R
 \name{getPeriodicity}
 \alias{getPeriodicity}
+\alias{getPeriodicity.DNAStringSet}
+\alias{getPeriodicity.GRanges}
+\alias{getPeriodicity.DNAString}
 \title{A function to compute k-mer periodicity in sequence(s).}
 \usage{
-getPeriodicity(x, ...)
+getPeriodicity(x, motif, ...)
+
+\method{getPeriodicity}{DNAStringSet}(
+  x,
+  motif,
+  range_spectrum = seq(1, 200),
+  BPPARAM = setUpBPPARAM(1),
+  roll = 3,
+  verbose = TRUE,
+  sample = 0,
+  n_shuffling = 0,
+  cores_shuffling = 1,
+  cores_computing = 1,
+  order = 1,
+  ...
+)
+
+\method{getPeriodicity}{GRanges}(x, motif, genome = "BSgenome.Celegans.UCSC.ce11", ...)
+
+\method{getPeriodicity}{DNAString}(x, motif, ...)
 }
 \arguments{
-\item{x}{a DNAStringSet, or a GRanges}
+\item{x}{a DNAString, DNAStringSet or GRanges object.}
 
-\item{...}{additional parameters}
+\item{motif}{a k-mer of interest}
+
+\item{...}{Arguments passed to S3 methods}
+
+\item{range_spectrum}{Numeric vector Range of the distogram to use to run 
+the Fast Fourier Transform on (default: 1:200, i.e. all pairs of k-mers 
+at a maximum of 200 bp from each other).}
+
+\item{BPPARAM}{split the workload over several processors using 
+BiocParallel}
+
+\item{roll}{Integer Window to smooth the distribution of pairwise distances
+(default: 3, to discard the 3-bp periodicity of dinucleotides which 
+can be very strong in vertebrate genomes)}
+
+\item{verbose}{Boolean}
+
+\item{sample}{Integer if > 0, will randomly sample this many integers
+from the dists vector before normalization. This ensures consistency 
+when looking at periodicity in different genomes, since different
+genomes will have different GC percent}
+
+\item{n_shuffling}{Integer, how many times should the sequences be 
+shuffled? (default = 0)}
+
+\item{cores_shuffling}{integer, Number of cores used for shuffling 
+(used if n_shuffling > 0)}
+
+\item{cores_computing}{integer, split the workload over several processors 
+using BiocParallel (used if n_shuffling > 0)}
+
+\item{order}{Integer, which order to take into consideration for shuffling
+(ushuffle python library must be installed for orders > 1) 
+(used if n_shuffling > 0)}
+
+\item{genome}{genome ID, BSgenome or DNAStringSet object 
+(optional, if x is a GRanges)}
 }
 \value{
 A list containing the results of getPeriodicity function.  
 \itemize{
     \item The dists vector is the raw vector of all distances between 
-    any possible dinucleotide. 
+    any possible k-mer. 
     \item The hist data.frame is the distribution of distances
     over range_spectrum. 
     \item The normalized_hist is the raw hist, 
@@ -24,8 +82,12 @@ A list containing the results of getPeriodicity function.
     the FFT applied over normalized_hist. 
     \item The PSD data frame is the power 
     spectral density scores over given  frequencies. 
-    \item The motif object is the dinucleotide being analysed.
+    \item The motif object is the k-mer being analysed.
+    \item The final periodicity metrics computed by getPeriodicity()
 }
+If getPeriodicity() is ran with n_shuffling > 0, the resulting 
+list also contains PSD values computed when iterating through shuffled 
+sequences.
 }
 \description{
 This function takes a set of sequences and a k-mer of interest, 
@@ -34,20 +96,39 @@ pairwise distances (distogram), normalize it for distance decay,
 and computes the resulting power spectral density of the 
 normalized distogram.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{DNAStringSet}: S3 method for DNAStringSet
+
+\item \code{GRanges}: S3 method for GRanges
+
+\item \code{DNAString}: S3 method for DNAString
+}}
+
 \examples{
 data(ce11_proms_seqs)
 periodicity_result <- getPeriodicity(
     ce11_proms_seqs[1:100],
     motif = 'TT'
 )
+head(periodicity_result$PSD)
 plotPeriodicityResults(periodicity_result)
 #
-data(ce11_proms)
+data(ce11_TSSs)
 periodicity_result <- getPeriodicity(
-    ce11_proms[1:100],
+    ce11_TSSs[['Ubiq.']][1:10],
+    motif = 'TT',
+    genome = 'BSgenome.Celegans.UCSC.ce11'
+)
+head(periodicity_result$PSD)
+plotPeriodicityResults(periodicity_result)
+#
+data(ce11_TSSs)
+periodicity_result <- getPeriodicity(
+    ce11_TSSs[['Ubiq.']][1:10],
+    motif = 'TT',
     genome = 'BSgenome.Celegans.UCSC.ce11',
-    motif = 'TT', 
-    range_spectrum = 1:100
+    n_shuffling = 10
 )
 head(periodicity_result$PSD)
 plotPeriodicityResults(periodicity_result)

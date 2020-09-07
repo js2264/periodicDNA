@@ -25,7 +25,7 @@ getPeriodicityTrack(
 
 \item{motif}{character, k-mer of interest.}
 
-\item{period}{Integer, the period of the dinucleotide to study 
+\item{period}{Integer, the period of the k-mer to study 
 (default=10).}
 
 \item{BPPARAM}{split the workload over several processors using 
