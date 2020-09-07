@@ -23,11 +23,58 @@ suppressPackageStartupMessages({
 BiocParallel::register(setUpBPPARAM(1), default = TRUE)
 ```
 
-### Dinucleotide periodicity over a set of Genomic Ranges
+### Introduction to periodicDNA 
+
+Short DNA sequence motifs provide key information for interpreting the 
+instructions in DNA, for example by providing binding sites for 
+proteins or altering the structure of the double-helix. A less studied but 
+important feature of DNA sequence motifs is their periodicity. 
+A famous example is the 10-bp periodicity of many k-mers in nucleosome 
+positioning (reviewed in Travers et al. 2010 or in Struhl and Segal 2013).  
+
+periodicDNA provides a framework to quantify the periodicity of k-mers of 
+interest in DNA sequences. For a chosen k-mer, periodicDNA can identify which 
+periods are statistically enriched in a set of sequences, by using a 
+randomized shuffling approach to compute an empirical p-value. It can also 
+generate continuous linear tracks of k-mer periodicity strength over 
+genomic loci.
+
+### Internal steps of periodicDNA
+
+To estimate the periodicity strength of a given k-mer in one or several
+sequences, periodicDNA performs the following steps: 
+
+1. The k-mer occurrences are mapped and their pairwise distances 
+   are calculated.
+2. The distribution of all the resulting pairwise distances 
+   (also called "distogram") is generated.
+3. The distogram is transformed into a frequency histogram and smoothed 
+   using a moving window of 3 to mask the universal three-base genomic 
+   periodicity. To normalize the frequency for distance decay, 
+   the local average 
+   (obtained by averaging the frequency with a moving window of 10) is then
+   subtracted from the smoothed frequency.
+4. Finally, the power spectral density (PSD) is estimated by applying a 
+   Fast Fourier Transform (Figure 1F) over the normalized frequency histogram. 
+   The magnitude of the PSD values indicates the contribution of a given 
+   period to the overall periodicity of the k-mer of interest.
+
+```{r, eval = TRUE, echo=FALSE, out.width='100%'}
+knitr::include_graphics(
+   "https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/periodicityDNA_principle.png"
+)
+```
+
+### Quantifying k-mer periodicity over a set of sequences
+
+#### Basic usage 
 
 The main goal of periodicDNA is to quantify periodicity of a given k-mer in a
-set of sequences. `getPeriodicity()` can be used to achieve this. 
-In the following example, `getPeriodicity()` is usually ran using 
+set of sequences. For instance, one can assess the periodicity of TT
+dinucleotides in sequences around TSSs of ubiquitous promoters using 
+`getPeriodicity()`.  
+
+In the following example, `getPeriodicity()` is directly ran using 
 a GRanges object, specifying from which genome this GRanges comes from. 
 
 ```{r, eval = TRUE}
@@ -46,12 +93,15 @@ periodicity_result <- getPeriodicity(
 
 The main output of `getPeriodicity()` is a table of power spectral density 
 (PSD) values associated with discrete frequencies, computed using a 
-Fast FourierTransform. For a given frequency, a high PSD score 
-indicates a high periodicity of the k-mer of interest. 
+Fast Fourier Transform. For a given frequency, a high PSD score 
+indicates a high periodicity of the k-mer of interest.  
+
+In the previous example, TT dinucleotides in sequences around TSSs 
+of ubiquitous promoters are highly periodic, with a periodicity of 10 bp. 
 
 ```{r, eval = TRUE}
 head(periodicity_result$PSD)
-periodicity_result$periodicityMetrics %>% '['(.$Period == 10, )
+subset(periodicity_result$periodicityMetrics, Period == 10)
 ```
 
 Graphical output of `getPeriodicity()` can be obtained using the 
@@ -66,7 +116,39 @@ in the sequences of the provided GRanges. The second plot shows the
 decay-normalised distribution. Finally, the third plot shows the PSD scores 
 of the 'TT' k-mer, measured from the normalised distribution.  
 
-**Note:**  
+#### Repeated shuffling of input sequences 
+
+periodicDNA provides an approach to compare the periodicity of a given k-mer
+in a set of sequences compared to background. For a given k-mer at a period T 
+in a set of input sequences, the fold-change over background of its PSD 
+is estimated by iteratively shuffling the input sequences and estimating 
+the resulting PSD values.  
+Eventually, the log2 fold-change (l2FC) between the observed PSD and the 
+median of the PSD values measured after shuffling is computed as follows:  
+
+l2FC = log2(observed PSD / median(shuffled PSDs)).
+
+```{r, eval = TRUE, fig.width = 9, fig.height = 3.2, out.width='100%'}
+periodicity_result <- getPeriodicity(
+    ce11_TSSs[['Ubiq.']][1:500],
+    genome = 'BSgenome.Celegans.UCSC.ce11',
+    motif = 'TT', 
+    n_shuffling = 5
+)
+head(periodicity_result$periodicityMetrics)
+subset(periodicity_result$periodicityMetrics, Period == 10)
+plotPeriodicityResults(periodicity_result)
+```
+
+If `n_shuffling >= 100`, an associated empirical p-value is calculated as 
+well (North et al 2002). This metric indicates, for each individual period T, 
+whether the observed PSD is significantly greater than the PSD values measured 
+after shuffling the input sequences. Note that empirical p-values are only an 
+estimation of the real p-value. Notably, small p-values are systematically 
+under-estimated (North et al 2002).
+
+#### Note
+
 `getPeriodicity()` can also be ran directly on a set of sequences of interest 
 as follows: 
 
@@ -77,54 +159,12 @@ periodicity_result <- getPeriodicity(
     motif = 'TT', 
     BPPARAM = setUpBPPARAM(1)
 )
-periodicity_result$periodicityMetrics %>% '['(.$Period == 10, )
-```
-
-### Fold Power Increase
-
-Fold Power Increase (FPI) is a metric introduced by Pich et al., 
-Cell 2018. It can be computed using the `getFPI()` function. In the 
-following example, the FPI of TT dinucleotides at a 10-bp periodicity is 
-computed over 200-bp long sequences randomly sampled in ce11 genome. 
-
-```{r, eval = TRUE}
-FPI <- getFPI(
-    ce11_TSSs[['Ubiq.']][1:500],
-    genome = 'BSgenome.Celegans.UCSC.ce11', 
-    motif = 'WW', 
-    n_shuffling = 5
-)
-FPI$periodicityMetrics %>% head(25)
-plotFPI(FPI)
-```
-
-#### Note 1
-
-If `n_shuffling >= 100`, an empirical p-value is automatically computed. 
-Note that empirical p-values are only an estimation of the real p-value. 
-Notably, small p-values are systematically under-estimated as their 
-lower bound is 1/(n+1).
-
-#### Note 2
-
-Note that `getFPI()` can also be ran using `getPeriodicity()` 
-with the `n_shuffling` argument. 
-
-```{r, eval = TRUE}
-data(ce11_TSSs)
-periodicity_result <- getPeriodicity(
-    ce11_TSSs[['Ubiq.']][1:500],
-    genome = 'BSgenome.Celegans.UCSC.ce11', 
-    motif = 'TT', 
-    n_shuffling = 5
-)
-periodicity_result$periodicityMetrics %>% head(30)
-plotPeriodicityResults(periodicity_result)
+subset(periodicity_result$periodicityMetrics, Period == 10)
 ```
 
 ### Track of periodicity over a set of Genomic Ranges
 
-Another major aim of periodicDNA is to generate continuous linear tracks of 
+The other aim of periodicDNA is to generate continuous linear tracks of 
 k-mer periodicity strength over genomic loci of interest. 
 `getPeriodicityTrack()` can be used to generate suck genomic tracks. In the 
 following example,  
