@@ -45,27 +45,15 @@ illustrated. To access the vignette, please use:
 vignette('periodicDNA')
 ```
 
-A description of the internal steps performed by periodicDNA is accessible 
-in the following vignette:
-
-```r
-vignette('internal-steps', package = 'periodicDNA')
-```
-
 ## Main functions 
 
-The three main user-level functions of periodicDNA are `getPeriodicity()`, 
-`getFPI()` and `getPeriodicityTrack()`.
+The two main user-level functions of periodicDNA are `getPeriodicity()` and 
+`getPeriodicityTrack()`.
 
 * `getPeriodicity()` is used to compute the power spectral density 
   (PSD) of a chosen k-mer (i.e. `TT`) in a set of sequences. The PSD 
   score at a given period indicates the strength of the k-mer at 
   this period. 
-* `getFPI()` is used to compute the Fold Power Increase, 
-  a more sophisticated metric derived from the PSD. 
-  It was initially developed by Pich et al., Cell 2018. 
-  It estimates the background periodicity of the k-mer 
-  of interest in shuffled sequences. 
 * `getPeriodicityTrack()` can be used to generate linear tracks representing 
   the periodicity strength of a given k-mer at a chosen period, over genomic
   loci of interest. 
@@ -78,24 +66,10 @@ PSDs <- getPeriodicity(
     ce11_TSSs[['Ubiq.']],
     genome = 'BSgenome.Celegans.UCSC.ce11',
     motif = 'TT', 
-    BPPARAM = MulticoreParam(12)
+    BPPARAM = MulticoreParam(12), 
+    n_shuffling = 100
 )
 plotPeriodicityResults(PSDs)
-```
-
-### `getFPI()` function
-
-```r
-data(ce11_TSSs)
-FPI <- getFPI(
-    ce11_TSSs[['Ubiq.']],
-    genome = 'BSgenome.Celegans.UCSC.ce11',
-    period = 10,
-    motif = 'TT', 
-    n_shuffling = 10,
-    cores_shuffling = 10
-)
-plotFPI(FPI)
 ```
 
 ### `getPeriodicityTrack()` function

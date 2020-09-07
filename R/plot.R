@@ -97,7 +97,7 @@ plotPeriodicityResults <- function(
             ]
         )
     }
-    if (!("FPI" %in% names(results))) {
+    if (!("PSD_withShuffling" %in% names(results))) {
         p2 <- ggplot2::ggplot(
             df[df$x >= periods[1] & df$x <= periods[2],], 
             ggplot2::aes(x = x, y = y)
@@ -117,7 +117,7 @@ plotPeriodicityResults <- function(
             )
     }
     else {
-        p2 <- plotFPI(results$PSD_withShuffling, 
+        p2 <- plotWithIterations(results$PSD_withShuffling, 
             periods = periods, 
             fdr_threshold = fdr_threshold
         )
@@ -135,54 +135,32 @@ plotPeriodicityResults <- function(
     return(p)
 }
 
-#' Plot the output of getFPI()
-#'
-#' This function plots some results from the result of getFPI(). 
-#' It plots the observed PSD values in red and all the shuffled 
-#' runs in grey.
-#'
-#' @param fpi The output of getFPI function.
-#' @param periods Vector a numerical vector of length 2, to specify the
-#' x-axis limits 
-#' @param fdr_threshold Float, significance threshold
-#' @return ggplot A ggplot
-#' 
 #' @import ggplot2
 #' @importFrom stats qnorm
-#' @export
-#' 
-#' @examples
-#' data(ce11_proms_seqs)
-#' fpi <- getFPI(
-#'     ce11_proms_seqs[1:10], 
-#'     motif = 'TT', 
-#'     cores_computing = 1
-#' )
-#' plotFPI(fpi)
 
-plotFPI <- function(
-    fpi, 
+plotWithIterations <- function(
+    res, 
     periods = c(2, 20), 
     fdr_threshold = 0.05
 ) {
     periods_bounds <- periods 
-    n_shuffled <- length(fpi$shuffled_spectra)
+    n_shuffled <- length(res$shuffled_spectra)
     periods <- c(
-        1/fpi$observed_spectra$PSD$freq,
+        1/res$observed_spectra$PSD$freq,
         lapply(seq_len(n_shuffled), function(k) {
-            1/fpi$shuffled_spectra[[k]]$PSD$freq
+            1/res$shuffled_spectra[[k]]$PSD$freq
         }) %>% unlist()
     )
     psds <- c(
-        fpi$observed_spectra$PSD$PSD,
+        res$observed_spectra$PSD$PSD,
         lapply(seq_len(n_shuffled), function(k) {
-            fpi$shuffled_spectra[[k]]$PSD$PSD
+            res$shuffled_spectra[[k]]$PSD$PSD
         }) %>% unlist()
     )
     groups <- c(
-        rep(1, length(fpi$observed_spectra$PSD$PSD)),
+        rep(1, length(res$observed_spectra$PSD$PSD)),
         lapply(seq_len(n_shuffled), function(k) {
-            rep(k+1, length(fpi$shuffled_spectra[[k]]$PSD$PSD))
+            rep(k+1, length(res$shuffled_spectra[[k]]$PSD$PSD))
         }) %>% unlist()
     )
     # Calculate CI
@@ -206,10 +184,10 @@ plotFPI <- function(
         'periods' = periods, 
         'y' = psds, 
         'type' = c(
-            rep('observed', length(fpi$observed_spectra$PSD$freq)), 
+            rep('observed', length(res$observed_spectra$PSD$freq)), 
             rep(
                 'shuffled', 
-                length(periods)-length(fpi$observed_spectra$PSD$freq)
+                length(periods)-length(res$observed_spectra$PSD$freq)
             )
         ), 
         'group' = groups
@@ -220,7 +198,7 @@ plotFPI <- function(
         ribbon_coords$periods <= periods_bounds[2],
     ]
     # Adding significance
-    pvals <- fpi$periodicityMetrics
+    pvals <- res$periodicityMetrics
     if (!("pval" %in% colnames(pvals))) {
         pvals$pval <- 1
     }
@@ -232,16 +210,6 @@ plotFPI <- function(
     df$isSign <- factor(FALSE, levels = c(FALSE, TRUE))
     df$isSign[df$fdr <= fdr_threshold] <- TRUE
     df$isSign[df$type != 'observed'] <- NA
-    tit <- paste0(
-        'FPI @ ', df$periods[which.min(abs(df$periods - fpi$period))],
-        '-bp period: ', round(fpi$FPI, 1)
-    )
-    if (any(!is.na(df$fdr))) {
-        tit <- paste0(
-            tit, 
-            '\n(FDR = ', df$fdr[which.min(abs(df$periods - fpi$period))], ')'
-        )
-    }
     # Plotting
     p <- ggplot2::ggplot(df) + 
         ggplot2::aes(x = periods, y = y) + 
@@ -294,9 +262,8 @@ plotFPI <- function(
         ggplot2::xlim(periods_bounds) +
         theme_ggplot2() + 
         ggplot2::labs(
-            x = paste0(fpi$motif, ' periods'), 
-            y = 'Power Spectral Density', 
-            title = tit
+            x = paste0(res$motif, ' periods'), 
+            y = 'Power Spectral Density'
         ) + 
         ggplot2::theme(legend.position = "null")
     return(p)
