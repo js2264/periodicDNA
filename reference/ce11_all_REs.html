@@ -100,18 +100,6 @@ architectures for ubiquitous, germline and somatic genes&quot;, BiorXiv." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/internal-steps.html">How periodicDNA works</a>
-    </li>
-  </ul>
-</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -147,7 +135,7 @@ al. 2020, "Tissue-specific profiling reveals distinctive regulatory
 architectures for ubiquitous, germline and somatic genes", BiorXiv.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_all_REs</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>ce11_all_REs</span>)</pre>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
@@ -164,12 +152,14 @@ architectures for ubiquitous, germline and somatic genes", BiorXiv.
 (<a href='https://doi.org/10.1101/2020.02.20.958579'>DOI</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_all_REs</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>ce11_all_REs</span>$<span class='no'>regulatory_class</span>)</div><div class='output co'>#&gt; 
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>ce11_all_REs</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='kw'>ce11_all_REs</span><span class='op'>$</span><span class='kw'>regulatory_class</span>)
+</div><div class='output co'>#&gt; 
 #&gt;        fwd-promoter        rev-promoter   bidirect-promoter   putative_enhancer 
 #&gt;                6616                6480                2181               20271 
 #&gt; unassigned_promoter pseudogene_promoter      non-coding_RNA       other_element 
-#&gt;                2244                 326                 831                8565 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>ce11_all_REs</span>$<span class='no'>which.tissues</span>)</div><div class='output co'>#&gt; 
+#&gt;                2244                 326                 831                8565 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='kw'>ce11_all_REs</span><span class='op'>$</span><span class='kw'>which.tissues</span>)
+</div><div class='output co'>#&gt; 
 #&gt;                               Germline                                Neurons 
 #&gt;                                   2184                                   2728 
 #&gt;                                 Muscle                                 Hypod. 
@@ -221,7 +211,7 @@ architectures for ubiquitous, germline and somatic genes", BiorXiv.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

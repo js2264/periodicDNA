@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A function to sample GRanges from BSgenome — sampleGRanges.BSgenome • periodicDNA</title>
+<title>A function to compute PSDs with iterations — getPeriodicityWithIterations • periodicDNA</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,9 +46,10 @@
 
 
 
-<meta property="og:title" content="A function to sample GRanges from BSgenome — sampleGRanges.BSgenome" />
-<meta property="og:description" content="This function takes a BSgenome and returns a GRanges object. 
-This function is useful to sample sequences from a full genome." />
+<meta property="og:title" content="A function to compute PSDs with iterations — getPeriodicityWithIterations" />
+<meta property="og:description" content="This function computes PSD values of a given k-mer of interest in 
+a set of input sequences. It also iterates the PSD calculation process 
+over shuffled sequences, if n_shuffling is used." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -99,18 +100,6 @@ This function is useful to sample sequences from a full genome." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/internal-steps.html">How periodicDNA works</a>
-    </li>
-  </ul>
-</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -135,69 +124,100 @@ This function is useful to sample sequences from a full genome." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A function to sample GRanges from BSgenome</h1>
-    <small class="dont-index">Source: <a href='https://github.com/js2264/periodicDNA/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>sampleGRanges.BSgenome.Rd</code></div>
+    <h1>A function to compute PSDs with iterations</h1>
+    <small class="dont-index">Source: <a href='https://github.com/js2264/periodicDNA/blob/master/R/iterations.R'><code>R/iterations.R</code></a></small>
+    <div class="hidden name"><code>getPeriodicityWithIterations.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function takes a BSgenome and returns a GRanges object. 
-This function is useful to sample sequences from a full genome.</p>
+    <p>This function computes PSD values of a given k-mer of interest in 
+a set of input sequences. It also iterates the PSD calculation process 
+over shuffled sequences, if n_shuffling is used.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for BSgenome</span>
-<span class='fu'>sampleGRanges</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>getPeriodicityWithIterations</span>(<span class='kw'>x</span>, <span class='kw'>...</span>)
+
+<span class='co'># S3 method for DNAStringSet</span>
+<span class='fu'>getPeriodicityWithIterations</span>(
+  <span class='kw'>x</span>,
+  <span class='kw'>motif</span>,
+  n_shuffling = <span class='fl'>10</span>,
+  cores_shuffling = <span class='fl'>1</span>,
+  cores_computing = <span class='fl'>1</span>,
+  order = <span class='fl'>1</span>,
+  verbose = <span class='fl'>1</span>,
+  <span class='kw'>...</span>
+)
+
+<span class='co'># S3 method for GRanges</span>
+<span class='fu'>getPeriodicityWithIterations</span>(<span class='kw'>x</span>, <span class='kw'>genome</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>a BSgenome object</p></td>
+      <td><p>DNAStringSet, sequences of interest</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional parameters</p></td>
+      <td><p>Arguments passed to S3 methods</p></td>
+    </tr>
+    <tr>
+      <th>motif</th>
+      <td><p>character, k-mer of interest</p></td>
+    </tr>
+    <tr>
+      <th>n_shuffling</th>
+      <td><p>integer, Number of shuffling</p></td>
+    </tr>
+    <tr>
+      <th>cores_shuffling</th>
+      <td><p>integer, Number of cores used for shuffling</p></td>
+    </tr>
+    <tr>
+      <th>cores_computing</th>
+      <td><p>integer, split the workload over several processors 
+using BiocParallel</p></td>
+    </tr>
+    <tr>
+      <th>order</th>
+      <td><p>Integer, which order to take into consideration for shuffling
+(ushuffle python library must be installed for orders &gt; 1)</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>integer, Should the function be verbose?</p></td>
+    </tr>
+    <tr>
+      <th>genome</th>
+      <td><p>genome ID, BSgenome or DNAStringSet object 
+(optional, if x is a GRanges)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A GRanges object of length n</p>
+    <p>Several metrics</p>
+    <h2 class="hasAnchor" id="methods-by-class-"><a class="anchor" href="#methods-by-class-"></a>Methods (by class)</h2>
+
+    
+<ul>
+<li><p><code>DNAStringSet</code>: S3 method for DNAString</p></li>
+<li><p><code>GRanges</code>: S3 method for GRanges</p></li>
+</ul>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>g</span> <span class='kw'>&lt;-</span> <span class='fu'>sampleGRanges</span>(
-    <span class='kw pkg'>BSgenome.Scerevisiae.UCSC.sacCer3</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/BSgenome.Scerevisiae.UCSC.sacCer3/man/package.html'>BSgenome.Scerevisiae.UCSC.sacCer3</a></span>,
-    <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>150</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>ce11_proms_seqs</span>)
+<span class='kw'>res</span> <span class='op'>&lt;-</span> <span class='fu'>getPeriodicityWithIterations</span>(
+    <span class='kw'>ce11_proms_seqs</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>], 
+    genome = <span class='st'>'BSgenome.Celegans.UCSC.ce11'</span>, 
+    motif = <span class='st'>'TT'</span>, 
+    cores_shuffling = <span class='fl'>1</span>
 )
-<span class='no'>g</span></div><div class='output co'>#&gt; GRanges object with 100 ranges and 1 metadata column:
-#&gt;         seqnames        ranges strand |                     seq
-#&gt;            &lt;Rle&gt;     &lt;IRanges&gt;  &lt;Rle&gt; |          &lt;DNAStringSet&gt;
-#&gt;     [1]     chrI     9049-9198      * | GTAATTTTTT...CTTATCTATT
-#&gt;     [2]     chrI   47136-47285      * | CTCAAGTTTC...TCTCTCAGAT
-#&gt;     [3]    chrII   92690-92839      * | TCTGCAAGAA...GGATCTCCAT
-#&gt;     [4]    chrII 291115-291264      * | CCTTGATTCT...GCAACTCTTT
-#&gt;     [5]    chrII 363450-363599      * | AGTGCAATTG...GAGCAGAAGC
-#&gt;     ...      ...           ...    ... .                     ...
-#&gt;    [96]   chrXVI 434887-435036      * | TCGTGCGAGA...AAATTGAGAC
-#&gt;    [97]   chrXVI 770726-770875      * | CTATGATCAT...TGCGGGTAAC
-#&gt;    [98]   chrXVI 819336-819485      * | ATATAAAAAT...ATTCTCAACA
-#&gt;    [99]   chrXVI 843423-843572      * | CCAGTCTTAC...TTTATGTGGA
-#&gt;   [100]     chrM   25707-25856      * | ATTTGAGAGC...AATATATATT
-#&gt;   -------
-#&gt;   seqinfo: 17 sequences from an unspecified genome</div><div class='input'><span class='no'>g</span>$<span class='no'>seq</span></div><div class='output co'>#&gt; DNAStringSet object of length 100:
-#&gt;       width seq
-#&gt;   [1]   150 GTAATTTTTTTTAACAAATAGAGAGTAAGATAT...AACGCATGTCTCCGCTTGGTTTCTTATCTATT
-#&gt;   [2]   150 CTCAAGTTTCTCTTCTGGCGATTTGGGAATTTA...GGTTTTCATCAAGGGAAGAGAGTCTCTCAGAT
-#&gt;   [3]   150 TCTGCAAGAAAGATCACTACTGTAATACCCAAT...GTGCTGATCATGTCATCACAATGGATCTCCAT
-#&gt;   [4]   150 CCTTGATTCTTAGCAGATGCTTGTTTTTCTTTC...TTTTGAAGTCCAGGAGTGATTAGCAACTCTTT
-#&gt;   [5]   150 AGTGCAATTGACAACTTGTTTGCACTTGCCTGC...TTGGATCAAAAAAAGTTTATTGGAGCAGAAGC
-#&gt;   ...   ... ...
-#&gt;  [96]   150 TCGTGCGAGAAAATTCCATACTAATCAGTTTAC...CAAGGATTTTATTAACGATATGAAATTGAGAC
-#&gt;  [97]   150 CTATGATCATTAGTGTTGATGCATCGGAAGTTT...AAAAGACAGATTTTATTCCAAATGCGGGTAAC
-#&gt;  [98]   150 ATATAAAAATTCAAGGTAATGTACTTGTGCACT...ACTTTATATATCGCAATAAGCAATTCTCAACA
-#&gt;  [99]   150 CCAGTCTTACATAATTTCTCTCCATAAAGAAAT...TCAGACAAAGACGGTAATCAAATTTATGTGGA
-#&gt; [100]   150 ATTTGAGAGCTAAGTTAGATATTTACGTATTTA...TATTATTATATTAATAAAATTTAATATATATT</div></pre>
+</div><div class='output co'>#&gt; <span class='message'>- Calculating observed PSD</span></div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 12945 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing distogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the normalized distogram.</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 1/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 2/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 3/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 4/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 5/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 6/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 7/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 8/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 9/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 10/10</span></div><div class='output co'>#&gt; <span class='message'>Only 10 shufflings. Cannot compute accurate empirical p-values. To compute empirical p-values, set up n_shuffling to at least 100. Only l2FC values are returned</span></div><div class='input'><span class='kw'>res</span><span class='op'>$</span><span class='kw'>observed_PSD</span>
+</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='kw'>res</span><span class='op'>$</span><span class='kw'>shuffled_PSD</span>
+</div><div class='output co'>#&gt; NULL</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -213,7 +233,7 @@ This function is useful to sample sequences from a full genome.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

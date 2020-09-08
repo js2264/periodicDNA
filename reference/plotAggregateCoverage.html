@@ -47,7 +47,7 @@
 
 
 <meta property="og:title" content="A function to plot aggregated signals over sets of GRanges — plotAggregateCoverage" />
-<meta property="og:description" content="This function takes one or several RleList genomic tracks (imported
+<meta property="og:description" content="This function takes one or several RleList genomic tracks (e.g. imported
 by rtraklayer::import(..., as = 'Rle')) and one or several GRanges 
 objects. It computes coverage of the GRanges by the genomic tracks
 and returns an aggregate coverage plot." />
@@ -101,18 +101,6 @@ and returns an aggregate coverage plot." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/internal-steps.html">How periodicDNA works</a>
-    </li>
-  </ul>
-</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -143,39 +131,212 @@ and returns an aggregate coverage plot." />
     </div>
 
     <div class="ref-description">
-    <p>This function takes one or several RleList genomic tracks (imported
+    <p>This function takes one or several RleList genomic tracks (e.g. imported
 by rtraklayer::import(..., as = 'Rle')) and one or several GRanges 
 objects. It computes coverage of the GRanges by the genomic tracks
 and returns an aggregate coverage plot.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plotAggregateCoverage</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>plotAggregateCoverage</span>(<span class='kw'>x</span>, <span class='kw'>...</span>)
+
+<span class='co'># S3 method for CompressedRleList</span>
+<span class='fu'>plotAggregateCoverage</span>(<span class='kw'>x</span>, <span class='kw'>granges</span>, <span class='kw'>...</span>)
+
+<span class='co'># S3 method for SimpleRleList</span>
+<span class='fu'>plotAggregateCoverage</span>(
+  <span class='kw'>x</span>,
+  <span class='kw'>granges</span>,
+  colors = <span class='kw'>NULL</span>,
+  xlab = <span class='st'>"Center of elements"</span>,
+  ylab = <span class='st'>"Score"</span>,
+  xlim = <span class='kw'>NULL</span>,
+  ylim = <span class='kw'>NULL</span>,
+  quartiles = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.025</span>, <span class='fl'>0.975</span>),
+  verbose = <span class='fl'>FALSE</span>,
+  bin = <span class='fl'>1</span>,
+  plot_central = <span class='fl'>TRUE</span>,
+  run_in_parallel = <span class='fl'>FALSE</span>,
+  split_by_granges = <span class='fl'>FALSE</span>,
+  norm = <span class='st'>"none"</span>,
+  <span class='kw'>...</span>
+)
+
+<span class='co'># S3 method for list</span>
+<span class='fu'>plotAggregateCoverage</span>(
+  <span class='kw'>x</span>,
+  <span class='kw'>granges</span>,
+  colors = <span class='kw'>NULL</span>,
+  xlab = <span class='st'>"Center of elements"</span>,
+  ylab = <span class='st'>"Score"</span>,
+  xlim = <span class='kw'>NULL</span>,
+  ylim = <span class='kw'>NULL</span>,
+  quartiles = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.025</span>, <span class='fl'>0.975</span>),
+  verbose = <span class='fl'>FALSE</span>,
+  bin = <span class='fl'>1</span>,
+  plot_central = <span class='fl'>TRUE</span>,
+  split_by_granges = <span class='fl'>TRUE</span>,
+  split_by_track = <span class='fl'>FALSE</span>,
+  free_scales = <span class='fl'>FALSE</span>,
+  run_in_parallel = <span class='fl'>FALSE</span>,
+  norm = <span class='st'>"none"</span>,
+  <span class='kw'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>CompressedRleList or SimpleRleList (in lists or single)</p></td>
+      <td><p>a single signal track (CompressedRleList or SimpleRleList class), 
+or several signal tracks (SimpleRleList or CompressedRleList class) 
+grouped in a named list</p></td>
     </tr>
     <tr>
       <th>...</th>
       <td><p>additional parameters</p></td>
+    </tr>
+    <tr>
+      <th>granges</th>
+      <td><p>a GRanges object or a named list of GRanges</p></td>
+    </tr>
+    <tr>
+      <th>colors</th>
+      <td><p>a vector of colors</p></td>
+    </tr>
+    <tr>
+      <th>xlab</th>
+      <td><p>x axis label</p></td>
+    </tr>
+    <tr>
+      <th>ylab</th>
+      <td><p>y axis label</p></td>
+    </tr>
+    <tr>
+      <th>xlim</th>
+      <td><p>y axis limits</p></td>
+    </tr>
+    <tr>
+      <th>ylim</th>
+      <td><p>y axis limits</p></td>
+    </tr>
+    <tr>
+      <th>quartiles</th>
+      <td><p>Which quantiles to use to determine y scale automatically?</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Boolean</p></td>
+    </tr>
+    <tr>
+      <th>bin</th>
+      <td><p>Integer Width of the window to use to smooth values 
+by zoo::rollMean</p></td>
+    </tr>
+    <tr>
+      <th>plot_central</th>
+      <td><p>Boolean Draw a vertical line at 0</p></td>
+    </tr>
+    <tr>
+      <th>run_in_parallel</th>
+      <td><p>Boolean Should the plots be computed in parallel
+using mclapply?</p></td>
+    </tr>
+    <tr>
+      <th>split_by_granges</th>
+      <td><p>Boolean Facet plots over the sets of GRanges</p></td>
+    </tr>
+    <tr>
+      <th>norm</th>
+      <td><p>character Should the signal be normalized 
+('none', 'zscore' or 'log2')?</p></td>
+    </tr>
+    <tr>
+      <th>split_by_track</th>
+      <td><p>Boolean Facet plots by the sets of signal tracks</p></td>
+    </tr>
+    <tr>
+      <th>free_scales</th>
+      <td><p>Boolean Should each facet have independent y-axis scales?</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An aggregate coverage plot.</p>
+    <h2 class="hasAnchor" id="methods-by-class-"><a class="anchor" href="#methods-by-class-"></a>Methods (by class)</h2>
+
+    
+<ul>
+<li><p><code>CompressedRleList</code>: S3 method for CompressedRleList</p></li>
+<li><p><code>SimpleRleList</code>: S3 method for SimpleRleList</p></li>
+<li><p><code>list</code>: S3 method for list</p></li>
+</ul>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_ATACseq</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ce11_proms</span>)
-<span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'>plotAggregateCoverage</span>(
-    <span class='no'>ce11_ATACseq</span>,
-    <span class='fu'>resize</span>(<span class='no'>ce11_proms</span>[<span class='fl'>1</span>:<span class='fl'>100</span>], <span class='kw'>fix</span> <span class='kw'>=</span> <span class='st'>'center'</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>ce11_ATACseq</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>ce11_WW_10bp</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>ce11_proms</span>)
+
+<span class='kw'>p1</span> <span class='op'>&lt;-</span> <span class='fu'>plotAggregateCoverage</span>(
+    <span class='kw'>ce11_ATACseq</span>, 
+    <span class='fu'>resize</span>(<span class='kw'>ce11_proms</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>100</span>], fix = <span class='st'>'center'</span>, width = <span class='fl'>1000</span>)
 )
-<span class='no'>p</span></div><div class='img'><img src='plotAggregateCoverage-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='kw'>p1</span>
+</div><div class='img'><img src='plotAggregateCoverage-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>proms</span> <span class='op'>&lt;-</span> <span class='fu'>resize</span>(<span class='kw'>ce11_proms</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>100</span>], fix = <span class='st'>'center'</span>, width = <span class='fl'>400</span>)
+<span class='kw'>p2</span> <span class='op'>&lt;-</span> <span class='fu'>plotAggregateCoverage</span>(
+    <span class='kw'>ce11_ATACseq</span>, 
+    <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+        <span class='st'>'Ubiq &amp; Germline promoters'</span> = 
+            <span class='kw'>proms</span>[<span class='kw'>proms</span><span class='op'>$</span><span class='kw'>which.tissues</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'Ubiq.'</span>, <span class='st'>'Germline'</span>)],
+        <span class='st'>'Other promoters'</span> = 
+            <span class='kw'>proms</span>[<span class='op'>!</span>(<span class='kw'>proms</span><span class='op'>$</span><span class='kw'>which.tissues</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'Ubiq.'</span>, <span class='st'>'Germline'</span>))]
+    )
+)
+<span class='kw'>p2</span>
+</div><div class='img'><img src='plotAggregateCoverage-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>p3</span> <span class='op'>&lt;-</span> <span class='fu'>plotAggregateCoverage</span>(
+    <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+        <span class='st'>'atac'</span> = <span class='kw'>ce11_ATACseq</span>, 
+        <span class='st'>'WW_10bp'</span> = <span class='kw'>ce11_WW_10bp</span>
+    ), 
+    <span class='kw'>proms</span>,
+    norm = <span class='st'>'zscore'</span>
+)
+<span class='kw'>p3</span>
+</div><div class='img'><img src='plotAggregateCoverage-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>p4</span> <span class='op'>&lt;-</span> <span class='fu'>plotAggregateCoverage</span>(
+    <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+        <span class='st'>'ATAC-seq'</span> = <span class='kw'>ce11_ATACseq</span>, 
+        <span class='st'>'WW 10-bp periodicity'</span> = <span class='kw'>ce11_WW_10bp</span>
+    ), 
+    <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+        <span class='st'>'Ubiq &amp; Germline promoters'</span> = 
+            <span class='kw'>proms</span>[<span class='kw'>proms</span><span class='op'>$</span><span class='kw'>which.tissues</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'Ubiq.'</span>, <span class='st'>'Germline'</span>)],
+        <span class='st'>'Other promoters'</span> = 
+            <span class='kw'>proms</span>[<span class='op'>!</span>(<span class='kw'>proms</span><span class='op'>$</span><span class='kw'>which.tissues</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'Ubiq.'</span>, <span class='st'>'Germline'</span>))]
+    ), 
+    norm = <span class='st'>'zscore'</span>
+)
+<span class='kw'>p4</span>
+</div><div class='img'><img src='plotAggregateCoverage-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>p5</span> <span class='op'>&lt;-</span> <span class='fu'>plotAggregateCoverage</span>(
+    <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+        <span class='st'>'ATAC-seq'</span> = <span class='kw'>ce11_ATACseq</span>, 
+        <span class='st'>'WW 10-bp periodicity'</span> = <span class='kw'>ce11_WW_10bp</span>
+    ), 
+    <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+        <span class='st'>'Ubiq &amp; Germline promoters'</span> = 
+            <span class='kw'>proms</span>[<span class='kw'>proms</span><span class='op'>$</span><span class='kw'>which.tissues</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'Ubiq.'</span>, <span class='st'>'Germline'</span>)],
+        <span class='st'>'Other promoters'</span> = 
+            <span class='kw'>proms</span>[<span class='op'>!</span>(<span class='kw'>proms</span><span class='op'>$</span><span class='kw'>which.tissues</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'Ubiq.'</span>, <span class='st'>'Germline'</span>))]
+    ), 
+    split_by_granges = <span class='fl'>FALSE</span>,
+    split_by_track = <span class='fl'>TRUE</span>,
+    norm = <span class='st'>'zscore'</span>
+)
+<span class='kw'>p5</span>
+</div><div class='img'><img src='plotAggregateCoverage-5.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -191,7 +352,7 @@ and returns an aggregate coverage plot.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>
