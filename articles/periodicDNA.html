@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.17</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.18</span>
       </span>
     </div>
 
@@ -184,16 +184,16 @@ Eventually, the log2 fold-change (l2FC) between the observed PSD and the median 
 <span class="co">#&gt; - Shuffling 5/5</span>
 <span class="co">#&gt; Only 5 shufflings. Cannot compute accurate empirical p-values. To compute empirical p-values, set up n_shuffling to at least 100. Only l2FC values are returned</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">periodicity_result</span><span class="op">$</span><span class="kw">periodicityMetrics</span>)
-<span class="co">#&gt;    Freq    Period PSD_observed        l2FC pval fdr</span>
-<span class="co">#&gt; 1 0.005 200.00000     6.26e-08 -1.37213353   NA  NA</span>
-<span class="co">#&gt; 2 0.010 100.00000     2.20e-08 -1.12754062   NA  NA</span>
-<span class="co">#&gt; 3 0.015  66.66667     2.22e-09 -2.47370908   NA  NA</span>
-<span class="co">#&gt; 4 0.020  50.00000     1.11e-08  0.09044258   NA  NA</span>
-<span class="co">#&gt; 5 0.025  40.00000     4.65e-09 -0.14473772   NA  NA</span>
-<span class="co">#&gt; 6 0.030  33.33333     2.66e-08  0.19102196   NA  NA</span>
+<span class="co">#&gt;    Freq    Period PSD_observed       l2FC pval fdr</span>
+<span class="co">#&gt; 1 0.005 200.00000     6.26e-08 -1.2832295   NA  NA</span>
+<span class="co">#&gt; 2 0.010 100.00000     2.20e-08 -0.7019026   NA  NA</span>
+<span class="co">#&gt; 3 0.015  66.66667     2.22e-09 -2.5570114   NA  NA</span>
+<span class="co">#&gt; 4 0.020  50.00000     1.11e-08  2.4402697   NA  NA</span>
+<span class="co">#&gt; 5 0.025  40.00000     4.65e-09 -1.8579540   NA  NA</span>
+<span class="co">#&gt; 6 0.030  33.33333     2.66e-08  1.7582863   NA  NA</span>
 <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="kw">periodicity_result</span><span class="op">$</span><span class="kw">periodicityMetrics</span>, <span class="kw">Period</span> <span class="op">==</span> <span class="fl">10</span>)
 <span class="co">#&gt;    Freq Period PSD_observed     l2FC pval fdr</span>
-<span class="co">#&gt; 20  0.1     10     3.63e-06 8.593242   NA  NA</span>
+<span class="co">#&gt; 20  0.1     10     3.63e-06 7.819306   NA  NA</span>
 <span class="fu"><a href="../reference/plotPeriodicityResults.html">plotPeriodicityResults</a></span>(<span class="kw">periodicity_result</span>)
 </pre></div>
 <p><img src="periodicDNA_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
@@ -273,7 +273,7 @@ Eventually, the log2 fold-change (l2FC) between the observed PSD and the median 
 <span class="co">#&gt; [8] methods   base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt;  [1] BSgenome.Celegans.UCSC.ce11_1.4.2 periodicDNA_0.99.17              </span>
+<span class="co">#&gt;  [1] BSgenome.Celegans.UCSC.ce11_1.4.2 periodicDNA_0.99.18              </span>
 <span class="co">#&gt;  [3] BiocParallel_1.23.2               BSgenome_1.57.6                  </span>
 <span class="co">#&gt;  [5] rtracklayer_1.49.5                Biostrings_2.57.2                </span>
 <span class="co">#&gt;  [7] XVector_0.29.3                    magrittr_1.5                     </span>
