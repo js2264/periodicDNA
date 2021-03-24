@@ -1,7 +1,7 @@
+[![DOI](https://img.shields.io/badge/F1000Research-[DOI]10.12688/f1000research.51143.1-g.svg)](https://f1000research.com/articles/10-141)
+[![DOI](https://img.shields.io/badge/GR-[DOI]10.1101/gr.265934.120-green.svg)](https://doi.org/10.1101/gr.265934.120)
 [![](https://img.shields.io/badge/release%20version-1.0.0-orange.svg)](https://www.bioconductor.org/packages/periodicDNA)
-[![](https://travis-ci.com/js2264/periodicDNA.svg?branch=master)](https://travis-ci.com/js2264/periodicDNA)
-[![](https://codecov.io/gh/js2264/periodicDNA/branch/master/graph/badge.svg)](https://codecov.io/github/js2264/periodicDNA?branch=master)
-[![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![](https://img.shields.io/badge/lifecycle-production-blue.svg)](https://www.tidyverse.org/lifecycle/#production)
 [![](https://img.shields.io/github/languages/code-size/js2264/periodicDNA.svg)](https://github.com/js2264/periodicDNA)
 [![](https://img.shields.io/badge/license-GPL--3-orange.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
@@ -36,6 +36,18 @@ install.packages("devtools")
 devtools::install_github("js2264/periodicDNA")
 library(periodicDNA)
 ```
+
+## Citation
+
+If you are using periodicDNA in your research, please cite: 
+
+> [periodicDNA: an R/Bioconductor package to investigate k-mer periodicity in DNA](https://f1000research.com/articles/10-141)
+> **J. Serizay** & J. Ahringer  
+> F1000Research, 2021
+
+> [Distinctive regulatory architectures of germline-active and somatic genes in C. elegans](https://genome.cshlp.org/content/early/2020/10/21/gr.265934.120.abstract)
+> **J. Serizay**, Y. Dong, J. Jänes, M. Chesney, C. Cerrato & J. Ahringer  
+> Genome Research, 2020
 
 ## How to use periodicDNA
 
