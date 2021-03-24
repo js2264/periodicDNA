@@ -1,6 +1,6 @@
 [![DOI](https://img.shields.io/badge/F1000Research-[DOI]10.12688/f1000research.51143.1-g.svg)](https://f1000research.com/articles/10-141)
-[![DOI](https://img.shields.io/badge/GR-[DOI]10.1101/gr.265934.120-green.svg)](https://doi.org/10.1101/gr.265934.120)
-[![](https://img.shields.io/badge/release%20version-1.0.0-orange.svg)](https://www.bioconductor.org/packages/periodicDNA)
+[![DOI](https://img.shields.io/badge/GR-[DOI]10.1101/gr.265934.120-green.svg)](https://doi.org/10.1101/gr.265934.120)  
+[![](https://img.shields.io/badge/release%20version-1.1.1-orange.svg)](https://www.bioconductor.org/packages/periodicDNA)
 [![](https://img.shields.io/badge/lifecycle-production-blue.svg)](https://www.tidyverse.org/lifecycle/#production)
 [![](https://img.shields.io/github/languages/code-size/js2264/periodicDNA.svg)](https://github.com/js2264/periodicDNA)
 [![](https://img.shields.io/badge/license-GPL--3-orange.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
