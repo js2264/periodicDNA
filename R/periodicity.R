@@ -93,6 +93,13 @@
 #' plotPeriodicityResults(periodicity_result)
 
 getPeriodicity <- function(x, motif, ...) {
+    if (nchar(motif) > 8) {
+        stop(
+            'ERROR: k-mer is longer than 8 nucleotides. Please use a ', 
+            'shorter k-mer.\n',
+            '  ABORTING NOW.'
+        )
+    }
     UseMethod("getPeriodicity")
 }
 
