@@ -44,7 +44,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.18</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
       </span>
     </div>
 
@@ -52,7 +52,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -69,7 +69,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/js2264/periodicDNA/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -87,9 +87,9 @@
   <div class="contents col-md-9">
 
 
-<div id="periodicdna" class="section level1">
+<div id="periodicdna-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#periodicdna" class="anchor"></a>periodicDNA <img src="reference/figures/logo.png" align="right" alt="">
+<a href="#periodicdna-" class="anchor"></a>periodicDNA <img src="reference/figures/logo.png" align="right" alt="">
 </h1></div>
 <p><img src="https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/TT_tissue-specific-classes.png"><img src="https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/WW-TT-AA-10bp-periodicity_tissue-spe-TSSs.png"></p>
 <div id="introduction" class="section level2">
@@ -101,25 +101,35 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>periodicDNA is available in Bioconductor. To install the current release use:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="co">if</span> (<span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"BiocManager"</span>, quietly = <span class="fl">TRUE</span>))
-    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"BiocManager"</span>)
-<span class="kw">BiocManager</span>::<span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span>(<span class="st">"periodicDNA"</span>)
-</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
+    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
+<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span><span class="st">"periodicDNA"</span><span class="op">)</span></code></pre></div>
 <p>For advanced users, the most recent periodicDNA can be installed from Github as follows (might be buggy):</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)
-<span class="kw">devtools</span>::<span class="fu">install_github</span>(<span class="st">"js2264/periodicDNA"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/js2264/periodicDNA">periodicDNA</a></span>)
-</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"js2264/periodicDNA"</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/js2264/periodicDNA">periodicDNA</a></span><span class="op">)</span></code></pre></div>
+</div>
+<div id="citation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#citation" class="anchor"></a>Citation</h2>
+<p>If you are using periodicDNA in your research, please cite:</p>
+<blockquote>
+<p><a href="https://f1000research.com/articles/10-141">periodicDNA: an R/Bioconductor package to investigate k-mer periodicity in DNA</a><br><strong>J. Serizay</strong> &amp; J. Ahringer<br>
+F1000Research, 2021</p>
+</blockquote>
+<blockquote>
+<p><a href="https://genome.cshlp.org/content/early/2020/10/21/gr.265934.120.abstract">Distinctive regulatory architectures of germline-active and somatic genes in C. elegans</a><br><strong>J. Serizay</strong>, Y. Dong, J. Jänes, M. Chesney, C. Cerrato &amp; J. Ahringer<br>
+Genome Research, 2020</p>
+</blockquote>
 </div>
 <div id="how-to-use-periodicdna" class="section level2">
 <h2 class="hasAnchor">
 <a href="#how-to-use-periodicdna" class="anchor"></a>How to use periodicDNA</h2>
 <p>periodicDNA includes a vignette where its usage is illustrated. To access the vignette, please use:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/vignette.html">vignette</a></span>(<span class="st">'periodicDNA'</span>)
-</pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html">vignette</a></span><span class="op">(</span><span class="st">'periodicDNA'</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="main-functions" class="section level2">
 <h2 class="hasAnchor">
@@ -127,39 +137,37 @@
 <p>The two main user-level functions of periodicDNA are <code><a href="reference/getPeriodicity.html">getPeriodicity()</a></code> and <code><a href="reference/getPeriodicityTrack.html">getPeriodicityTrack()</a></code>.</p>
 <ul>
 <li>
-<code><a href="reference/getPeriodicity.html">getPeriodicity()</a></code> is used to compute the power spectral density (PSD) of a chosen k-mer (i.e. <code>TT</code>) in a set of sequences. The PSD score at a given period indicates the strength of the k-mer at this period.</li>
+<code><a href="reference/getPeriodicity.html">getPeriodicity()</a></code> is used to compute the power spectral density (PSD) of a chosen k-mer (i.e. <code>TT</code>) in a set of sequences. The PSD score at a given period indicates the strength of the k-mer at this period.</li>
 <li>
 <code><a href="reference/getPeriodicityTrack.html">getPeriodicityTrack()</a></code> can be used to generate linear tracks representing the periodicity strength of a given k-mer at a chosen period, over genomic loci of interest.</li>
 </ul>
 <div id="getperiodicity-function" class="section level3">
 <h3 class="hasAnchor">
 <a href="#getperiodicity-function" class="anchor"></a><code>getPeriodicity()</code> function</h3>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">ce11_TSSs</span>)
-<span class="kw">PSDs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/getPeriodicity.html">getPeriodicity</a></span>(
-    <span class="kw">ce11_TSSs</span>[[<span class="st">'Ubiq.'</span>]],
-    genome = <span class="st">'BSgenome.Celegans.UCSC.ce11'</span>,
-    motif = <span class="st">'TT'</span>, 
-    BPPARAM = <span class="fu">MulticoreParam</span>(<span class="fl">12</span>), 
-    n_shuffling = <span class="fl">100</span>
-)
-<span class="fu"><a href="reference/plotPeriodicityResults.html">plotPeriodicityResults</a></span>(<span class="kw">PSDs</span>)
-</pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">ce11_TSSs</span><span class="op">)</span>
+<span class="va">PSDs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/getPeriodicity.html">getPeriodicity</a></span><span class="op">(</span>
+    <span class="va">ce11_TSSs</span><span class="op">[[</span><span class="st">'Ubiq.'</span><span class="op">]</span><span class="op">]</span>,
+    genome <span class="op">=</span> <span class="st">'BSgenome.Celegans.UCSC.ce11'</span>,
+    motif <span class="op">=</span> <span class="st">'TT'</span>, 
+    BPPARAM <span class="op">=</span> <span class="fu">MulticoreParam</span><span class="op">(</span><span class="fl">12</span><span class="op">)</span>, 
+    n_shuffling <span class="op">=</span> <span class="fl">100</span>
+<span class="op">)</span>
+<span class="fu"><a href="reference/plotPeriodicityResults.html">plotPeriodicityResults</a></span><span class="op">(</span><span class="va">PSDs</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="getperiodicitytrack-function" class="section level3">
 <h3 class="hasAnchor">
 <a href="#getperiodicitytrack-function" class="anchor"></a><code>getPeriodicityTrack()</code> function</h3>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">ce11_proms</span>)
-<span class="kw">WW_10bp</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/getPeriodicityTrack.html">getPeriodicityTrack</a></span>(
-    genome = <span class="st">'BSgenome.Celegans.UCSC.ce11'</span>,
-    granges = <span class="kw">ce11_proms</span>, 
-    motif = <span class="st">'WW'</span>,
-    period = <span class="fl">10</span>,
-    bw_file = <span class="st">'WW-10-bp-periodicity_over-proms.bw'</span>, 
-    BPPARAM = <span class="fu">MulticoreParam</span>(<span class="fl">12</span>)
-)
-</pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">ce11_proms</span><span class="op">)</span>
+<span class="va">WW_10bp</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/getPeriodicityTrack.html">getPeriodicityTrack</a></span><span class="op">(</span>
+    genome <span class="op">=</span> <span class="st">'BSgenome.Celegans.UCSC.ce11'</span>,
+    granges <span class="op">=</span> <span class="va">ce11_proms</span>, 
+    motif <span class="op">=</span> <span class="st">'WW'</span>,
+    period <span class="op">=</span> <span class="fl">10</span>,
+    bw_file <span class="op">=</span> <span class="st">'WW-10-bp-periodicity_over-proms.bw'</span>, 
+    BPPARAM <span class="op">=</span> <span class="fu">MulticoreParam</span><span class="op">(</span><span class="fl">12</span><span class="op">)</span>
+<span class="op">)</span></code></pre></div>
 <p><strong>Warning</strong>: It is recommended to run this command across many processors using BiocParallel. This command typically takes one day to produce a periodicity track over 15,000 GRanges of 150 bp (with default parameters) using <code>BPPARAM = MulticoreParam(12)</code>. It is highly recommended to run this command in a new <code>screen</code> session.</p>
 </div>
 </div>
@@ -181,6 +189,8 @@
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
+<li>Download from BIOC at <br><a href="https://www.bioconductor.org/packages/periodicDNA">https://​www.bioconductor.org/​packages/​periodicDNA</a>
+</li>
 <li>Browse source code at <br><a href="https://github.com/js2264/periodicDNA/">https://​github.com/​js2264/​periodicDNA/​</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/js2264/periodicDNA/issues">https://​github.com/​js2264/​periodicDNA/​issues</a>
@@ -212,11 +222,14 @@
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://travis-ci.com/js2264/periodicDNA"><img src="https://travis-ci.com/js2264/periodicDNA.svg?branch=master"></a></li>
-<li><a href="https://codecov.io/github/js2264/periodicDNA?branch=master"><img src="https://codecov.io/gh/js2264/periodicDNA/branch/master/graph/badge.svg"></a></li>
-<li><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg"></a></li>
+<li><a href="https://f1000research.com/articles/10-141"><img src="https://img.shields.io/badge/F1000Research-%5BDOI%5D10.12688/f1000research.51143.1-g.svg" alt="DOI"></a></li>
+<li><a href="https://doi.org/10.1101/gr.265934.120"><img src="https://img.shields.io/badge/GR-%5BDOI%5D10.1101/gr.265934.120-green.svg" alt="DOI"></a></li>
+<li><a href="https://www.bioconductor.org/packages/periodicDNA"><img src="https://img.shields.io/badge/release%20version-1.1.1-orange.svg"></a></li>
+<li><a href="https://www.tidyverse.org/lifecycle/#production"><img src="https://img.shields.io/badge/lifecycle-production-blue.svg"></a></li>
 <li><a href="https://github.com/js2264/periodicDNA"><img src="https://img.shields.io/github/languages/code-size/js2264/periodicDNA.svg"></a></li>
 <li><a href="https://www.gnu.org/licenses/gpl-3.0.en.html"><img src="https://img.shields.io/badge/license-GPL--3-orange.svg"></a></li>
+<li><a href="https://codecov.io/gh/js2264/periodicDNA?branch=master"><img src="https://codecov.io/gh/js2264/periodicDNA/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://github.com/js2264/periodicDNA/actions"><img src="https://github.com/js2264/periodicDNA/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 </div>
@@ -228,7 +241,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

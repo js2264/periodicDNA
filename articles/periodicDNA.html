@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.18</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -63,7 +63,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/js2264/periodicDNA/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -77,13 +77,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="periodicDNA_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>periodicDNA</h1>
                         <h4 class="author">Jacques Serizay</h4>
             
-            <h4 class="date">2020-09-08</h4>
+            <h4 class="date">2021-04-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/js2264/periodicDNA/blob/master/vignettes/periodicDNA.Rmd"><code>vignettes/periodicDNA.Rmd</code></a></small>
       <div class="hidden name"><code>periodicDNA.Rmd</code></div>
@@ -118,28 +118,27 @@
 <a href="#basic-usage" class="anchor"></a>Basic usage</h4>
 <p>The main goal of periodicDNA is to quantify periodicity of a given k-mer in a set of sequences. For instance, one can assess the periodicity of TT dinucleotides in sequences around TSSs of ubiquitous promoters using <code><a href="../reference/getPeriodicity.html">getPeriodicity()</a></code>.</p>
 <p>In the following example, <code><a href="../reference/getPeriodicity.html">getPeriodicity()</a></code> is directly ran using a GRanges object, specifying from which genome this GRanges comes from.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">magrittr</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/js2264/periodicDNA">periodicDNA</a></span>)
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/js2264/periodicDNA">periodicDNA</a></span><span class="op">)</span>
 <span class="co">#</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">ce11_TSSs</span>)
-<span class="kw">periodicity_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getPeriodicity.html">getPeriodicity</a></span>(
-    <span class="kw">ce11_TSSs</span>[[<span class="st">'Ubiq.'</span>]][<span class="fl">1</span><span class="op">:</span><span class="fl">500</span>],
-    genome = <span class="st">'BSgenome.Celegans.UCSC.ce11'</span>,
-    motif = <span class="st">'TT'</span>, 
-    BPPARAM = <span class="fu"><a href="../reference/setUpBPPARAM.html">setUpBPPARAM</a></span>(<span class="fl">1</span>)
-)
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">ce11_TSSs</span><span class="op">)</span>
+<span class="va">periodicity_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getPeriodicity.html">getPeriodicity</a></span><span class="op">(</span>
+    <span class="va">ce11_TSSs</span><span class="op">[[</span><span class="st">'Ubiq.'</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">]</span>,
+    genome <span class="op">=</span> <span class="st">'BSgenome.Celegans.UCSC.ce11'</span>,
+    motif <span class="op">=</span> <span class="st">'TT'</span>, 
+    BPPARAM <span class="op">=</span> <span class="fu"><a href="../reference/setUpBPPARAM.html">setUpBPPARAM</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
+<span class="op">)</span>
 <span class="co">#&gt; - Mapping k-mers.</span>
 <span class="co">#&gt; - 523903 pairwise distances measured.</span>
 <span class="co">#&gt; - Calculating pairwise distance distribution.</span>
 <span class="co">#&gt; - Normalizing distogram vector.</span>
-<span class="co">#&gt; - Applying Fast Fourier Transform to the normalized distogram.</span>
-</pre></div>
+<span class="co">#&gt; - Applying Fast Fourier Transform to the normalized distogram.</span></code></pre></div>
 <p>The main output of <code><a href="../reference/getPeriodicity.html">getPeriodicity()</a></code> is a table of power spectral density (PSD) values associated with discrete frequencies, computed using a Fast Fourier Transform. For a given frequency, a high PSD score indicates a high periodicity of the k-mer of interest.</p>
 <p>In the previous example, TT dinucleotides in sequences around TSSs of ubiquitous promoters are highly periodic, with a periodicity of 10 bp.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">periodicity_result</span><span class="op">$</span><span class="kw">PSD</span>)
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">periodicity_result</span><span class="op">$</span><span class="va">PSD</span><span class="op">)</span>
 <span class="co">#&gt;    freq    period          PSD</span>
 <span class="co">#&gt; 1 0.005 200.00000 6.256976e-08</span>
 <span class="co">#&gt; 2 0.010 100.00000 2.204282e-08</span>
@@ -147,14 +146,12 @@
 <span class="co">#&gt; 4 0.020  50.00000 1.108237e-08</span>
 <span class="co">#&gt; 5 0.025  40.00000 4.649689e-09</span>
 <span class="co">#&gt; 6 0.030  33.33333 2.661198e-08</span>
-<span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="kw">periodicity_result</span><span class="op">$</span><span class="kw">periodicityMetrics</span>, <span class="kw">Period</span> <span class="op">==</span> <span class="fl">10</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">periodicity_result</span><span class="op">$</span><span class="va">periodicityMetrics</span>, <span class="va">Period</span> <span class="op">==</span> <span class="fl">10</span><span class="op">)</span>
 <span class="co">#&gt;    Freq Period          PSD</span>
-<span class="co">#&gt; 20  0.1     10 3.633071e-06</span>
-</pre></div>
+<span class="co">#&gt; 20  0.1     10 3.633071e-06</span></code></pre></div>
 <p>Graphical output of <code><a href="../reference/getPeriodicity.html">getPeriodicity()</a></code> can be obtained using the <code><a href="../reference/plotPeriodicityResults.html">plotPeriodicityResults()</a></code> function:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu"><a href="../reference/plotPeriodicityResults.html">plotPeriodicityResults</a></span>(<span class="kw">periodicity_result</span>)
-</pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/plotPeriodicityResults.html">plotPeriodicityResults</a></span><span class="op">(</span><span class="va">periodicity_result</span><span class="op">)</span></code></pre></div>
 <p><img src="periodicDNA_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
 <p>The first plot shows the raw distribution of distances between pairs of ‘TT’ in the sequences of the provided GRanges. The second plot shows the decay-normalised distribution. Finally, the third plot shows the PSD scores of the ‘TT’ k-mer, measured from the normalised distribution.</p>
 </div>
@@ -164,13 +161,13 @@
 <p>periodicDNA provides an approach to compare the periodicity of a given k-mer in a set of sequences compared to background. For a given k-mer at a period T in a set of input sequences, the fold-change over background of its PSD is estimated by iteratively shuffling the input sequences and estimating the resulting PSD values.<br>
 Eventually, the log2 fold-change (l2FC) between the observed PSD and the median of the PSD values measured after shuffling is computed as follows:</p>
 <p>l2FC = log2(observed PSD / median(shuffled PSDs)).</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="kw">periodicity_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getPeriodicity.html">getPeriodicity</a></span>(
-    <span class="kw">ce11_TSSs</span>[[<span class="st">'Ubiq.'</span>]][<span class="fl">1</span><span class="op">:</span><span class="fl">500</span>],
-    genome = <span class="st">'BSgenome.Celegans.UCSC.ce11'</span>,
-    motif = <span class="st">'TT'</span>, 
-    n_shuffling = <span class="fl">5</span>
-)
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">periodicity_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getPeriodicity.html">getPeriodicity</a></span><span class="op">(</span>
+    <span class="va">ce11_TSSs</span><span class="op">[[</span><span class="st">'Ubiq.'</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">]</span>,
+    genome <span class="op">=</span> <span class="st">'BSgenome.Celegans.UCSC.ce11'</span>,
+    motif <span class="op">=</span> <span class="st">'TT'</span>, 
+    n_shuffling <span class="op">=</span> <span class="fl">5</span>
+<span class="op">)</span>
 <span class="co">#&gt; - Calculating observed PSD</span>
 <span class="co">#&gt; - Mapping k-mers.</span>
 <span class="co">#&gt; - 523903 pairwise distances measured.</span>
@@ -183,19 +180,18 @@ Eventually, the log2 fold-change (l2FC) between the observed PSD and the median 
 <span class="co">#&gt; - Shuffling 4/5</span>
 <span class="co">#&gt; - Shuffling 5/5</span>
 <span class="co">#&gt; Only 5 shufflings. Cannot compute accurate empirical p-values. To compute empirical p-values, set up n_shuffling to at least 100. Only l2FC values are returned</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">periodicity_result</span><span class="op">$</span><span class="kw">periodicityMetrics</span>)
-<span class="co">#&gt;    Freq    Period PSD_observed       l2FC pval fdr</span>
-<span class="co">#&gt; 1 0.005 200.00000     6.26e-08 -1.2832295   NA  NA</span>
-<span class="co">#&gt; 2 0.010 100.00000     2.20e-08 -0.7019026   NA  NA</span>
-<span class="co">#&gt; 3 0.015  66.66667     2.22e-09 -2.5570114   NA  NA</span>
-<span class="co">#&gt; 4 0.020  50.00000     1.11e-08  2.4402697   NA  NA</span>
-<span class="co">#&gt; 5 0.025  40.00000     4.65e-09 -1.8579540   NA  NA</span>
-<span class="co">#&gt; 6 0.030  33.33333     2.66e-08  1.7582863   NA  NA</span>
-<span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="kw">periodicity_result</span><span class="op">$</span><span class="kw">periodicityMetrics</span>, <span class="kw">Period</span> <span class="op">==</span> <span class="fl">10</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">periodicity_result</span><span class="op">$</span><span class="va">periodicityMetrics</span><span class="op">)</span>
+<span class="co">#&gt;    Freq    Period PSD_observed         l2FC pval fdr</span>
+<span class="co">#&gt; 1 0.005 200.00000     6.26e-08 -1.288597752   NA  NA</span>
+<span class="co">#&gt; 2 0.010 100.00000     2.20e-08  0.041243970   NA  NA</span>
+<span class="co">#&gt; 3 0.015  66.66667     2.22e-09 -2.365555554   NA  NA</span>
+<span class="co">#&gt; 4 0.020  50.00000     1.11e-08 -0.003107008   NA  NA</span>
+<span class="co">#&gt; 5 0.025  40.00000     4.65e-09 -1.577676994   NA  NA</span>
+<span class="co">#&gt; 6 0.030  33.33333     2.66e-08  1.876037934   NA  NA</span>
+<span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">periodicity_result</span><span class="op">$</span><span class="va">periodicityMetrics</span>, <span class="va">Period</span> <span class="op">==</span> <span class="fl">10</span><span class="op">)</span>
 <span class="co">#&gt;    Freq Period PSD_observed     l2FC pval fdr</span>
-<span class="co">#&gt; 20  0.1     10     3.63e-06 7.819306   NA  NA</span>
-<span class="fu"><a href="../reference/plotPeriodicityResults.html">plotPeriodicityResults</a></span>(<span class="kw">periodicity_result</span>)
-</pre></div>
+<span class="co">#&gt; 20  0.1     10     3.63e-06 8.018541   NA  NA</span>
+<span class="fu"><a href="../reference/plotPeriodicityResults.html">plotPeriodicityResults</a></span><span class="op">(</span><span class="va">periodicity_result</span><span class="op">)</span></code></pre></div>
 <p><img src="periodicDNA_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
 <p>If <code>n_shuffling &gt;= 100</code>, an associated empirical p-value is calculated as well (North et al 2002). This metric indicates, for each individual period T, whether the observed PSD is significantly greater than the PSD values measured after shuffling the input sequences. Note that empirical p-values are only an estimation of the real p-value. Notably, small p-values are systematically under-estimated (North et al 2002).</p>
 </div>
@@ -203,113 +199,106 @@ Eventually, the log2 fold-change (l2FC) between the observed PSD and the median 
 <h4 class="hasAnchor">
 <a href="#note" class="anchor"></a>Note</h4>
 <p><code><a href="../reference/getPeriodicity.html">getPeriodicity()</a></code> can also be ran directly on a set of sequences of interest as follows:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">ce11_proms_seqs</span>)
-<span class="kw">periodicity_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getPeriodicity.html">getPeriodicity</a></span>(
-    <span class="kw">ce11_proms_seqs</span>,
-    motif = <span class="st">'TT'</span>, 
-    BPPARAM = <span class="fu"><a href="../reference/setUpBPPARAM.html">setUpBPPARAM</a></span>(<span class="fl">1</span>)
-)
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">ce11_proms_seqs</span><span class="op">)</span>
+<span class="va">periodicity_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getPeriodicity.html">getPeriodicity</a></span><span class="op">(</span>
+    <span class="va">ce11_proms_seqs</span>,
+    motif <span class="op">=</span> <span class="st">'TT'</span>, 
+    BPPARAM <span class="op">=</span> <span class="fu"><a href="../reference/setUpBPPARAM.html">setUpBPPARAM</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
+<span class="op">)</span>
 <span class="co">#&gt; - Mapping k-mers.</span>
 <span class="co">#&gt; - 117630 pairwise distances measured.</span>
 <span class="co">#&gt; - Calculating pairwise distance distribution.</span>
 <span class="co">#&gt; - Normalizing distogram vector.</span>
 <span class="co">#&gt; - Applying Fast Fourier Transform to the normalized distogram.</span>
-<span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="kw">periodicity_result</span><span class="op">$</span><span class="kw">periodicityMetrics</span>, <span class="kw">Period</span> <span class="op">==</span> <span class="fl">10</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">periodicity_result</span><span class="op">$</span><span class="va">periodicityMetrics</span>, <span class="va">Period</span> <span class="op">==</span> <span class="fl">10</span><span class="op">)</span>
 <span class="co">#&gt;    Freq Period         PSD</span>
-<span class="co">#&gt; 20  0.1     10 1.16806e-06</span>
-</pre></div>
+<span class="co">#&gt; 20  0.1     10 1.16806e-06</span></code></pre></div>
 </div>
 </div>
 <div id="track-of-periodicity-over-a-set-of-genomic-ranges" class="section level3">
 <h3 class="hasAnchor">
 <a href="#track-of-periodicity-over-a-set-of-genomic-ranges" class="anchor"></a>Track of periodicity over a set of Genomic Ranges</h3>
 <p>The other aim of periodicDNA is to generate continuous linear tracks of k-mer periodicity strength over genomic loci of interest. <code><a href="../reference/getPeriodicityTrack.html">getPeriodicityTrack()</a></code> can be used to generate suck genomic tracks. In the following example,</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="kw">WW_10bp_track</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getPeriodicityTrack.html">getPeriodicityTrack</a></span>(
-    genome = <span class="st">'BSgenome.Celegans.UCSC.ce11'</span>,
-    granges = <span class="kw">ce11_proms</span>, 
-    motif = <span class="st">'WW'</span>,
-    period = <span class="fl">10</span>,
-    BPPARAM = <span class="fu"><a href="../reference/setUpBPPARAM.html">setUpBPPARAM</a></span>(<span class="fl">1</span>),
-    bw_file = <span class="st">'WW-10-bp-periodicity_over-proms.bw'</span>
-)
-</pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">WW_10bp_track</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getPeriodicityTrack.html">getPeriodicityTrack</a></span><span class="op">(</span>
+    genome <span class="op">=</span> <span class="st">'BSgenome.Celegans.UCSC.ce11'</span>,
+    granges <span class="op">=</span> <span class="va">ce11_proms</span>, 
+    motif <span class="op">=</span> <span class="st">'WW'</span>,
+    period <span class="op">=</span> <span class="fl">10</span>,
+    BPPARAM <span class="op">=</span> <span class="fu"><a href="../reference/setUpBPPARAM.html">setUpBPPARAM</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,
+    bw_file <span class="op">=</span> <span class="st">'WW-10-bp-periodicity_over-proms.bw'</span>
+<span class="op">)</span></code></pre></div>
 <p>When plotted over sets of ubiquitous, germline or somatic TSSs, the resulting track clearly shows increase of WW 10-bp periodicity above the ubiquitous and germline TSSs, whereas somatic TSSs do not show such increase.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">ce11_TSSs</span>)
-<span class="fu"><a href="../reference/plotAggregateCoverage.html">plotAggregateCoverage</a></span>(
-    <span class="kw">WW_10bp_track</span>, 
-    <span class="kw">ce11_TSSs</span>, 
-    xlab = <span class="st">'Distance from TSS'</span>,
-    ylab = <span class="st">'10-bp periodicity strength (forward proms.)'</span>
-)
-</pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">ce11_TSSs</span><span class="op">)</span>
+<span class="fu"><a href="../reference/plotAggregateCoverage.html">plotAggregateCoverage</a></span><span class="op">(</span>
+    <span class="va">WW_10bp_track</span>, 
+    <span class="va">ce11_TSSs</span>, 
+    xlab <span class="op">=</span> <span class="st">'Distance from TSS'</span>,
+    ylab <span class="op">=</span> <span class="st">'10-bp periodicity strength (forward proms.)'</span>
+<span class="op">)</span></code></pre></div>
 <p><img src="https://raw.githubusercontent.com/js2264/periodicDNA/master/man/figures/TT-10bp-periodicity_tissue-spe-TSSs.png" width="100%"></p>
 </div>
 <div id="session-info" class="section level2">
 <h2 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session info</h2>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()
-<span class="co">#&gt; R version 4.0.2 (2020-06-22)</span>
-<span class="co">#&gt; Platform: x86_64-pc-linux-gnu (64-bit)</span>
-<span class="co">#&gt; Running under: Ubuntu 18.04.5 LTS</span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; R version 4.0.5 (2021-03-31)</span>
+<span class="co">#&gt; Platform: x86_64-apple-darwin17.0 (64-bit)</span>
+<span class="co">#&gt; Running under: macOS Catalina 10.15.7</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Matrix products: default</span>
-<span class="co">#&gt; BLAS:   /usr/lib/x86_64-linux-gnu/openblas/libblas.so.3</span>
-<span class="co">#&gt; LAPACK: /usr/lib/x86_64-linux-gnu/libopenblasp-r0.2.20.so</span>
+<span class="co">#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib</span>
+<span class="co">#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; locale:</span>
-<span class="co">#&gt;  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span>
-<span class="co">#&gt;  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    </span>
-<span class="co">#&gt;  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   </span>
-<span class="co">#&gt;  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 </span>
-<span class="co">#&gt;  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span>
-<span class="co">#&gt; [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span>
+<span class="co">#&gt; [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; attached base packages:</span>
 <span class="co">#&gt; [1] parallel  stats4    stats     graphics  grDevices utils     datasets </span>
 <span class="co">#&gt; [8] methods   base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt;  [1] BSgenome.Celegans.UCSC.ce11_1.4.2 periodicDNA_0.99.18              </span>
-<span class="co">#&gt;  [3] BiocParallel_1.23.2               BSgenome_1.57.6                  </span>
-<span class="co">#&gt;  [5] rtracklayer_1.49.5                Biostrings_2.57.2                </span>
-<span class="co">#&gt;  [7] XVector_0.29.3                    magrittr_1.5                     </span>
-<span class="co">#&gt;  [9] ggplot2_3.3.2                     GenomicRanges_1.41.6             </span>
-<span class="co">#&gt; [11] GenomeInfoDb_1.25.11              IRanges_2.23.10                  </span>
-<span class="co">#&gt; [13] S4Vectors_0.27.12                 BiocGenerics_0.35.4              </span>
+<span class="co">#&gt;  [1] BSgenome.Celegans.UCSC.ce11_1.4.2 periodicDNA_1.1.1                </span>
+<span class="co">#&gt;  [3] BiocParallel_1.24.1               BSgenome_1.58.0                  </span>
+<span class="co">#&gt;  [5] rtracklayer_1.50.0                Biostrings_2.58.0                </span>
+<span class="co">#&gt;  [7] XVector_0.30.0                    magrittr_2.0.1                   </span>
+<span class="co">#&gt;  [9] ggplot2_3.3.3                     GenomicRanges_1.42.0             </span>
+<span class="co">#&gt; [11] GenomeInfoDb_1.26.7               IRanges_2.24.1                   </span>
+<span class="co">#&gt; [13] S4Vectors_0.28.1                  BiocGenerics_0.36.1              </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
-<span class="co">#&gt;  [1] SummarizedExperiment_1.19.6 zoo_1.8-8                  </span>
-<span class="co">#&gt;  [3] xfun_0.16                   lattice_0.20-41            </span>
-<span class="co">#&gt;  [5] colorspace_1.4-1            vctrs_0.3.4                </span>
-<span class="co">#&gt;  [7] htmltools_0.5.0             yaml_2.2.1                 </span>
-<span class="co">#&gt;  [9] XML_3.99-0.5                rlang_0.4.7                </span>
-<span class="co">#&gt; [11] pkgdown_1.6.0               pillar_1.4.6               </span>
-<span class="co">#&gt; [13] glue_1.4.2                  withr_2.2.0                </span>
-<span class="co">#&gt; [15] matrixStats_0.56.0          GenomeInfoDbData_1.2.3     </span>
-<span class="co">#&gt; [17] lifecycle_0.2.0             stringr_1.4.0              </span>
-<span class="co">#&gt; [19] zlibbioc_1.35.0             munsell_0.5.0              </span>
-<span class="co">#&gt; [21] gtable_0.3.0                ragg_0.3.1                 </span>
-<span class="co">#&gt; [23] memoise_1.1.0               evaluate_0.14              </span>
-<span class="co">#&gt; [25] labeling_0.3                Biobase_2.49.1             </span>
-<span class="co">#&gt; [27] knitr_1.29                  scales_1.1.1               </span>
-<span class="co">#&gt; [29] backports_1.1.9             DelayedArray_0.15.7        </span>
-<span class="co">#&gt; [31] desc_1.2.0                  cpp11_0.2.1                </span>
-<span class="co">#&gt; [33] farver_2.0.3                systemfonts_0.3.1          </span>
-<span class="co">#&gt; [35] fs_1.5.0                    Rsamtools_2.5.3            </span>
-<span class="co">#&gt; [37] digest_0.6.25               stringi_1.4.6              </span>
-<span class="co">#&gt; [39] cowplot_1.1.0               grid_4.0.2                 </span>
-<span class="co">#&gt; [41] rprojroot_1.3-2             tools_4.0.2                </span>
-<span class="co">#&gt; [43] bitops_1.0-6                RCurl_1.98-1.2             </span>
-<span class="co">#&gt; [45] tibble_3.0.3                crayon_1.3.4               </span>
-<span class="co">#&gt; [47] pkgconfig_2.0.3             ellipsis_0.3.1             </span>
-<span class="co">#&gt; [49] Matrix_1.2-18               assertthat_0.2.1           </span>
-<span class="co">#&gt; [51] rmarkdown_2.3               R6_2.4.1                   </span>
-<span class="co">#&gt; [53] GenomicAlignments_1.25.3    compiler_4.0.2</span>
-</pre></div>
+<span class="co">#&gt;  [1] lattice_0.20-41             Rsamtools_2.6.0            </span>
+<span class="co">#&gt;  [3] zoo_1.8-9                   rprojroot_2.0.2            </span>
+<span class="co">#&gt;  [5] digest_0.6.27               utf8_1.2.1                 </span>
+<span class="co">#&gt;  [7] R6_2.5.0                    evaluate_0.14              </span>
+<span class="co">#&gt;  [9] highr_0.9                   pillar_1.6.0               </span>
+<span class="co">#&gt; [11] zlibbioc_1.36.0             rlang_0.4.10               </span>
+<span class="co">#&gt; [13] Matrix_1.3-2                rmarkdown_2.7              </span>
+<span class="co">#&gt; [15] pkgdown_1.6.1               labeling_0.4.2             </span>
+<span class="co">#&gt; [17] textshaping_0.3.3           desc_1.3.0                 </span>
+<span class="co">#&gt; [19] stringr_1.4.0               RCurl_1.98-1.3             </span>
+<span class="co">#&gt; [21] munsell_0.5.0               DelayedArray_0.16.3        </span>
+<span class="co">#&gt; [23] compiler_4.0.5              xfun_0.22                  </span>
+<span class="co">#&gt; [25] pkgconfig_2.0.3             systemfonts_1.0.1          </span>
+<span class="co">#&gt; [27] htmltools_0.5.1.1           SummarizedExperiment_1.20.0</span>
+<span class="co">#&gt; [29] tibble_3.1.1                GenomeInfoDbData_1.2.4     </span>
+<span class="co">#&gt; [31] matrixStats_0.58.0          XML_3.99-0.6               </span>
+<span class="co">#&gt; [33] fansi_0.4.2                 crayon_1.4.1               </span>
+<span class="co">#&gt; [35] withr_2.4.2                 GenomicAlignments_1.26.0   </span>
+<span class="co">#&gt; [37] bitops_1.0-6                grid_4.0.5                 </span>
+<span class="co">#&gt; [39] gtable_0.3.0                lifecycle_1.0.0            </span>
+<span class="co">#&gt; [41] scales_1.1.1                stringi_1.5.3              </span>
+<span class="co">#&gt; [43] cachem_1.0.4                farver_2.1.0               </span>
+<span class="co">#&gt; [45] fs_1.5.0                    ellipsis_0.3.1             </span>
+<span class="co">#&gt; [47] ragg_1.1.2                  vctrs_0.3.7                </span>
+<span class="co">#&gt; [49] cowplot_1.1.1               tools_4.0.5                </span>
+<span class="co">#&gt; [51] Biobase_2.50.0              glue_1.4.2                 </span>
+<span class="co">#&gt; [53] MatrixGenerics_1.2.1        fastmap_1.1.0              </span>
+<span class="co">#&gt; [55] yaml_2.2.1                  colorspace_2.0-0           </span>
+<span class="co">#&gt; [57] memoise_2.0.0               knitr_1.32</span></code></pre></div>
 </div>
   </div>
 
@@ -328,7 +317,7 @@ Eventually, the log2 fold-change (l2FC) between the observed PSD and the median 
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

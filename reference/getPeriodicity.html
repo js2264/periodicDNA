@@ -84,7 +84,7 @@ normalized distogram." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.18</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
       </span>
     </div>
 
@@ -92,7 +92,7 @@ normalized distogram." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -109,7 +109,7 @@ normalized distogram." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/js2264/periodicDNA/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -139,29 +139,29 @@ and computes the resulting power spectral density of the
 normalized distogram.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>getPeriodicity</span>(<span class='kw'>x</span>, <span class='kw'>motif</span>, <span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'>getPeriodicity</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>motif</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for DNAStringSet</span>
-<span class='fu'>getPeriodicity</span>(
-  <span class='kw'>x</span>,
-  <span class='kw'>motif</span>,
-  range_spectrum = <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>1</span>, <span class='fl'>200</span>),
-  BPPARAM = <span class='fu'><a href='setUpBPPARAM.html'>setUpBPPARAM</a></span>(<span class='fl'>1</span>),
-  roll = <span class='fl'>3</span>,
-  verbose = <span class='fl'>TRUE</span>,
-  sample = <span class='fl'>0</span>,
-  n_shuffling = <span class='fl'>0</span>,
-  cores_shuffling = <span class='fl'>1</span>,
-  cores_computing = <span class='fl'>1</span>,
-  order = <span class='fl'>1</span>,
-  <span class='kw'>...</span>
-)
+<span class='fu'>getPeriodicity</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>motif</span>,
+  range_spectrum <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>200</span><span class='op'>)</span>,
+  BPPARAM <span class='op'>=</span> <span class='fu'><a href='setUpBPPARAM.html'>setUpBPPARAM</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>,
+  roll <span class='op'>=</span> <span class='fl'>3</span>,
+  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  sample <span class='op'>=</span> <span class='fl'>0</span>,
+  n_shuffling <span class='op'>=</span> <span class='fl'>0</span>,
+  cores_shuffling <span class='op'>=</span> <span class='fl'>1</span>,
+  cores_computing <span class='op'>=</span> <span class='fl'>1</span>,
+  order <span class='op'>=</span> <span class='fl'>1</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for GRanges</span>
-<span class='fu'>getPeriodicity</span>(<span class='kw'>x</span>, <span class='kw'>motif</span>, genome = <span class='st'>"BSgenome.Celegans.UCSC.ce11"</span>, <span class='kw'>...</span>)
+<span class='fu'>getPeriodicity</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>motif</span>, genome <span class='op'>=</span> <span class='st'>"BSgenome.Celegans.UCSC.ce11"</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for DNAString</span>
-<span class='fu'>getPeriodicity</span>(<span class='kw'>x</span>, <span class='kw'>motif</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'>getPeriodicity</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>motif</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -262,50 +262,50 @@ sequences.</p>
 </ul>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>ce11_proms_seqs</span>)
-<span class='kw'>periodicity_result</span> <span class='op'>&lt;-</span> <span class='fu'>getPeriodicity</span>(
-    <span class='kw'>ce11_proms_seqs</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>100</span>],
-    motif = <span class='st'>'TT'</span>
-)
-</div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 117630 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing distogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the normalized distogram.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>periodicity_result</span><span class='op'>$</span><span class='kw'>PSD</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>ce11_proms_seqs</span><span class='op'>)</span>
+<span class='va'>periodicity_result</span> <span class='op'>&lt;-</span> <span class='fu'>getPeriodicity</span><span class='op'>(</span>
+    <span class='va'>ce11_proms_seqs</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>100</span><span class='op'>]</span>,
+    motif <span class='op'>=</span> <span class='st'>'TT'</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 117630 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing distogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the normalized distogram.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>periodicity_result</span><span class='op'>$</span><span class='va'>PSD</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    freq    period          PSD
 #&gt; 1 0.005 200.00000 1.584561e-07
 #&gt; 2 0.010 100.00000 1.089625e-07
 #&gt; 3 0.015  66.66667 6.058472e-08
 #&gt; 4 0.020  50.00000 7.158697e-08
 #&gt; 5 0.025  40.00000 7.167191e-10
-#&gt; 6 0.030  33.33333 3.050591e-08</div><div class='input'><span class='fu'><a href='plotPeriodicityResults.html'>plotPeriodicityResults</a></span>(<span class='kw'>periodicity_result</span>)
+#&gt; 6 0.030  33.33333 3.050591e-08</div><div class='input'><span class='fu'><a href='plotPeriodicityResults.html'>plotPeriodicityResults</a></span><span class='op'>(</span><span class='va'>periodicity_result</span><span class='op'>)</span>
 </div><div class='img'><img src='getPeriodicity-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'>#</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>ce11_TSSs</span>)
-<span class='kw'>periodicity_result</span> <span class='op'>&lt;-</span> <span class='fu'>getPeriodicity</span>(
-    <span class='kw'>ce11_TSSs</span>[[<span class='st'>'Ubiq.'</span>]][<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>],
-    motif = <span class='st'>'TT'</span>,
-    genome = <span class='st'>'BSgenome.Celegans.UCSC.ce11'</span>
-)
-</div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 10025 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing distogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the normalized distogram.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>periodicity_result</span><span class='op'>$</span><span class='kw'>PSD</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>ce11_TSSs</span><span class='op'>)</span>
+<span class='va'>periodicity_result</span> <span class='op'>&lt;-</span> <span class='fu'>getPeriodicity</span><span class='op'>(</span>
+    <span class='va'>ce11_TSSs</span><span class='op'>[[</span><span class='st'>'Ubiq.'</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>]</span>,
+    motif <span class='op'>=</span> <span class='st'>'TT'</span>,
+    genome <span class='op'>=</span> <span class='st'>'BSgenome.Celegans.UCSC.ce11'</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 10025 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing distogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the normalized distogram.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>periodicity_result</span><span class='op'>$</span><span class='va'>PSD</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    freq    period          PSD
 #&gt; 1 0.005 200.00000 7.869046e-08
 #&gt; 2 0.010 100.00000 4.304990e-08
 #&gt; 3 0.015  66.66667 1.323240e-06
 #&gt; 4 0.020  50.00000 4.524673e-07
 #&gt; 5 0.025  40.00000 3.453647e-07
-#&gt; 6 0.030  33.33333 4.240164e-07</div><div class='input'><span class='fu'><a href='plotPeriodicityResults.html'>plotPeriodicityResults</a></span>(<span class='kw'>periodicity_result</span>)
+#&gt; 6 0.030  33.33333 4.240164e-07</div><div class='input'><span class='fu'><a href='plotPeriodicityResults.html'>plotPeriodicityResults</a></span><span class='op'>(</span><span class='va'>periodicity_result</span><span class='op'>)</span>
 </div><div class='img'><img src='getPeriodicity-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'>#</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>ce11_TSSs</span>)
-<span class='kw'>periodicity_result</span> <span class='op'>&lt;-</span> <span class='fu'>getPeriodicity</span>(
-    <span class='kw'>ce11_TSSs</span>[[<span class='st'>'Ubiq.'</span>]][<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>],
-    motif = <span class='st'>'TT'</span>,
-    genome = <span class='st'>'BSgenome.Celegans.UCSC.ce11'</span>,
-    n_shuffling = <span class='fl'>10</span>
-)
-</div><div class='output co'>#&gt; <span class='message'>- Calculating observed PSD</span></div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 10025 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing distogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the normalized distogram.</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 1/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 2/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 3/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 4/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 5/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 6/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 7/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 8/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 9/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 10/10</span></div><div class='output co'>#&gt; <span class='message'>Only 10 shufflings. Cannot compute accurate empirical p-values. To compute empirical p-values, set up n_shuffling to at least 100. Only l2FC values are returned</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>periodicity_result</span><span class='op'>$</span><span class='kw'>PSD</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>ce11_TSSs</span><span class='op'>)</span>
+<span class='va'>periodicity_result</span> <span class='op'>&lt;-</span> <span class='fu'>getPeriodicity</span><span class='op'>(</span>
+    <span class='va'>ce11_TSSs</span><span class='op'>[[</span><span class='st'>'Ubiq.'</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>]</span>,
+    motif <span class='op'>=</span> <span class='st'>'TT'</span>,
+    genome <span class='op'>=</span> <span class='st'>'BSgenome.Celegans.UCSC.ce11'</span>,
+    n_shuffling <span class='op'>=</span> <span class='fl'>10</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>- Calculating observed PSD</span></div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 10025 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing distogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the normalized distogram.</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 1/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 2/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 3/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 4/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 5/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 6/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 7/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 8/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 9/10</span></div><div class='output co'>#&gt; <span class='message'>- Shuffling 10/10</span></div><div class='output co'>#&gt; <span class='message'>Only 10 shufflings. Cannot compute accurate empirical p-values. To compute empirical p-values, set up n_shuffling to at least 100. Only l2FC values are returned</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>periodicity_result</span><span class='op'>$</span><span class='va'>PSD</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    freq    period          PSD
 #&gt; 1 0.005 200.00000 7.869046e-08
 #&gt; 2 0.010 100.00000 4.304990e-08
 #&gt; 3 0.015  66.66667 1.323240e-06
 #&gt; 4 0.020  50.00000 4.524673e-07
 #&gt; 5 0.025  40.00000 3.453647e-07
-#&gt; 6 0.030  33.33333 4.240164e-07</div><div class='input'><span class='fu'><a href='plotPeriodicityResults.html'>plotPeriodicityResults</a></span>(<span class='kw'>periodicity_result</span>)
+#&gt; 6 0.030  33.33333 4.240164e-07</div><div class='input'><span class='fu'><a href='plotPeriodicityResults.html'>plotPeriodicityResults</a></span><span class='op'>(</span><span class='va'>periodicity_result</span><span class='op'>)</span>
 </div><div class='img'><img src='getPeriodicity-3.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -322,7 +322,7 @@ sequences.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

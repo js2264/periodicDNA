@@ -83,7 +83,7 @@ been performed by getPeriodicity(), it also displays it." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.18</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
       </span>
     </div>
 
@@ -91,7 +91,7 @@ been performed by getPeriodicity(), it also displays it." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -108,7 +108,7 @@ been performed by getPeriodicity(), it also displays it." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/js2264/periodicDNA/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -137,15 +137,15 @@ distogram and the resulting PSD values. If a shuffled control has
 been performed by getPeriodicity(), it also displays it.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plotPeriodicityResults</span>(
-  <span class='kw'>results</span>,
-  periods = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>20</span>),
-  filter_periods = <span class='fl'>TRUE</span>,
-  facet_control = <span class='fl'>TRUE</span>,
-  xlim = <span class='kw'>NULL</span>,
-  fdr_threshold = <span class='fl'>0.05</span>,
-  <span class='kw'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>plotPeriodicityResults</span><span class='op'>(</span>
+  <span class='va'>results</span>,
+  periods <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>20</span><span class='op'>)</span>,
+  filter_periods <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  facet_control <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  xlim <span class='op'>=</span> <span class='cn'>NULL</span>,
+  fdr_threshold <span class='op'>=</span> <span class='fl'>0.05</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -187,28 +187,28 @@ constrained to the periods?</p></td>
     <p>list A list containing four ggplots</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>ce11_TSSs</span>)
-<span class='kw'>periodicity_result</span> <span class='op'>&lt;-</span> <span class='fu'><a href='getPeriodicity.html'>getPeriodicity</a></span>(
-    <span class='kw'>ce11_TSSs</span>[[<span class='st'>'Ubiq.'</span>]][<span class='fl'>1</span><span class='op'>:</span><span class='fl'>100</span>],
-    genome = <span class='st'>'BSgenome.Celegans.UCSC.ce11'</span>,
-    motif = <span class='st'>'TT'</span>, 
-    BPPARAM = <span class='fu'><a href='setUpBPPARAM.html'>setUpBPPARAM</a></span>(<span class='fl'>1</span>)
-)
-</div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 97937 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing distogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the normalized distogram.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>periodicity_result</span><span class='op'>$</span><span class='kw'>PSD</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>ce11_TSSs</span><span class='op'>)</span>
+<span class='va'>periodicity_result</span> <span class='op'>&lt;-</span> <span class='fu'><a href='getPeriodicity.html'>getPeriodicity</a></span><span class='op'>(</span>
+    <span class='va'>ce11_TSSs</span><span class='op'>[[</span><span class='st'>'Ubiq.'</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>100</span><span class='op'>]</span>,
+    genome <span class='op'>=</span> <span class='st'>'BSgenome.Celegans.UCSC.ce11'</span>,
+    motif <span class='op'>=</span> <span class='st'>'TT'</span>, 
+    BPPARAM <span class='op'>=</span> <span class='fu'><a href='setUpBPPARAM.html'>setUpBPPARAM</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>- Mapping k-mers.</span></div><div class='output co'>#&gt; <span class='message'>- 97937 pairwise distances measured.</span></div><div class='output co'>#&gt; <span class='message'>- Calculating pairwise distance distribution.</span></div><div class='output co'>#&gt; <span class='message'>- Normalizing distogram vector.</span></div><div class='output co'>#&gt; <span class='message'>- Applying Fast Fourier Transform to the normalized distogram.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>periodicity_result</span><span class='op'>$</span><span class='va'>PSD</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    freq    period          PSD
 #&gt; 1 0.005 200.00000 5.283741e-08
 #&gt; 2 0.010 100.00000 3.937510e-08
 #&gt; 3 0.015  66.66667 4.057825e-08
 #&gt; 4 0.020  50.00000 1.233001e-08
 #&gt; 5 0.025  40.00000 2.084665e-08
-#&gt; 6 0.030  33.33333 7.776985e-08</div><div class='input'><span class='fu'>plotPeriodicityResults</span>(<span class='kw'>periodicity_result</span>)
-</div><div class='img'><img src='plotPeriodicityResults-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotPeriodicityResults</span>(<span class='kw'>periodicity_result</span>, xlim = <span class='fl'>150</span>)
-</div><div class='img'><img src='plotPeriodicityResults-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotPeriodicityResults</span>(
-    <span class='kw'>periodicity_result</span>, xlim = <span class='fl'>150</span>, filter_periods = <span class='fl'>FALSE</span>
-)
-</div><div class='img'><img src='plotPeriodicityResults-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotPeriodicityResults</span>(
-    <span class='kw'>periodicity_result</span>, xlim = <span class='fl'>150</span>, facet_control = <span class='fl'>FALSE</span>
-)
+#&gt; 6 0.030  33.33333 7.776985e-08</div><div class='input'><span class='fu'>plotPeriodicityResults</span><span class='op'>(</span><span class='va'>periodicity_result</span><span class='op'>)</span>
+</div><div class='img'><img src='plotPeriodicityResults-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotPeriodicityResults</span><span class='op'>(</span><span class='va'>periodicity_result</span>, xlim <span class='op'>=</span> <span class='fl'>150</span><span class='op'>)</span>
+</div><div class='img'><img src='plotPeriodicityResults-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotPeriodicityResults</span><span class='op'>(</span>
+    <span class='va'>periodicity_result</span>, xlim <span class='op'>=</span> <span class='fl'>150</span>, filter_periods <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
+</div><div class='img'><img src='plotPeriodicityResults-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotPeriodicityResults</span><span class='op'>(</span>
+    <span class='va'>periodicity_result</span>, xlim <span class='op'>=</span> <span class='fl'>150</span>, facet_control <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 </div><div class='img'><img src='plotPeriodicityResults-4.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -225,7 +225,7 @@ constrained to the periods?</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

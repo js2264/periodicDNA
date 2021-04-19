@@ -84,7 +84,7 @@ track from these values." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">periodicDNA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.18</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
       </span>
     </div>
 
@@ -92,7 +92,7 @@ track from these values." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -109,7 +109,7 @@ track from these values." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/js2264/periodicDNA/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -139,19 +139,19 @@ of interest at a chosen period, and generates a linear .bigWig
 track from these values.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>getPeriodicityTrack</span>(
-  genome = <span class='kw'>NULL</span>,
-  <span class='kw'>granges</span>,
-  motif = <span class='st'>"WW"</span>,
-  period = <span class='fl'>10</span>,
-  BPPARAM = <span class='fu'><a href='setUpBPPARAM.html'>setUpBPPARAM</a></span>(<span class='fl'>1</span>),
-  extension = <span class='fl'>1000</span>,
-  window_size = <span class='fl'>100</span>,
-  step_size = <span class='fl'>2</span>,
-  range_spectrum = <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>5</span>, <span class='fl'>50</span>),
-  smooth_track = <span class='fl'>20</span>,
-  bw_file = <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>getPeriodicityTrack</span><span class='op'>(</span>
+  genome <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>granges</span>,
+  motif <span class='op'>=</span> <span class='st'>"WW"</span>,
+  period <span class='op'>=</span> <span class='fl'>10</span>,
+  BPPARAM <span class='op'>=</span> <span class='fu'><a href='setUpBPPARAM.html'>setUpBPPARAM</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>,
+  extension <span class='op'>=</span> <span class='fl'>1000</span>,
+  window_size <span class='op'>=</span> <span class='fl'>100</span>,
+  step_size <span class='op'>=</span> <span class='fl'>2</span>,
+  range_spectrum <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>50</span><span class='op'>)</span>,
+  smooth_track <span class='op'>=</span> <span class='fl'>20</span>,
+  bw_file <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -214,18 +214,18 @@ to take into consideration when performing Fast Fourier Transform
     <p>Rlelist and a bigWig track in the working directory.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>ce11_proms</span>)
-<span class='kw'>track</span> <span class='op'>&lt;-</span> <span class='fu'>getPeriodicityTrack</span>(
-    genome = <span class='st'>'BSgenome.Celegans.UCSC.ce11'</span>, 
-    <span class='kw'>ce11_proms</span>[<span class='fl'>1</span>], 
-    extension = <span class='fl'>200</span>, 
-    window_size = <span class='fl'>100</span>,
-    step_size = <span class='fl'>10</span>, 
-    smooth_track = <span class='fl'>1</span>,
-    motif = <span class='st'>'WW'</span>,
-    period = <span class='fl'>10</span>,
-    BPPARAM = <span class='fu'><a href='setUpBPPARAM.html'>setUpBPPARAM</a></span>(<span class='fl'>1</span>)
-)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>ce11_proms</span><span class='op'>)</span>
+<span class='va'>track</span> <span class='op'>&lt;-</span> <span class='fu'>getPeriodicityTrack</span><span class='op'>(</span>
+    genome <span class='op'>=</span> <span class='st'>'BSgenome.Celegans.UCSC.ce11'</span>, 
+    <span class='va'>ce11_proms</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, 
+    extension <span class='op'>=</span> <span class='fl'>200</span>, 
+    window_size <span class='op'>=</span> <span class='fl'>100</span>,
+    step_size <span class='op'>=</span> <span class='fl'>10</span>, 
+    smooth_track <span class='op'>=</span> <span class='fl'>1</span>,
+    motif <span class='op'>=</span> <span class='st'>'WW'</span>,
+    period <span class='op'>=</span> <span class='fl'>10</span>,
+    BPPARAM <span class='op'>=</span> <span class='fu'><a href='setUpBPPARAM.html'>setUpBPPARAM</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>    The genome has been divided in 100-bp long windows </span>
 #&gt; <span class='message'>    with a sliding window of 10-bp.</span>
@@ -241,17 +241,17 @@ to take into consideration when performing Fast Fourier Transform
 #&gt; <span class='message'>        # BASES:  380</span>
 #&gt; <span class='message'>    </span>
 #&gt; <span class='message'>    </span>
-#&gt; <span class='message'>    Now starting [2020-09-08 16:36:49]</span>
+#&gt; <span class='message'>    Now starting [2021-04-19 08:22:01]</span>
 #&gt; <span class='message'>    </span></div><div class='output co'>#&gt; <span class='message'>    Merging the results...</span>
 #&gt; <span class='message'>    </span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>   SUCCESS: BSgenome.Celegans.UCSC.ce11_WW_10-bp-periodicity_g-100^10_smooth-1.bw has been created!</span></div><div class='output co'>#&gt; <span class='message'>   290 bases covered by the generated track.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>    Finished without errors [2020-09-08 16:36:51]</span>
-#&gt; <span class='message'>    </span></div><div class='input'><span class='kw'>track</span>
+#&gt; <span class='message'>    Finished without errors [2021-04-19 08:22:05]</span>
+#&gt; <span class='message'>    </span></div><div class='input'><span class='va'>track</span>
 </div><div class='output co'>#&gt; RleList of length 7
 #&gt; $chrI
 #&gt; numeric-Rle of length 15072434 with 31 runs
-#&gt;   Lengths:    11202       10       10       10 ...       10       10 15060942
-#&gt;   Values :   0.0000   2.1468   1.1504   0.1467 ...   0.1502   0.0878   0.0000
+#&gt;   Lengths:       11202          10          10 ...          10    15060942
+#&gt;   Values : 0.00000e+00 2.14680e+00 1.15040e+00 ... 8.78000e-02 8.74301e-16
 #&gt; 
 #&gt; $chrII
 #&gt; numeric-Rle of length 15279421 with 1 run
@@ -274,9 +274,9 @@ to take into consideration when performing Fast Fourier Transform
 #&gt;   Values :        0
 #&gt; 
 #&gt; ...
-#&gt; &lt;2 more elements&gt;</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/unlink.html'>unlink</a></span>(
+#&gt; &lt;2 more elements&gt;</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/unlink.html'>unlink</a></span><span class='op'>(</span>
     <span class='st'>'BSgenome.Celegans.UCSC.ce11_WW_10-bp-periodicity_g-100^10_smooth-1.bw'</span>
-)
+<span class='op'>)</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -293,7 +293,7 @@ to take into consideration when performing Fast Fourier Transform
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
