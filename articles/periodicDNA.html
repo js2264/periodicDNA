@@ -181,16 +181,16 @@ Eventually, the log2 fold-change (l2FC) between the observed PSD and the median 
 <span class="co">#&gt; - Shuffling 5/5</span>
 <span class="co">#&gt; Only 5 shufflings. Cannot compute accurate empirical p-values. To compute empirical p-values, set up n_shuffling to at least 100. Only l2FC values are returned</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">periodicity_result</span><span class="op">$</span><span class="va">periodicityMetrics</span><span class="op">)</span>
-<span class="co">#&gt;    Freq    Period PSD_observed         l2FC pval fdr</span>
-<span class="co">#&gt; 1 0.005 200.00000     6.26e-08 -1.288597752   NA  NA</span>
-<span class="co">#&gt; 2 0.010 100.00000     2.20e-08  0.041243970   NA  NA</span>
-<span class="co">#&gt; 3 0.015  66.66667     2.22e-09 -2.365555554   NA  NA</span>
-<span class="co">#&gt; 4 0.020  50.00000     1.11e-08 -0.003107008   NA  NA</span>
-<span class="co">#&gt; 5 0.025  40.00000     4.65e-09 -1.577676994   NA  NA</span>
-<span class="co">#&gt; 6 0.030  33.33333     2.66e-08  1.876037934   NA  NA</span>
+<span class="co">#&gt;    Freq    Period PSD_observed        l2FC pval fdr</span>
+<span class="co">#&gt; 1 0.005 200.00000     6.26e-08 -1.18584659   NA  NA</span>
+<span class="co">#&gt; 2 0.010 100.00000     2.20e-08 -0.06313841   NA  NA</span>
+<span class="co">#&gt; 3 0.015  66.66667     2.22e-09 -2.30747879   NA  NA</span>
+<span class="co">#&gt; 4 0.020  50.00000     1.11e-08  0.78316580   NA  NA</span>
+<span class="co">#&gt; 5 0.025  40.00000     4.65e-09 -1.29262003   NA  NA</span>
+<span class="co">#&gt; 6 0.030  33.33333     2.66e-08  2.09084878   NA  NA</span>
 <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">periodicity_result</span><span class="op">$</span><span class="va">periodicityMetrics</span>, <span class="va">Period</span> <span class="op">==</span> <span class="fl">10</span><span class="op">)</span>
 <span class="co">#&gt;    Freq Period PSD_observed     l2FC pval fdr</span>
-<span class="co">#&gt; 20  0.1     10     3.63e-06 8.018541   NA  NA</span>
+<span class="co">#&gt; 20  0.1     10     3.63e-06 10.33038   NA  NA</span>
 <span class="fu"><a href="../reference/plotPeriodicityResults.html">plotPeriodicityResults</a></span><span class="op">(</span><span class="va">periodicity_result</span><span class="op">)</span></code></pre></div>
 <p><img src="periodicDNA_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
 <p>If <code>n_shuffling &gt;= 100</code>, an associated empirical p-value is calculated as well (North et al 2002). This metric indicates, for each individual period T, whether the observed PSD is significantly greater than the PSD values measured after shuffling the input sequences. Note that empirical p-values are only an estimation of the real p-value. Notably, small p-values are systematically under-estimated (North et al 2002).</p>
