@@ -56,7 +56,7 @@
 #' @import BiocParallel
 #' @import Biostrings
 #' @import IRanges
-#' @import magrittr
+#' @importFrom magrittr %>%
 #' @importFrom stats spectrum
 #' @importFrom stats dist
 #' @importFrom stats setNames
