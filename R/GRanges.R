@@ -396,14 +396,14 @@ plotAggregateCoverage.SimpleRleList <- function(
         expand = c(0, 0)
     )
     p <- p + ggplot2::labs(x = xlab, y = ylab, col = 'Sets:')
-    p <- p + ggplot2::guides(fill = FALSE)
-    if (length(granges) == 1) p <- p + ggplot2::guides(color = FALSE)
+    p <- p + ggplot2::guides(fill = "none")
+    if (length(granges) == 1) p <- p + ggplot2::guides(color = "none")
     if (length(granges) <= length(colors)) {
         p <- p + ggplot2::scale_fill_manual(values = colors)
         p <- p + ggplot2::scale_color_manual(values = colors)
     }
     if (plot_central) p <- p + ggplot2::geom_vline(
-        xintercept = 0, colour="black", linetype = "longdash", size = 0.1
+        xintercept = 0, colour="black", linetype = "longdash", linewidth = 0.1
     )
     if (split_by_granges) p <- p + ggplot2::facet_wrap(~ grange)
     # Return plot
@@ -632,14 +632,14 @@ plotAggregateCoverage.list <- function(
             expand = c(0, 0)
         )
     }
-    p <- p + ggplot2::guides(fill = FALSE)
-    if (length(granges) == 1) p <- p + ggplot2::guides(color = FALSE)
+    p <- p + ggplot2::guides(fill = "none")
+    if (length(granges) == 1) p <- p + ggplot2::guides(color = "none")
     if (length(granges) <= length(colors)) {
         p <- p + ggplot2::scale_fill_manual(values = colors)
         p <- p + ggplot2::scale_color_manual(values = colors)
     }
     if (plot_central) p <- p + ggplot2::geom_vline(
-        xintercept = 0, colour="black", linetype = "longdash", size = 0.1
+        xintercept = 0, colour="black", linetype = "longdash", linewidth = 0.1
     )
     p <- p + ggplot2::theme(panel.spacing = unit(2, "lines"))
     # Return plot

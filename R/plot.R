@@ -218,7 +218,7 @@ plotWithIterations <- function(
             aes(x = periods, y = y, group = group), 
             col = 'grey50',
             alpha = 0.5, 
-            size = 0.5
+            linewidth = 0.5
         ) +
         ggplot2::geom_ribbon(
             data = ribbon_coords,
@@ -232,7 +232,7 @@ plotWithIterations <- function(
             aes(x = periods, y = y, group = group), 
             col = 'red',
             alpha = 1, 
-            size = 1.2
+            linewidth = 1.2
         ) +
         ggplot2::geom_point(
             data = df[df$type == 'observed' & df$isSign == FALSE,], 
@@ -258,7 +258,7 @@ plotWithIterations <- function(
             shape = 21, 
             size = 2
         ) +
-        ggplot2::guides(alpha = FALSE, col = FALSE) + 
+        ggplot2::guides(alpha = "none", col = "none") + 
         ggplot2::xlim(periods_bounds) +
         theme_ggplot2() + 
         ggplot2::labs(
@@ -347,9 +347,9 @@ theme_ggplot2 <- function(
     
     if (inherits(grid, "character") | grid == TRUE) {
         ret <- ret + theme(
-            panel.grid = element_line(color = grid_col, size = 0.2), 
-            panel.grid.major = element_line(color = grid_col, size = 0.2), 
-            panel.grid.minor = element_line(color = grid_col, size = 0.15)
+            panel.grid = element_line(color = grid_col, linewidth = 0.2), 
+            panel.grid.major = element_line(color = grid_col, linewidth = 0.2), 
+            panel.grid.minor = element_line(color = grid_col, linewidth = 0.15)
         )
         
         if (inherits(grid, "character")) {
@@ -375,14 +375,14 @@ theme_ggplot2 <- function(
     if (border == TRUE) {
         ret <- ret + theme(
             panel.border = element_rect(
-                colour = "black", fill = NA, size = 0.5
+                colour = "black", fill = NA, linewidth = 0.5
             )
         )
     }
     
     if (inherits(axis, "character") | axis == TRUE) {
         ret <- ret + theme(
-            axis.line = element_line(color = axis_col, size = 0.15)
+            axis.line = element_line(color = axis_col, linewidth = 0.15)
         )
         if (inherits(axis, "character")) {
             axis <- tolower(axis)
@@ -390,20 +390,24 @@ theme_ggplot2 <- function(
                 ret <- ret + theme(axis.line.x = element_blank())
             } else {
                 ret <- ret + theme(
-                    axis.line.x = element_line(color = axis_col, size = 0.15)
+                    axis.line.x = element_line(
+                        color = axis_col, linewidth = 0.15
+                    )
                 )
             }
             if (regexpr("y", axis)[1] < 0) {
                 ret <- ret + theme(axis.line.y = element_blank())
             } else {
                 ret <- ret + theme(
-                    axis.line.y = element_line(color = axis_col, size = 0.15)
+                    axis.line.y = element_line(
+                        color = axis_col, linewidth = 0.15
+                    )
                 )
             }
         } else {
             ret <- ret + theme(
-                axis.line.x = element_line(color = axis_col, size = 0.15), 
-                axis.line.y = element_line(color = axis_col, size = 0.15)
+                axis.line.x = element_line(color = axis_col, linewidth = 0.15), 
+                axis.line.y = element_line(color = axis_col, linewidth = 0.15)
             )
         }
     } else {
@@ -415,9 +419,9 @@ theme_ggplot2 <- function(
         ret <- ret + theme(axis.ticks.x = element_blank())
         ret <- ret + theme(axis.ticks.y = element_blank())
     } else {
-        ret <- ret + theme(axis.ticks = element_line(size = 0.15))
-        ret <- ret + theme(axis.ticks.x = element_line(size = 0.15))
-        ret <- ret + theme(axis.ticks.y = element_line(size = 0.15))
+        ret <- ret + theme(axis.ticks = element_line(linewidth = 0.15))
+        ret <- ret + theme(axis.ticks.x = element_line(linewidth = 0.15))
+        ret <- ret + theme(axis.ticks.y = element_line(linewidth = 0.15))
         ret <- ret + theme(axis.ticks.length = grid::unit(5, "pt"))
     }
     
