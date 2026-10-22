@@ -2,8 +2,8 @@ Package: periodicDNA
 Type: Package
 Title: Set of tools to identify periodic occurrences of k-mers in 
     DNA sequences
-Version: 1.23.0
-Date: 2025-07-24
+Version: 1.23.1
+Date: 2026-10-22
 Encoding: UTF-8
 Authors@R: 
     c(person(given = "Jacques",
